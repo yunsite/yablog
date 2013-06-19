@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{echo !empty($page) ? sprintf(L('N_PAGES'), $page) . TITLE_SEPARATOR : '', isset($web_title) ? $web_title : '';}{TITLE_SEPARATOR}{$sys_base_web_title}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="{echo isset($seo_keywords) ? $seo_keywords : '';}" />
+    <meta name="description" content="{echo isset($seo_description) ? $seo_description : '';}" />
+    <meta name="author" content="mrmsl" />
+    {echo css('yablog.css', IMGCACHE_CSS); }
+</head>
+<body><!---->
+<div id="wrap"{if '192.168.129.1' == get_client_ip()} style="visibility: hidden;"{/if}>
+    <!--#include virtual="/{VERSION_PATH}ssi/navbar.shtml"-->

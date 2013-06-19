@@ -1,0 +1,36 @@
+{template 'include', 'header'}
+{php $meta_info_arr['miniblog'] = $blog_info['blog_id'] . '|' . $blog_info['add_time']; }
+{php $meta_info_arr['hits'] = 'miniblog,' . $blog_info['blog_id'] . ',' . $blog_info['add_time']; }
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span9 panel">
+            <div class="panel-header">
+                <span class="icon-home"></span>
+                {L NOW_POSITION}：<a href="{BASE_SITE_URL}">{L HOME}</a>
+                {BREAD_SEPARATOR}
+                <a href="{BASE_SITE_URL}miniblog.shtml">{L MINIBLOG}</a>
+                {BREAD_SEPARATOR}
+                {L MINIBLOG,DETAIL}
+            </div>
+            <div class="panel-body">
+                {php $miniblog_info = $blog_info; }
+                {template 'include', 'miniblog-tpl'}
+
+                <span id="anchor-comments"></span>
+                {if $comments_html}
+                <div class="separation-comment">{L COMMENTS,LIST}</div>
+                {$comments_html}
+                {/if}
+                <div class="separation-add-comment">{L CN_FABIAO,COMMENT}</div>
+                <div id="form-panel"></div>
+            </div>
+        </div><!--end span9-->
+        <div class="span3">
+            <!--#include virtual="/{VERSION_PATH}ssi/hot_blogs.shtml"-->
+            <!--#include virtual="/{VERSION_PATH}ssi/tags.shtml"-->
+            <!--#include virtual="/{VERSION_PATH}ssi/new_comments.shtml"-->
+        </div><!--end  span3-->
+    </div><!--end row-fluid-->
+</div><!--end container-fluid-->
+<script>var IS_MINIBLOG_DETAIL = true;</script>
+{template 'include', 'footer'}

@@ -1,0 +1,68 @@
+{template 'include', 'header'}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span9 panel">
+            <div class="panel-header">
+                <span class="icon-home"></span>
+                {L NOW_POSITION}：<a href="{BASE_SITE_URL}">{L HOME}</a>
+                {BREAD_SEPARATOR}
+                {if '' === $tag}
+                    {if isset($cate_info['parent_id'])}
+                    <!--#include virtual="/{VERSION_PATH}ssi/category/nav{$cate_info.parent_id}.shtml"-->
+                    {/if}
+                    {$cate_info.cate_name}
+                {else}
+                    <a href="{BASE_SITE_URL}tag.shtml">{L TAG}</a>
+                    {BREAD_SEPARATOR}
+                    {$tag}
+                {/if}
+            </div>
+            <div class="panel-body">
+                <!--start 网文-->
+                {if $blog_arr}
+
+                {php $meta_info_arr = array('blog' => ''); }
+
+                {foreach $blog_arr $item}
+                {php $meta_info_arr['blog'] .= ',' . $item['blog_id'] . '|' . $item['add_time'];}
+                <div class="panel-list">
+                    <h3><a href="{$item.link_url}">{$item.title}</a></h3>
+                    <div>{$item.summary}</div>
+                    <p class="text-right muted">
+                        <span class="actions">
+                            <span class="add_time">
+                                <span class="icon-time icon-gray"></span>
+                                <span class="time-axis" data-time="{$item.add_time}">{echo new_date(null, $item['add_time']);}</span>
+                            </span>
+                            <a class="hits muted" href="{$item.link_url}" rel="nofollow">
+                                <span class="icon-zoom-in icon-gray ml-10"></span>
+                                <span class="counter blog-hits-{$item.blog_id}">0</span>
+                            </a>
+                            <a href="javascript: void(0)" rel="nofollow" data-diggs="blog,{$item.blog_id},{$item.add_time}" class="blog-diggs muted">
+                                <span class="icon-thumbs-up icon-gray"></span>
+                                <span class="counter blog-diggs-{$item.blog_id}">0</span>
+                            </a>
+                            <a href="{$item.link_url}#anchor-comments" rel="nofollow" class="comments muted blog-comments">
+                                <span class="icon-comment icon-gray"></span>
+                                <span class="counter blog-comments-{$item.blog_id}">0</span>
+                            </a>
+                        </span>
+                    </p>
+                </div>
+                {/foreach}
+
+                {$paging}
+                {/if}
+                <!--end 网文-->
+            </div>
+        </div><!--end span9-->
+        <div class="span3">
+            <!--#include virtual="/{VERSION_PATH}ssi/hot_blogs.shtml"-->
+            <!--#include virtual="/{VERSION_PATH}ssi/tags.shtml"-->
+            <!--#include virtual="/{VERSION_PATH}ssi/new_comments.shtml"-->
+        </div><!--end  span3-->
+    </div><!--end row-fluid-->
+</div><!--end container-fluid-->
+<script>{if '' !== $tag}var HIGHLIGHT_WORD = '{echo addslashes($tag); }';{/if}</script>
+{template 'include', 'footer'}

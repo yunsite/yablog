@@ -1,0 +1,96 @@
+{template 'include', 'header'}
+{php $meta_info_arr['blog'] = $blog_info['blog_id'] . '|' . $blog_info['add_time']; }
+{php $meta_info_arr['hits'] = 'blog,' . $blog_info['blog_id'] . ',' . $blog_info['add_time']; }
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span9 panel">
+            <div class="panel-header">
+                <span class="icon-home"></span>
+                {L NOW_POSITION}：<a href="{BASE_SITE_URL}">{L HOME}</a>
+                {BREAD_SEPARATOR}
+                <!--#include virtual="/{VERSION_PATH}ssi/category/nav{$blog_info.cate_id}.shtml"-->
+                {$blog_info.title}
+            </div>
+            <div class="panel-body">
+                <div class="blog-detail">
+                    <h1>{$blog_info.title}</h1>
+                    <p class="blog-meta">
+                        <span class="time-axis" data-time="{$blog_info.add_time}">{echo new_date(null, $blog_info['add_time']);}</span>
+                        <span>{L ORIGIN}：<a href="{$blog_info.from_url}">{$blog_info.from_name}</a></span>
+                        <span>{L READS}：<small class="counter blog-hits-{$blog_info.blog_id}">{$blog_info.hits}</small></span>
+                        <span>{L COMMENTS}：<small class="counter blog-comments-{$blog_info.blog_id}">{$blog_info.comments}</small></span>
+                        <span>{L DIGG}：<small class="counter blog-diggs-{$blog_info.blog_id}">{$blog_info.comments}</small></span>
+                    </p>
+                <div class="blog-content">
+                    <div class="well"><strong>{L SUMMARY}</strong>：{$blog_info.summary}</div>
+                    {$blog_info.content}
+                    {if $tags}<p><span class="icon-tags"></span>{L TAG}：{$tags}</p>{/if}
+                    <p class="text-center">
+                        <a data-diggs="blog,{$blog_info.blog_id},{$blog_info.add_time}" class="label label-inverse">
+                            <span class="icon-thumbs-up icon-white"></span>
+                            {L DIGG_ONE}(<span class="counter blog-diggs-{$blog_info.blog_id}">{$blog_info.diggs}</span>)
+                        </a>
+                    </p>
+                </div>
+
+                    <p>
+                       <span class="pull-right">
+                           <span class="icon-circle-arrow-right"></span>
+                           {L NEXT_BLOG}：
+                           {if $next_blog}
+                           <a href="{$next_blog.link_url}">{$next_blog.title}</a>
+                           {else}
+                           {L CN_MEI_YOU_LE}
+                           {/if}
+                       </span>
+                       <span class="icon-circle-arrow-left"></span>
+                        {L PREV_BLOG}：
+                        {if $prev_blog}<a href="{$prev_blog.link_url}">{$prev_blog.title}</a>
+                        {else}
+                        {L CN_MEI_YOU_LE}
+                        {/if}
+                    </p>
+                </div>
+                <hr />
+                <div class="row ml-10">
+                {if $relative_blog}
+                <div class="span5">
+                <div class="separation separation-guest-like"><span class="icon-heart"></span> {L GUEST_YOU_LIKE}</div>
+                <ul>
+                    {foreach $relative_blog $v}
+                    <li><a href="{$v.link_url}">{$v.title}</a></li>
+                    {/foreach}
+                </ul>
+                </div>
+                {/if}
+                <!--<div class="span5 pull-right">
+                <div class="separation separation-also-read"><span class="icon-eye-open"></span> 阅读过此文的朋友还阅读了...</div>
+                <ul>
+                    <li><a href="#">标题标题</a></li>
+                    <li><a href="#">标题标题</a></li>
+                    <li><a href="#">标题标题</a></li>
+                    <li><a href="#">标题标题</a></li>
+                    <li><a href="#">标题标题</a></li>
+                    <li><a href="#">标题标题</a></li>
+                    <li><a href="#">标题标题</a></li>
+                </ul>
+                </div>-->
+                </div>
+                <span id="anchor-comments"></span>
+                {if $comments_html}
+                <div class="separation-comment">{L COMMENTS,LIST}</div>
+                {$comments_html}
+                {/if}
+                <div class="separation-add-comment">{L CN_FABIAO,COMMENT}</div>
+                <div id="form-panel"></div>
+            </div>
+        </div><!--end span9-->
+        <div class="span3">
+            <!--#include virtual="/{VERSION_PATH}ssi/hot_blogs.shtml"-->
+            <!--#include virtual="/{VERSION_PATH}ssi/tags.shtml"-->
+            <!--#include virtual="/{VERSION_PATH}ssi/new_comments.shtml"-->
+        </div><!--end  span3-->
+    </div><!--end row-fluid-->
+</div><!--end container-fluid-->
+
+{template 'include', 'footer'}

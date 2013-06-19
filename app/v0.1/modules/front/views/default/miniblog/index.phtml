@@ -1,0 +1,34 @@
+{template 'include', 'header'}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span9 panel">
+            <div class="panel-header">
+                <span class="icon-home"></span>
+                {L NOW_POSITION}：<a href="{BASE_SITE_URL}">{L HOME}</a>
+                {BREAD_SEPARATOR}
+                {L MINIBLOG}
+            </div>
+            <div class="panel-body">
+                {if $blog_arr}
+
+                {php $meta_info_arr = array('miniblog' => ''); }
+
+                {foreach $blog_arr $miniblog_info}
+                {php $meta_info_arr['miniblog'] .= ',' . $miniblog_info['blog_id'] . '|' . $miniblog_info['add_time'];}
+                {template 'include', 'miniblog-tpl'}
+                {/foreach}
+
+                {$paging}
+                {/if}
+            </div>
+        </div><!--end span9-->
+        <div class="span3">
+            <!--#include virtual="/{VERSION_PATH}ssi/hot_blogs.shtml"-->
+            <!--#include virtual="/{VERSION_PATH}ssi/tags.shtml"-->
+            <!--#include virtual="/{VERSION_PATH}ssi/new_comments.shtml"-->
+        </div><!--end  span3-->
+    </div><!--end row-fluid-->
+</div><!--end container-fluid-->
+
+{template 'include', 'footer'}

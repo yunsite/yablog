@@ -1,0 +1,17 @@
+</div><!--end #wrap-->
+
+<!--#include virtual="/{VERSION_PATH}ssi/footer.shtml"-->
+<script>
+    var NAV_ID = '{echo isset($nav_id) ? $nav_id : "index"; }';
+    {if isset($meta_info_arr)}
+    var META_INFO = {php echo json_encode($meta_info_arr);};
+    {/if}
+</script>
+{echo js('System.js,lang/zh_cn.js', false, BASE_SITE_URL . 'static/js/'); }
+<script src="{COMMON_IMGCACHE}js/seajs/sea-2.0.1.js" id="seajsnode" data-main="{IMGCACHE_JS}global"></script>
+{if 'Blog' == CONTROLLER_NAME && 'detail' == ACTION_NAME}
+<script id="bdshare_js" data="type=slide&amp;img=3&amp;pos=right&amp;uid=5428842" ></script>
+<script id="bdshell_js" src="http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion={echo time();}"></script>
+{/if}
+</body>
+</html>

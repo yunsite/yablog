@@ -1,0 +1,21 @@
+<div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a class="brand" href="{BASE_SITE_URL}">{$sys_base_web_name}</a>
+                <ul class="nav" id="nav-bar">
+                    <li id="nav-index"><a href="{BASE_SITE_URL}">{L HOME}</a></li>
+                    <li id="nav-miniblog"><a href="{BASE_SITE_URL}miniblog.shtml">{L MINIBLOG}</a></li>
+                    <li id="nav-category" class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="{BASE_SITE_URL}category.shtml">{L CN_WANGWEN}<span class="caret"></span></a>
+                        {$category_html}
+                    </li>
+                    <li id="nav-tag"><a href="{BASE_SITE_URL}tag.shtml">{L TAG}</a></li>
+                    <li id="nav-guestbook"><a href="{BASE_SITE_URL}guestbook.shtml">{L GUESTBOOK}</a></li>
+                    <?php
+                    /*<li><a href="/{VERSION_PATH}yabindex.php/about">关于</a></li>
+                    <li><a href="/{VERSION_PATH}yabindex.php/about/contact">联系</a></li>*/
+                    ?>
+                </ul>
+            </div>
+        </div>
+    </div>

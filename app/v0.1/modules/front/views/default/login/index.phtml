@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title><?php echo L('LOGIN_TITLE'); ?></title>
+    <?php echo $css_file, $js_file; ?>
+    <script type="text/javascript" src="<?php echo ADMIN_IMGCACH; ?>app/util/override.js"></script>
+    <script type="text/javascript">
+        var LOGIN;
+        var VERIFYCODE_ENALBE = {
+            module_admin: <?php echo get_verifycode_setting('module_admin', 'enable');?>
+        };//是否开启登陆验证码 by mashanling on 2012-09-29 11:31:47;
+
+        Ext.onReady(function(){
+            LOGIN = Ext.create('Yap.controller.Login');
+            LOGIN.win();
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

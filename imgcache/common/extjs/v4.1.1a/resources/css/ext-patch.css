@@ -1,0 +1,64 @@
+/**
+ * ext-patch.css    补丁样式
+ *
+ * @author          mashanling(msl-138@163.com)
+ * @date            2011-09-17
+ * @last modify     2011-11-17
+ */
+
+/*table.x-datepicker-inner th,
+.x-panel-body,
+.x-panel-header-text-default,
+.x-grid-row .x-grid-cell,
+.x-btn-default-toolbar-small .x-btn-inner,
+.x-mask-msg div,
+.x-window-header-text-default,
+.x-column-header,
+.x-toolbar .x-toolbar-text,
+.x-tip-header, .x-tip-body, .x-form-invalid-tip-body*/
+table.x-datepicker-inner th { font-size: 12px; }
+
+.x-tab-default-top button, .x-tab-default-top .x-tab-inner { line-height: 15px; }
+
+.x-monthpicker-item a { margin: 0 2px; }
+
+.x-form-trigger-wrap .x-form-spinner-down { background-position: 0 -12px; }
+
+.x-form-trigger-wrap .x-form-spinner-down { height: 10px !important; }
+
+.x-form-trigger-wrap .x-form-spinner-down-over { background-position: -17px -12px; }
+
+.x-tree-panel .x-grid-row .x-grid-cell-inner img { margin-top: 2px; }
+
+.x-gecko .x-tree-panel .x-grid-row .x-grid-cell-inner,
+.x-tree-panel .x-grid-row .x-grid-cell-inner { height: 20px; line-height: 20px; }
+
+.x-grid-row-alt .x-grid-cell, .x-grid-row-alt .x-grid-rowwrap-div { background: #f3f3f3; }
+
+.x-selectable, .x-selectable * {
+    -moz-user-select: text !important;
+    -khtml-user-select: text !important;
+}
+
+.x-tree-checkbox { margin-top: 4px; }
+.x-grid-cell, .x-grid-row{ -khtml-user-select: text !important; -moz-user-select: text !important; -webkit-user-select: text !important; }
+.x-grid-cell-inner { white-space: normal; }
+.tab-contextmenu .x-menu-body { padding: 0; background: #fff; }
+.tab-contextmenu .x-menu-item-link { padding: 0 10px; height: 20px; line-height: 20px; }
+.tab-contextmenu .x-menu-item-checked .x-menu-item-link,
+.tab-contextmenu .x-menu-item-unchecked .x-menu-item-link,
+.tab-contextmenu .x-cols-icon .x-menu-item-link,
+.tab-contextmenu .x-hmenu-sort-asc .x-menu-item-link,
+.tab-contextmenu .x-hmenu-sort-desc .x-menu-item-link
+ { padding-left: 22px; }
+.tab-contextmenu .x-cols-icon .x-menu-item-icon,
+.tab-contextmenu .x-hmenu-sort-asc .x-menu-item-icon,
+.tab-contextmenu .x-hmenu-sort-desc .x-menu-item-icon
+ { width: 16px; }
+.x-menu-item-active-tab-contextmenu .x-menu-item-link { background: #2f6ac4; }
+.x-menu-item-active-tab-contextmenu .x-menu-item-link .x-menu-item-text{ color: #fff; }
+.tab-contextmenu .x-menu-item-icon { top: 2px; }
+
+/*toolbar overflow by mrmsl on 2013-03-31 13:42:48*/
+.x-vertical-box-overflow-body .x-menu-item-link { padding-left: 20px; }
+.x-vertical-box-overflow-body .x-menu-item-icon { top: 4px; }

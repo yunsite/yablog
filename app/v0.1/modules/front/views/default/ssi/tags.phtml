@@ -1,0 +1,10 @@
+<div class="panel" id="tag-cloud">
+    <div class="panel-header"><h3>{L TAG_CLOUD}</h3></div>
+    <div class="panel-body">
+        <ul class="unstyled">
+            {foreach $tags $item}
+            <li><a href="{BASE_SITE_URL}tag/{echo urlencode($item['tag']);}.shtml">{$item.tag}</a></li>
+            {/foreach}
+        </ul>
+    </div>
+</div>
