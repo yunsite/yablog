@@ -687,8 +687,12 @@ class CommonController extends BaseController {
             $data = $this->_beforeExec($pk_id, $log, $field, $value);
             $log  = $msg . L('CONTROLLER_NAME') . $log . $extra_log;
 
+            if (!$pk_id) {
+                $this->_model->addLog($log . L('FAILURE') . '<br />' . L("INVALID_PARAM,%: {$this->_pk_field},IS_EMPTY"), LOG_TYPE_INVALID_PARAM);
+                $this->_ajaxReturn(false, $error_msg);
+            }
             //更新出错
-            if ($this->_model->where(array($this->_pk_field => array('IN', $pk_id)))->setField($field, $value) === false) {
+            elseif ($this->_model->where(array($this->_pk_field => array('IN', $pk_id)))->setField($field, $value) === false) {
                 $this->_sqlErrorExit($log . L('FAILURE'), $error_msg);
             }
 
@@ -922,8 +926,12 @@ class CommonController extends BaseController {
             $data = $this->_beforeExec($pk_id, $log);
             $log  = L('DELETE,CONTROLLER_NAME') . $log;
 
+            if (!$pk_id) {
+                $this->_model->addLog(L('DELETE,CONTROLLER_NAME,FAILURE') . '<br />' . L("INVALID_PARAM,%: {$this->_pk_field},IS_EMPTY"), LOG_TYPE_INVALID_PARAM);
+                $this->_ajaxReturn(false, L('DELETE,FAILURE'));
+            }
             //删除出错
-            if ($this->_model->where(array($this->_pk_field => array('IN', $pk_id)))->delete() === false) {
+            elseif ($this->_model->where(array($this->_pk_field => array('IN', $pk_id)))->delete() === false) {
                 $this->_sqlErrorExit($log . L('FAILURE'), L('DELETE,FAILURE'));
             }
 
