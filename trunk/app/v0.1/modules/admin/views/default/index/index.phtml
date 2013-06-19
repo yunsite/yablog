@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title><?php echo L('MANAGE_CENTER');?></title>
+    <?php echo $css_file, $js_file; ?>
+    <script src="<?php echo COMMON_IMGCACHE; ?>js/seajs/sea-2.0.1.js" id="seajsnode"></script>
+    <script type="text/javascript">
+
+        Ext.onReady(function(){
+            Ext.create('Yab.Application');
+        });
+        System.module_admin_verifycode_enable = '<?php echo get_verifycode_setting('module_admin', 'enable'); ?>';
+        var ADMIN_ID = <?php echo ADMIN_ID; ?>;
+        var ADMIN_ROLE_ID = <?php echo ADMIN_ROLE_ID; ?>;
+        <?php echo "
+        var ADMIN_INFO = {
+            id: {$admin_info['admin_id']},
+            username: '" . addslashes($admin_info['username']) . "',
+            realname: '" . addslashes($admin_info['realname']) . "',
+            lastLoginTime: '" . date(sys_config('sys_timezone_datetime_format'), $admin_info['last_login_time']) . "',
+            lastLoginIp: '{$admin_info['last_login_ip']}',
+            roleId: {$admin_info['role_id']},
+            priv: " . ($admin_priv ? $admin_priv : '[]') . "
+        };"
+        ?>
+
+        var UEDITOR_HOME_URL = System.sys_base_website + 'v0.1/static/js/ueditor/v1.2.5/';//百度ueditor路径
+
+        seajs.config({//seajs配置
+            plugins: ['shim'],
+            base: '<?php echo sys_config("sys_base_admin_imgcache"); ?>',
+            map: [
+                ['.js', System.IS_LOCAL ? '.js?' + Math.random() : '.js']
+            ],
+            alias: {
+                jquery: {//jquery
+                    src: System.sys_base_common_imgcache + 'js/jquery/jquery-1.9.1.min.js'
+                },
+                ueditor: {//uditor
+                    src: UEDITOR_HOME_URL + 'ueditor.min.js',
+                    deps: ['ueditorConfig']
+                },
+                ueditorConfig: {//ueditor config
+                    src: UEDITOR_HOME_URL + 'editor_config.js'
+                },
+                'Yab.ux.Ueditor': {
+                    src: System.sys_base_admin_imgcache + 'app/ux/Yab.ux.Ueditor.js',
+                    deps: ['ueditor']
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <form id="history-form" class="x-hide-display" action="index.php">
+        <input type="hidden" id="x-history-field" />
+    </form>
+    <div id="div-header-content" class="x-hide-display">
+        <!--<strong>网站后台管理中心</strong>-->
+    </div>
+</body>
+</html>

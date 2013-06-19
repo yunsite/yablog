@@ -1,0 +1,27 @@
+<div class="panel-list media panel-comment miniblog-info">
+    <img class="media-object pull-left avatar" alt="图像" src="{COMMON_IMGCACHE}images/guest.png" />
+    <div class="media-body">
+        {$miniblog_info.content}
+        <p class="text-right muted">
+            <span class="actions">
+                <span class="add_time">
+                    <span class="icon-time icon-gray"></span>
+                    <span class="time-axis" data-time="{$miniblog_info.add_time}">{echo new_date(null, $miniblog_info['add_time']);}</span>
+                </span>
+                <a class="link hide" href="{$miniblog_info.link_url}">{L MINIBLOG,DETAIL}</a>
+                <a class="hits muted" href="{$miniblog_info.link_url}" rel="nofollow">
+                    <span class="icon-zoom-in icon-gray ml-10"></span>
+                    <span class="counter miniblog-hits-{$miniblog_info.blog_id}">0</span>
+                </a>
+                <a href="javascript: void(0)" rel="nofollow" data-diggs="miniblog,{$miniblog_info.blog_id},{$miniblog_info.add_time}" class="miniblog-diggs muted">
+                    <span class="icon-thumbs-up icon-gray"></span>
+                    <span class="counter miniblog-diggs-{$miniblog_info.blog_id}">0</span>
+                </a>
+                <a href="{$miniblog_info.link_url}#anchor-comments" rel="nofollow" class="comments muted miniblog-comments">
+                    <span class="icon-comment icon-gray"></span>
+                    <span class="counter miniblog-comments-{$miniblog_info.blog_id}">0</span>
+                </a>
+            </span>
+        </p>
+    </div>
+</div>

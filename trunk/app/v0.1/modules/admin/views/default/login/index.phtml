@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title><?php echo L('LOGIN_TITLE'); ?></title>
+    <?php echo $css_file, $js_file; ?>
+    <script type="text/javascript" src="<?php echo ADMIN_IMGCACHE; ?>app/util/override.js"></script>
+    <script type="text/javascript">
+        var LOGIN;
+        System.module_admin_verifycode_enable = '<?php echo get_verifycode_setting('module_admin', 'enable'); ?>';
+
+        Ext.onReady(function(){
+            LOGIN = Ext.create('Yab.controller.Login');
+            LOGIN.win();
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{template 'include', 'header'}
+
+<div class="container-fluid">
+    <div class="row-fluid panel">
+        <div class="panel-header">
+            <span class="icon-home"></span>
+            {L NOW_POSITION}：<a href="{BASE_SITE_URL}">{L HOME}</a>
+            {BREAD_SEPARATOR}
+            {L PAGE_NOT_FOUND}
+        </div>
+        <div class="panel-body">
+            <div class="page-not-found">
+                <img class="pull-left" alt="" src="{COMMON_IMGCACHE}images/404.gif" />
+                <div class="text-left pull-left">
+                    {L PAGE_NOT_FOUND_CONTENT}
+                </div>
+                <div class="clear-both"></div>
+            </div>
+        </div>
+    </div><!--end row-fluid-->
+</div><!--end container-fluid-->
+
+{template 'include', 'footer'}

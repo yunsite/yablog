@@ -1,0 +1,317 @@
+/**
+ * css/app.css      补丁样式
+ *
+ * @author          mashanling(msl-138@163.com)
+ * @date            2011-09-17
+ * @last modify     2012-09-22 12:45:34 by mashanling
+ */
+
+#div-header-content { color: #fff; margin: 10px 0 0 8px; }
+
+a { color: #000; text-decoration: none; }
+a.a-font-000 {color: #000; text-decoration: underline;}
+a.a-font-000:hover {color: #096DD1; text-decoration: none;}
+.x-panel-body0 {border-color: #d0d0d0;}
+.apptabs {
+    height: 19px;
+    padding-left: 10px;
+    position: relative;
+}
+.apptabs a{
+    text-decoration: none;
+}
+.apptabs .icon-pkg {
+    background: url("../images/icons.png") no-repeat scroll -3px -57px transparent !important;
+}
+.apptabs .icon-class {
+    background: url("../images/icons.png") no-repeat scroll -3px -84px transparent !important;
+}
+.apptabs .icon-singleton {
+    background: url("../images/icons.png") no-repeat scroll -3px -111px transparent !important;
+}
+.apptabs .icon-component {
+    background: url("../images/icons.png") no-repeat scroll -3px -137px transparent !important;
+}
+.apptabs .icon-guide {
+    background: url("../images/icons.png") no-repeat scroll -3px -7px transparent !important;
+}
+.apptabs .icon-event {
+    background: url("../images/icons.png") no-repeat scroll -3px -245px transparent !important;
+}
+.apptabs .icon-property {
+    background: url("../images/icons.png") no-repeat scroll -3px -192px transparent !important;
+}
+.apptabs .icon-method {
+    background: url("../images/icons.png") no-repeat scroll -3px -165px transparent !important;
+}
+.apptabs .icon-cfg {
+    background: url("../images/icons.png") no-repeat scroll -3px -219px transparent !important;
+}
+.apptabs .icon-subclass {
+    background: url("../images/icons.png") no-repeat scroll -3px -299px transparent !important;
+}
+.apptabs .icon-example {
+    background: url("../images/icons.png") no-repeat scroll -3px -409px transparent !important;
+}
+.apptabs .icon-video {
+    background: url("../images/icons.png") no-repeat scroll -3px -438px transparent !important;
+}
+.apptabs .icon-hist {
+    background: url("../images/icons.png") no-repeat scroll -3px -380px transparent !important;
+}
+.apptabs .apptab {
+    cursor: pointer;
+    display: block;
+    float: left;
+    height: 28px;
+    margin-left: -8px;
+    overflow: hidden;
+    position: relative;
+    top: 0;
+}
+.apptabs .apptab .l {
+    background: url(images/tabs.png) no-repeat scroll -8px -141px transparent;
+    height: 29px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 9px;
+    z-index: 3;
+}
+.apptabs .apptab .r {
+    background: url(images/tabs.png) no-repeat scroll 0 -239px transparent;
+    height: 29px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 26px;
+    z-index: 5;
+}
+.apptabs .apptab .m {
+    background: url(images/tabs.png) repeat-x scroll 0 -173px transparent;
+    font-family: '宋体',"Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    height: 29px;
+    margin: 0 7px;
+    overflow: hidden;
+    padding: 6px 3px 0 6px;
+    position: relative;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+    z-index: 5;
+}
+.apptabs .apptab .m span, .apptabs .apptab .m a {
+    color: #2E3841;
+    display: block;
+    float: left;
+    line-height: 16px;
+    overflow: hidden;
+    padding-bottom: 5px;
+    white-space: nowrap;
+}
+.apptabs .apptab .m a.tabUrl {
+    overflow: hidden;
+    padding0: 0 14px 0 17px;
+    width: 120px;
+}
+.apptabs .apptab .m span.icn {
+    display: block;
+    left: 3px;
+    padding-bottom: 0;
+    padding-left: 15px;
+    position: absolute;
+}
+.apptabs .apptab a.close {
+    background: url(images/tabs.png) no-repeat scroll -8px -111px transparent !important;
+    height: 11px;
+    position: absolute;
+    right: 9px;
+    top: 8px;
+    width: 11px;
+    z-index: 6;
+}
+.apptabs .apptab a.close.ovr {
+    background: url(images/tabs.png) no-repeat scroll -8px -123px transparent !important;
+}
+.apptabs .apptab.highlight {
+    border-width: 0;
+}
+.apptabs .apptab.highlight .l {
+    background: url(images/tabs.png) no-repeat scroll -9px -271px transparent;
+}
+.apptabs .apptab.highlight .r {
+    background: url(images/tabs.png) no-repeat scroll -9px -335px transparent;
+    width: 10px;
+}
+.apptabs .apptab.highlight .m {
+    background: url(images/tabs.png) repeat-x scroll 0 -303px transparent;
+}
+.apptabs .apptab.active {
+    border-width: 0;
+}
+.apptabs .apptab.active .l {
+    background: url(images/tabs.png) no-repeat scroll -9px -369px transparent;
+    width: 13px;
+    z-index: 6;
+}
+.apptabs .apptab.active .r {
+    background: url(images/tabs.png) no-repeat scroll 3px -479px transparent;
+    width: 28px;
+    z-index: 5;
+}
+.apptabs .apptab.active .m {
+    background: url(images/tabs.png) repeat-x scroll 0 -405px transparent;
+    z-index: 5;
+}
+.apptabs .apptab.overview .m {
+    z-index: 6;
+}
+.apptabs .apptab.overview .m a.tabUrl {
+    width: auto !important;
+}
+.apptabs .apptab.index .m a {
+    background: url(images/tabs.png) no-repeat scroll 1px 1px transparent;
+    padding-bottom: 20px;
+    padding-left: 16px;
+    padding-right: 12px;
+}
+.apptabs .apptab.classes .m a {
+    background: url(images/tabs.png) no-repeat scroll 2px -20px transparent;
+    padding-left: 16px;
+    padding-right: 12px;
+}
+.apptabs .apptab.guides .m a {
+    background: url(images/tabs.png) no-repeat scroll 3px -55px transparent;
+    padding-left: 16px;
+    padding-right: 12px;
+}
+.apptabs .apptab.videos .m a {
+    background: url(images/tabs.png) no-repeat scroll 2px -38px transparent;
+    padding-left: 16px;
+    padding-right: 12px;
+}
+.apptabs .apptab.examples .m a {
+    background: url(images/tabs.png) no-repeat scroll 1px -93px transparent;
+    padding-left: 16px;
+    padding-right: 12px;
+}
+.apptabs #tabOverflow {
+    position: absolute;
+    right: 5px;
+    top: 8px;
+}
+.apptabs #tabOverflow button {
+    background: url(images/tabs.png) no-repeat scroll -7px -510px transparent;
+    border: 0 none;
+    cursor: pointer;
+    display: block;
+    height: 20px;
+    width: 14px;
+}
+#appTabs-clearEl { clear: none; }
+#appTree .x-grid-row .x-grid-cell {background-color:#f7f7f7;}
+#appTree .x-grid-row-over .x-grid-cell, #appTree .x-grid-row-over .x-grid-rowwrap-div{background-color:#ddd !important}
+#tabOverflowMenu .x-menu-item-link {
+    padding-top: 5px;
+}
+#tabOverflowMenu .close-all {
+    border-top: 1px dotted #AAAAAA;
+    font-weight: bold;
+}
+#tabOverflowMenu .close-all a .x-menu-item-text {
+    color: #666666;
+}
+#tabOverflowMenu .x-menu-item-icon.close {
+    background: url("../images/x12.png") no-repeat scroll 4px 4px transparent;
+}
+.overflow {
+    background: none repeat scroll 0 0 #E3E3E3;
+}
+
+.txt-username { padding-left: 18px; background: url(images/icon_user.png) no-repeat left center; }
+.txt-password { padding-left: 18px; background: url(images/icon_password.png) no-repeat left center; }
+.txt-code { background: url(); }
+
+p.appactioncolumn { height: 20px; line-height: 20px; }
+span.appactioncolumn { cursor: pointer; margin-right: 6px; color: #096DD1; }
+span.appactioncolumn:hover { color: red; }
+img.img-yesno { cursor: pointer; }
+
+.comment-detail {
+  border-bottom: 1px dotted #ddd;
+  margin: 0 0 10px;
+  padding: 8px 0;
+}
+.comment-reply {
+  border-bottom: none;
+  border-top: 1px dotted #ddd;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.comment-body {
+  overflow: hidden;
+  *overflow: visible;
+  zoom: 1;
+}
+.comment-body p{ margin-bottom: 10px; }
+
+.avatar { margin-right: 10px; }
+.avatar-level-1 {
+  height: 60px;
+  width: 60px;
+}
+.avatar-level-2 {
+  height: 50px;
+  width: 50px;
+}
+.avatar-level-3 {
+  height: 40px;
+  width: 40px;
+}
+.avatar-level-4 {
+  height: 30px;
+  width: 30px;
+}
+.avatar-level-5 {
+  height: 20px;
+  width: 20px;
+}
+
+
+ /* 通用样式  */
+a.link:link,
+a.link:visited { color: #096DD1; text-decoration: none; }
+a.link:hover,
+a.link:active { color: red; text-decoration: none; }
+
+.font-12 { font-size: 12px; }
+.font-14 { font-size: 14px; }
+.font-red { color: red; }
+.font-grey, .font-gray { color: #999; }
+.font-green { color: green; }
+.font-666 { color: #666; }
+.font-bold { font-weight: bold; }
+
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.text-underline { text-decoration: underline; }
+
+.display-block { display: block; }
+.display-none { display: none; }
+
+.clear { clear: both; }
+.float-left{ float: left; }
+.float-right { float: right; }
+
+.cursor-pointer{ cursor: pointer; }
+
+.bg-fff { background: #fff; }
+
+.icon-save { background: url(images/icon_save.gif) no-repeat; }
+.icon-remove { background: url(images/icon_remove.gif) no-repeat; }
+.icon-delete { background: url(images/icon_delete.gif) no-repeat; }
+.icon-edit { background: url(images/icon_edit.gif) no-repeat; }
+.icon-search { background: url(images/icon_search.gif) no-repeat; }
+.icon-none { width: 0; background-image: url(); }
