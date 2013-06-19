@@ -410,6 +410,10 @@ class CommonController extends BaseController {
             $this->_model->addLog($log_msg . '<br />' . L('INVALID_PARAM,%:,PARENT_' . CONTROLLER_NAME . ",%{$pk_field}({$parent_id}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
             $this->_ajaxReturn(false, $error_msg);
         }
+        elseif ($parent_info && 5 == $parent_info['level']) {//最多5级,因为node字段有限制char(20) by mrmsl on 2013-06-19 18:01:19
+            $this->_model->addLog($log_msg . '<br />column: level=5', LOG_TYPE_INVALID_PARAM);
+            $this->_ajaxReturn(false, $error_msg);
+        }
 
         $data['parent_name'] = $parent_info ? $parent_info[$name_column] : L('TOP_LEVEL_' . CONTROLLER_NAME);//父类
 
