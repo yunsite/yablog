@@ -80,7 +80,8 @@ class Tree {
      */
 
     static public function array2tree($array = array(), $pk = 'id', $pid = 'parent_id', $child = 'data') {
-        $tree = array();
+        $tree           = array();
+        $unset_checked  = function_exists('C') && C('array2tree_unset_checked');
 
         if (is_array($array)) {
             $refer = array();//创建基于主键的数组引用
@@ -92,7 +93,7 @@ class Tree {
                     $array[$key]['leaf'] = true;
                 }
 
-                if (isset($data['checked']) && !is_bool($data['checked'])) {//支持手工控制checked by mrmsl on 2012-07-19 09:05:33
+                if (isset($data['checked']) && !is_bool($data['checked']) || $unset_checked) {//支持手工控制checked by mrmsl on 2012-07-19 09:05:33
                     unset($array[$key]['checked']);
                 }
                 elseif (!isset($data['checked'])) {
