@@ -55,7 +55,7 @@ seajs.config({//seajs配置
     plugins: ['shim'],
     base: System.sys_base_js_url,
     map: [
-        ['.js', System.IS_LOCAL ? '.js?' + _c : '.js']
+        //['.js', System.IS_LOCAL ? '.js?' + _c : '.js']
     ],
     alias: {
         lang: {//语言包
@@ -164,8 +164,8 @@ function bootstrap() {
 
     'function' == typeof(ON_LOAD) && ON_LOAD();//回调
 
-    include('http://hm.baidu.com/hm.js?848931389ce9cadd2537f4b22c59dd54');//百度统计
-    seajs.use(['ga', 'cnzz']);//ga统计,站长统计
+    //include('http://hm.baidu.com/hm.js?848931389ce9cadd2537f4b22c59dd54');//百度统计
+    seajs.use(['ga', 'baidu_tongji', 'cnzz']);//ga统计,站长统计
 }//end bootstrap
 
 /**
