@@ -199,7 +199,7 @@ Ext.define('Yab.controller.AdminLoginHistory', {
                 store: [
                     ['username', lang('USERNAME')],
                     ['realname', lang('REALNAME')],
-                    ['admin_id', lang('MODULE_NAME_ADMIN') + 'id'],
+                    ['admin_id', lang('CONTROLLER_NAME_ADMIN') + 'id'],
                 ],
                 value: data.column,
                 editable: false

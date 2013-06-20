@@ -37,6 +37,7 @@ return array(
     'FUNCTION'          => '函数',
     'REFERER_PAGE'      => '来路页面',
     'ISSUE'             => '发布',
+    'LANGUAGE_ITEM'     => '语言项',
     'LIST_DIRECTORY_FORBIDDEN' => '访问禁止访问路径',
     'LOCK'              => '锁定',
     'MANAGE_CENTER'     => '管理中心',

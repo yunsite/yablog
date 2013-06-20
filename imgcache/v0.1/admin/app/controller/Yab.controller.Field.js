@@ -103,7 +103,7 @@ value: '@value'", {
         extField.textareaComment(TEXT.gray(this.toBeReplaced({//js代码提示
             '@fieldLabel': lang('FIELD_NAME'),
             '@input_name': lang('INPUT_NAME'),
-            '@value': lang('MODULE_NAME_FIELD,VALUE')
+            '@value': lang('CONTROLLER_NAME_FIELD,VALUE')
         }, false, ',')), null),
         extField.textarea('validate_rule', 'PLEASE_ENTER,VALIDATE_RULE', 'VALIDATE_RULE', 'string\n\
 #{%PLEASE_ENTER,@field_name}#MUST_VALIDATE#notblank', {
@@ -142,7 +142,7 @@ value: '@value'", {
         var me = this;
 
         return [{
-            text: lang('MODULE_NAME_FIELD') + 'id',//表单域id
+            text: lang('CONTROLLER_NAME_FIELD') + 'id',//表单域id
             width: 70,
             sortable: true,
             dataIndex: this.idProperty

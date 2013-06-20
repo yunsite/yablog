@@ -111,7 +111,7 @@ Ext.define('Yab.controller.Login', {
        if (!this._win) {//未定义
 
            this._win = Ext.create('Ext.window.Window', {
-               title: lang('MODULE_NAME_ADMIN,LOGIN'),
+               title: lang('CONTROLLER_NAME_ADMIN,LOGIN'),
                border: false,
                modal: true,
                constrain: true,

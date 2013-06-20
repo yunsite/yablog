@@ -79,8 +79,8 @@ Ext.define('Yab.controller.Category', {
         var me = this, extField = Yab.Field.field();
 
         return [
-            extField.fieldContainer(['MODULE_NAME_CATEGORY,NAME', [//分类名称
-                [null, this.nameColumn, 'PLEASE_ENTER,MODULE_NAME_CATEGORY,NAME'],
+            extField.fieldContainer(['CONTROLLER_NAME_CATEGORY,NAME', [//分类名称
+                [null, this.nameColumn, 'PLEASE_ENTER,CONTROLLER_NAME_CATEGORY,NAME'],
                 lang('LT_BYTE').format(30) + '，' + lang('CN_TO_BYTE') + lang('%。,TO_EDIT_TIP')
             ]]),
             extField.fieldContainer(['CATEGORY_EN_NAME', [//url英文名
@@ -139,7 +139,7 @@ Ext.define('Yab.controller.Category', {
 
         return [{
             xtype: 'treecolumn',
-            header: lang('MODULE_NAME_CATEGORY'),//分类名
+            header: lang('CONTROLLER_NAME_CATEGORY'),//分类名
             flex: 3,
             dataIndex: this.nameColumn,
             renderer: function(v) {
@@ -147,7 +147,7 @@ Ext.define('Yab.controller.Category', {
             },
             sortable: false
         }, {
-            text: lang('MODULE_NAME_CATEGORY') + 'id',//分类id
+            text: lang('CONTROLLER_NAME_CATEGORY') + 'id',//分类id
             width: 50,
             dataIndex: this.idProperty,
             sortable: false
@@ -178,13 +178,13 @@ Ext.define('Yab.controller.Category', {
             flex: 2,
             xtype: 'appactioncolumn',
             items: [{
-                text: lang('ADD,CHILD,MODULE_NAME_CATEGORY'),//添加子分类
+                text: lang('ADD,CHILD,CONTROLLER_NAME_CATEGORY'),//添加子分类
                 handler: function(grid, rowIndex, cellIndex) {
                     var record = grid.getStore().getAt(rowIndex);
                     me.edit(record, false, '{0}=0&parent_id={1}'.format(me.idProperty, record.get(me.idProperty)));
                 }
             }, {
-                text: lang('ADD,MODULE_NAME_BLOG'),//添加博客 by mrmsl on
+                text: lang('ADD,CONTROLLER_NAME_BLOG'),//添加博客 by mrmsl on
                 handler: function(grid, rowIndex, cellIndex) {
                     var record = grid.getStore().getAt(rowIndex);
                     me.edit(record, false, me.getAction('blog', 'add') + '&{0}=0&cate_id={1}'.format(me.idProperty, record.get(me.idProperty)));
@@ -303,7 +303,7 @@ Ext.define('Yab.controller.Category', {
                 width: 70,
                 itemId: 'column',
                 store: [
-                    [this.nameColumn, lang('MODULE_NAME_CATEGORY,NAME')],
+                    [this.nameColumn, lang('CONTROLLER_NAME_CATEGORY,NAME')],
                     ['en_name', lang('CATEGORY_EN_NAME')],
                     ['seo_keyword', lang('SEO_KEYWORD')],
                     ['SEO_DESCRIPTION', lang('SEO_DESCRIPTION')]

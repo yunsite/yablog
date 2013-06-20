@@ -41,8 +41,8 @@ Ext.define('Yab.controller.Menu', {
         var me = this, extField = Yab.Field.field();
 
         return [
-            extField.fieldContainer(['MODULE_NAME_MENU,NAME', [//菜单名称
-                [null, this.nameColumn, 'PLEASE_ENTER,MODULE_NAME_MENU,NAME'],
+            extField.fieldContainer(['CONTROLLER_NAME_MENU,NAME', [//菜单名称
+                [null, this.nameColumn, 'PLEASE_ENTER,CONTROLLER_NAME_MENU,NAME'],
                 lang('LT_BYTE').format(30) + '，' + lang('CN_TO_BYTE') + lang('%。,TO_EDIT_TIP')
             ]]),
             extField.fieldContainer(['CONTROLLER', [//控制器
@@ -133,7 +133,7 @@ Ext.define('Yab.controller.Menu', {
 
         return [{
             xtype: 'treecolumn',
-            header: lang('MODULE_NAME_MENU'),//菜单名
+            header: lang('CONTROLLER_NAME_MENU'),//菜单名
             flex: 2,
             dataIndex: this.nameColumn,
             renderer: function(v) {
@@ -141,7 +141,7 @@ Ext.define('Yab.controller.Menu', {
             },
             sortable: false
         }, {
-            text: lang('MODULE_NAME_MENU') + 'id',//菜单id
+            text: lang('CONTROLLER_NAME_MENU') + 'id',//菜单id
             width: 50,
             dataIndex: this.idProperty,
             sortable: false
@@ -180,13 +180,13 @@ Ext.define('Yab.controller.Menu', {
             flex: 1,
             xtype: 'appactioncolumn',
             items: [{
-                text: lang('ADD,CHILD,MODULE_NAME_MENU'),//添加子菜单
+                text: lang('ADD,CHILD,CONTROLLER_NAME_MENU'),//添加子菜单
                 handler: function(grid, rowIndex, cellIndex) {
                     var record = grid.getStore().getAt(rowIndex);
                     me.edit(record, false, '{0}=0&parent_id={1}'.format(me.idProperty, record.get(me.idProperty)));
                 }
             }, {
-                text: lang('ADD,MODULE_NAME_FIELD'),//添加表彰域 by mrmsl on
+                text: lang('ADD,CONTROLLER_NAME_FIELD'),//添加表彰域 by mrmsl on
                 handler: function(grid, rowIndex, cellIndex) {
                     var record = grid.getStore().getAt(rowIndex);
                     me.edit(record, false, me.getAction('field', 'add') + '&{0}=0&parent_id={1}'.format(me.idProperty, record.get(me.idProperty)));
@@ -296,7 +296,7 @@ Ext.define('Yab.controller.Menu', {
                 width: 70,
                 itemId: 'column',
                 store: [
-                    [this.nameColumn, lang('MODULE_NAME_MENU,NAME')],
+                    [this.nameColumn, lang('CONTROLLER_NAME_MENU,NAME')],
                     ['model', lang('CONTROLLER')],
                     ['view', lang('ACTION')]
                 ],

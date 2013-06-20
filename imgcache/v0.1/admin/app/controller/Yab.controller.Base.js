@@ -30,10 +30,10 @@ Ext.define('Yab.controller.Base', {
         var title = data.text;
 
         if (data.clone) {//复制
-            title = lang('CLONE,MODULE_NAME_' + data.controller);
+            title = lang('CLONE,CONTROLLER_NAME_' + data.controller);
         }
         else if (pkValue) {//编辑
-            title = lang('EDIT,MODULE_NAME_' + data.controller);
+            title = lang('EDIT,CONTROLLER_NAME_' + data.controller);
         }
 
         Ext.get(data.controller).update(title);
@@ -531,7 +531,7 @@ Ext.define('Yab.controller.Base', {
      * @return {String} 转化成小写的控制器名称
      */
     getControllerName: function() {
-        return this.$className.split('.').pop().toLowerCase();
+        return Ext.String.uncapitalize(this.$className.split('.').pop());
     },
 
     /**
@@ -1121,7 +1121,7 @@ Ext.define('Yab.controller.Base', {
                     else {//无表单域，显示添加表单域按钮
                         tab.add({
                             xtype: 'button',
-                            text: lang('ADD,MODULE_NAME_FIELD'),
+                            text: lang('ADD,CONTROLLER_NAME_FIELD'),
                             handler: function() {
                                 Yab.History.push('#' + me.getAction('field', 'add&parent_id=' + items + '&back=' + encodeURIComponent(location.href)));
                             }
