@@ -11,19 +11,24 @@
 Ext.Loader.setConfig({//路径
     enabled: true,
     paths: {
-        Yab: System.sys_base_admin_imgcache + 'app',
-        'Yab.ux.TabPanel': System.sys_base_admin_imgcache + 'app/ux/Yab.ux.TabPanel.js',
-        'Yab.ux.Ueditor': System.sys_base_admin_imgcache + 'app/ux/Yab.ux.Ueditor.js',
-        'Yab.store.Mail': System.sys_base_admin_imgcache + 'app/store/Yab.store.Mail.js',
-        'Yab#container': System.sys_base_admin_imgcache + 'app/container/',
-        'Yab#controller': System.sys_base_admin_imgcache + 'app/controller/',
-        'Yab#store': System.sys_base_admin_imgcache + 'app/store/',
-        'Yab#model': System.sys_base_admin_imgcache + 'app/model/',
-        'Yab#ux': System.sys_base_admin_imgcache + 'app/ux/',
-        'Yab#pack': System.sys_base_admin_imgcache + 'app/pack/',//压缩js路径 by mrmsl on 2012-09-04 17:49:49
+        'Yab.container': System.sys_base_admin_imgcache + 'app/container/',
+        'Yab.controller': System.sys_base_admin_imgcache + 'app/controller/',
+        'Yab.store': System.sys_base_admin_imgcache + 'app/store/',
+        'Yab.store': System.sys_base_admin_imgcache + 'app/store/',
+        'Yab.model': System.sys_base_admin_imgcache + 'app/model/',
+        'Yab.ux': System.sys_base_admin_imgcache + 'app/ux/',
+        'Yab.pack': System.sys_base_admin_imgcache + 'app/pack/',//压缩js路径 by mrmsl on 2012-09-04 17:49:49
     }
 }).getPath = function(className) {
-    var path = '', paths = this.config.paths, prefix = this.getPrefix(className);
+    var path = '', paths = this.config.paths;
+
+    if (0 == className.indexOf('Yab.')) {//yablog专用 by mrmsl on 2013-06-20 18:22:26
+        var arr = className.split('.');
+        arr.pop();
+        return paths[arr.join('.')] + className + '.js';
+    }
+
+    var prefix = this.getPrefix(className);
 
     if (prefix.length > 0) {
         if (prefix === className) {
@@ -35,11 +40,10 @@ Ext.Loader.setConfig({//路径
     }
 
     if (path.length > 0) {
-        //path += '/';
+        path += '/';
     }
 
-    //重写#为路径分隔符，而不是.
-    return path.replace(/\/\.\//g, '/') + className.replace(/#/g, "/") + '.js';
+    return path.replace(/\/\.\//g, '/') + className.replace(/\./g, '/') + '.js';
 };
 
 //重写表单提交时，setLoading()提示
