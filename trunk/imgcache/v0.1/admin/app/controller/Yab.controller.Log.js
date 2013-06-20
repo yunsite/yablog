@@ -116,12 +116,12 @@ Ext.define('Yab.controller.Log', {
             hidden: true,
             dataIndex: 'referer_url'
         }, {
-            header: lang('MODULE_NAME_ADMIN'),//管理员姓名
+            header: lang('CONTROLLER_NAME_ADMIN'),//管理员姓名
             dataIndex: 'admin_name',
             sortable: false
         }, {
             hidden: true,
-            header: lang('MODULE_NAME_ADMIN') + 'ip',//管理员ip
+            header: lang('CONTROLLER_NAME_ADMIN') + 'ip',//管理员ip
             dataIndex: 'user_ip',
             width: 120,
             sortable: false

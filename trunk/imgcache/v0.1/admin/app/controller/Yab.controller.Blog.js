@@ -155,7 +155,7 @@ Ext.define('Yab.controller.Blog', {
         var me = this;
 
         return [{
-            text: lang('MODULE_NAME_BLOG') + 'id',//博客id
+            text: lang('CONTROLLER_NAME_BLOG') + 'id',//博客id
             width: 60,
             dataIndex: this.idProperty
         }, {

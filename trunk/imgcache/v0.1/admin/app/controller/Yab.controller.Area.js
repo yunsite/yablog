@@ -49,8 +49,8 @@ Ext.define('Yab.controller.Area', {
         var me = this, extField = Yab.Field.field();
 
         return [
-            extField.fieldContainer(['MODULE_NAME_AREA,NAME', [//地区名
-                [null, this.nameColumn, 'MODULE_NAME_AREA,NAME'],
+            extField.fieldContainer(['CONTROLLER_NAME_AREA,NAME', [//地区名
+                [null, this.nameColumn, 'CONTROLLER_NAME_AREA,NAME'],
                 lang('LT_BYTE').format(50) + '，' + lang('CN_TO_BYTE')
             ]]),
             extField.fieldContainer(['AREA_CODE', [//地区简码
@@ -98,7 +98,7 @@ Ext.define('Yab.controller.Area', {
 
         return [{
             xtype: 'treecolumn',
-            header: lang('MODULE_NAME_AREA'),//地区名
+            header: lang('CONTROLLER_NAME_AREA'),//地区名
             flex: 1,
             dataIndex: this.nameColumn,
             renderer: function(v) {
@@ -106,7 +106,7 @@ Ext.define('Yab.controller.Area', {
             },
             sortable: false
         }, {
-            text: lang('MODULE_NAME_AREA') + 'id',//地区id
+            text: lang('CONTROLLER_NAME_AREA') + 'id',//地区id
             width: 80,
             dataIndex: this.idProperty,
             sortable: false
@@ -137,7 +137,7 @@ Ext.define('Yab.controller.Area', {
             width: 200,
             xtype: 'appactioncolumn',
             items: [{
-                text: lang('ADD,CHILD,MODULE_NAME_AREA'),//添加子地区 by mrmsl on 2012-08-21 13:29:14
+                text: lang('ADD,CHILD,CONTROLLER_NAME_AREA'),//添加子地区 by mrmsl on 2012-08-21 13:29:14
                 handler: function(grid, rowIndex, cellIndex) {
                     var record = grid.getStore().getAt(rowIndex);
                     me.edit(record, false, '{0}=0&parent_id={1}'.format(me.idProperty, record.get(me.idProperty)));
@@ -242,7 +242,7 @@ Ext.define('Yab.controller.Area', {
                 width: 70,
                 itemId: 'column',
                 store: [
-                    [this.nameColumn, lang('MODULE_NAME_AREA,NAME')],
+                    [this.nameColumn, lang('CONTROLLER_NAME_AREA,NAME')],
                     ['area_code', lang('AREA_CODE')]
                 ],
                 value: data.column,

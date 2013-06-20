@@ -23,9 +23,11 @@ return array(
     'CAN_ONLY_BE'       => '只能为',
     'CASE_SENSITIVE'    => '区分大小写',
     'CITY'              => '城市',
+    'CN_CI'             => '此',
     'CN_CISHU'          => '次数',
     'CN_CONG'           => '从',
     'CN_DE'             => '的',
+    'CN_GAI'            => '该',
     'CN_TO_BYTE'        => '一个汉字三个字节',
     'CN_WANGWEN'        => '网文',
     'CN_WEI'            => '未',//by mrmsl on 2012-09-15 11:19:15

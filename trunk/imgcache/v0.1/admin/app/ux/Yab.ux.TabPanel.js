@@ -129,7 +129,7 @@ Ext.define('Yab.ux.TabPanel', {
                 setLoading(false);
             },
             failure: function(err) {
-                error(Ext.String.format('{0}<span class="font-red">{1}</span>{2}<br />{3}：<span class="font-red">{4}</span>', lang('LOAD'), lang('MODULE_NAME_FIELD'), lang('FAILURE'), lang('ERROR,INFO'), url, err));
+                error(Ext.String.format('{0}<span class="font-red">{1}</span>{2}<br />{3}：<span class="font-red">{4}</span>', lang('LOAD'), lang('CONTROLLER_NAME_FIELD'), lang('FAILURE'), lang('ERROR,INFO'), url, err));
             }
         });
     }//end loadFormField

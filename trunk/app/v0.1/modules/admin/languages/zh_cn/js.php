@@ -24,8 +24,6 @@ return array(
     'CLOSE'                     => '关闭',
     'CLOSE_LEFTSIDE_TABS'       => '关闭左侧标签页',
     'CLOSE_RIGHTSIDE_TABS'      => '关闭右侧标签页',
-    'CN_CI'                     => '此',
-    'CN_GAI'                    => '该',
     'CN_QU'                     => '取',//by mrmsl on 2012-09-18 10:58:50
     'CN_SHUOMING'               => '说明',//by mrmsl 2013-02-04 13:53:36
     'CN_SUOYOU'                 => '所有',//by mrmsl on 2012-08-20 10:37:05

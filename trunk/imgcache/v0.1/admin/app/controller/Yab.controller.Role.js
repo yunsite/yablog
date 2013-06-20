@@ -53,8 +53,8 @@ Ext.define('Yab.controller.Role', {
         var me = this, extField = Yab.Field.field();
 
         return [
-            extField.fieldContainer(['MODULE_NAME_ROLE,NAME', [//角色名称
-                [null, this.nameColumn, 'PLEASE_ENTER,MODULE_NAME_ROLE,NAME'],
+            extField.fieldContainer(['CONTROLLER_NAME_ROLE,NAME', [//角色名称
+                [null, this.nameColumn, 'PLEASE_ENTER,CONTROLLER_NAME_ROLE,NAME'],
                 lang('LT_BYTE').format(30) + '，' + lang('CN_TO_BYTE')
             ]]), {
                 xtype: 'treepicker',
@@ -88,12 +88,12 @@ Ext.define('Yab.controller.Role', {
         var me = this;
 
         return [{
-            text: lang('MODULE_NAME_ROLE') + 'id',//角色id
+            text: lang('CONTROLLER_NAME_ROLE') + 'id',//角色id
             width: 50,
             dataIndex: this.idProperty,
             sortable: false
         }, {
-            header: lang('MODULE_NAME_ROLE,NAME'),//角色名
+            header: lang('CONTROLLER_NAME_ROLE,NAME'),//角色名
             width: 120,
             dataIndex: this.nameColumn,
             sortable: false
@@ -113,11 +113,11 @@ Ext.define('Yab.controller.Role', {
             xtype: 'appactioncolumn',
             items: [{
                 renderer: function(v, meta, record) {//管理员列表 by mrmsl on 2012-08-14 12:59:48
-                    return '<a href="#' + me.getAction('admin', 'list&role_id=' + record.get(me.idProperty)) + '"><span class="appactioncolumn">' + lang('MODULE_NAME_ADMIN,LIST') + '</span></a>';
+                    return '<a href="#' + me.getAction('admin', 'list&role_id=' + record.get(me.idProperty)) + '"><span class="appactioncolumn">' + lang('CONTROLLER_NAME_ADMIN,LIST') + '</span></a>';
                 }
             }, {
                 renderer: function(v, meta, record) {//添加管理员 by mrmsl on 2012-08-21 13:50:18
-                    return '<a href="#' + me.getAction('admin', 'add&role_id=' + record.get(me.idProperty)) + '"><span class="appactioncolumn">' + lang('ADD,MODULE_NAME_ADMIN') + '</span></a>';
+                    return '<a href="#' + me.getAction('admin', 'add&role_id=' + record.get(me.idProperty)) + '"><span class="appactioncolumn">' + lang('ADD,CONTROLLER_NAME_ADMIN') + '</span></a>';
                 }
             }, {
                 renderer: function(v, meta, record) {//编辑

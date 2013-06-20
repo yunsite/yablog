@@ -87,7 +87,7 @@ Ext.define('Yab.controller.Miniblog', {
         var me = this;
 
         return [{
-            text: lang('MODULE_NAME_MINIBLOG') + 'id',//微博id
+            text: lang('CONTROLLER_NAME_MINIBLOG') + 'id',//微博id
             width: 60,
             dataIndex: this.idProperty
         }, {

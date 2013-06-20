@@ -31,7 +31,7 @@ Ext.define('Yab.controller.Comments', {
     replyArr: [
         ['0', lang('CN_WEI,REPLY')],
         ['1', lang('CN_YI,REPLY')],
-        ['2', lang('MODULE_NAME_ADMIN,REPLY')]
+        ['2', lang('CONTROLLER_NAME_ADMIN,REPLY')]
     ],
     /**
      * @property {Array}
@@ -216,7 +216,7 @@ Ext.define('Yab.controller.Comments', {
             },
             sortable: false
         }, {
-            header: 'ip' + lang('MODULE_NAME_AREA'),//ip地址
+            header: 'ip' + lang('CONTROLLER_NAME_AREA'),//ip地址
             width: 120,
             dataIndex: 'user_ip',
             renderer: function (v, a, record) {
