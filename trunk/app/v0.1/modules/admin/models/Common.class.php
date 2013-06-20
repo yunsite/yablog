@@ -13,7 +13,7 @@
 
 class CommonModel extends BaseModel {
     /**
-     * 验证唯一字段
+     * 从缓存文件验证唯一字段
      *
      * @author          mrmsl <msl-138@163.com>
      * @lastmodify      2013-05-13 14:59:58
@@ -22,13 +22,17 @@ class CommonModel extends BaseModel {
      * @param array  $data          _POST数据
      * @param string $field_name    字段名
      * @param string $lang_name     语言项。默认null，取$field_name
+     * @param bool   $parent_id     true联合parent_id字段一起验证
      *
      * @return mixed true验证成功。否则，如果未输入，返回提示信息，否则返回false
      */
-    protected function _checkUnique($name, $data, $field_name, $lang_name = null) {
+    protected function _checkUnique($name, $data, $field_name, $lang_name = null, $parent_id = false) {
         $pk_field = $this->getPk();
 
         if ('' === $name || !isset($data[$pk_field])) {//如果未输入，提示输入
+            return false;
+        }
+        elseif ($parent_id && !isset($data['parent_id'])) {
             return false;
         }
 
@@ -41,13 +45,27 @@ class CommonModel extends BaseModel {
             return true;
         }
 
-        foreach ($caches as $id => $item) {
 
-            if ($name == $item[$field_name] && $pk_value != $id) {
-                return L($lang_name . ',EXIST');
+        if ($parent_id) {
+            $parent_id = $data['parent_id'];
+
+            foreach ($caches as $id => $item) {
+
+                if ($name == $item[$field_name] && $pk_value != $id && $item['parent_id'] != $parent_id) {
+                    return L($lang_name . ',EXIST');
+                }
+            }
+        }
+        else {
+
+            foreach ($caches as $id => $item) {
+
+                if ($name == $item[$field_name] && $pk_value != $id) {
+                    return L($lang_name . ',EXIST');
+                }
             }
         }
 
         return true;
-    }
+    }//end _checkUnique
 }
