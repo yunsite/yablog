@@ -1,11 +1,11 @@
 <?php
 //后台自动生成，请毋修改
-//最后更新时间:2013-06-06 08:29:06
+//最后更新时间:2013-06-20 17:28:31
 
 return array (
   'sys_base_domain' => 'www.yablog.cn',
   'sys_base_http_protocol' => 'http',
-  'sys_base_wwwroot' => 'v.2/',
+  'sys_base_wwwroot' => 'v0.1/',
   'sys_base_admin_entry' => 'yabadmin.php',
   'sys_base_web_name' => 'yablog',
   'sys_base_web_title' => 'yablog,又一个博客',
@@ -14,10 +14,10 @@ return array (
   'sys_base_css_path' => 'static/css/',
   'sys_seo_keyword' => 'mrmsl',
   'sys_base_common_imgcache' => 'http://imgcache.yablog.cn/common/',
-  'sys_base_admin_imgcache' => 'http://imgcache.yablog.cn/v.2/admin/',
-  'sys_base_js_url' => 'http://imgcache.yablog.cn/v.2/yablog/js/',
-  'sys_base_css_url' => 'http://imgcache.yablog.cn/v.2/yablog/css/',
-  'sys_base_img_url' => 'http://imgcache.yablog.cn/v.2/yablog/images/',
+  'sys_base_admin_imgcache' => 'http://imgcache.yablog.cn/v0.1/admin/',
+  'sys_base_js_url' => 'http://imgcache.yablog.cn/v0.1/front/js/',
+  'sys_base_css_url' => 'http://imgcache.yablog.cn/v0.1/front/css/',
+  'sys_base_img_url' => 'http://imgcache.yablog.cn/v0.1/front/images/',
   'sys_seo_description' => 'seo描述',
   'sys_base_closed' => '1',
   'sys_base_closed_reason' => '<div style="color: red">网站关闭了</div>',
@@ -71,7 +71,6 @@ return array (
   'sys_mail_smtp_port' => '25',
   'sys_mail_email' => 'yablog@163.com',
   'sys_mail_password' => 'mrmsl170066918',
-  'sys_mail_from_email' => 'mrmsl@qq.com',
   'sys_mail_from_name' => 'mrmsl',
   'sys_base_domain_scope' => '.yablog.cn',
   'sys_base_website' => 'http://www.yablog.cn/',
