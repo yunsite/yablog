@@ -51,7 +51,7 @@ class CommonModel extends BaseModel {
 
             foreach ($caches as $id => $item) {
 
-                if ($name == $item[$field_name] && $pk_value != $id && $item['parent_id'] != $parent_id) {
+                if ($name == $item[$field_name] && $pk_value != $id && $item['parent_id'] == $parent_id) {
                     return L($lang_name . ',EXIST');
                 }
             }
