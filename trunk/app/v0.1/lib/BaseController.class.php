@@ -438,6 +438,20 @@ class BaseController extends Yaf_Controller_Abstract {
     }//end getGuestbookCommentsSetting
 
     /**
+     * 获取属性值
+     *
+     * @author          mrmsl <msl-138@163.com>
+     * @date            2013-06-20 09:25:43
+     *
+     * @param string $name 属性值
+     *
+     * @return mixed 属性存在，返回该值，否则''
+     */
+    public function getProperty($name) {
+        return property_exists($this, $name) ? $this->$name : '';
+    }
+
+    /**
      * 获取视图模板引擎实例
      *
      * @author            mrmsl <msl-138@163.com>
