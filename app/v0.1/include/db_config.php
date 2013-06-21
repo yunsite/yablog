@@ -40,3 +40,5 @@ define('TB_TAG'                , TB_PREFIX . 'tag');            //标签表 by m
 define('TB_HTML'               , TB_PREFIX . 'html');           //生成静态页管理 by mrmsl on 2013-05-18 09:40:56
 define('TB_MAIL_TEMPLATE'      , TB_PREFIX . 'mail_template');  //邮件模板 by mrmsl on 2013-06-06 16:33:17
 define('TB_MAIL_HISTORY'       , TB_PREFIX . 'mail_history');   //邮件历史 by mrmsl on 2013-06-06 16:33:49
+define('TB_LANGUAGE_MODULES'   , TB_PREFIX . 'language_modules');//语言包模块 by mrmsl on 2013-06-19 17:16:21
+define('TB_LANGUAGE_ITEMS'     , TB_PREFIX . 'language_items');//语言项 by mrmsl on 2013-06-19 17:16:53
