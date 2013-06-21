@@ -19,4 +19,5 @@ return array(
     'EXIST_SAME_LANGUAGEMODULES'        => '存在相同模块',
     'SAME_AS_SELF'                      => '不能把自己作为自己的子模块',
     'LANGUAGE_MODULE_NAME'              => '模块名',
+    'CAN_NOT_ADD_CHILD_MODULE'          => '二级模块不可以增加子模块',
 );

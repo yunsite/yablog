@@ -43,8 +43,31 @@ class LanguageModulesController extends CommonController {
      * @return void 无返回值
      */
     private function _combo() {
-        $cache  = $this->_getCache();
-        $data   = $cache;
+        $module_id  = Filter::int('module_id', 'get');
+        $parent_id  = Filter::int('parent_id', 'get');
+        $cache      = $this->_getCache();
+
+        if ($module_id) {
+
+            if (in_array($module_id, $this->_exclude_delete_id)) {
+                $cache = array();
+            }
+            else {
+                unset($cache[$module_id]);
+            }
+
+        }
+        elseif (isset($_GET['add'])) {//添加模块,干掉二级模块,仅一级模块可增加子模块
+            $cache_copy = array();
+
+            foreach($this->_exclude_delete_id as $item) {
+                $cache_copy[$item] = $cache[$item];
+            }
+
+            $cache = $cache_copy;
+        }
+
+        $data       = $cache;
 
         //增加顶级菜单
         $this->_unshift && array_unshift($data, array('module_id' => 0, 'parent_id' => -1, 'module_name' => isset($_GET['emptyText']) ? Filter::string('emptyText', 'get') : L('PARENT_LANGUAGEMODULES'), 'leaf' => true));
@@ -52,9 +75,7 @@ class LanguageModulesController extends CommonController {
         C('array2tree_unset_checked', true);
         $data = Tree::array2tree($data, $this->_pk_field);
 
-        $parent_id = Filter::int('parent_id', 'get');
-
-        //添加指定菜单子菜单，获取指定菜单信息by mashanlng on 2012-08-21 13:53:35
+        //添加子模块，获取模块信息
         if ($parent_id && isset($cache[$parent_id]) && ($parent_info = $cache[$parent_id])) {
             $parent_info = array(
                  'module_id'     => $parent_id,
@@ -63,9 +84,8 @@ class LanguageModulesController extends CommonController {
             $this->_ajaxReturn(array('data' => $data, 'parent_data' => $parent_info));
         }
 
-        //C('array2tree_unset_checked', true);
         $this->_ajaxReturn(true, '', $data);
-    }
+    }//end _combo
 
     /**
      * {@inheritDoc}
@@ -83,6 +103,18 @@ class LanguageModulesController extends CommonController {
      * @return void 无返回值
      */
     public function addAction() {
+        $this->_commonAddTreeData('module_name,parent_name,sort_order,memo', 'module_name');
+    }
+
+    /**
+     * 生成语言包
+     *
+     * @author          mrmsl <msl-138@163.com>
+     * @data            2013-06-21 16:03:22
+     *
+     * @return void 无返回值
+     */
+    public function buildAction() {
         $this->_commonAddTreeData('module_name,parent_name,sort_order,memo', 'module_name');
     }
 

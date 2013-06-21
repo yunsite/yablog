@@ -52,7 +52,7 @@ Ext.define('Yab.controller.LanguageModules', {
                 pickerIdProperty: this.idProperty,
                 store: Ext.create('Yab.store.LanguageModules', {
                     folderSort: false,
-                    url: this.getActionUrl(false, 'list', 'unshift&combo&module_id={0}&parent_id={1}'.format(data[this.idProperty], data.parent_id))
+                    url: this.getActionUrl(false, 'list', 'unshift&combo&add&module_id={0}&parent_id={1}'.format(data[this.idProperty], data.parent_id))
                 }),
                 storeOnLoad: function(store) {//添加指定菜单子菜单，设置指定菜单相关信息
                     var data = store.proxy.reader.rawData;
