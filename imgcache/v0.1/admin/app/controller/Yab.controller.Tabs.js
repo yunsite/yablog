@@ -298,7 +298,7 @@ Ext.define('Yab.controller.Tabs', {
         else {
             this.cache[controller] = 'loading';
             //本地环境，加载未压缩js
-            var url = System.IS_LOCAL ? Ext.Loader.getPath('Yab#controller') + controllerClassName + '.js' : Ext.Loader.getPath('Yab#pack') + controllerClassName + '.pack.js';
+            var url = System.IS_LOCAL ? System.sys_base_admin_imgcache + 'app/controller/' + controllerClassName + '.js' : System.sys_base_admin_imgcache + 'app/pack/' + controllerClassName + '.pack.js';
 
             var request = Ext.data.JsonP.request({
                 url: url,
