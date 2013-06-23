@@ -52,7 +52,7 @@ Ext.define('Yab.controller.LanguageItems', {
         var me = this, extField = Yab.Field.field();
         global('app_labelWidth', 150);
         var item = [extField.hiddenField(),//item_id
-        extField.itemContainer(['LANGUAGE_ITEM_VAR_NAME', [//变量名
+        extField.fieldContainer(['LANGUAGE_ITEM_VAR_NAME', [//变量名
             [null, this.nameColumn, 'PLEASE_ENTER,LANGUAGE_ITEM_VAR_NAME', '', undefined, {width: 250}],
             lang('LT_BYTE').format(50) + '，' + lang('CN_TO_BYTE')
         ]]),
@@ -60,7 +60,7 @@ Ext.define('Yab.controller.LanguageItems', {
             allowBlank: false,
             blankText: lang('PLEASE_SELECT,LANGUAGE_MODULE'),
             xtype: 'treepicker',
-            itemLabel: TEXT.red() + lang('LANGUAGE_MODULE'),
+            fieldLabel: TEXT.red() + lang('LANGUAGE_MODULE'),
             labelWidth: global('app_labelWidth'),
             width: 400,
             name: '_module_name',
