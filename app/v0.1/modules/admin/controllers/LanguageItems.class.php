@@ -27,6 +27,16 @@ class LanguageItemsController extends CommonController {
     );
 
     /**
+     * {@inheritDoc}
+     */
+    protected function _infoCallback(&$info) {
+
+        if ($menu_info = $this->_getCache($info['module_id'], 'LanguageModules')) {
+            $info['module_name'] = $menu_info['module_name'];
+        }
+    }
+
+    /**
      * 添加或编辑
      *
      * @author          mrmsl <msl-138@163.com>
