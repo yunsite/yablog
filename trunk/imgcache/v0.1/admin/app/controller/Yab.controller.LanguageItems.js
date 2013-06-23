@@ -62,7 +62,7 @@ Ext.define('Yab.controller.LanguageItems', {
             xtype: 'treepicker',
             fieldLabel: TEXT.red() + lang('LANGUAGE_MODULE'),
             labelWidth: global('app_labelWidth'),
-            width: 400,
+            width: 300,
             name: '_module_name',
             singleSelectValueField: 'module_id',
             emptyText: lang('PLEASE_SELECT'),
@@ -83,12 +83,12 @@ Ext.define('Yab.controller.LanguageItems', {
             }
         },
         extField.textarea('var_value_zh_cn', 'PLEASE_ENTER,VAR_VALUE_ZH_CN', 'VAR_VALUE_ZH_CN', '', {
-            width: 900,
-            height: 100
+            width: 600,
+            height: 50
         }),
         extField.textarea('var_value_en', 'PLEASE_ENTER,VAR_VALUE_EN', 'VAR_VALUE_EN', '', {
-            width: 900,
-            height: 100
+            width: 600,
+            height: 50
         }),
         extField.hiddenField('module_id'),
         extField.checkbox('to_js', Ext.valueFrom(data.to_js, 0), 'TO_JS'),//生成js
