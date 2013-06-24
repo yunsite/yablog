@@ -167,4 +167,83 @@ class LanguageItemsController extends CommonController {
 
         $this->_ajaxReturn(true, '', $data, $total);
     }//end listAction
+
+    /**
+     * 本地环境,将之前的语言文件语言项入库
+     *
+     * @author          mrmsl <msl-138@163.com>
+     * @data            2013-06-24 08:53:24
+     *
+     * @return void 无返回值
+     */
+    public function localInsertItemsAction() {
+
+        if (!is_dir($dir = YAB_APP_PATH . 'language_backup/') || !IS_LOCAL) {
+            return;
+        }
+
+        require(CORE_PATH . 'functions/dir.php');
+
+        $file_arr   = scand_dir($dir);
+        $module_arr = array(
+            'front' => array(
+                'blog'              => 24,
+                'comments'          => 25,
+                'common'            => 5,
+            ),
+            'admin' => array(
+                'admin'             => 7,
+                'adminloginhistory' => 8,
+                'area'              => 9,
+                'blog'              => 10,
+                'category'          => 11,
+                'comments'          => 12,
+                'js'                => 6,
+                'common'            => 6,
+                'field'             => 13,
+                'html'              => 14,
+                'languageitems'     => 15,
+                'languagemodules'   => 16,
+                'log'               => 17,
+                'login'             => 18,
+                'mail'              => 19,
+                'mailhistory'       => 20,
+                'menu'              => 21,
+                'miniblog'          => 22,
+                'role'              => 23,
+            ),
+        );
+
+        $values = '';
+
+        foreach ($module_arr as $k => $v) {
+
+            foreach($file_arr[$k]['zh_cn'] as $item) {
+                $basename = basename($item, '.php');
+
+                if ('guestbook' == $basename) {
+                    continue;
+                }
+
+                foreach(include($item) as $key => $lang) {
+                    $values .= ",({$v[$basename]},'{$key}','" . addslashes($lang) . "','')";
+                };
+            }
+        }
+
+        foreach(include(array_pop($file_arr)) as $key => $lang) {
+            $values .= ",(1,'{$key}','" . addslashes($lang) . "','')";
+        };
+
+        if ($values) {
+            $this->_model->startTrans();
+            $db = $this->_model->getDb();
+            $result1 = $db->execute('DELETE FROM ' . TB_LANGUAGE_ITEMS);
+            $result2 = $db->execute('INSERT INTO ' . TB_LANGUAGE_ITEMS . '(module_id,var_name,var_value_zh_cn,var_value_en) VALUES' . substr($values, 1) . ' ON DUPLICATE KEY UPDATE module_id=module_id');
+
+            if ($result1 && $result2 && $db->execute('UPDATE ' . TB_LANGUAGE_ITEMS . ' SET sort_order=item_id,to_js=1')) {
+                $this->_model->commit();
+            }
+        }
+    }//end localInsertItemsAction
 }

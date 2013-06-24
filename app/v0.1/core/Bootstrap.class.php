@@ -85,15 +85,19 @@ class BootstrapPlugin extends Yaf_Plugin_Abstract {
         $lang = cookie('lang');
         $lang = $lang ? $lang : sys_config('sys_base_lang', '', DEFAULT_LANG);//语言
 
-        if (!is_dir(LANG_PATH . $lang)) {//语言包不存在
+        if ($languages = F($lang, '', LANG_PATH)) {
+            L($languages);
+        }
+        else {//语言包不存在
             $lang = DEFAULT_LANG;
             cookie('lang', null);
         }
 
         define('LANG', $lang);
 
-        is_file($v = SYS_LANG_PATH . LANG . '.php') && L(include($v));//项目语言包
-        is_file($v = LANG_PATH . LANG . '/common.php') && L(include($v));//模块通用语言包
+        if ($languages = F(MODULE_NAME . DS . LANG . DS . 'common', '', LANG_PATH)) {//模块通用语言包
+            L($languages);
+        }
 
         $theme = cookie('theme');
         $theme = $theme ? $theme : sys_config('sys_base_theme', '', $default = 'default');//皮肤
@@ -193,6 +197,9 @@ class BootstrapPlugin extends Yaf_Plugin_Abstract {
 
         $this->_denyControllers();//禁止直接访问Error,Base控制器
 
-        is_file($v = LANG_PATH . LANG . '/' . strtolower(CONTROLLER_NAME) . '.php') && L(include($v));//当前控制器语言包
+        if ($languages = F(MODULE_NAME . DS . LANG . DS . strtolower(CONTROLLER_NAME), '', LANG_PATH)) {//当前控制器语言包
+            L($languages);
+        }
+
     }//end routerShutdown
 }

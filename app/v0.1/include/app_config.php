@@ -1,7 +1,7 @@
 <?php
 /**
  * 项目常量定义模板，修改此文件后，后台修改网站基本信息，重新生成后生效。生成对应文件为app_config.php
- * 后台自动生成，请毋修改。最后更新时间: 2013-06-11 17:26:16
+ * 后台自动生成，请毋修改。最后更新时间: 2013-06-24 18:08:42
  *
  * @file            app_config.tpl
  * @package         Yab
@@ -10,7 +10,7 @@
  * @license         http://www.apache.org/licenses/LICENSE-2.0.html Apache License 2.0
  * @author          mrmsl <msl-138@163.com>
  * @date            2013-05-04 08:41:37
- * @lastmodify      2013-06-11 17:26:16
+ * @lastmodify      2013-06-24 18:08:42
  */
 
 //核心配置
@@ -33,7 +33,7 @@ define('BOOTSTRAP_FILE'     , APP_PATH . 'Bootstrap.' . APP_EXT);//ini文件
 define('CONF_FILE'          , INCLUDE_PATH . '/application.ini');//ini文件
 define('CACHE_PATH'         , YAB_APP_PATH . 'caches/');     //缓存目录
 define('MODULE_CACHE_PATH'  , CACHE_PATH . 'modules/');     //系统模块信息缓存目录
-define('LANG_PATH'          , APP_PATH . 'languages/');     //项目语言包目录
+define('LANG_PATH'          , CACHE_PATH . 'languages/');     //项目语言包目录
 define('VIEW_PATH'          , APP_PATH . 'views/');         //模板目录
 define('SSI_PATH'           , WWWROOT . 'ssi/');         //ssi服务器端包含目录
 define('IMGCACHE_PATH'      , YAB_PATH . 'imgcache/');//imgcache静态资源目录

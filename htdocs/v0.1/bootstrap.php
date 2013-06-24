@@ -25,7 +25,6 @@ define('RUNTIME_FILE'   , WWWROOT . '~runtime.php');//运行时文件
 
 define('YAB_PATH'       , dirname(dirname(WWWROOT)) . '/');//系统目录
 define('YAB_APP_PATH'   , YAB_PATH . 'app/' . VERSION_PATH);//系统应用程序目录
-define('SYS_LANG_PATH'  , YAB_APP_PATH . 'languages/');//系统语言目录
 define('INCLUDE_PATH'   , YAB_APP_PATH . 'include/');//include包含路径
 define('CORE_PATH'      , YAB_APP_PATH . 'core/');//核心文件路径
 
