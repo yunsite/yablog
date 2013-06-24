@@ -7,7 +7,7 @@
     var META_INFO = {php echo json_encode($meta_info_arr);};
     {/if}
 </script>
-{echo js('System.js,lang/zh_cn.js', false, BASE_SITE_URL . 'static/js/'); }
+{echo js('System.js,lang/' . MODULE_NAME . '.zh_cn.js', false, BASE_SITE_URL . 'static/js/'); }
 <script src="{COMMON_IMGCACHE}js/seajs/sea-2.0.1.js" id="seajsnode" data-main="{IMGCACHE_JS}global"></script>
 {if 'Blog' == CONTROLLER_NAME && 'detail' == ACTION_NAME}
 <script id="bdshare_js" data="type=slide&amp;img=3&amp;pos=right&amp;uid=5428842" ></script>

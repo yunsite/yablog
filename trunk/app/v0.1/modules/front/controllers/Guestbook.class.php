@@ -23,6 +23,18 @@ class GuestbookController extends CommonController {
     protected $_model_name         = 'Comments';
 
     /**
+     * {@inheritDoc}
+     */
+    protected function init() {
+
+        if ($languages = $this->_getCache(0, MODULE_NAME . DS . LANG . DS . 'comments', false, LANG_PATH)) {
+            L($languages);
+        }
+
+        parent::init();
+    }
+
+    /**
      * 首页
      *
      * @author          mrmsl <msl-138@163.com>

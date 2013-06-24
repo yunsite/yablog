@@ -10,6 +10,7 @@
 return array(
     //项目设置
     'DEFAULT_AJAX_RETURN'   => 'JSON',  // 默认AJAX 数据返回格式,可选JSON XML ...
+    'LANGUAGE_ARR'          => array('zh_cn', 'en'),//语言
 
     //数据库配置
     'DB_TYPE'               => DB_TYPE,      //数据库类型
