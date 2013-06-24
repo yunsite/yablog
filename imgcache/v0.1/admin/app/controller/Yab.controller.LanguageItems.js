@@ -91,7 +91,7 @@ Ext.define('Yab.controller.LanguageItems', {
         extField.checkbox('to_js', Ext.valueFrom(data.to_js, 0), 'TO_JS'),//生成js
         extField.sortOrderField(),
         extField.memoField({width: 500}),
-        extField.textareaComment(lang('LT_BYTE').format(60), null),
+        extField.textareaComment(lang('LT_BYTE').format(60)),
         this.btnSubmit()//通用提交按钮
         ];
 
