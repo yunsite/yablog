@@ -143,7 +143,7 @@ Ext.define('Yab.controller.LanguageItems', {
             align: 'center',
             sortable: false
         }, {//操作列
-            width: 120,
+            flex: 1,
             xtype: 'appactioncolumn',
             items: [
                 this.editColumnItem(true),//编辑
