@@ -73,7 +73,7 @@ class IndexController extends CommonController {
         //->assign('miniblog', $miniblog)
         ->assign('blog_arr', $blog_arr)
         ->assign('web_title', sys_config('sys_base_web_index_title'));
-        $this->_display();var_dump(get_included_files());
+        $this->_display();
     }//end indexAction
 
 }
