@@ -22,6 +22,27 @@ Ext.define('Yab.controller.LanguageModules', {
     nameColumn: 'module_name',//名称字段
 
     /**
+     * 生成语言项缓存
+     *
+     * @author          mrmsl <msl-138@163.com>
+     * @data            2013-06-24 22:44:21
+     *
+     * @private
+     *
+     * @param {String} module_id module_id串
+     *
+     * @return {void} 无返回值
+     */
+    build: function(module_id) {
+        this.commonAction({
+            action: this.getActionUrl(false, 'build'),
+            data: 'module_id=' + module_id,
+            scope: this,
+            store: this.store()
+        });
+    },
+
+    /**
      * 获取表单域
      *
      * @author       mrmsl <msl-138@163.com>
@@ -121,6 +142,12 @@ Ext.define('Yab.controller.LanguageModules', {
                     var record = grid.getStore().getAt(rowIndex);
                     me.edit(record, false, me.getAction('languageItems', 'add') + '&{0}=0&parent_id={1}'.format(me.idProperty, record.get(me.idProperty)));
                 }
+            }, {
+                text: lang('BUILD,LANGUAGE_ITEM'),
+                handler: function(grid, rowIndex, cellIndex) {
+                    var record = grid.getStore().getAt(rowIndex);
+                    me.build(record.get(me.idProperty));
+                }
             },
             this.editColumnItem(true),//编辑
             this.deleteColumnItem(this.nameColumn)//操作
@@ -173,7 +200,18 @@ Ext.define('Yab.controller.LanguageModules', {
         return {
             xtype: 'toolbar',
             dock: 'top',
-            items: this.deleteItem()
+            items: [{
+                text: lang('OPERATE'),
+                itemId: 'btn',
+                menu: [
+                    this.deleteItem(), {
+                    text: lang('BUILD,LANGUAGE_ITEM'),
+                    handler: function() {
+                        var html = me.hasSelect(me._listgrid);
+                        html && me.build(html);
+                    }
+                }]
+            }]
         }
     }//end tbar
 });
