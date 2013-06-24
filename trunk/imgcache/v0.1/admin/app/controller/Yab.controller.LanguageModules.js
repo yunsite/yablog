@@ -119,7 +119,7 @@ Ext.define('Yab.controller.LanguageModules', {
                 text: lang('ADD,LANGUAGE_ITEM'),//添加语言项 by mrmsl on
                 handler: function(grid, rowIndex, cellIndex) {
                     var record = grid.getStore().getAt(rowIndex);
-                    me.edit(record, false, me.getAction('LanguageItems', 'add') + '&{0}=0&parent_id={1}'.format(me.idProperty, record.get(me.idProperty)));
+                    me.edit(record, false, me.getAction('languageItems', 'add') + '&{0}=0&parent_id={1}'.format(me.idProperty, record.get(me.idProperty)));
                 }
             },
             this.editColumnItem(true),//编辑
