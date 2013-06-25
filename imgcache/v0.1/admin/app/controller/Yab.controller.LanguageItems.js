@@ -34,6 +34,8 @@ Ext.define('Yab.controller.LanguageItems', {
      * @inheritdoc Yab.controller.Base#listAction
      */
     listAction: function(data) {
+        var me = this;
+
         data.sort = data.sort || this.idProperty;//排序字段
         data.order = data.order || 'ASC';//排序
         data.keyword = data.keyword || '';
@@ -42,7 +44,13 @@ Ext.define('Yab.controller.LanguageItems', {
         data.match_mode = data.match_mode || 'eq';//匹配模式
         data.page = intval(data.page) || 1;//页
 
-        this.callParent([data]);//通用列表
+        var options = {
+            onItemClick: function(view, record, element, index, event) {//列表点击事件
+                me.listitemclick(record, event, 'to_js');
+            }
+        };
+
+        this.callParent([data, options]);//通用列表
     },
 
     /**
@@ -137,13 +145,25 @@ Ext.define('Yab.controller.LanguageItems', {
                 return me.searchReplaceRenderer(v, 'var_value_en');
             }
         }, {
+            header: lang('MEMO'),//备注
+            flex: 1,
+            dataIndex: 'memo'
+        }, {
             header: lang('ORDER'),//排序
             dataIndex: 'sort_order',
             width: 50,
             align: 'center',
             sortable: false
+        }, {
+            header: lang('TO_JS'),//生成js
+            align: 'center',
+            dataIndex: 'to_js',
+            width: 60,
+            renderer: function(v) {
+                return me.renderYesNoImg(v, 'to_js');
+            }
         }, {//操作列
-            flex: 1,
+            width: 120,
             xtype: 'appactioncolumn',
             items: [
                 this.editColumnItem(true),//编辑
@@ -245,8 +265,23 @@ Ext.define('Yab.controller.LanguageItems', {
         return {
             xtype: 'toolbar',
             dock: 'top',
-            items: [this.deleteItem(),//end button item
-            '-',
+            items: [{
+                text: lang('OPERATE'),
+                itemId: 'btn',
+                menu: [this.deleteItem(), {
+                    text: lang('TO_JS'),
+                    handler: function() {
+                        var selection = me.hasSelect(me.selectModel, ['to_js', 0]);
+                        selection.length && me.setOneOrZero(selection[0], 1, 'to_js', lang('YOU_CONFIRM,TO_JS,RECORD'), selection[1]);
+                    }
+                }, {
+                    text: lang('NO,TO_JS'),
+                    handler: function() {
+                        var selection = me.hasSelect(me.selectModel, ['to_js', 1]);
+                        selection.length && me.setOneOrZero(selection[0], 0, 'to_js', lang('YOU_CONFIRM,NO,TO_JS,SELECTED,RECORD'), selection[1]);
+                    }
+                }]
+            }, '-',
             extField.hiddenField('module_id', {itemId: 'module_id', value: data.module_id}),
             {
                 xtype: 'treepicker',

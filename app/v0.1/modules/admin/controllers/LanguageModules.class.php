@@ -359,6 +359,19 @@ class LanguageModulesController extends CommonController {
     }
 
     /**
+     * 语言项模块，设置生成js与否后置操作
+     *
+     * @author          mrmsl <msl-138@163.com>
+     * @date            2013-06-25 22:10:31
+     *
+     * @return void 无返回值
+     */
+    public function languageItemsAfterSetFieldAction() {
+        $data = $this->_getBuildData();
+        $this->_buildScriptItems($data['js_data']);
+    }
+
+    /**
      * 列表管理
      *
      * @author          mrmsl <msl-138@163.com>

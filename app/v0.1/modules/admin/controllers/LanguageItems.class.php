@@ -58,6 +58,14 @@ class LanguageItemsController extends CommonController {
     /**
      * {@inheritDoc}
      */
+    protected function _afterSetField($field, $value, $pk_id) {
+        C(APP_FORWARD, true);
+        $this->forward('LanguageModules', 'languageItemsAfterSetField');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     protected function _infoCallback(&$info) {
 
         if ($menu_info = $this->_getCache($info['module_id'], 'LanguageModules')) {
@@ -281,4 +289,20 @@ class LanguageItemsController extends CommonController {
             }
         }
     }//end localInsertItemsAction
+
+    /**
+     * 是否生成js
+     *
+     * @author          mrmsl <msl-138@163.com>
+     * @date            2013-06-25 21:58:34
+     *
+     * @return void 无返回值
+     */
+    function toJsAction() {
+        $field  = 'to_js';//字段
+        $to_js  = Filter::int($field) ? 1 : 0;//1:生成;0:不生成
+        $msg    = $to_js ? '' : L('NO');
+
+        $this->_setField($field, $to_js, $msg . L('TO_JS'));
+    }
 }

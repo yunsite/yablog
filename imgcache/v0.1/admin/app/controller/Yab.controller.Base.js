@@ -962,6 +962,7 @@ Ext.define('Yab.controller.Base', {
             is_lock: ['RELEASE,LOCK', 'LOCK'],//锁定与不锁定管理员
             is_delete: ['CN_WEI,DELETE', 'CN_YI,DELETE'],//删除与未删除
             is_issue: ['CN_WEI,ISSUE', 'CN_YI,ISSUE'],//发布与未发布
+            to_js: ['NO,TO_JS', 'TO_JS'],//生成js
             auditing: ['CN_WEI,AUDITING', 'CN_YI,PASS', 'CN_WEI,PASS']//审核状态
         };
         var data = {}, a = field.indexOf('is_') == 0 ? field.substr(3) : field;
@@ -971,8 +972,13 @@ Ext.define('Yab.controller.Base', {
 
         setted[field] = val;
 
+        var map = {
+            'delete': 'isDelete',
+            to_js: 'toJs'
+        };
+
         var options = {
-            action: this.getActionUrl(false, 'delete' == a ? 'isDelete' : a),
+            action: this.getActionUrl(false, map[a] || a),
             data: data,
             confirmText: confirmText,
             failedMsg: lang(fieldMap[field][val]) + lang('FAILURE'),
