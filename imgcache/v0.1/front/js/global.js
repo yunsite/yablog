@@ -13,7 +13,7 @@ var HOME_FLAG = 'index',//首页标识
     MINIBLOG_FLAG = 'miniblog',//微博标识
     GUESTBOOK_FLAG = 'guestbook',//留言标识
     IS_OLD_IE = /msie (6|7|8)/i.test(navigator.userAgent),//IE6-8,不支持html5,比如<input required,<input type="url"等
-    _c = Math.random(),
+    jsVersion = 'v0.1',
     _hmt = [],
     _gaq = [];
 
@@ -55,7 +55,7 @@ seajs.config({//seajs配置
     plugins: ['shim'],
     base: System.sys_base_js_url,
     map: [
-        //['.js', System.IS_LOCAL ? '.js?' + _c : '.js']
+        [/\.js$/, '.js?' + jsVersion]
     ],
     alias: {
         lang: {//语言包
