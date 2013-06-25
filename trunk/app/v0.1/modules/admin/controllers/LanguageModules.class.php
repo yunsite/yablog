@@ -187,7 +187,7 @@ class LanguageModulesController extends CommonController {
             if (1 != $k && in_array($k, $pk_id)) {
                 $filename  = $path_arr[$v['parent_id']] . DS;
 
-                foreach ($lang_arr as $lang) {var_dump($filename . $lang . DS . $v['module_name']);
+                foreach ($lang_arr as $lang) {
                     F($filename . $lang . DS . $v['module_name'], null, LANG_PATH);
                 }
             }
