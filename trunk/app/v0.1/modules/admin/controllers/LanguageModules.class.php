@@ -39,6 +39,49 @@ class LanguageModulesController extends CommonController {
     );
 
     /**
+     * 添加/编辑后置操作
+     *
+     * @author          mrmsl <msl-138@163.com>
+     * @date            2013-06-25 11:29:23
+     *
+     * @return void 无返回值
+     */
+    protected function _afterCommonAddTreeData() {
+
+        if ($old_data = C('T_OLD_DATA')) {
+            $new_data       = C('T_NEW_DATA.parent_id');
+            $new_parent_id  = $new_data['parent_id'];
+            $old_parent_id  = $old_data['parent_id'];
+
+            if ($new_parent_id != $new_parent_id || $new_data[$this->_name_column] != $old_data[$this->_name_column]) {
+                $this->_deleteLanguageFile($v = array($new_parent_id, $old_parent_id));
+                C('T_MODULE_ID', $v);
+                $this->buildAction();
+            }
+        }
+    }
+
+    /**
+     * 删除后置操作
+     *
+     * @author          mrmsl <msl-138@163.com>
+     * @date            2013-06-25 10:37:43
+     *
+     * @param array $pk_id 主键值
+     *
+     * @return void 无返回值
+     */
+    protected function _afterDelete($pk_id) {
+        $this->_deleteLanguageFile($pk_id);
+
+        C(APP_FORWARD, true);
+        $this->forward('LanguageItems', 'create');
+        $build_data = $this->_getBuildData($pk_id);
+        $this->_buildScriptItems($build_data['js_data']);
+        $this->createAction();
+    }
+
+    /**
      * 生成语言项js文件
      *
      * @author          mrmsl <msl-138@163.com>
@@ -122,6 +165,88 @@ class LanguageModulesController extends CommonController {
         $this->_ajaxReturn(true, '', $data);
     }//end _combo
 
+
+
+    /**
+     * 删除语言项缓存
+     *
+     * @author          mrmsl <msl-138@163.com>
+     * @date            2013-06-25 12:50:14
+     *
+     * @param array $pk_id 主键值
+     *
+     * @return void 无返回值
+     */
+    private function _deleteLanguageFile($pk_id) {
+        $path_arr   = array_flip($this->_exclude_delete_id);
+        $lang_arr   = C('LANGUAGE_ARR');
+        $modules    = $this->_getCache();
+
+        foreach($modules as $k => $v) {
+
+            if (1 != $k && in_array($k, $pk_id)) {
+                $filename  = $path_arr[$v['parent_id']] . DS;
+
+                foreach ($lang_arr as $lang) {var_dump($filename . $lang . DS . $v['module_name']);
+                    F($filename . $lang . DS . $v['module_name'], null, LANG_PATH);
+                }
+            }
+        }
+    }
+
+    /**
+     * 获取生成语言项缓存数据
+     *
+     * @author          mrmsl <msl-138@163.com>
+     * @date            2013-06-25 10:42:11
+     *
+     * @param   array   $module_id    语言模块id,默认array()
+     *
+     * @return array 语言项数据,array('php_data' => $php_data, 'js_data' => $js_data)
+     */
+    private function _getBuildData($module_id = array()) {
+        $modules    = $this->_getCache();
+        $path_arr   = array_flip($this->_exclude_delete_id);
+        $lang_arr   = C('LANGUAGE_ARR');
+        $js_data    = array();//生成语言项js文件
+        $php_data   = array();//生成语言项php文件
+
+        foreach ($this->_getCache(0, 'LanguageItems') as $v) {
+            $_module_id = $v['module_id'];
+            $node_arr   = explode(',', $modules[$_module_id]['node']);
+            $first_node = $node_arr[0];
+            $filename   = $modules[$_module_id]['module_name'];
+
+            if (1 == $first_node) {
+                $whole_site = true;
+                $php_key    = '';
+                $js_key     = '';
+            }
+            else {
+                $whole_site = null;
+                $php_key = $path_arr[$first_node] . DS;
+                $js_key  = $path_arr[$first_node] . '.';
+            }
+
+            $var_name   = strtoupper($v['var_name']);
+
+            foreach ($lang_arr as $lang) {
+                $_v = '' === $v['var_value_' . $lang] ? $var_name : $v['var_value_' . $lang];
+
+                if ($module_id && in_array($_module_id, $module_id)) {
+                    $key = $php_key . $lang . (isset($whole_site) ? '' : DS . $filename);
+                    $php_data[$key][$var_name] = $_v;
+                }
+
+                if ($v['to_js']) {
+                    $js_data[$js_key . $lang][$var_name] = $_v;
+                }
+            }
+        }//end foreach
+
+        return array('php_data' => $php_data, 'js_data' => $js_data);
+    }//end _getBuildData
+
     /**
      * {@inheritDoc}
      */
@@ -150,23 +275,29 @@ class LanguageModulesController extends CommonController {
      * @return void 无返回值
      */
     public function buildAction() {
-        $module_id   = Filter::string($this->_pk_field);
-        $module_id   = 'all' == $module_id ? $this->_exclude_delete_id : map_int(Filter::string($this->_pk_field), true);
 
-        if (!$module_id) {
+        if ($t_module_id = C('T_MODULE_ID')) {//forward
+            $module_id = $t_module_id;
+        }
+        else {
+            $module_id   = Filter::string($this->_pk_field);
+        }
+
+        if (!$module_id && null === $t_module_id) {
             $this->_model->addLog(L('PRIMARY_KEY,DATA,IS_EMPTY'), LOG_TYPE_INVALID_PARAM);
             $this->_ajaxReturn(false, L('BUILD,LANGUAGE_ITEM,CACHE,FAILURE'));
         }
+
+        $module_id   = 'all' == $module_id ? $this->_exclude_delete_id : map_int($module_id, true);
 
         if ($intersect = array_intersect($this->_exclude_delete_id, $module_id)) {//是否包含1,2,3
 
             foreach ($intersect as $v) {
                 $module_id = array_merge($module_id, $this->_getChildrenIds($v, false, true));
             }
-
-            $module_id = array_unique($module_id);
         }
 
+        $module_id  = array_unique($module_id);
         $modules    = $this->_getCache();
         $error      = '';
         $log        = '';
@@ -183,59 +314,25 @@ class LanguageModulesController extends CommonController {
             }
         }
 
-
-        if (!$module_id) {
+        if (!$module_id && null === $t_module_id) {
             $this->_model->addLog(L('PRIMARY_KEY,DATA,IS_EMPTY'), LOG_TYPE_INVALID_PARAM);
             $this->_ajaxReturn(false, L('BUILD,LANGUAGE_ITEM,CACHE,FAILURE'));
         }
 
-        $path_arr   = array_flip($this->_exclude_delete_id);
-        $lang_arr   = C('LANGUAGE_ARR');
-        $js_data    = array();//生成语言项js文件
-        $php_data   = array();//生成语言项php文件
+        $data = $this->_getBuildData($module_id);
 
-        foreach ($this->_getCache(0, 'LanguageItems') as $v) {
-            $_module_id = $v['module_id'];
-            $node_arr   = explode(',', $modules[$_module_id]['node']);
-            $first_node = $node_arr[0];
-            $filename   = $modules[$_module_id]['module_name'];
-
-            if (1 == $first_node) {
-                $whole_site = true;
-                $php_key    = '';
-                $js_key     = '';
-            }
-            else {
-                $php_key = $path_arr[$first_node] . DS;
-                $js_key  = $path_arr[$first_node] . '.';
-            }
-
-            $var_name   = strtoupper($v['var_name']);
-
-            foreach ($lang_arr as $lang) {
-                $_v = '' === $v['var_value_' . $lang] ? $var_name : $v['var_value_' . $lang];
-
-                if (in_array($_module_id, $module_id)) {
-                    $key = $php_key . $lang . (isset($whole_site) ? '' : DS . $filename);
-                    $php_data[$key][$var_name] = $_v;
-                }
-
-                if ($v['to_js']) {
-                    $js_data[$js_key . $lang][$var_name] = $_v;
-                }
-            }
-        }//end foreach
-
-        foreach($php_data as $key => $content) {
+        foreach($data['php_data'] as $key => $content) {
             F($key, $content, LANG_PATH);
         }
 
-        $this->_buildScriptItems($js_data);
+        $this->_buildScriptItems($data['js_data']);
 
         $error && $this->triggerError(__METHOD__ . ': ' . __LINE__ . ',' . $error . L('NOT_EXIST'));
 
-        $this->_model->addLog(L('BUILD,LANGUAGE_ITEM,CACHE') . $log . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
-        $this->_ajaxReturn(true, L('BUILD,SUCCESS'));
+        if (null === $t_module_id) {
+            $this->_model->addLog(L('BUILD,LANGUAGE_ITEM,CACHE') . $log . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_ajaxReturn(true, L('BUILD,SUCCESS'));
+        }
     }//end buildAction
 
     /**
