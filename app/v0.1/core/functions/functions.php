@@ -239,8 +239,9 @@ function F($name, $value = '', $path = CACHE_PATH, $reload = false) {
     }
 
     //获取缓存数据
-    if (isset($_cache[$name]) && !$reload)
+    if (isset($_cache[$name]) && !$reload) {
         return $_cache[$name];
+    }
 
     if (is_file($filename)) {
         $value = include $filename;
