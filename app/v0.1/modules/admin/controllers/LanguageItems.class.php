@@ -14,6 +14,10 @@
 
 class LanguageItemsController extends CommonController {
     /**
+     * @var bool $_after_exec_cache true删除后调用CommonController->_setCache()生成缓存， CommonController->delete()会用到。默认true
+     */
+    protected $_after_exec_cache   = true;
+    /**
      * @var string $_name_column 名称字段 CommonController->delete()会用到。默认item_name
      */
     protected $_name_column        = 'var_name';
@@ -25,6 +29,31 @@ class LanguageItemsController extends CommonController {
         'info'     => 'add',//具体信息
         'show'     => 'add',//显示隐藏
     );
+
+    /**
+     * 删除后置操作
+     *
+     * @author          mrmsl <msl-138@163.com>
+     * @date            2013-06-25 10:07:35
+     *
+     * @param array $pk_id 主键值
+     *
+     * @return void 无返回值
+     */
+    protected function _afterDelete($pk_id) {
+        $items      = $this->_getCache();
+        $module_id  = array();
+
+        foreach($items as $k => $v) {
+
+            if (in_array($k, $pk_id)) {
+                $module_id[] = $v['module_id'];
+            }
+        }
+
+        C(array(APP_FORWARD => true, 'T_MODULE_ID' => $module_id));
+        $this->forward('LanguageModules', 'build');
+    }
 
     /**
      * {@inheritDoc}
@@ -81,18 +110,24 @@ class LanguageItemsController extends CommonController {
 
             $diff = $this->_dataDiff($item_info, $data, $diff_key);//差异
             $this->_model->addLog($msg . L('CONTROLLER_NAME')  . "{$item_info[$this->_name_column]}({$pk_value})." . $diff. L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
-            $this->_setCache()->_ajaxReturn(true, $msg . L('SUCCESS'));
+            $this->createAction();
+            C(array(APP_FORWARD => true, 'T_MODULE_ID' => array($data['module_id'], $item_info['module_id'])));
+            $this->forward('LanguageModules', 'build', array('all'));
+            $this->_ajaxReturn(true, $msg . L('SUCCESS'));
 
         }
         else {
-            $data = $this->_dataDiff($data, false, $diff_key);//数据
+            $diff = $this->_dataDiff($data, false, $diff_key);//数据
 
             if ($this->_model->add() === false) {//插入出错
-                $this->_sqlErrorExit($msg . L('CONTROLLER_NAME') . $data . L('FAILURE'), $error_msg);
+                $this->_sqlErrorExit($msg . L('CONTROLLER_NAME') . $diff . L('FAILURE'), $error_msg);
             }
 
-            $this->_model->addLog($msg . L('CONTROLLER_NAME') . $data . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
-            $this->_setCache()->_ajaxReturn(true, $msg . L('SUCCESS'));
+            $this->_model->addLog($msg . L('CONTROLLER_NAME') . $diff . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->createAction();
+            C(array(APP_FORWARD => true, 'T_MODULE_ID' => array($data['module_id'])));
+            $this->forward('LanguageModules', 'build', array('all'));
+            $this->_ajaxReturn(true, $msg . L('SUCCESS'));
         }
     }
 
