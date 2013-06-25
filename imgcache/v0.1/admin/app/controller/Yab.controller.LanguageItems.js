@@ -36,7 +36,7 @@ Ext.define('Yab.controller.LanguageItems', {
     listAction: function(data) {
         var me = this;
 
-        data.sort = data.sort || this.idProperty;//排序字段
+        data.sort = data.sort || 'sort_order';//排序字段
         data.order = data.order || 'ASC';//排序
         data.keyword = data.keyword || '';
         data.module_id = data.module_id || '';
@@ -115,7 +115,6 @@ Ext.define('Yab.controller.LanguageItems', {
         return [{
             text: lang('LANGUAGE_ITEM') + 'id',//表单域id
             width: 70,
-            sortable: true,
             dataIndex: this.idProperty
         }, {
             header: lang('LANGUAGE_ITEM_VAR_NAME'),//变量名
@@ -123,8 +122,7 @@ Ext.define('Yab.controller.LanguageItems', {
             dataIndex: this.nameColumn,
             renderer: function(v) {
                 return me.searchReplaceRenderer(v, me.nameColumn);
-            },
-            sortable: false
+            }
         }, {
             header: lang('LANGUAGE_MODULE'),//模块
             width: 120,
@@ -147,13 +145,13 @@ Ext.define('Yab.controller.LanguageItems', {
         }, {
             header: lang('MEMO'),//备注
             flex: 1,
-            dataIndex: 'memo'
+            dataIndex: 'memo',
+            sortable: false
         }, {
             header: lang('ORDER'),//排序
             dataIndex: 'sort_order',
             width: 50,
-            align: 'center',
-            sortable: false
+            align: 'center'
         }, {
             header: lang('TO_JS'),//生成js
             align: 'center',
@@ -411,7 +409,7 @@ Ext.define('Yab.controller.LanguageItems', {
              */
             sorters: { //排序，以防点击列表头部排序时，多余传参，出现不必要的错误
                 property : 'sort_order',
-                direction: 'DESC'
+                direction: 'ASC'
             },
             constructor: function(config) {
                 this.callParent([config || {}]);
