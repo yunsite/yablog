@@ -160,7 +160,7 @@ class CommonController extends BaseController {
         if (!empty($this->_name_column)) {//名称字段
             $data = $this->_getCache();//数据缓存
 
-            foreach($pk_id as $id) {//获取操作日志与删除(更新)指定缓存
+            foreach($pk_id as $k => $id) {//获取操作日志与删除(更新)指定缓存
 
                 if (isset($data[$id])) {
                     $info = $data[$id];
@@ -173,6 +173,9 @@ class CommonController extends BaseController {
                         unset($data[$id]);
                     }
                 }
+                else {
+                    unset($pk_id[$k]);
+                }
             }
 
             if (isset($is_admin_lock)) {//管理员锁定与不锁定
@@ -180,7 +183,7 @@ class CommonController extends BaseController {
             }
 
             $log = trim($log, ', ');
-
+            C('BEFORE_EXEC_DATA', $data);
             return $data;
         }
 
@@ -462,25 +465,28 @@ class CommonController extends BaseController {
             }
 
             unset($data[$pk_field]);
-            $data = $this->_dataDiff($data, false, $diff_key) . $extra_diff;//数据
+            $diff = $this->_dataDiff($data, false, $diff_key) . $extra_diff;//数据
 
             if (($insert_id = $this->_model->add()) === false) {//插入出错
-                $this->_sqlErrorExit($msg . L($module_key) . $data . L('FAILURE'), $error_msg);
+                $this->_sqlErrorExit($msg . L($module_key) . $diff . L('FAILURE'), $error_msg);
             }
 
-            $log_msg = $msg . L($module_key) . $data . L('SUCCESS');
+            $log_msg = $msg . L($module_key) . $diff . L('SUCCESS');
 
             //菜单专有，权限
             isset($is_menu) && $priv_id && $this->_model->setMenuPriv($insert_id, $priv_id);
         }
 
         $this->_model->setProperty('_data', array('parent_id' => $parent_id, $pk_field => $pk_value, 'insert_id' => $insert_id));
-        unset($data);
+        //unset($data);
         $this->_setLevelAndNode();
         $this->_model->commit()->addLog($log_msg, LOG_TYPE_ADMIN_OPERATE);//日志信息
         $this->createAction();
 
-        method_exists($this, '_afterCommonAddTreeData') && $this->_afterCommonAddTreeData();
+        if (method_exists($this, '_afterCommonAddTreeData')) {
+            C(array('T_NEW_DATA' => $data, 'T_OLD_DATA' => empty($info) ? array() : $info));
+            $this->_afterCommonAddTreeData();
+        }
 
         $this->_ajaxReturn(true, $msg . L('SUCCESS'));
     }//end _commonAddTreeData
@@ -695,16 +701,18 @@ class CommonController extends BaseController {
             elseif ($this->_model->where(array($this->_pk_field => array('IN', $pk_id)))->setField($field, $value) === false) {
                 $this->_sqlErrorExit($log . L('FAILURE'), $error_msg);
             }
+            else {
 
-            if (!empty($this->_after_exec_cache) && isset($data)) {
-                $this->_setCache($data);//生成缓存
+                if (!empty($this->_after_exec_cache) && isset($data)) {
+                    $this->_setCache($data);//生成缓存
+                }
+
+                method_exists($this, '_afterSetField') && $this->_afterSetField($field, $value, $pk_id);
+
+                $this->_model->addLog($log . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);//管理员操作日志
+
+                $this->_ajaxReturn(true, $msg . L('SUCCESS'));
             }
-
-            method_exists($this, '_afterSetField') && $this->_afterSetField($field, $value, $pk_id);
-
-            $this->_model->addLog($log . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);//管理员操作日志
-
-            $this->_ajaxReturn(true, $msg . L('SUCCESS'));
         }
         else {//非法参数
             empty($contain_exclude_setField_id) && $this->_model->addLog($msg . L('CONTROLLER_NAME,FAILURE') . '<br />' . L("INVALID_PARAM,%: {$this->_pk_field},IS_EMPTY"), LOG_TYPE_INVALID_PARAM);
@@ -934,16 +942,18 @@ class CommonController extends BaseController {
             elseif ($this->_model->where(array($this->_pk_field => array('IN', $pk_id)))->delete() === false) {
                 $this->_sqlErrorExit($log . L('FAILURE'), L('DELETE,FAILURE'));
             }
+            else {
 
-            method_exists($this, '_afterDelete') && $this->_afterDelete($pk_id);
+                method_exists($this, '_afterDelete') && $this->_afterDelete($pk_id);
 
-            if (!empty($this->_after_exec_cache) && isset($data)) {
-                $this->_setCache($data);//生成缓存
+                if (!empty($this->_after_exec_cache) && isset($data)) {
+                    $this->_setCache($data);//生成缓存
+                }
+
+                $this->_model->addLog($log . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);//管理员操作日志
+
+                $this->_ajaxReturn(true, L('DELETE,SUCCESS'));
             }
-
-            $this->_model->addLog($log . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);//管理员操作日志
-
-            $this->_ajaxReturn(true, L('DELETE,SUCCESS'));
         }
         else {
             //非法参数
