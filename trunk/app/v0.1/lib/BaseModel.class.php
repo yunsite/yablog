@@ -124,7 +124,7 @@ class BaseModel extends Model {
         $verifycode_setting = get_verifycode_setting($module);
 
         if (!$verifycode_setting['enable']) {//未开启验证码
-            $this->_checkVerifycode = true;//通过验证码检测
+            $this->_check_verifycode = true;//通过验证码检测
             return true;
         }
 
@@ -133,7 +133,7 @@ class BaseModel extends Model {
         }
 
         if (($checked = check_verifycode($code, $module)) === true) {//转至check_verifycode验证 by mrmsl on 2012-07-13 16:54:54
-            $this->_checkVerifycode = true;//通过验证码检测 by mrmsl on 2012-07-02 09:55:53
+            $this->_check_verifycode = true;//通过验证码检测 by mrmsl on 2012-07-02 09:55:53
             return true;
         }
 
