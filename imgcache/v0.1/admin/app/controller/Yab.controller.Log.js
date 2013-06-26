@@ -65,7 +65,7 @@ Ext.define('Yab.controller.Log', {
             [lang('LOG_TYPE_CRONTAB'), lang('CRONTAB')],
             [lang('LOG_TYPE_VALIDATE_FORM_ERROR'), lang('VALIDATE_FORM_ERROR')],
             [lang('LOG_TYPE_VERIFYCODE_ERROR'), lang('VERIFYCODE_ERROR')],
-            [lang('LOG_TYPE_LOAD_SCRIPT_TIME'), lang('LOG_TYPE_LOAD_SCRIPT_TIME')],
+            [lang('LOG_TYPE_SCRIPT_TIME'), lang('LOG_TYPE_LOAD_SCRIPT_TIME')],
             [lang('LOG_TYPE_SLOWQUERY'), lang('SLOWQUERY')],
             [lang('LOG_TYPE_ROLLBACK_SQL'), lang('ROLLBACK_SQL')],
         ]),
