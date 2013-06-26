@@ -18,12 +18,13 @@
  * @author          liu21st <liu21st@gmail.com>
  * @lastmodify      2013-01-22 16:48:17 by mrmsl
  *
- * @param mixed $name  配置名或配置数组。默认null
- * @param mixed $value 配置值。默认null
+ * @param mixed $name    配置名或配置数组。默认null
+ * @param mixed $value   配置值。默认null
+ * @param mixed $default 默认值。默认null
  *
  * @return mixed
  */
-function C($name = null, $value = null) {
+function C($name = null, $value = null, $default = null) {
     static $_config = array();
 
     if (empty($name)) {//无参数时获取所有
@@ -36,7 +37,7 @@ function C($name = null, $value = null) {
             $name = strtolower($name);
 
             if (null === $value) {
-                return isset($_config[$name]) ? $_config[$name] : null;
+                return isset($_config[$name]) ? $_config[$name] : $default;
             }
 
             $_config[$name] = $value;
@@ -49,7 +50,7 @@ function C($name = null, $value = null) {
         $name[0] = strtolower($name[0]);
 
         if (null === $value) {
-            return isset($_config[$name[0]][$name[1]]) ? $_config[$name[0]][$name[1]] : null;
+            return isset($_config[$name[0]][$name[1]]) ? $_config[$name[0]][$name[1]] : $default;
         }
 
         $_config[$name[0]][$name[1]] = $value;
@@ -61,7 +62,7 @@ function C($name = null, $value = null) {
         return $_config = array_merge($_config, array_change_key_case($name));
     }
 
-    return null;
+    return $default;
 }//end C
 
 /**
