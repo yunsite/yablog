@@ -68,7 +68,15 @@ Ext.define('Yab.controller.Log', {
             [lang('LOG_TYPE_SCRIPT_TIME'), lang('LOG_TYPE_LOAD_SCRIPT_TIME')],
             [lang('LOG_TYPE_SLOWQUERY'), lang('SLOWQUERY')],
             [lang('LOG_TYPE_ROLLBACK_SQL'), lang('ROLLBACK_SQL')],
-        ]),
+        ]);
+        var logType = {};
+
+        Ext.each(global('SYSTEM_LOG_ARR'), function(item) {
+            logType[item[0]] = item[1];
+        });
+
+        this.logType = logType;
+
         this.defineModel().defineStore();
     },
 
@@ -102,7 +110,7 @@ Ext.define('Yab.controller.Log', {
             dataIndex: this.idProperty
         }, {
             header: lang('LOG,CONTENT'),//日志内容
-            flex: 1,
+            flex: 5,
             minWidth: 300,
             dataIndex: 'content',
             sortable: false
@@ -110,6 +118,13 @@ Ext.define('Yab.controller.Log', {
             header: lang('LOG_PAGE'),//日志页面
             width: 300,
             dataIndex: 'page_url'
+        }, {
+            header: lang('LOG,TYPE'),//日志类型
+            width: 130,
+            dataIndex: 'log_type',
+            renderer: function(v, cls, record) {
+                return me.logType[record.get('log_type')];
+            }
         }, {
             header: lang('REFERER_PAGE'),//来源页面
             width: 200,
@@ -131,7 +146,7 @@ Ext.define('Yab.controller.Log', {
             renderer: this.renderDatetime,
             width: 140
         }, {//操作列
-            width: 100,
+            flex: 1,
             xtype: 'appactioncolumn',
             items: [
                 this.deleteColumnItem()//删除
@@ -263,7 +278,7 @@ Ext.define('Yab.controller.Log', {
              * @cfg {Array}
              * 字段
              */
-            fields: [this.idProperty, 'content', 'log_time', 'page_url', 'referer_url', 'user_ip', 'admin_name'],
+            fields: [this.idProperty, 'content', 'log_time', 'page_url', 'referer_url', 'user_ip', 'admin_name', 'log_type'],
             /**
              * @cfg {String}
              * 主键
