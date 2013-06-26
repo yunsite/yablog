@@ -81,7 +81,7 @@ class AdminController extends CommonController {
         $pk_value  = $this->_model->$pk_field;//管理员id
 
         $data      = $this->_model->getProperty('_data');//数据，$model->data 在save()或add()后被重置为array()
-        $diff_key  = 'username,realname,role_name,is_restrict,lock_start_time,lock_end_time,lock_memo' . ($this->_model->password ? ',password' : '');//比较差异字段 增加锁定字列by mrmsl on 2012-07-11 11:42:33
+        $diff_key  = 'username,realname,role_name,is_restrict,lock_start_time,lock_end_time,lock_memo,verify_code_order' . ($this->_model->password ? ',password' : '');//比较差异字段 增加锁定字列by mrmsl on 2012-07-11 11:42:33
         $msg       = L($pk_value ? 'EDIT' : 'ADD');//添加或编辑
         $log_msg   = $msg . L('CONTROLLER_NAME_ADMIN,FAILURE');//错误日志
         $error_msg = $msg . L('FAILURE');//错误提示信息

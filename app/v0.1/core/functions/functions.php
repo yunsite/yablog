@@ -1483,6 +1483,11 @@ function get_verifycode_setting($module, $index = '') {
 
         foreach ($key_arr as $k => $v) {
             $_v = sys_config($key . $k, $filename);
+
+            if ('order' == $k && 'module_admin' == $module && -1 !== intval(C('T_VERIFYCODE_ORDER'))) {//管理员后台登陆验证码顺序
+                $_v = C('T_VERIFYCODE_ORDER');
+            }
+
             $data[$module][$k] = $v == $_v ? $default[$k] : $_v;
         }
     }

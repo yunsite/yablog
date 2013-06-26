@@ -12,7 +12,10 @@
  * @lastmodify      $Date$ $Author$
  */
 
-class LoginModel extends CommonModel {
+class LoginModel extends CommonModel {/**
+     * @var bool $_patch_validate true批处理验证。默认false
+     */
+    protected $_patch_validate = false;
     /**
      * @var array $_db_fields
      * 数据表字段信息
@@ -23,9 +26,8 @@ class LoginModel extends CommonModel {
      * @see CommonModel.class.php __construct()方法设置自动验证字段_validate
      */
     protected $_db_fields = array (
-        '_verify_code' => array('validate' => '_checkVerifycode#PLEASE_ENTER,VERIFY_CODE#module_admin'),//验证码
-        'username'	   => array('validate' => '_checkUsername#PLEASE_ENTER,USERNAME'),//用户名
-        'password'	   => array('validate' => '_checkPassword#PLEASE_ENTER,PASSWORD#data'),//密码
+        'username'     => array('validate' => 'notblank#USERNAME'),//用户名
+        'password'     => array('validate' => '_checkPassword#PLEASE_ENTER,PASSWORD#data'),//密码
     );
 
     /**
@@ -94,11 +96,7 @@ class LoginModel extends CommonModel {
      */
     protected function _checkPassword($password, $data) {
 
-        if (!$this->_checkVerifycode || !$this->_checkUsername) {//未通过验证码检测，直接返回 by mrmsl on 2012-07-02 09:57:16
-            return true;
-        }
-
-        if ($password === '') {
+        if ('' === $password) {
             return false;
         }
 
@@ -120,7 +118,12 @@ class LoginModel extends CommonModel {
                     return $checkLock;
                 }
 
-                if ($this->_checkPasswordIsCorrect($admin_arr, $item, $password, $mac_address)) {//密码正确
+                $check_password = $this->_checkPasswordIsCorrect($admin_arr, $item, $password, $mac_address);//验证密码是否正确
+
+                if (is_string($check_password)) {//验证码
+                    return $check_password;
+                }
+                elseif (true === $check_password) {
                     return true;
                 }
 
@@ -150,6 +153,19 @@ class LoginModel extends CommonModel {
     private function _checkPasswordIsCorrect(&$admin_arr, $admin_info, $password, $mac_address) {
 
         if ($admin_info['password'] == $password) {//密码正确
+            $verifycode = Filter::string('_verify_code');
+
+            if ('' === $verifycode) {
+                return L('PLEASE_ENTER,VERIFY_CODE');
+            }
+
+            C('T_VERIFYCODE_ORDER', $admin_info['verify_code_order']);
+            $check_verifycode = $this->_checkVerifycode($verifycode, 'module_admin');
+
+            if (true !== $check_verifycode) {
+                return $check_verifycode;
+            }
+
             $admin_id = $admin_info['admin_id'];
             $user_ip  = get_client_ip();//登陆ip
             $time     = time();//登陆时间
@@ -184,30 +200,5 @@ class LoginModel extends CommonModel {
         }
 
         return false;
-    }
-
-    /**
-     * 验证用户名
-     *
-     * @author          mrmsl <msl-138@163.com>
-     * @date            2012-07-12 13:51:54
-     * @lastmodify      2013-01-22 11:49:11 by mrmsl
-     *
-     * @param string $username 用户名
-     *
-     * @return fool true用户名为空，否则true
-     */
-    protected function _checkUsername($username) {
-        if (!$this->_checkVerifycode) {//未通过验证码检测，直接返回 by mrmsl on 2012-07-12 13:53:41
-            return true;
-        }
-
-        if ($username === '') {
-            return false;
-        }
-
-        $this->_checkUsername = true;
-
-        return true;
-    }
+    }//end _checkPasswordIsCorrect
 }

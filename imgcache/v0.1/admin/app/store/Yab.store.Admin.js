@@ -17,7 +17,7 @@ Ext.define('Yab.model.Admin', {
      * @cfg {Array}
      * 字段
      */
-    fields: ['admin_id', 'username', 'realname', 'role_id', 'add_time', 'last_login_time', 'last_login_ip', 'logins', 'login_num', 'is_restrict', 'role_name', 'is_lock'],
+    fields: ['admin_id', 'username', 'realname', 'role_id', 'add_time', 'last_login_time', 'last_login_ip', 'logins', 'login_num', 'is_restrict', 'role_name', 'is_lock', 'verify_code_order'],
     /**
      * @cfg {String}
      * 主键

@@ -125,6 +125,7 @@ Ext.define('Yab.controller.Admin', {
      * @return {Array} 表单域
      */
     formField: function(data) {
+        global('app_labelWidth', 130);
         var me = this;
         var extField = Yab.Field.field();
 
@@ -151,6 +152,10 @@ Ext.define('Yab.controller.Admin', {
                 allowBlank: false,
                 blankText: lang('PLEASE_SELECT,BELONG_TO_ROLE')
             }),
+            extField.fieldContainer(['BACKEND,LOGIN,VERIFY_CODE_ORDER', [
+                [null, 'verify_code_order', 'PLEASE_ENTER,VERIFY_CODE_ORDER', '', '-1', {width: 120, maxLength: 10}],
+                lang('VERIFY_CODE_ORDER_TIP,%。<br />-1,MEAN,CN_QU') + '<a class="a-font-000" href="#' + me.getAction('module', 'admin') + '">' + lang('CONTROLLER_NAME_ADMIN,MODULE,VERIFY_CODE_ORDER') + '</a>'
+            ], false, {vertical: true}]),
             //绑定登陆
             extField.checkbox('is_restrict', data.is_restrict, 'CN_BANGDING,LOGIN', '%' + TEXT.gray(lang('CN_BANGDING_TIP'))),
             extField.fieldContainer('LOCK,TIME', [//锁定时间
@@ -180,14 +185,14 @@ Ext.define('Yab.controller.Admin', {
             dataIndex: this.idProperty
         }, {
             header: lang('USERNAME'),//用户名
-            width: 120,
+            width: 90,
             dataIndex: 'username',
             renderer: function(v) {
                 return me.searchReplaceRenderer(v, 'username');
             }
         }, {
             header: lang('REALNAME'),//真实姓名
-            width: 100,
+            width: 90,
             dataIndex: 'realname',
             renderer: function(v) {
                 return me.searchReplaceRenderer(v, 'realname');
@@ -195,7 +200,7 @@ Ext.define('Yab.controller.Admin', {
             sortable: false
         }, {
             header: lang('BELONG_TO_ROLE'),//所属角色
-            width: 120,
+            width: 90,
             dataIndex: 'role_name',
             sortable: false
         }, {
@@ -214,14 +219,19 @@ Ext.define('Yab.controller.Admin', {
             width: 120,
             sortable: false
         }, {
+            header: lang('BACKEND,LOGIN,VERIFY_CODE_ORDER'),//后台登陆验证码顺序
+            dataIndex: 'verify_code_order',
+            width: 120,
+            sortable: false
+        }, {
             header: lang('LOGIN,CN_CISHU'),//登陆次数
             dataIndex: 'login_num',
-            width: 80
+            width: 60
         }, {
             header: lang('CN_BANGDING,LOGIN'),//绑定登陆
             align: 'center',
             dataIndex: 'is_restrict',
-            width: 80,
+            width: 60,
             renderer: function(v) {
                 return me.renderYesNoImg(v, 'is_restrict');
             }
@@ -229,7 +239,7 @@ Ext.define('Yab.controller.Admin', {
             header: lang('LOCK'),//锁定
             align: 'center',
             dataIndex: 'is_lock',
-            width: 60,
+            width: 50,
             renderer: function(v) {
                 return me.renderYesNoImg(v, 'is_lock');
             }
