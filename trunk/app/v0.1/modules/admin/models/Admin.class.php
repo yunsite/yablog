@@ -67,6 +67,7 @@ class AdminModel extends CommonModel {
         //确认密码，_开头，不会入库
         '_password_confirm' => array('validate' => array('_checkPassword#PLEASE_ENTER,CONFIRM_PASSWORD#data|1', '_checkLength#CONFIRM_PASSWORD#value|6|16')),
         '_old_password'     => null,//原密码，修改密码是用到 by mrmsl on 2012-07-13 17:55:11
+        'verify_code_order' => array('validate' => array('notblank#VERIFY_CODE_ORDER', '_checkLength#VERIFY_CODE_ORDER#value|0|10')),
     );
 
     /**

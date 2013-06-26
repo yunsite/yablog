@@ -44,3 +44,7 @@ CREATE TABLE tb_language_items(
 
 ALTER TABLE `tb_language_items`
 ADD CONSTRAINT `tb_language_items_ibfk_1` FOREIGN KEY (`module_id`) REFERENCES `tb_language_modules` (`module_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+/*管理员表 增加 verify_code_order验证码顺序字段*/
+ALTER TABLE tb_admin ADD COLUMN verify_code_order char(10) NOT NULL DEFAULT '' COMMENT '后台登陆验证码顺序';
+UPDATE tb_admin SET verify_code_order=4312

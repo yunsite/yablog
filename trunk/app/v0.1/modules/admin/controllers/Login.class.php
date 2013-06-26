@@ -66,7 +66,7 @@ class LoginController extends CommonController {
             $this->logLoadTimeAction()->_ajaxReturn(true);
         }
         else {
-            $this->_ajaxReturn(false, str_replace('<br />', ', ', $result));
+            $this->_ajaxReturn(false, $result);
         }
     }
 

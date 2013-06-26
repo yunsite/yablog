@@ -1,6 +1,6 @@
 <?php
 //后台自动生成，请毋修改
-//最后更新时间:2013-06-24 18:08:47
+//最后更新时间:2013-06-26 12:03:24
 
 return array (
   'ADD' => 'ADD',
@@ -140,4 +140,5 @@ return array (
   'YES' => 'YES',
   'YOU_CONFIRM' => 'YOU_CONFIRM',
   'ZERO_UN_LIMIT' => 'ZERO_UN_LIMIT',
+  'BACKEND' => 'BACKEND',
 );
