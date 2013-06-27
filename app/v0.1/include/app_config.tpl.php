@@ -69,6 +69,7 @@ define('E_APP_SQL'            , 'E_APP_SQL');      //SQL
 define('E_APP_ROLLBACK_SQL'   , 'E_APP_ROLLBACK_SQL');      //事务回滚SQL
 
 //日志类型
+define('LOG_TYPE_ALL'                 , -1);//全部日志
 define('LOG_TYPE_SQL_ERROR'           , 0); //sql错误
 define('LOG_TYPE_SYSTEM_ERROR'        , 1); //系统错误
 define('LOG_TYPE_ADMIN_OPERATE'       , 2); //管理员操作日志

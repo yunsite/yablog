@@ -21,7 +21,7 @@ Ext.define('Yab.controller.Log', {
      */
     queryField: 'sort,order,date_start,date_end,keyword,log_type,page,match_mode',//查询字段 by mrmsl on 2012-07-27 16:15:37
     logTypeArr: {//日志类型
-        all: ['-1', lang('ALL,LOG')],//全部
+        all: [lang('LOG_TYPE_ALL'), lang('ALL,LOG')],//全部
         admin: [lang('LOG_TYPE_ADMIN_OPERATE'), lang('ADMIN_LOG')],//管理员操作日志
         sql: [lang('LOG_TYPE_SQL_ERROR'), lang('SQL_ERROR')],//sql错误
         system: [lang('LOG_TYPE_SYSTEM_ERROR'), lang('SYSTEM,ERROR')],//系统错误
@@ -49,7 +49,7 @@ Ext.define('Yab.controller.Log', {
      * @return {void} 无返回值
      */
     __call: function(data) {
-        data.log_type = this.logTypeArr[data.action] ? this.logTypeArr[data.action][0] : -1;
+        data.log_type = this.logTypeArr[data.action] ? this.logTypeArr[data.action][0] : lang('LOG_TYPE_ALL');
 
         this.listAction(data);
     },
