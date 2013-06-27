@@ -69,7 +69,6 @@ define('E_APP_SQL'            , 'E_APP_SQL');      //SQL
 define('E_APP_ROLLBACK_SQL'   , 'E_APP_ROLLBACK_SQL');      //事务回滚SQL
 
 //日志类型
-define('LOG_TYPE_ALL'                 , -1);//所有日志
 define('LOG_TYPE_SQL_ERROR'           , 0); //sql错误
 define('LOG_TYPE_SYSTEM_ERROR'        , 1); //系统错误
 define('LOG_TYPE_ADMIN_OPERATE'       , 2); //管理员操作日志
@@ -82,7 +81,7 @@ define('LOG_TYPE_VERIFYCODE_ERROR'    , 8); //验证码错误
 define('LOG_TYPE_LOAD_SCRIPT_TIME'    , 9); //css及js加载时间
 define('LOG_TYPE_SLOWQUERY'           , 10);//慢查询
 define('LOG_TYPE_ROLLBACK_SQL'        , 11);//事务回滚sql
-define('LOG_TYPE_EMAIL'               , 12);//邮件发送错误
+define('LOG_TYPE_EMAIL_FAILURE'       , 12);//邮件发送错误
 
 //发送邮件类型
 define('MAIL_TYPE_MISC'                 , 0);//其它类型
