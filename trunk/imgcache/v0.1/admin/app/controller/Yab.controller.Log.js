@@ -20,6 +20,22 @@ Ext.define('Yab.controller.Log', {
      * 查询字段
      */
     queryField: 'sort,order,date_start,date_end,keyword,log_type,page,match_mode',//查询字段 by mrmsl on 2012-07-27 16:15:37
+    logTypeArr: {//日志类型
+        all: ['-1', lang('ALL,LOG')],//全部
+        admin: [lang('LOG_TYPE_ADMIN_OPERATE'), lang('ADMIN_LOG')],//管理员操作日志
+        sql: [lang('LOG_TYPE_SQL_ERROR'), lang('SQL_ERROR')],//sql错误
+        system: [lang('LOG_TYPE_SYSTEM_ERROR'), lang('SYSTEM,ERROR')],//系统错误
+        permission: [lang('LOG_TYPE_NO_PERMISSION'), lang('NOT_HAS,PERMISSION')],//无权限
+        param: [lang('LOG_TYPE_INVALID_PARAM'), lang('INVALID_PARAM')],//非法参数
+        adminLogin: [lang('LOG_TYPE_ADMIN_LOGIN_INFO'), lang('ADMIN_LOGIN_LOG')],//后台登陆日志
+        crontab: [lang('LOG_TYPE_CRONTAB'), lang('CRONTAB')],//定时任务
+        form: [lang('LOG_TYPE_VALIDATE_FORM_ERROR'), lang('VALIDATE_FORM_ERROR')],//表单自动验证错误
+        verifyCode: [lang('LOG_TYPE_VERIFYCODE_ERROR'), lang('VERIFYCODE_ERROR')],//验证码错误
+        loadScriptTime: [lang('LOG_TYPE_LOAD_SCRIPT_TIME'), lang('LOG_LOAD_SCRIPT_TIME')],//加载css及js时间记录
+        slowquery: [lang('LOG_TYPE_SLOWQUERY'), lang('SLOWQUERY')],//慢查询
+        rollbackSql: [lang('LOG_TYPE_ROLLBACK_SQL'), lang('ROLLBACK_SQL')],//事务回滚sql
+        emailFailure: [lang('LOG_TYPE_EMAIL_FAILURE'), lang('SEND,CN_YOUJIAN,ERROR')]//发送邮件错误
+    },
 
     /**
      * 类似php魔术方法，引用不存在的方法时调用
@@ -33,47 +49,20 @@ Ext.define('Yab.controller.Log', {
      * @return {void} 无返回值
      */
     __call: function(data) {
-
-        var hackAction =  {
-            admin: lang('LOG_TYPE_ADMIN_OPERATE'),//管理员操作日志
-            adminLogin: lang('LOG_TYPE_ADMIN_LOGIN_INFO'),//后台登陆日志
-            crontab: lang('LOG_TYPE_CRONTAB'),//定时任务
-            form: lang('LOG_TYPE_VALIDATE_FORM_ERROR'),//表单自动验证错误
-            loadScriptTime: lang('LOG_TYPE_SCRIPT_TIME'),//加载css及js时间记录
-            param: lang('LOG_TYPE_INVALID_PARAM'),//非法参数
-            permission: lang('LOG_TYPE_NO_PERMISSION'),//无权限
-            sql: lang('LOG_TYPE_SQL_ERROR'),//sql错误
-            system: lang('LOG_TYPE_SYSTEM_ERROR'),//系统错误
-            verifyCode: lang('LOG_TYPE_VERIFYCODE_ERROR'),//验证码错误
-            slowquery: lang('LOG_TYPE_SLOWQUERY'),//慢查询 by mrmsl on 2012-09-13 13:04:57
-            rollbackSql: lang('LOG_TYPE_ROLLBACK_SQL')//事务回滚sql by mrmsl on 2013-02-07 14:38:50
-        };
-        data.log_type = hackAction[data.action];
+        data.log_type = this.logTypeArr[data.action] ? this.logTypeArr[data.action][0] : -1;
 
         this.listAction(data);
     },
 
     constructor: function() {//构造函数
-        global('SYSTEM_LOG_ARR', [
-            [lang('LOG_TYPE_ALL'), lang('ALL,LOG')],
-            [lang('LOG_TYPE_ADMIN_OPERATE'), lang('ADMIN_LOG')],
-            [lang('LOG_TYPE_SQL_ERROR'), lang('SQL_ERROR')],
-            [lang('LOG_TYPE_SYSTEM_ERROR'), lang('SYSTEM,ERROR')],
-            [lang('LOG_TYPE_NO_PERMISSION'), lang('NOT_HAS,PERMISSION')],
-            [lang('LOG_TYPE_INVALID_PARAM'), lang('INVALID_PARAM')],
-            [lang('LOG_TYPE_ADMIN_LOGIN_INFO'), lang('ADMIN_LOGIN_LOG')],
-            [lang('LOG_TYPE_CRONTAB'), lang('CRONTAB')],
-            [lang('LOG_TYPE_VALIDATE_FORM_ERROR'), lang('VALIDATE_FORM_ERROR')],
-            [lang('LOG_TYPE_VERIFYCODE_ERROR'), lang('VERIFYCODE_ERROR')],
-            [lang('LOG_TYPE_SCRIPT_TIME'), lang('LOG_TYPE_LOAD_SCRIPT_TIME')],
-            [lang('LOG_TYPE_SLOWQUERY'), lang('SLOWQUERY')],
-            [lang('LOG_TYPE_ROLLBACK_SQL'), lang('ROLLBACK_SQL')],
-        ]);
-        var logType = {};
+        var systemLogArr = [], logType = [];
 
-        Ext.each(global('SYSTEM_LOG_ARR'), function(item) {
+        Ext.Object.each(this.logTypeArr, function(index, item) {
             logType[item[0]] = item[1];
+            systemLogArr.push(item);
         });
+
+        global('SYSTEM_LOG_ARR', systemLogArr);
 
         this.logType = logType;
 
