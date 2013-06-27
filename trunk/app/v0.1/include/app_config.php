@@ -1,7 +1,7 @@
 <?php
 /**
  * 项目常量定义模板，修改此文件后，后台修改网站基本信息，重新生成后生效。生成对应文件为app_config.php
- * 后台自动生成，请毋修改。最后更新时间: 2013-06-27 12:46:31
+ * 后台自动生成，请毋修改。最后更新时间: 2013-06-27 12:52:34
  *
  * @file            app_config.tpl
  * @package         Yab
@@ -10,7 +10,7 @@
  * @license         http://www.apache.org/licenses/LICENSE-2.0.html Apache License 2.0
  * @author          mrmsl <msl-138@163.com>
  * @date            2013-05-04 08:41:37
- * @lastmodify      2013-06-27 12:46:31
+ * @lastmodify      2013-06-27 12:52:34
  */
 
 //核心配置
@@ -69,6 +69,7 @@ define('E_APP_SQL'            , 'E_APP_SQL');      //SQL
 define('E_APP_ROLLBACK_SQL'   , 'E_APP_ROLLBACK_SQL');      //事务回滚SQL
 
 //日志类型
+define('LOG_TYPE_ALL'                 , -1);//全部日志
 define('LOG_TYPE_SQL_ERROR'           , 0); //sql错误
 define('LOG_TYPE_SYSTEM_ERROR'        , 1); //系统错误
 define('LOG_TYPE_ADMIN_OPERATE'       , 2); //管理员操作日志
