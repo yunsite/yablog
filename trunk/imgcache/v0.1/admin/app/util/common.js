@@ -376,6 +376,42 @@ function extCombo() {
 }
 
 /**
+ * 格式化字节大小
+ *
+ * @member window
+ *
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-06-28 13:05:31
+ *
+ * @param {Number} filesize  文件大小，单位：字节
+ * @param {Number} [precision=2] 小数点数
+ *
+ * @return string 带单位的文件大小
+ */
+function formatSize(filesize, precision) {
+    var unit;
+
+    if (filesize >= 1073741824) {
+        filesize = Math.round(filesize / 1073741824 * 100) / 100;
+        unit     = 'GB';
+    }
+    else if (filesize >= 1048576) {
+        filesize = Math.round(filesize / 1048576 * 100) / 100 ;
+        unit     = 'MB';
+    }
+    else if(filesize >= 1024) {
+        filesize = Math.round(filesize / 1024 * 100) / 100;
+        unit     = 'KB';
+    }
+    else {
+        filesize = filesize;
+        unit     = 'Bytes';
+    }
+
+    return '' + toFixed(filesize) + ' ' + unit;;
+}
+
+/**
  * 计算执行时间，类似thinkphp G函数
  *
  * @member window
