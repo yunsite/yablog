@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title><?php echo L('LOGIN_TITLE'); ?></title>
+    <title><?php echo L('LOGIN_TITLE') . TITLE_SEPARATOR . L('BACKEND,MANAGE_CENTER') . TITLE_SEPARATOR . sys_config('sys_base_web_title'); ?></title>
     <?php echo $css_file, $js_file; ?>
     <script type="text/javascript" src="<?php echo ADMIN_IMGCACHE; ?>app/util/override.js"></script>
     <script type="text/javascript">
