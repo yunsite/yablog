@@ -3,11 +3,13 @@
  *
  * @author          mashanling(msl-138@163.com)
  * @date            2011-09-17
- * @last modify     2012-09-22 12:45:34 by mashanling
+ * @lastmodify      2013-06-29 18:05:50 by mashanling
  */
 
-#div-header-content { color: #fff; margin: 10px 0 0 8px; }
-
+#div-header-content { color: #fff; padding: 10px 8px 0; }
+#div-header-content strong { font-weight: bold; }
+#div-header-content span { float: right; }
+#div-header-content a{ color: #fff; text-decoration: underline; }
 a { color: #000; text-decoration: none; }
 a.a-font-000 {color: #000; text-decoration: underline;}
 a.a-font-000:hover {color: #096DD1; text-decoration: none;}

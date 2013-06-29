@@ -77,7 +77,8 @@
         <input type="hidden" id="x-history-field" />
     </form>
     <div id="div-header-content" class="x-hide-display">
-        <!--<strong>网站后台管理中心</strong>-->
+        <span><?php echo L('HELLO'), ',', $admin_info['realname'], ' [', $role_info['role_name'], ']'; ?> | <a href="<?php echo BASE_SITE_URL; ?>" target="_blank"><?php echo L('WEBSITE,HOME'); ?></a> | <a href="<?php echo WEB_ADMIN_ENTRY; ?>/login/logout">退出</a> </span>
+        <strong><?php echo L('BACKEND,MANAGE_CENTER'); ?></strong>
     </div>
 </body>
 </html>
