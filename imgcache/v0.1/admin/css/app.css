@@ -278,6 +278,9 @@ img.img-yesno { cursor: pointer; }
   width: 20px;
 }
 
+/* 查看文件日志 */
+h1.viewlog { font-size: 16px; height: 30px; line-height: 30px; }
+div.viewlog { line-height: 20px; }
 
  /* 通用样式  */
 a.link:link,
