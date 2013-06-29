@@ -81,7 +81,7 @@ class LoginController extends CommonController {
      */
     public function logoutAction() {
         session(SESSION_ADMIN_KEY, null);
-        $this->_redirect('login');
+        $this->_redirect(WEB_ADMIN_ENTRY . '/login', '');
     }
 
     /**

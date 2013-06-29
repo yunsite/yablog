@@ -39,6 +39,7 @@ class IndexController extends CommonController {
         }
 
         $admin_priv = strtolower(json_encode(array_values($this->_role_info['priv'])));
+        $role_info  = $this->_getCache($admin_info['role_id'], 'Role');
         //css文件
         $css_file  = $this->_loadTimeScript('START_TIME');//,extjs/v4.1.1/resources/css/ext-patch.css
         $css_file .= css('extjs/v4.1.1a//resources/css/ext-all-gray.css,extjs/v4.1.1a/resources/css/ext-patch.css', COMMON_IMGCACHE);
