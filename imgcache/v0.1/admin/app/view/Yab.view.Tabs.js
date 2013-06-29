@@ -226,7 +226,7 @@ Ext.define('Yab.view.Tabs', {
             href: '#',
             controller: 'index',
             active: 'active',
-            text: lang('MANAGE_CENTER'),
+            text: lang('BACKEND,MANAGE_CENTER'),
         });
 
         var tpl = '<div style="width: ' + this.maxTabWidth + 'px" class="apptab{[values.active ? (" active") : ""]}">' +

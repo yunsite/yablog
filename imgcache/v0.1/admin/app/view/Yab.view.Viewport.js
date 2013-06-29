@@ -91,6 +91,9 @@ Ext.define('Yab.view.Viewport', {
             document.title = this.cache[controller + action] ? (this.cache[controller + action].replace(lang('EDIT'), lang('ADD')) + System.sys_show_title_separator + this.origTitle) : this.origTitle;
         }
 
-        Yab.cmp.card.setTitle(document.title.split(System.sys_show_title_separator).reverse().join(System.sys_show_bread_separator));//主面板标题 by mrmsl on 2012-12-03 13:21:49
+        var title = document.title.split(System.sys_show_title_separator);
+        title.pop();
+        title = title.reverse().join(System.sys_show_bread_separator);
+        Yab.cmp.card.setTitle(title);//主面板标题 by mrmsl on 2012-12-03 13:21:49
     }//end setPageTitle
 });
