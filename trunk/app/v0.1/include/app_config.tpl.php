@@ -19,7 +19,7 @@ define('DS'                 , '/');      //路径分割符
 define('ADMIN_ID'           , 1);        //不可删除站长id
 define('ADMIN_ROLE_ID'      , 1);        //不可删除，不可编辑权限站长角色id
 
-define('ALLOW_AUTO_OPERATION_FUNCTION'  , ',time,get_client_ip,get_user_id,');//自动填充允许使用函数
+define('ALLOW_AUTO_OPERATION_FUNCTION'  , ',time,get_client_ip,get_user_id,trim,');//自动填充允许使用函数
 define('ALLOW_AUTO_VALIDATE_FUNCTION'   , ',validate_dir,');                  //自动验证允许使用函数
 
 //项目路径定义

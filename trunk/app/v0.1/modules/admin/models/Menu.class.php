@@ -171,6 +171,7 @@ class MenuModel extends CommonModel {
      */
     public function setMenuPriv($menu_id, $role_id) {
         if (!$role_id) {//无权限，直接删除
+            $this->getDb()->execute('DELETE s FROM ' . TB_SHORTCUT . ' AS s,' . TB_ADMIN . ' AS a,' . TB_ADMIN_ROLE . " AS r WHERE s.admin_id=a.admin_id AND a.role_id=r.role_id AND s.menu_id={$menu_id} AND a.role_id!=" . ADMIN_ROLE_ID);
             $this->table(TB_ADMIN_ROLE_PRIV)->where('menu_id=' . $menu_id)->delete();
         }
         else {
@@ -179,6 +180,8 @@ class MenuModel extends CommonModel {
             $priv_arr    = $this->_module->diffMenuPriv($menu_data ? array_keys($menu_data['priv']) : '', $role_id);
 
             if ($delete = $priv_arr['delete']) {//删除的
+                $role_id = join(',', $delete);
+                $this->getDb()->execute('DELETE s FROM ' . TB_SHORTCUT . ' AS s,' . TB_ADMIN . ' AS a,' . TB_ADMIN_ROLE . " AS r WHERE s.admin_id=a.admin_id AND a.role_id=r.role_id AND a.role_id IN({$role_id}) AND s.menu_id={$menu_id} AND a.role_id!=" . ADMIN_ROLE_ID);
 
                 if ($role_data) {
 

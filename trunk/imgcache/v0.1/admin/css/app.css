@@ -231,6 +231,8 @@ a.a-font-000:hover {color: #096DD1; text-decoration: none;}
     background: none repeat scroll 0 0 #E3E3E3;
 }
 
+.x-tool-more img { background: url(images/more.gif); width: 37px; height: 13px;}
+
 .txt-username { padding-left: 18px; background: url(images/icon_user.png) no-repeat left center; }
 .txt-password { padding-left: 18px; background: url(images/icon_password.png) no-repeat left center; }
 .txt-code { background: url(); }

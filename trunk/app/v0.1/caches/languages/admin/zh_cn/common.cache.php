@@ -1,6 +1,6 @@
 <?php
 //后台自动生成，请毋修改
-//最后更新时间:2013-06-26 12:03:24
+//最后更新时间:2013-07-03 22:15:44
 
 return array (
   'ADD' => '添加',
@@ -141,4 +141,8 @@ return array (
   'YOU_CONFIRM' => '您确定要',
   'ZERO_UN_LIMIT' => '0表示不限制',
   'BACKEND' => '后台',
+  'MY_PERSONAL_INFO' => '我的个人信息',
+  'SHORTCUT' => '快捷方式',
+  'BELONG_TO_MENU' => '所属菜单',
+  'ADDITIONAL_PARAM' => '附加参数',
 );

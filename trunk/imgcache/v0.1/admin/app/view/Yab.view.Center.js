@@ -28,7 +28,7 @@ Ext.define('Yab.view.Center', {
         defaults: {
             bodyStyle: 'border: none',
         },
-        title: lang('MANAGE_CENTER'),
+        title: lang('BACKEND,MANAGE_CENTER'),
         layout: {
             type: 'card',
             deferredRender: true
