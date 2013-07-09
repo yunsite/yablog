@@ -1,7 +1,7 @@
 <?php
 /**
  * 项目常量定义模板，修改此文件后，后台修改网站基本信息，重新生成后生效。生成对应文件为app_config.php
- * 后台自动生成，请毋修改。最后更新时间: 2013-06-27 12:52:34
+ * 后台自动生成，请毋修改。最后更新时间: 2013-07-08 22:52:19
  *
  * @file            app_config.tpl
  * @package         Yab
@@ -10,7 +10,7 @@
  * @license         http://www.apache.org/licenses/LICENSE-2.0.html Apache License 2.0
  * @author          mrmsl <msl-138@163.com>
  * @date            2013-05-04 08:41:37
- * @lastmodify      2013-06-27 12:52:34
+ * @lastmodify      2013-07-08 22:52:19
  */
 
 //核心配置
@@ -19,7 +19,7 @@ define('DS'                 , '/');      //路径分割符
 define('ADMIN_ID'           , 1);        //不可删除站长id
 define('ADMIN_ROLE_ID'      , 1);        //不可删除，不可编辑权限站长角色id
 
-define('ALLOW_AUTO_OPERATION_FUNCTION'  , ',time,get_client_ip,get_user_id,');//自动填充允许使用函数
+define('ALLOW_AUTO_OPERATION_FUNCTION'  , ',time,get_client_ip,get_user_id,trim,');//自动填充允许使用函数
 define('ALLOW_AUTO_VALIDATE_FUNCTION'   , ',validate_dir,');                  //自动验证允许使用函数
 
 //项目路径定义

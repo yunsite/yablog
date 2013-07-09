@@ -930,16 +930,21 @@ class CommonController extends BaseController {
         $this->_model->startTrans();
 
         if ($pk_id) {
-            $log  = '';//操作日志
-            $data = $this->_beforeExec($pk_id, $log);
-            $log  = L('DELETE,CONTROLLER_NAME') . $log;
+            $log    = '';//操作日志
+            $data   = $this->_beforeExec($pk_id, $log);
+            $log    = L('DELETE,CONTROLLER_NAME') . $log;
+            $where  = array($this->_pk_field => array('IN', $pk_id));
+
+            if ('Shortcut' == CONTROLLER_NAME) {
+                $where['admin_id'] = $this->_admin_info['admin_id'];
+            }
 
             if (!$pk_id) {
                 $this->_model->addLog(L('DELETE,CONTROLLER_NAME,FAILURE') . '<br />' . L("INVALID_PARAM,%: {$this->_pk_field},IS_EMPTY"), LOG_TYPE_INVALID_PARAM);
                 $this->_ajaxReturn(false, L('DELETE,FAILURE'));
             }
             //删除出错
-            elseif ($this->_model->where(array($this->_pk_field => array('IN', $pk_id)))->delete() === false) {
+            elseif ($this->_model->where($where)->delete() === false) {
                 $this->_sqlErrorExit($log . L('FAILURE'), L('DELETE,FAILURE'));
             }
             else {

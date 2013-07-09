@@ -48,3 +48,19 @@ ADD CONSTRAINT `tb_language_items_ibfk_1` FOREIGN KEY (`module_id`) REFERENCES `
 /*管理员表 增加 verify_code_order验证码顺序字段*/
 ALTER TABLE tb_admin ADD COLUMN verify_code_order char(10) NOT NULL DEFAULT '' COMMENT '后台登陆验证码顺序';
 UPDATE tb_admin SET verify_code_order=4312
+
+/* 新建快捷方式表 */
+DROP TABLE IF EXISTS `tb_shortcut`;
+CREATE TABLE `tb_shortcut` (
+  `short_id` smallint(4) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `menu_id` smallint(3) unsigned NOT NULL DEFAULT '0' COMMENT '所属菜单',
+  `admin_id` smallint(3) unsigned NOT NULL DEFAULT '0' COMMENT '管理员id',
+  additional_param char(100) NOT NULL DEFAULT '',
+  `sort_order` smallint(3) unsigned NOT NULL DEFAULT '0' COMMENT '排序,越小越靠前',
+  `memo` char(60) NOT NULL DEFAULT '' COMMENT '备注',
+  PRIMARY KEY (`short_id`),
+  UNIQUE KEY (`admin_id`,`menu_id`, additional_param)
+) ENGINE=InnoDB DEFAULT CHARSET=gbk COMMENT='快捷方式表 by mashanling on 2013-07-03 21:55:22';
+ALTER TABLE `tb_shortcut`
+ADD CONSTRAINT `tb_shortcut_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `tb_admin` (`admin_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `tb_shortcut_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `tb_menu` (`menu_id`) ON DELETE CASCADE ON UPDATE CASCADE;

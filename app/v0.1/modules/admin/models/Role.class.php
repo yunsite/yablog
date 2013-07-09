@@ -110,6 +110,7 @@ class RoleModel extends CommonModel {
     public function setRolePriv($role_id, $menu_id) {
 
         if (!$menu_id) {//无权限，直接删除
+            $this->getDb()->execute('DELETE s FROM ' . TB_SHORTCUT . ' AS s,' . TB_ADMIN . ' AS a,' . TB_ADMIN_ROLE . " AS r WHERE s.admin_id=a.admin_id AND a.role_id=r.role_id AND a.role_id={$role_id} AND a.role_id!=" . ADMIN_ROLE_ID);
             $this->table(TB_ADMIN_ROLE_PRIV)->where('role_id=' . $role_id)->delete();
         }
         else {
@@ -117,6 +118,8 @@ class RoleModel extends CommonModel {
             $priv_arr    = $this->_module->diffRolePriv($role_data ? array_keys($role_data['priv']) : '', $menu_id);
 
             if ($delete = $priv_arr['delete']) {//删除的
+                $menu_id = join(',', $delete);
+                $this->getDb()->execute('DELETE s FROM ' . TB_SHORTCUT . ' AS s,' . TB_ADMIN . ' AS a,' . TB_ADMIN_ROLE . " AS r WHERE s.admin_id=a.admin_id AND a.role_id=r.role_id AND a.role_id={$role_id} AND s.menu_id IN({$menu_id}) AND a.role_id!=" . ADMIN_ROLE_ID);
                 $this->table(TB_ADMIN_ROLE_PRIV)->where(array('role_id' => $role_id, 'menu_id' => array('IN', $delete)))->delete();
             }
 

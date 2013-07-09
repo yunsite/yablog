@@ -1,6 +1,6 @@
 <?php
 //后台自动生成，请毋修改
-//最后更新时间:2013-06-26 12:03:24
+//最后更新时间:2013-07-03 22:15:44
 
 return array (
   'ADD' => 'ADD',
@@ -141,4 +141,8 @@ return array (
   'YOU_CONFIRM' => 'YOU_CONFIRM',
   'ZERO_UN_LIMIT' => 'ZERO_UN_LIMIT',
   'BACKEND' => 'BACKEND',
+  'MY_PERSONAL_INFO' => 'MY_PERSONAL_INFO',
+  'SHORTCUT' => 'SHORTCUT',
+  'BELONG_TO_MENU' => 'BELONG_TO_MENU',
+  'ADDITIONAL_PARAM' => 'ADDITIONAL_PARAM',
 );
