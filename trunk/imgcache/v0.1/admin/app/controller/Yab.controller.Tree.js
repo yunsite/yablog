@@ -63,6 +63,7 @@ Ext.define('Yab.controller.Tree', {
      * @return {void} 无返回值
      */
     init: function() {
+        var me = this;
         this.control({
             apptree: {
                 afterrender: function(b) {//菜单完成渲染
@@ -81,6 +82,75 @@ Ext.define('Yab.controller.Tree', {
                     if (!record.isLeaf() && record.get('action') == '#') {//枝
                         record.isExpanded() ? record.collapse() : record.expand();
                     }
+                },
+                itemcontextmenu: function(view, record, item, index, e) {//右键
+                    e.stopEvent();
+                    var open, expand, collapse;
+
+                    if (record.isLeaf() || record.get('action') != '#') {//叶或操作方法不为#
+                        var open = true;
+                    }
+
+                    if (!record.isLeaf() && record.get('action') == '#') {//枝
+
+                        if (record.isExpanded()) {
+                            collapse = true;
+                        }
+                        else {
+                            expand = true;
+                        }
+                    }
+
+                    var menuItems = [];
+
+                    menuItems.push({
+                        text: lang('OPEN'),//打开
+                        disabled: !open,
+                        handler: function() {
+                            view.fireEvent('itemclick', view, record);
+                        }
+                    }, {
+                        text: lang('OPEN_IN_NEW_WINDOW'),//在新窗口中打开
+                        disabled: !open,
+                        handler: function() {
+                            window.open(record.get('href'));
+                        }
+                    }, {
+                        text: lang('EXPAND'),//展开
+                        disabled: !expand,
+                        handler: function() {
+                            view.fireEvent('itemclick', view, record);
+                        }
+                    }, {
+                        text: lang('COLLAPSE'),//折叠
+                        disabled: !collapse,
+                        handler: function() {
+                            view.fireEvent('itemclick', view, record);
+                        }
+                    }, {
+                        text: lang('ADD,TO,SHORTCUT'),//添加至快捷方式
+                        disabled: !open,
+                        handler: function() {
+                            me.commonAction({
+                                action: me.getActionUrl('shortcut', 'add'),
+                                data: 'additional_param=&memo=&menu_id=' + record.get('menu_id') + '&short_id=&sort_order=-1'
+                            });
+                        }
+                    });
+
+                    checkPriv('menu', 'add') && menuItems.push({//编辑菜单
+                        text: lang('EDIT'),
+                        handler: function() {
+                            Yab.History.push('controller=menu&action=add&menu_id=' + record.get('menu_id'));
+                        }
+                    });
+
+                    this._menu && this._menu.destroy();
+                    this._menu = Ext.create('Ext.menu.Menu', {
+                        items: menuItems
+                    });
+
+                    this._menu.showAt(e.getXY());
                 },
                 collapse: function(view) {//收缩事件 by mrmsl on 2012-11-26 13:30:23
                     view.fireEvent('resizetabs', 0);
