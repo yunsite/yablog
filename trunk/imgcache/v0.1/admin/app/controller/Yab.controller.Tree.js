@@ -89,6 +89,16 @@ Ext.define('Yab.controller.Tree', {
 
                     if (record.isLeaf() || record.get('action') != '#') {//叶或操作方法不为#
                         var open = true;
+
+                        if (!record.isLeaf()) {
+
+                            if (record.isExpanded()) {
+                                collapse = true;
+                            }
+                            else {
+                                expand = true;
+                            }
+                        }
                     }
 
                     if (!record.isLeaf() && record.get('action') == '#') {//枝
