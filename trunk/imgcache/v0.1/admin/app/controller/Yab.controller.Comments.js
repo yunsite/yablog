@@ -340,7 +340,46 @@ Ext.define('Yab.controller.Comments', {
         data.page = intval(data.page) || 1;//页
 
         var options = {
-            //onItemContextMenu: function () {log('onItemContextMenu', arguments);},
+            onItemContextMenu: function(view, record, item, index, e) {//右键
+                e.stopEvent();
+
+                this._menu && this._menu.destroy();
+                this._menu = Ext.create('Ext.menu.Menu', {
+                    items: [{//查看与回复
+                        text: lang('CN_CHAKAN,CN_YU,REPLY'),
+                        handler: function () {
+                            Yab.History.push('controller=comments&action=view&comment_id={0}&add_time={1}&back={2}'.format(record.get(me.idProperty), record.get('add_time'), encodeURIComponent(location.href)));
+                        }
+                    }, {//通过
+                        text: lang('PASS'),
+                        handler: function() {
+                            me.auditing(record, 1);
+                        }
+                    }, {//不通过
+                        text: lang('NO,PASS'),
+                        handler: function() {
+                            me.auditing(record, 2)
+                        }
+                    }, {//未审核
+                        text: lang('CN_WEI,AUDITING'),
+                        handler: function() {
+                            me.auditing(record, 1);
+                        }
+                    }, {//重新获取ip地区
+                        text: lang('AFRESH,GET,%ip,AREA'),
+                        handler: function() {
+                            me.afreshIp(record);
+                        }
+                    }, {//删除
+                        text: lang('DELETE'),
+                        handler: function () {
+                            me['delete'](record, lang('CN_CI,' + (0 == record.get('type') ? 'GUESTBOOK' : 'COMMENT')));
+                        }
+                    }]
+                });
+
+                this._menu.showAt(e.getXY());
+            },
             onItemClick: function(view, record, element, index, event) {//列表点击事件
                 //me.listitemclick(record, event, 'is_restrict');
                 //me.listitemclick(record, event, 'is_lock');//锁定 by mrmsl on 2012-09-05 17:35:48
