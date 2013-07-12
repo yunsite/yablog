@@ -870,15 +870,15 @@ Ext.define('Yab.controller.Base', {
      * @protected
      *
      * @param {String} v      值
-     * @param {String} column 字段
+     * @param {String} [column] 字段
      *
      * @return {String} 搜索关键字标红的字段值
      */
-    searchReplaceRenderer: function(v, column) {
+    searchReplaceRenderer: function(v, column, stripTags) {
         var data = Ext.Object.fromQueryString(Ext.History.getToken());
 
-        if (data.keyword && data.column == column) {
-            return v.replace(new RegExp('(' + data.keyword + ')', 'gi'), '<span style="color: red">$1</span>')
+        if (data.keyword && [data.column == column || !column]) {
+            return (stripTags ? strip_tags(v) : v).replace(new RegExp('(' + data.keyword + ')', 'gi'), '<span style="color: red">$1</span>')
         }
 
         return v;

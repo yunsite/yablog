@@ -203,7 +203,7 @@ Ext.define('Yab.controller.Comments', {
             renderer: function (v, cls, record) {
                 var data = Ext.Object.fromQueryString(Ext.History.getToken());
 
-                return data.keyword && 'content' == data.column ? me.searchReplaceRenderer(strip_tags(v), 'content') : (record.get('parent_id') > 0 ? v.replace('@<a class="link"', '@<a class="link" onclick="return false"') : v);
+                return data.keyword && 'content' == data.column ? me.searchReplaceRenderer(v, 'content', true) : (record.get('parent_id') > 0 ? v.replace('@<a class="link"', '@<a class="link" onclick="return false"') : v);
             },
             sortable: false
         }, {
