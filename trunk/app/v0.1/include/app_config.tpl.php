@@ -37,6 +37,7 @@ define('LANG_PATH'          , CACHE_PATH . 'languages/');     //项目语言包�
 define('VIEW_PATH'          , APP_PATH . 'views/');         //模板目录
 define('SSI_PATH'           , WWWROOT . 'ssi/');         //ssi服务器端包含目录
 define('IMGCACHE_PATH'      , YAB_PATH . 'imgcache/');//imgcache静态资源目录
+define('UPLOAD_PATH'        , IMGCACHE_PATH . VERSION_PATH . 'upload' . DS);//上传路径
 define('APP_FORWARD'        , 'APP_FORWARD');               //Yaf_Controller_Abstract::forward标识
 define('FRONT_MODULE_NAME'  , 'front');//前台模块名称
 
