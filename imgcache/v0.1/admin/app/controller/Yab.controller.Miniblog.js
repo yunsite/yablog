@@ -42,7 +42,7 @@ Ext.define('Yab.controller.Miniblog', {
             return me.superclass.addAction.apply(this, [data, options]);
         }
 
-        seajs.use(['ueditor', 'ueditorConfig'], function() {
+        seajs.use(USE_UEDITOR, function() {
             Ext.require('Yab.ux.Ueditor', function () {
                 me.ueditor = true;
                 me.superclass.addAction.apply(this, [data, options]);
@@ -94,8 +94,8 @@ Ext.define('Yab.controller.Miniblog', {
             header: lang('CONTENT'),//内容
             flex: 1,
             dataIndex: 'content',
-            renderer: function(v) {
-                return me.searchReplaceRenderer(v, 'content');
+            renderer: function(v, cls, record) {
+                return '<a href="{0}" target="_blank" class="link">{1}</a>'.format(record.get('link_url'), me.searchReplaceRenderer(v, null, true));
             }
         }, {
             header: lang('ADD,TIME'),//添加时间
@@ -118,7 +118,7 @@ Ext.define('Yab.controller.Miniblog', {
                 return a + '/' + b;
             }
         }, {//操作列
-            width: 150,
+            width: 170,
             xtype: 'appactioncolumn',
             items: [{//编辑
                 renderer: function(v, meta, record) {
@@ -159,7 +159,7 @@ Ext.define('Yab.controller.Miniblog', {
         data.date_start = data.date_start || '';
         data.date_end = data.date_end || '';
         data.keyword = data.keyword || '';
-        data.match_mode = data.match_mode || 'eq';//匹配模式
+        data.match_mode = data.match_mode || 'like';//匹配模式
         data.page = intval(data.page) || 1;//页
 
         this.callParent([data]);//通用列表
@@ -306,7 +306,7 @@ Ext.define('Yab.controller.Miniblog', {
              * @cfg {Array}
              * 字段
              */
-            fields: [this.idProperty, 'content', 'add_time', 'hits', 'comments', 'total_comments'],
+            fields: [this.idProperty, 'content', 'add_time', 'hits', 'comments', 'total_comments', 'link_url'],
             /**
              * @cfg {String}
              * 主键

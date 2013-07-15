@@ -1,7 +1,7 @@
 <?php
 /**
  * 项目常量定义模板，修改此文件后，后台修改网站基本信息，重新生成后生效。生成对应文件为app_config.php
- * 后台自动生成，请毋修改。最后更新时间: 2013-07-08 22:52:19
+ * 后台自动生成，请毋修改。最后更新时间: 2013-07-13 22:42:56
  *
  * @file            app_config.tpl
  * @package         Yab
@@ -10,7 +10,7 @@
  * @license         http://www.apache.org/licenses/LICENSE-2.0.html Apache License 2.0
  * @author          mrmsl <msl-138@163.com>
  * @date            2013-05-04 08:41:37
- * @lastmodify      2013-07-08 22:52:19
+ * @lastmodify      2013-07-13 22:42:56
  */
 
 //核心配置
@@ -37,6 +37,7 @@ define('LANG_PATH'          , CACHE_PATH . 'languages/');     //项目语言包�
 define('VIEW_PATH'          , APP_PATH . 'views/');         //模板目录
 define('SSI_PATH'           , WWWROOT . 'ssi/');         //ssi服务器端包含目录
 define('IMGCACHE_PATH'      , YAB_PATH . 'imgcache/');//imgcache静态资源目录
+define('UPLOAD_PATH'        , IMGCACHE_PATH . VERSION_PATH . 'upload' . DS);//上传路径
 define('APP_FORWARD'        , 'APP_FORWARD');               //Yaf_Controller_Abstract::forward标识
 define('FRONT_MODULE_NAME'  , 'front');//前台模块名称
 
