@@ -352,3 +352,34 @@
         //  }
     };
 })();
+
+
+window.UEDITOR_CONFIG = Ext.Object.merge(window.UEDITOR_CONFIG, {
+    imageUrl: System.sys_base_admin_entry + '/upload/ueditorUploadImage',  //图片上传提交地址
+    imagePath: System.sys_base_common_imgcache.replace('common/', 'v0.1/') + 'upload/',//图片修正地址
+    //imageFieldName: 'file',
+
+    //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
+    toolbars: [
+        ['fullscreen', 'source', '|',
+        'undo', 'redo', '|',
+            'bold', 'italic', 'underline', 'strikethrough', '|',
+            'fontfamily', 'fontsize', '|',
+            'indent', 'justifyleft', 'justifycenter', 'justifyright', '|',
+            'link', 'unlink', 'insertimage', 'emotion', '|',
+            'highlightcode', 'preview'
+        ]
+    ],
+
+    //,initialStyle:'body{font-size:18px}'   //编辑器内部样式,可以用来改变字体等
+
+    //,emotionLocalization:false //是否开启表情本地化，默认关闭。若要开启请确保emotion文件夹下包含官网提供的images表情文件夹
+
+
+
+    //scaleEnabled
+
+    scaleEnabled:false,  //是否可以拉伸长高,默认true(当开启时，自动长高失效)
+
+    nothing: null
+});
