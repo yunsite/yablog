@@ -130,20 +130,43 @@ class Image_Upload extends Image_Image {
      * @return bool true在允许范围内，否则false
      */
     private function _checkMimeType() {
+        $check_file = empty($this->_uploaded_check_mime_type) ? $this->_uploaded_file['tmp_name'] : $this->_uploaded_file['pathname'];
 
         if (class_exists('finfo', false)) {
             $finfo      = new finfo(FILEINFO_MIME_TYPE);
-            $mime_type  = $finfo->file($this->_uploaded_file['tmp_name']);
+            $mime_type  = $finfo->file($check_file);
+        }
+        //图片
+        elseif(in_array($this->_uploaded_file['extension'], array('jpg', 'jpeg', 'gif', 'png'))) {
+            $image_info = getimagesize($check_file);
+
+            if ($image_info) {
+                $mime_type  = $image_info['mime'];
+            }
+            else {
+                return false;
+            }
         }
         else {
-            $mime_type  = $this->_uploaded_file['type'];
+            $mime_type  = $this->_uploaded_file[empty($this->_uploaded_check_mime_type) ? 'type' : 'mime_type'];
         }
 
         $this->_setFileinfo('mime_type', $mime_type);
 
-        return in_array($mime_type, $this->_allow_mime_types);
+        if (in_array($mime_type, $this->_allow_mime_types)) {
+            $this->_uploaded_check_mime_type = null;
+            return true;
+        }
+        //ueditor上传，mime_type=application/octet-stream,默认通过验证，上传后，再验证已经上传文件的类型 by mrmsl on 2013-07-15 22:34:53
+        elseif (empty($this->_uploaded_check_mime_type) && 'application/octet-stream' == $mime_type && defined('REFERER_PAGER') && strpos(REFERER_PAGER, 'imageUploader.swf')) {
+            $this->_uploaded_check_mime_type = true;
+            return true;
+        }
 
-    }
+        $this->_uploaded_check_mime_type = null;
+
+        return false;
+    }//end _checkMimeType
 
     /**
      * 检查文件是否上传成功
@@ -273,7 +296,7 @@ class Image_Upload extends Image_Image {
             }
         }
 
-        if (function_exists('L') && L('UPLOAD_ERR_NO_FILE')) {//存在语言包
+        if (function_exists('L') && 'UPLOAD_ERR_NO_FILE' != L('UPLOAD_ERR_NO_FILE')) {//存在语言包
             $this->_error = array(
                 //1，上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值
                 UPLOAD_ERR_INI_SIZE => L('UPLOAD_ERR_INI_SIZE'),
@@ -370,18 +393,20 @@ class Image_Upload extends Image_Image {
             $filename = $this->_resetName();//文件重命名
             $pathname = $upload_dir . $filename;//文件完整路径名
 
+            $this->_setFileinfo('pathname', $pathname)->_setFileinfo('filename', $filename);
+
             if (!move_uploaded_file($this->_uploaded_file['tmp_name'], $pathname)) {//移动文件失败
                 $this->_setFileinfo('errstr', $this->_error['UPLOAD_ERR_MOVED_FAILED']);
+            }
+            elseif (!empty($this->_uploaded_check_mime_type) && !$this->_checkMimeType()) {
+                $error = sprintf($this->_error['UPLOAD_ERR_MIME_TYPE_NOT_ALLOW'], join('、', $this->_allow_mime_types), $this->_uploaded_file['mime_type']);
+                $this->_setFileinfo('errstr', $error);
             }
             elseif ($this->_set_water && (true !== ($result = $this->water($pathname)))) {//添加水印失败
                 $this->_setFileinfo('errstr', $this->_error[$result]);
             }
-            else {
-                if ($this->_max_width && $this->_max_height) {//等比例缩放图片
-                    $this->resize($pathname, $this->_max_width, $this->_max_height);
-                }
-
-                $this->_setFileinfo('pathname', $pathname)->_setFileinfo('filename', $filename);
+            elseif ($this->_max_width && $this->_max_height) {//等比例缩放图片
+                $this->resize($pathname, $this->_max_width, $this->_max_height);
             }
         }
 
