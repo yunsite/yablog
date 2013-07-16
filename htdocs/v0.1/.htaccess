@@ -21,7 +21,7 @@ RewriteRule ^(index|category|miniblog|tag|guestbook)(/page/([2-9]|[1-9]\d+))?\.s
 RewriteRule ^(category|tag)/([^/]+)(/page/([2-9]|[1-9]\d+))?\.shtml$ yabindex\.php/category/index?name=$2&page=$4&flag=$1 [L]
 
 #blog/20130417/100.shtml,miniblog/20130417/100.shtml
-RewriteRule ^(blog|miniblog)/(201[3-9]\d{2}\d{2})/([1-9]\d*)\.shtml$ yabindex\.php/$1/detail?date=$2&id=$3 [L]
+RewriteRule ^(blog|miniblog)/(20\d{2}\d{2}\d{2})/([1-9]\d*)\.shtml$ yabindex\.php/$1/detail?date=$2&id=$3 [L]
 </IfModule>
 
 ErrorDocument 404 /v0.1/404.shtml

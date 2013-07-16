@@ -91,24 +91,6 @@ class BlogController extends CommonController {
      * @return void 无返回值
      */
     public function addAction() {
-        /*$tags      = $this->_model->field('seo_keyword,blog_id,title')->select();
-$values = '';
-        foreach ($tags as $v) {
-
-            if ($t = trim($v['seo_keyword'])) {
-                $id = $v['blog_id'];
-                $arr = explode(strpos($t, ' ') ? ' ' : ',', $t);
-                $arr = array_unique($arr);
-                foreach ($arr as $a) {
-                    $values .= $a ? ",({$id},'" . addslashes($a) . "')" : '';
-                }
-            }
-        }
-
-        if ($values) {
-            var_dump($this->_model->execute('INSERT INTO ' . TB_TAG . '(blog_id,tag) VALUES ' . substr($values, 1)));
-        }
-exit;*/
         $check     = $this->_model->checkCreate();//自动创建数据
 
         $check !== true && $this->_ajaxReturn(false, $check);//未通过验证
@@ -344,4 +326,87 @@ exit;*/
     public function publicDeleteHtmlAction($build_arr = array()) {
         $this->_deleteBlogHtml($build_arr);
     }
+
+    /**
+     * 测试
+     *
+     * @author          mrmsl <msl-138@163.com>
+     * @date            2013-07-16 11:52:29
+     *
+     * @return void 无返回值
+     */
+    public function testAction() {
+        !APP_DEBUG && exit('Access Denied');
+        set_time_limit(0);
+
+        $model  = $this->_model;
+        $db     = $model->getDb();
+
+        if (isset($_GET['getIp'])) {//重新获取ip地址信息
+            static $ip_result = array();$c = '';
+
+            $comment_arr = $model->field('user_ip,comment_id')->table('tb_comments')->select();
+
+            foreach($comment_arr as $comment_info) {
+                $user_ip = $comment_info['user_ip'];
+
+                if (isset($ip_result[$user_ip])) {
+                    $data = $ip_result[$user_ip];
+                }
+                else {
+
+                    $ip_info = get_ip_info($user_ip);//ip地址信息
+
+                    if (is_array($ip_info)) {
+                        $data = array(
+                            'province'  => $ip_info[0],
+                            'city'      => $ip_info[1],
+                        );
+                    }
+                    else {
+                        $data = array('city' => $ip_info);
+                    }
+
+                    $ip_result[$user_ip] = $data;
+                }
+
+                $db->update($data, array('table' => TB_COMMENTS, 'where' => 'comment_id=' . $comment_info['comment_id']));
+            }
+
+            return;
+        }//end if
+
+        $model->startTrans();
+
+        $blog_arr   = $model->table('tb_blog_laruence')->order('add_time ASC')->select();
+
+        foreach($blog_arr as $blog_info) {
+            $blog_id = $blog_info['blog_id'];
+            unset($blog_info['blog_id']);
+            $blog_info['title'] = html_entity_decode($blog_info['title']);
+            $blog_info['content'] = trim($blog_info['content']);
+            $blog_info['summary'] = trim($blog_info['summary']);
+
+            if ($db->insert($blog_info, array('table' => TB_BLOG))) {
+                $insert_id = $model->getLastInsertID();
+                $model->save(array($this->_pk_field => $insert_id, 'link_url' => BASE_SITE_URL . 'blog/' . date('Ymd/', $blog_info['add_time']) . $insert_id . C('HTML_SUFFIX')));
+                $model->addTags($insert_id, $blog_info['seo_keyword']);
+
+                //评论
+                $comment_arr = $model->table('tb_comments_laruence')->order('add_time ASC')->where('blog_id=' . $blog_id)->select();
+
+                foreach($comment_arr as $comment_info) {
+                    unset($comment_info['comment_id']);
+                    $comment_info['username'] = htmlspecialchars_decode($comment_info['username'], ENT_QUOTES);
+                    $comment_info['user_ip'] = sprintf('%u', ip2long($comment_info['node']));
+                    $comment_info['blog_id'] = $insert_id;
+                    $db->insert($comment_info, array('table' => TB_COMMENTS));
+                }
+            }
+        }
+
+        $db->query('UPDATE ' . TB_COMMENTS . ' SET node=comment_id');
+
+        $model->commit();
+    }//end testAction
 }
