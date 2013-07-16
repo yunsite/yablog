@@ -356,7 +356,10 @@
 
 window.UEDITOR_CONFIG = Ext.Object.merge(window.UEDITOR_CONFIG, {
     imageUrl: System.sys_base_admin_entry + '/upload/ueditorUploadImage',  //图片上传提交地址
-    imagePath: System.sys_base_common_imgcache.replace('common/', 'v0.1/') + 'upload/',//图片修正地址
+    imagePath: System.sys_base_upload_imgcache,//图片修正地址
+    imageManagerUrl: System.sys_base_admin_entry + '/upload/ueditorImageManager',      //图片在线管理的处理地址
+    imageManagerPath: System.sys_base_upload_imgcache,//图片修正地址
+    catchRemoteImageEnable: false,               //是否开启远程图片抓取
     //imageFieldName: 'file',
 
     //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
