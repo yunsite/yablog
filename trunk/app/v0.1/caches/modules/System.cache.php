@@ -1,6 +1,6 @@
 <?php
 //后台自动生成，请毋修改
-//最后更新时间:2013-06-20 17:28:31
+//最后更新时间:2013-07-16 22:56:21
 
 return array (
   'sys_base_domain' => 'www.yablog.cn',
@@ -16,6 +16,7 @@ return array (
   'sys_base_common_imgcache' => 'http://imgcache.yablog.cn/common/',
   'sys_base_admin_imgcache' => 'http://imgcache.yablog.cn/v0.1/admin/',
   'sys_base_js_url' => 'http://imgcache.yablog.cn/v0.1/front/js/',
+  'sys_base_upload_imgcache' => 'http://imgcache.yablog.cn/v0.1/upload/',
   'sys_base_css_url' => 'http://imgcache.yablog.cn/v0.1/front/css/',
   'sys_base_img_url' => 'http://imgcache.yablog.cn/v0.1/front/images/',
   'sys_seo_description' => 'seo描述',

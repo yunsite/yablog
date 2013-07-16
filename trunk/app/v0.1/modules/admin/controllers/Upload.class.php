@@ -13,6 +13,38 @@
  */
 
 class UploadController extends CommonController {
+    /**
+     * @var bool $_auto_check_priv true自动检测权限。默认false
+     */
+    protected $_auto_check_priv = false;
+
+    /**
+     * ueditor在线图片管理
+     *
+     * @author          mrmsl <msl-138@163.com>
+     * @date            2013-07-16 21:56:18
+     *
+     * @return void 无返回值
+     */
+    public function ueditorImageManagerAction() {
+        require(CORE_PATH . 'functions/dir.php');
+
+        $file_arr   = list_dir(UPLOAD_PATH);
+        $str        = '';
+
+        if ($file_arr) {
+            rsort($file_arr, SORT_STRING);
+
+            foreach ( $file_arr as $file ) {
+
+                if (preg_match('/\.(gif|jpeg|jpg|png|bmp)$/i', $file)) {
+                    $str .= $file . 'ue_separate_ue';
+                }
+            }
+        }
+
+        exit(str_replace(dir_path(UPLOAD_PATH), '', $str));
+    }
 
     /**
      * ueditor上传图片操作
