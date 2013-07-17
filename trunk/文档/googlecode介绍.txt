@@ -1,31 +1,41 @@
 yablog，yet another blog，又一个博客。
 
 ==简介==
-yablog是一个简单,轻巧的博客系统,基于*[http://www.php.net/manual/zh/book.yaf.php yaf]* + *[http://www.thinkphp.cn/ thinkphp核心思想]*开发，前台*[http://twitter.github.io/bootstrap/ bootstrap]*，后台*[http://www.sencha.com/products/extjs/ extjs4]*。
+yablog是一个简单、轻巧、快速的博客系统，基于*[http://www.php.net/manual/zh/book.yaf.php yaf]* + *[http://www.thinkphp.cn/ thinkphp核心思想]*开发，前台*[http://twitter.github.io/bootstrap/ bootstrap]*，后台*[http://www.sencha.com/products/extjs/ extjs4]*。
+    
 ==特性==
-  * *MVC模式，面向对象编码*
-  * *基于[http://www.php.net/manual/zh/book.yaf.php yaf框架]*
-    # 用C语言开发的PHP框架。
-    # 所有的框架类，不需要编译，在PHP启动的时候加载，并常驻内存。
-    # 更短的内存周转周期，提高内存利用率，降低内存占用率。
-    # 灵巧的自动加载，支持全局和局部两种加载规则，方便类库共享。
-    # 高性能的视图引擎。
-    # 高度灵活可扩展的框架，支持自定义视图引擎，支持插件, 支持自定义路由等等。
-    # 内建多种路由，可以兼容目前常见的各种路由协议。
-    # 强大而又高度灵活的配置文件支持，并支持缓存配置文件，避免复杂的配置结构带来的性能损失。
-    # 在框架本身，对危险的操作习惯做了禁止。
-    # 更快的执行速度，更少的内存占用。
-  * *基于[http://www.thinkphp.cn/ thinkphp核心思想]*
-    # 编译机制：独创的项目编译机制，有效减少OOP开发中文件加载的性能开销。改进后的项目编译机制，可以支持编译文件直接作为入口载入。
-    # 查询语言：内建丰富的查询机制，包括组合查询、快捷查询、复合查询、区间查询、统计查询、定位查询、多表查询、子查询、动态查询和原生查询，让你的数据查询简洁高效。
-    # AJAX支持：内置和客户端无关的AJAX数据返回方法，支持JSON、XML和EVAL类型返回客户端，而且可以扩展返回数据格式，系统不绑定任何AJAX类库，可随意使用自己熟悉的AJAX类库进行操作。
-    # 多语言支持：系统支持语言包功能，项目和分组都可以有单独的语言包，并且可以自动检测浏览器语言自动载入对应的语言包。
-    # 自动验证和完成：自动验证和完成：自动完成表单数据的验证和过滤，配合自动完成可以生成安全的数据对象。
-  * *前台[http://twitter.github.io/bootstrap/ bootstrap]*
-    # 丰富的Web组件，包括下拉菜单、按钮组、按钮下拉菜单、导航、导航条、面包屑、分页、排版、缩略图、警告对话框、进度条、媒体对象等
-    # 自定义jQuery插件，包括模式对话框、标签页、滚动条、弹出框等
-    # 支持 HTML5 里面的新元素
-    # 强力支持CSS3的效果
-    # 基于 less 的可定制的css样式代码
-  * *后台[http://www.sencha.com/products/extjs/ extjs4]*
-    # 丰富强大的UI界面
+  * 基于*[http://www.php.net/manual/zh/book.yaf.php yaf框架]*，配置灵活、路由自动分发、多模块支持、占用内存更少、执行速度更快。
+  * 基于*[http://www.thinkphp.cn/ thinkphp核心思想]*，独创的项目编译、丰富的查询机制、多语言支持、表单数据自动检测和过滤，入库数据自动验证和填充。
+    [http://img2.ph.126.net/rMISuy2dBwoAclYe_hzX3w==/3271302179431436381.jpg http://img2.ph.126.net/rMISuy2dBwoAclYe_hzX3w==/3271302179431436381.jpg]
+  * 前台*[http://twitter.github.io/bootstrap/ bootstrap]*，丰富的组件、灵活的布局、html5和css3支持、基于less的可定制的css代码。
+    [http://img1.ph.126.net/v-lOHXyJk_N8EfbTBpXf5A==/6597785548727838319.jpg http://img1.ph.126.net/v-lOHXyJk_N8EfbTBpXf5A==/6597785548727838319.jpg]    [http://img2.ph.126.net/omnd5MHKh8mJ1EnMyRbicQ==/3140416315260834941.jpg http://img2.ph.126.net/omnd5MHKh8mJ1EnMyRbicQ==/3140416315260834941.jpg]
+  * 后台*[http://www.sencha.com/products/extjs/ extjs4]*，丰富友好的UI界面、强大的组件功能、ajax异步无刷新操作、浏览器历史支持。
+    [http://img1.ph.126.net/V65jsXpPBnSjMlYKXgamdA==/6597223698286522348.jpg http://img1.ph.126.net/V65jsXpPBnSjMlYKXgamdA==/6597223698286522348.jpg]
+    [http://img2.ph.126.net/T5ckf5T7XHBVbim_A8Esfg==/2100929226268383323.jpg http://img2.ph.126.net/T5ckf5T7XHBVbim_A8Esfg==/2100929226268383323.jpg]
+    [http://img1.ph.126.net/7aBUwkw2pPFCQUxzkSzNEA==/6598123098797345413.jpg http://img1.ph.126.net/7aBUwkw2pPFCQUxzkSzNEA==/6598123098797345413.jpg]
+    [http://img1.ph.126.net/EuwDT0gMY4uIeApvMlwZFA==/6597814136030165440.jpg http://img1.ph.126.net/EuwDT0gMY4uIeApvMlwZFA==/6597814136030165440.jpg]
+    [http://img2.ph.126.net/DjDdQqsi6kvGMqnMyKBrlQ==/6597659104890640316.jpg http://img2.ph.126.net/DjDdQqsi6kvGMqnMyKBrlQ==/6597659104890640316.jpg]
+  * 简单、轻巧、快速。
+  * MVC模式，面向对象编程。
+  * 良好的代码规范，易读、易懂、易开发。
+    [http://img2.ph.126.net/0tsK19557BBIv525iUGPpQ==/3892235978055106640.jpg http://img2.ph.126.net/0tsK19557BBIv525iUGPpQ==/3892235978055106640.jpg]
+    [http://img0.ph.126.net/TB_Lp-dZ-SAxmn-slbFGVA==/6597708582913885491.jpg http://img0.ph.126.net/TB_Lp-dZ-SAxmn-slbFGVA==/6597708582913885491.jpg]
+    [http://img0.ph.126.net/O0DzrvdMwlie6Byx4w4HzQ==/3139571890330711341.jpg http://img0.ph.126.net/O0DzrvdMwlie6Byx4w4HzQ==/3139571890330711341.jpg]
+  * 数据缓存技术。
+    [http://img1.ph.126.net/ejehdRy8djym543UDf2wUg==/3368411046396599908.jpg http://img1.ph.126.net/ejehdRy8djym543UDf2wUg==/3368411046396599908.jpg]
+  * 全面的日志记录。
+    [http://img1.ph.126.net/EFioU_-k0uDsWY4aAeWYDw==/6597346843588841356.jpg http://img1.ph.126.net/EFioU_-k0uDsWY4aAeWYDw==/6597346843588841356.jpg]
+    [http://img1.ph.126.net/ILlcbarLNN-JxrGh1vzJ8g==/6598090113448513309.jpg http://img1.ph.126.net/ILlcbarLNN-JxrGh1vzJ8g==/6598090113448513309.jpg]
+  * 基于角色的访问控制。
+    [http://img1.ph.126.net/VI66GP_8yddg22L1Z8VR7g==/6598158283169439619.jpg http://img1.ph.126.net/VI66GP_8yddg22L1Z8VR7g==/6598158283169439619.jpg][http://img2.ph.126.net/VMfcHY5JdGot25u7zqVRMg==/3133942390796499092.jpg http://img2.ph.126.net/VMfcHY5JdGot25u7zqVRMg==/3133942390796499092.jpg]
+  * 独特的验证码规则。
+    [http://img2.ph.126.net/VOFjJodsvSESGMLiXn8SjA==/737464439081975159.jpg http://img2.ph.126.net/VOFjJodsvSESGMLiXn8SjA==/737464439081975159.jpg][http://img2.ph.126.net/GzT5PCn0GaO2RmfKMETwJA==/6597371032844655020.jpg http://img2.ph.126.net/GzT5PCn0GaO2RmfKMETwJA==/6597371032844655020.jpg]
+  * 静态和伪静态相结合。
+    [http://img0.ph.126.net/SQOb0zcxdOHGDKVBQNaiWA==/6597611825890646712.jpg http://img0.ph.126.net/SQOb0zcxdOHGDKVBQNaiWA==/6597611825890646712.jpg]
+    [http://img0.ph.126.net/Ws0xcRxbKcsKqDLind5oOA==/6597531561541815486.jpg http://img0.ph.126.net/Ws0xcRxbKcsKqDLind5oOA==/6597531561541815486.jpg]
+  * 防sql注入、xss攻击。
+  * *[http://seajs.org/ seajs]*组织加载js文件。
+    [http://img1.ph.126.net/SKaMDZfQT5DmWNMxQijpjw==/1384575410539777297.jpg http://img1.ph.126.net/SKaMDZfQT5DmWNMxQijpjw==/1384575410539777297.jpg]
+    [http://img0.ph.126.net/chX-IDkPyb7CnalxL51IeQ==/6597682194634826724.jpg http://img0.ph.126.net/chX-IDkPyb7CnalxL51IeQ==/6597682194634826724.jpg]
+  * 集成*[http://ueditor.baidu.com/ 百度ueditor编辑器]*。
+    [http://img0.ph.126.net/6rf001TY3uusfeW-_Cehmw==/3042744498342237912.jpg http://img0.ph.126.net/6rf001TY3uusfeW-_Cehmw==/3042744498342237912.jpg]
