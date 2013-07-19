@@ -19,27 +19,83 @@ yablog是一个简单、轻巧、快速的博客系统，基于*[http://www.php.
   * 防sql注入、xss攻击。
   * *[http://seajs.org/ seajs]*组织加载js文件。
   * 集成*[http://ueditor.baidu.com/ 百度ueditor编辑器]*。
+<wiki:comment>
+thinkphp查询语言
+</wiki:comment>
+[http://img2.ph.126.net/rMISuy2dBwoAclYe_hzX3w==/3271302179431436381 http://img2.ph.126.net/rMISuy2dBwoAclYe_hzX3w==/3271302179431436381.jpg]
 
-[http://img2.ph.126.net/rMISuy2dBwoAclYe_hzX3w==/3271302179431436381.jpg http://img2.ph.126.net/rMISuy2dBwoAclYe_hzX3w==/3271302179431436381.jpg]
-[http://img1.ph.126.net/v-lOHXyJk_N8EfbTBpXf5A==/6597785548727838319.jpg http://img1.ph.126.net/v-lOHXyJk_N8EfbTBpXf5A==/6597785548727838319.jpg]
-[http://img2.ph.126.net/omnd5MHKh8mJ1EnMyRbicQ==/3140416315260834941.jpg http://img2.ph.126.net/omnd5MHKh8mJ1EnMyRbicQ==/3140416315260834941.jpg]
-[http://img1.ph.126.net/V65jsXpPBnSjMlYKXgamdA==/6597223698286522348.jpg http://img1.ph.126.net/V65jsXpPBnSjMlYKXgamdA==/6597223698286522348.jpg]
-[http://img2.ph.126.net/T5ckf5T7XHBVbim_A8Esfg==/2100929226268383323.jpg http://img2.ph.126.net/T5ckf5T7XHBVbim_A8Esfg==/2100929226268383323.jpg]
-[http://img1.ph.126.net/7aBUwkw2pPFCQUxzkSzNEA==/6598123098797345413.jpg http://img1.ph.126.net/7aBUwkw2pPFCQUxzkSzNEA==/6598123098797345413.jpg]
-[http://img1.ph.126.net/EuwDT0gMY4uIeApvMlwZFA==/6597814136030165440.jpg http://img1.ph.126.net/EuwDT0gMY4uIeApvMlwZFA==/6597814136030165440.jpg]
-[http://img2.ph.126.net/DjDdQqsi6kvGMqnMyKBrlQ==/6597659104890640316.jpg http://img2.ph.126.net/DjDdQqsi6kvGMqnMyKBrlQ==/6597659104890640316.jpg]
-[http://img2.ph.126.net/0tsK19557BBIv525iUGPpQ==/3892235978055106640.jpg http://img2.ph.126.net/0tsK19557BBIv525iUGPpQ==/3892235978055106640.jpg]
-[http://img0.ph.126.net/TB_Lp-dZ-SAxmn-slbFGVA==/6597708582913885491.jpg http://img0.ph.126.net/TB_Lp-dZ-SAxmn-slbFGVA==/6597708582913885491.jpg]
-[http://img0.ph.126.net/O0DzrvdMwlie6Byx4w4HzQ==/3139571890330711341.jpg http://img0.ph.126.net/O0DzrvdMwlie6Byx4w4HzQ==/3139571890330711341.jpg]
-[http://img1.ph.126.net/ejehdRy8djym543UDf2wUg==/3368411046396599908.jpg http://img1.ph.126.net/ejehdRy8djym543UDf2wUg==/3368411046396599908.jpg]
-[http://img1.ph.126.net/EFioU_-k0uDsWY4aAeWYDw==/6597346843588841356.jpg http://img1.ph.126.net/EFioU_-k0uDsWY4aAeWYDw==/6597346843588841356.jpg]
-[http://img1.ph.126.net/ILlcbarLNN-JxrGh1vzJ8g==/6598090113448513309.jpg http://img1.ph.126.net/ILlcbarLNN-JxrGh1vzJ8g==/6598090113448513309.jpg]
-[http://img1.ph.126.net/VI66GP_8yddg22L1Z8VR7g==/6598158283169439619.jpg http://img1.ph.126.net/VI66GP_8yddg22L1Z8VR7g==/6598158283169439619.jpg]
-[http://img2.ph.126.net/VMfcHY5JdGot25u7zqVRMg==/3133942390796499092.jpg http://img2.ph.126.net/VMfcHY5JdGot25u7zqVRMg==/3133942390796499092.jpg]
-[http://img2.ph.126.net/VOFjJodsvSESGMLiXn8SjA==/737464439081975159.jpg http://img2.ph.126.net/VOFjJodsvSESGMLiXn8SjA==/737464439081975159.jpg]
-[http://img2.ph.126.net/GzT5PCn0GaO2RmfKMETwJA==/6597371032844655020.jpg http://img2.ph.126.net/GzT5PCn0GaO2RmfKMETwJA==/6597371032844655020.jpg]
-[http://img0.ph.126.net/SQOb0zcxdOHGDKVBQNaiWA==/6597611825890646712.jpg http://img0.ph.126.net/SQOb0zcxdOHGDKVBQNaiWA==/6597611825890646712.jpg]
-[http://img0.ph.126.net/Ws0xcRxbKcsKqDLind5oOA==/6597531561541815486.jpg http://img0.ph.126.net/Ws0xcRxbKcsKqDLind5oOA==/6597531561541815486.jpg]
-[http://img1.ph.126.net/SKaMDZfQT5DmWNMxQijpjw==/1384575410539777297.jpg http://img1.ph.126.net/SKaMDZfQT5DmWNMxQijpjw==/1384575410539777297.jpg]
-[http://img0.ph.126.net/chX-IDkPyb7CnalxL51IeQ==/6597682194634826724.jpg http://img0.ph.126.net/chX-IDkPyb7CnalxL51IeQ==/6597682194634826724.jpg]
-[http://img0.ph.126.net/6rf001TY3uusfeW-_Cehmw==/3042744498342237912.jpg http://img0.ph.126.net/6rf001TY3uusfeW-_Cehmw==/3042744498342237912.jpg]
+<wiki:comment>
+bootstrap
+</wiki:comment>
+[http://img1.ph.126.net/v-lOHXyJk_N8EfbTBpXf5A==/6597785548727838319 http://img1.ph.126.net/v-lOHXyJk_N8EfbTBpXf5A==/6597785548727838319.jpg]
+
+[http://img2.ph.126.net/omnd5MHKh8mJ1EnMyRbicQ==/3140416315260834941 http://img2.ph.126.net/omnd5MHKh8mJ1EnMyRbicQ==/3140416315260834941.jpg]
+
+<wiki:comment>
+extjs
+</wiki:comment>
+[http://img1.ph.126.net/V65jsXpPBnSjMlYKXgamdA==/6597223698286522348 http://img1.ph.126.net/V65jsXpPBnSjMlYKXgamdA==/6597223698286522348.jpg]
+
+[http://img2.ph.126.net/T5ckf5T7XHBVbim_A8Esfg==/2100929226268383323 http://img2.ph.126.net/T5ckf5T7XHBVbim_A8Esfg==/2100929226268383323.jpg]
+
+[http://img0.ph.126.net/9MsAEUmHiLrUGxDvJLv24A==/902690250411351411 http://img0.ph.126.net/9MsAEUmHiLrUGxDvJLv24A==/902690250411351411.jpg]
+
+[http://img1.ph.126.net/7aBUwkw2pPFCQUxzkSzNEA==/6598123098797345413 http://img1.ph.126.net/7aBUwkw2pPFCQUxzkSzNEA==/6598123098797345413.jpg]
+
+[http://img1.ph.126.net/EuwDT0gMY4uIeApvMlwZFA==/6597814136030165440 http://img1.ph.126.net/EuwDT0gMY4uIeApvMlwZFA==/6597814136030165440.jpg]
+
+[http://img2.ph.126.net/DjDdQqsi6kvGMqnMyKBrlQ==/6597659104890640316 http://img2.ph.126.net/DjDdQqsi6kvGMqnMyKBrlQ==/6597659104890640316.jpg]
+
+<wiki:comment>
+代码规范
+</wiki:comment>
+[http://img2.ph.126.net/0tsK19557BBIv525iUGPpQ==/3892235978055106640 http://img2.ph.126.net/0tsK19557BBIv525iUGPpQ==/3892235978055106640.jpg]
+
+[http://img0.ph.126.net/TB_Lp-dZ-SAxmn-slbFGVA==/6597708582913885491 http://img0.ph.126.net/TB_Lp-dZ-SAxmn-slbFGVA==/6597708582913885491.jpg]
+
+[http://img0.ph.126.net/O0DzrvdMwlie6Byx4w4HzQ==/3139571890330711341 http://img0.ph.126.net/O0DzrvdMwlie6Byx4w4HzQ==/3139571890330711341.jpg]
+
+<wiki:comment>
+缓存
+</wiki:comment>
+[http://img1.ph.126.net/ejehdRy8djym543UDf2wUg==/3368411046396599908 http://img1.ph.126.net/ejehdRy8djym543UDf2wUg==/3368411046396599908.jpg]
+
+<wiki:comment>
+日志
+</wiki:comment>
+[http://img1.ph.126.net/EFioU_-k0uDsWY4aAeWYDw==/6597346843588841356 http://img1.ph.126.net/EFioU_-k0uDsWY4aAeWYDw==/6597346843588841356.jpg]
+
+[http://img1.ph.126.net/ILlcbarLNN-JxrGh1vzJ8g==/6598090113448513309 http://img1.ph.126.net/ILlcbarLNN-JxrGh1vzJ8g==/6598090113448513309.jpg]
+
+<wiki:comment>
+rbac
+</wiki:comment>
+[http://img1.ph.126.net/VI66GP_8yddg22L1Z8VR7g==/6598158283169439619 http://img1.ph.126.net/VI66GP_8yddg22L1Z8VR7g==/6598158283169439619.jpg]
+
+[http://img2.ph.126.net/VMfcHY5JdGot25u7zqVRMg==/3133942390796499092 http://img2.ph.126.net/VMfcHY5JdGot25u7zqVRMg==/3133942390796499092.jpg]
+
+<wiki:comment>
+验证码
+</wiki:comment>
+[http://img2.ph.126.net/VOFjJodsvSESGMLiXn8SjA==/737464439081975159 http://img2.ph.126.net/VOFjJodsvSESGMLiXn8SjA==/737464439081975159.jpg]
+
+[http://img2.ph.126.net/GzT5PCn0GaO2RmfKMETwJA==/6597371032844655020 http://img2.ph.126.net/GzT5PCn0GaO2RmfKMETwJA==/6597371032844655020.jpg]
+
+<wiki:comment>
+静态/伪静态
+</wiki:comment>
+[http://img0.ph.126.net/SQOb0zcxdOHGDKVBQNaiWA==/6597611825890646712 http://img0.ph.126.net/SQOb0zcxdOHGDKVBQNaiWA==/6597611825890646712.jpg]
+
+[http://img0.ph.126.net/Ws0xcRxbKcsKqDLind5oOA==/6597531561541815486 http://img0.ph.126.net/Ws0xcRxbKcsKqDLind5oOA==/6597531561541815486.jpg]
+
+<wiki:comment>
+seajs
+</wiki:comment>
+[http://img1.ph.126.net/SKaMDZfQT5DmWNMxQijpjw==/1384575410539777297 http://img1.ph.126.net/SKaMDZfQT5DmWNMxQijpjw==/1384575410539777297.jpg]
+
+[http://img0.ph.126.net/chX-IDkPyb7CnalxL51IeQ==/6597682194634826724 http://img0.ph.126.net/chX-IDkPyb7CnalxL51IeQ==/6597682194634826724.jpg]
+
+<wiki:comment>
+ueditor
+</wiki:comment>
+[http://img1.ph.126.net/6-KEhT-irhEmq86N4qlRsQ==/3136475665586895610 http://img1.ph.126.net/6-KEhT-irhEmq86N4qlRsQ==/3136475665586895610.jpg]
