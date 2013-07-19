@@ -202,6 +202,16 @@ Ext.define('Yab.controller.Filelog', {
                 value: data.path,
                 displayField: me.idProperty,
                 valueField: me.idProperty
+            }, {
+                xtype: 'combobox',//搜索字段
+                width: 80,
+                itemId: 'column',
+                store: [
+                    ['filename', lang('FILENAME')],
+                    ['content', lang('CONTENT')]
+                ],
+                value: data.column,
+                editable: false
             },
             Yab.Field.combo().matchMode(),//匹配模式
             Yab.Field.field().keywordField(data.keyword, {width: 120}),//关键字输入框
