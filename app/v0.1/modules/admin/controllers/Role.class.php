@@ -252,17 +252,22 @@ class RoleController extends CommonController {
      * {@inheritDoc}
      */
     protected function _infoCallback(&$info) {
-        $info['_priv_id'] = join(',', array_keys($info['priv']));
-        $menu_arr  = $this->_getCache(0, 'Menu');
-        $priv_menu = '';
 
-        foreach($info['priv'] as $menu_id => $item) {
-            $priv_menu .= ',' . $menu_arr[$menu_id]['menu_name'];
+        if ($info['priv']) {
+            $info['_priv_id'] = join(',', array_keys($info['priv']));
+            $menu_arr  = $this->_getCache(0, 'Menu');
+            $priv_menu = '';
+
+            foreach($info['priv'] as $menu_id => $item) {
+                $priv_menu .= ',' . $menu_arr[$menu_id]['menu_name'];
+            }
+
+            $info['priv'] = substr($priv_menu, 1);
+            unset($menu_arr, $priv_menu);
         }
-
-        $info['priv'] = substr($priv_menu, 1);
-        unset($menu_arr, $priv_menu);
-
+        else {
+            $info['_priv_id'] = '';
+        }
     }
 
     /**
