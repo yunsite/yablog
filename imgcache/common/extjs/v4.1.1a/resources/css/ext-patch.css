@@ -41,8 +41,8 @@ table.x-datepicker-inner th { font-size: 12px; }
 }
 
 .x-tree-checkbox { margin-top: 4px; }
-.x-grid-cell, .x-grid-row{ -khtml-user-select: text !important; -moz-user-select: text !important; -webkit-user-select: text !important; }
-.x-grid-cell-inner { white-space: normal; }
+.x-grid-cell, .x-grid-row{ padding: 1px; -khtml-user-select: text !important; -moz-user-select: text !important; -webkit-user-select: text !important; }
+.x-grid-cell-inner { white-space: normal;}
 .tab-contextmenu .x-menu-body { padding: 0; background: #fff; }
 .tab-contextmenu .x-menu-item-link { padding: 0 10px; height: 20px; line-height: 20px; }
 .tab-contextmenu .x-menu-item-checked .x-menu-item-link,
