@@ -285,6 +285,14 @@ img.img-yesno { cursor: pointer; }
 /* 查看文件日志 */
 h1.viewlog { font-size: 16px; height: 30px; line-height: 30px; }
 div.viewlog { line-height: 20px; }
+/*缩放图片鼠标mouseenter*/
+img.preview {
+    position: absolute;
+    right: 10px;
+    bottom: 30px;
+    border: 3px solid #ccc;
+    z-index: 9999;
+}
 
  /* 通用样式  */
 a.link:link,

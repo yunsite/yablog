@@ -95,7 +95,7 @@ Ext.define('Yab.controller.Miniblog', {
             flex: 1,
             dataIndex: 'content',
             renderer: function(v, cls, record) {
-                return '<a href="{0}" target="_blank" class="link">{1}</a>'.format(record.get('link_url'), me.searchReplaceRenderer(v, null, true));
+                return _GET('keyword') ? me.searchReplaceRenderer(v, null, true) : v.replace(/<img /g, '<img style="display: none" onload="imgScale(this)" ', v);
             }
         }, {
             header: lang('ADD,TIME'),//添加时间
