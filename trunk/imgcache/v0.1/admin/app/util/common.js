@@ -545,6 +545,64 @@ function htmlspecialchars(str) {
 }
 
 /**
+ * 等比例缩放图片及鼠标mouseenter右下角显示原图
+ *
+ * @member window
+ *
+ * @param   {Object}    img     图片img
+ * @param   {Number}    [width=240]     缩放至宽度
+ * @param   {Number}    [height=180]    缩放至高度
+ *
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-07-20 21:21:27
+ *
+ * @return {void} 无返回值
+ */
+function imgScale(img, width, height) {
+    width = width || 240;
+    height = height || 180;
+    img = Ext.fly(img);
+    var src = img.getAttribute('src');
+    var obj = new Image();
+    obj.src = src;
+
+    if (obj.width > 0 && obj.height > 0) {
+
+        if (obj.width / obj.height >= width / height) {
+
+            if (obj.width > width) {
+                img.setWidth(width);
+                img.setHeight(obj.height * width / obj.width);
+            }
+        }
+        else if (obj.height > height) {
+                img.setHeight(height);
+                img.setWidth(obj.width * height / obj.height);
+        }
+    }
+
+    img.setStyle('display', 'block');
+
+    img.on({
+        mouseenter: function () {
+            var o = global('IMGSCALE');
+
+            if (o) {
+                o.show();
+                o.set({'src': src});
+            }
+            else {
+                o = Ext.getBody().insertHtml('beforeEnd', '<img src="' + src + '" class="preview" />', true);
+                global('IMGSCALE', o);
+            }
+        },
+        mouseleave: function () {
+            global('IMGSCALE').hide();
+        }
+    });
+}//end imgScale
+
+/**
  * 提示
  *
  * @member window
