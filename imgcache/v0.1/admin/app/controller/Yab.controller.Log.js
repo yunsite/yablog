@@ -102,7 +102,10 @@ Ext.define('Yab.controller.Log', {
             flex: 5,
             minWidth: 300,
             dataIndex: 'content',
-            sortable: false
+            sortable: false,
+            renderer: function(v) {
+                return me.searchReplaceRenderer(htmlspecialchars(v), null, _GET('keyword'));
+            }
         }, {
             header: lang('LOG_PAGE'),//日志页面
             width: 300,
