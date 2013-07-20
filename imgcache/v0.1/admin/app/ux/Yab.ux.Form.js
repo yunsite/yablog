@@ -79,7 +79,7 @@ Ext.define('Yab.ux.Form', {
     },
 
     errorReader: {//errorReader 自定义处理返回结果 by mrmsl on 2012-10-30 21:51:11
-        read: function(response) {log('Ext.form.Base.errorReader');
+        read: function(response) {
             var response = response.responseText, result = Ext.decode(response, true), success = false;
 
             if (result) {
