@@ -256,7 +256,7 @@ Ext.define('Yab.ux.TreePicker', {
      * @return {void} 无返回值
      */
     onItemClick: function(view, record, node, rowIndex, e) {
-        this.selectItem(record);
+        !this.multiSelect && this.selectItem(record);
     },
 
     /**
@@ -292,15 +292,14 @@ Ext.define('Yab.ux.TreePicker', {
      * @return {void} 无返回值
      */
     pickerCheckChange: function(node, checked) {
+        this.bubbleCheck && checked && node.bubble(function(record) {
+            !record.isRoot() && record.set('checked', checked);
+        });
+        !node.isLeaf() && node.cascadeBy(function(record) {
+            record.set('checked', checked);
+        });
 
-        if (this.multiSelect) {
-            this.bubbleCheck && checked && node.bubble(function(record) {
-                !record.isRoot() && record.set('checked', checked);
-            });
-            !node.isLeaf() && node.cascadeBy(function(record) {
-                record.set('checked', checked);
-            });
-        }
+        this.pickerCheckedValue().setValue();
     },
 
     /**
@@ -388,17 +387,11 @@ Ext.define('Yab.ux.TreePicker', {
     selectItem: function(record) {
         var me = this;
         var valueField = this.valueField || this.pickerIdProperty || record.idProperty || 'id';
-
-        if (!this.multiSelect) {
-            this.setValue(record.get(valueField));
-            this.onTriggerClick();
-            this.inputEl.focus();
-            this.singleSelectValueField && this.singleSelectValueField !== true && this.singleSelectValueField.setValue(record.get(valueField));
-            this.nodeField && this.nodeField.setValue(record.getPath().split('/').slice(2).join(this.valueSepartor));
-        }
-        else {
-            this.pickerCheckedValue(valueField).setValue();
-        }
+        this.setValue(record.get(valueField));
+        this.onTriggerClick();
+        this.inputEl.focus();
+        this.singleSelectValueField && this.singleSelectValueField !== true && this.singleSelectValueField.setValue(record.get(valueField));
+        this.nodeField && this.nodeField.setValue(record.getPath().split('/').slice(2).join(this.valueSepartor));
 
         this.fireEvent('select', me, record);
     },
