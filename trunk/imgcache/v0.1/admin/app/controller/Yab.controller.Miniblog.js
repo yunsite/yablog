@@ -118,9 +118,13 @@ Ext.define('Yab.controller.Miniblog', {
                 return a + '/' + b;
             }
         }, {//操作列
-            width: 170,
+            width: 200,
             xtype: 'appactioncolumn',
-            items: [{//编辑
+            items: [{//查看
+                renderer: function(v, meta, record) {
+                    return '<span class="appactioncolumn"><a href="' + record.get('link_url') + '" class="link" target="_blank">' + lang('CN_CHAKAN') + '</a></span>';
+                }
+            }, {//编辑
                 renderer: function(v, meta, record) {
                     return '<span class="appactioncolumn appactioncolumn-'+ this +'">' + lang('EDIT') + '</span>';
                 },
