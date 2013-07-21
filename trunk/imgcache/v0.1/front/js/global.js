@@ -68,8 +68,12 @@ seajs.config({//seajs配置
             src: System.sys_base_common_imgcache + 'js/jquery/jquery.3DTagCloud.js',
             deps: ['jquery']
         },
-        highlight: {
+        highlight: {//高亮
             src: System.sys_base_common_imgcache + 'js/jquery/jquery.highlight.js',
+            deps: ['jquery']
+        },
+        imgscale: {//等比例缩放图片
+            src: System.sys_base_common_imgcache + 'js/jquery/jquery.imgscale.js',
             deps: ['jquery']
         },
         cnzz: {//站长统计
@@ -153,6 +157,12 @@ function bootstrap() {
     if ($('#tag-cloud').length) {//标签云
         seajs.use('tagCloud', function() {
             $('#tag-cloud').tagCloud();
+        });
+    }
+
+    if ($('img.imgscale').length) {//等比例缩放图片
+        seajs.use('imgscale', function() {
+            $('img.imgscale').imgscale();
         });
     }
 
@@ -240,6 +250,25 @@ function digg() {
  */
 function getMetaInfo() {
     'undefined' != typeof(META_INFO) && $.post(System.sys_base_site_url + 'ajax/metainfo.shtml', $.param(META_INFO), setMetaInfo);
+}
+
+/**
+ * 设置或获取全局变量，如果只传一个参数，则取该参数值;否则设置变量，第一个参数为变量名，第二个参数为变量值
+ *
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-07-21 22:05:24
+ *
+ * @return {Mixed} 如果只传一个参数，则返回参数值;否则返回true
+ */
+function global() {
+
+    if (1 == arguments.length) {//取值
+        return window[arguments[0]];
+    }
+
+    window[arguments[0]] = arguments[1];
+
+    return true;
 }
 
 /**
