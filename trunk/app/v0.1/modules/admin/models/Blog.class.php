@@ -52,7 +52,7 @@ class BlogModel extends CommonModel {
         //seo关键字
         'seo_keyword'      => array('validate' => array('notblank#SEO_KEYWORD', '_checkLength#SEO_KEYWORD#value|6|180')),
         //seo描述
-        'seo_description'  => array('validate' => array('notblank#SEO_DESCRIPTION', '_checkLength#SEO_DESCRIPTION#value|6|300')),
+        'seo_description'  => array('validate' => array('notblank#SEO_DESCRIPTION', '_checkLength#SEO_DESCRIPTION#value|6|600')),
         'is_issue'         => array('filter' => 'int', 'validate' => array('0,1#{%ISSUE,STATUS,MUST,IN,CN_WEI,ISSUE,、,CN_YI,ISSUE}#MUST_VALIDATE#in')),//是否显示
         'is_delete'        => array('filter' => 'int', 'validate' => array('0,1#{%DELETE,STATUS,MUST,IN,CN_WEI,DELETE,、,CN_YI,DELETE}#MUST_VALIDATE#in')),//是否显示
         'sort_order'       => array('filter' => 'int', 'validate' => 'unsigned#ORDER#-2'),//排序
