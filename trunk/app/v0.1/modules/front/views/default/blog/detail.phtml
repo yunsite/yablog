@@ -22,7 +22,6 @@
                         <span>{L DIGG}：<small class="counter blog-diggs-{$blog_info.blog_id}">{$blog_info.comments}</small></span>
                     </p>
                 <div class="blog-content">
-                    <div class="well"><strong>{L SUMMARY}</strong>：{$blog_info.summary}</div>
                     {$blog_info.content}
                     {if $tags}<p><span class="icon-tags"></span>{L TAG}：{$tags}</p>{/if}
                     <p class="text-center">

@@ -106,8 +106,6 @@ class BlogController extends CommonController {
         $cate_info = $this->_getCache($cate_id = $this->_model->cate_id, 'Category');//所属分类
 
         $data['cate_name'] = $cate_info['cate_name'];//所属分类名称
-        $summary           = strip_tags($data['summary']);
-        $data['summary']   = $summary ? $data['summary'] : cn_substr($data['content'], 300);//摘要，默认取内容前300字节 by mrmsl on 2013-04-12 14:56:41
 
         unset($data['link_url']);
 

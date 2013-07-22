@@ -9,7 +9,15 @@
                 {php $meta_info_arr['blog'] .= ',' . $item['blog_id'] . '|' . $item['add_time'];}
                 <div class="panel-list">
                     <h3><a href="{$item.link_url}">{$item.title}</a></h3>
+                    <div>
+                    {php $item['summary'] = $item['summary'] ? $item['summary'] : $item['seo_description']; }
+                    {php //如果上传图片，进行等比例缩放图片 }
+                    {if false !== strpos($item['summary'], $sys_base_upload_imgcache)}
+                    {echo str_replace($v = 'src="' . $sys_base_upload_imgcache, 'class="hide imgscale" data-pointer="true" data-clickevent="true" ' . $v, $item['summary']); }
+                    {else}
                     {$item.summary}
+                    {/if}
+                    </div>
                     <p class="text-right muted">
                         <span class="actions">
                             <a href="{$item.cate_url}" class="category muted">

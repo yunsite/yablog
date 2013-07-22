@@ -133,7 +133,7 @@ Ext.define('Yab.controller.Blog', {
                 //value: lang('PLEASE_ENTER,CONTENT'),
                 fieldLabel: lang('SUMMARY')
             },
-            extField.textareaComment(lang('SUMMARY_TIP').format(300)),//SEO描述提示
+            extField.textareaComment(lang('KEEP_BLANK,CN_QU,SEO_DESCRIPTION').format(300)),//摘要提示
             {//内容
                 xtype: 'ueditor',
                 name: 'content',
