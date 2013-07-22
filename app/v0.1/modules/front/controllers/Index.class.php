@@ -34,7 +34,7 @@ class IndexController extends CommonController {
         //->where($where)
         ->order('b.blog_id DESC')
         ->limit(10)
-        ->field('b.blog_id,b.title,b.link_url,b.add_time,b.summary,c.cate_name,c.link_url AS cate_url')
+        ->field('b.blog_id,b.title,b.link_url,b.add_time,b.summary,b.seo_description,c.cate_name,c.link_url AS cate_url')
         ->select();
 
         return $blog_arr;
