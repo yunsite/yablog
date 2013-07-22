@@ -125,15 +125,15 @@ Ext.define('Yab.controller.Blog', {
             extField.sortOrderField(),//排序
             extField.textarea('seo_keyword', 'PLEASE_ENTER,SEO_KEYWORD', 'SEO_KEYWORD', '', {width: 800, height: 50, minLength: 6, maxLength: 300}),//SEO关键字
             extField.textareaComment(lang('BETWEEN_BYTE').format(6, 180)),//SEO关键字提示
-            extField.textarea('seo_description', 'PLEASE_ENTER,SEO_DESCRIPTION', 'SEO_DESCRIPTION', '', {width: 800, height: 70, minLength: 6, maxLength: 300}),//SEO描述
-            extField.textareaComment(lang('BETWEEN_BYTE').format(6, 300)),//SEO描述提示
+            extField.textarea('seo_description', 'PLEASE_ENTER,SEO_DESCRIPTION', 'SEO_DESCRIPTION', '', {width: 800, height: 70, minLength: 6, maxLength: 600}),//SEO描述
+            extField.textareaComment(lang('BETWEEN_BYTE').format(6, 600)),//SEO描述提示
             {//摘要
                 xtype: 'ueditor',
                 name: 'summary',
                 //value: lang('PLEASE_ENTER,CONTENT'),
                 fieldLabel: lang('SUMMARY')
             },
-            extField.textareaComment(lang('KEEP_BLANK,CN_QU,SEO_DESCRIPTION').format(300)),//摘要提示
+            extField.textareaComment(lang('KEEP_BLANK,CN_QU,SEO_DESCRIPTION')),//摘要提示
             {//内容
                 xtype: 'ueditor',
                 name: 'content',
