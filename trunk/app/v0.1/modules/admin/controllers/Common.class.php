@@ -301,8 +301,13 @@ class CommonController extends BaseController {
         }
         else {
 
-            if(!empty($this->_priv_map) && isset($this->_priv_map, $action)) {//权限映射
-                $priv_str = $module . $this->_priv_map[$action];
+            if(!empty($this->_priv_map)) {
+
+                $this->_priv_map = array_map('strtolower', $this->_priv_map);
+
+                if (isset($this->_priv_map, $action)) {//权限映射
+                    $priv_str = $module . $this->_priv_map[$action];
+                }
             }
 
             $checked  = in_array($priv_str, $this->_role_info['priv']);//检测权限
