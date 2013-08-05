@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>博客列表</title>
+    <link rel="stylesheet" type="text/css" href="../../themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../themes/icon.css">
+    <script src="../../jquery-1.9.1.min.js"></script>
+    <script src="../../jquery.easyui.min.js"></script>
+    <script src="../json2.js"></script>
+    <script src="../global.js"></script>
+</head>
+<body>
+    <script>
+        $('body').append('<table id="dg" class="easyui-datagrid"></table>');
+        $('#dg').data('data-options', {
+            columns: [[
+                {checkbox: true},
+                {title: '标题', field: 'title', width: 200},
+                {title: '点击', field: 'hits', width: 50, fixed: true}
+            ]],
+            title: '博客列表',
+            queryParams: {keyword: 'm'},
+            url: 'get_blogs.php',
+            //toolbar: '#toolbar',
+            rownumbers: true,
+            striped: true,
+            fitColumns: true,
+            pagination: true,
+            fit: true,
+            checkOnSelect: true,
+            checkbox: true,
+            singleSelect: false
+        });
+    </script>
+</body>
+</html>

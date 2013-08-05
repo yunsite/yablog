@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>treegrid</title>
+    <link rel="stylesheet" type="text/css" href="../../themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../themes/icon.css">
+    <script src="../../jquery-1.9.1.min.js"></script>
+    <script src="../../jquery.easyui.min.js"></script>
+    <script src="../json2.js"></script>
+    <script src="../global.js"></script>
+</head>
+<body>
+    <script>
+        $('body').append('<table id="dg" class="easyui-treegrid"></table>');
+        $('#dg').data('data-options', {
+            columns: [[
+                {checkbox: true},
+                {title: '菜单名称', field: 'menu_name', width: 200},
+                {title: '控制器', field: 'controller', width: 150, fixed: true},
+                {title: '操作方法', field: 'action', width: 150, fixed: true}
+            ]],
+            title: 'treegrid',
+            queryParams: {keyword: 'm'},
+            url: 'get_tree.php',
+            treeField: 'menu_name',
+            idField: 'menu_id',
+            //toolbar: '#toolbar',
+            rownumbers: true,
+            striped: true,
+            fitColumns: true,
+            //pagination: true,
+            fit: true,
+            checkOnSelect: true,
+            checkbox: true,
+            singleSelect: false
+        });
+    </script>
+</body>
+</html>

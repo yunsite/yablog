@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>tree</title>
+    <link rel="stylesheet" type="text/css" href="../../themes/gray/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <script src="../../jquery-1.9.1.min.js"></script>
+    <script src="../../jquery.easyui.min.js"></script>
+    <script src="../json2.js"></script>
+    <script src="../global.js"></script>
+</head>
+<body>
+    <ul id="tree" class="easyui-tree">
+    </ul>
+    <script>
+        $('#tree').data('data-options', {
+            url: 'get_tree.php',
+            lines: false,
+            onClick: function () {
+                log('onClick', arguments);
+            },
+            onDblClick: function () {
+                log('onDblClick', arguments);
+            }
+        });
+    </script>
+</body>
+</html>
