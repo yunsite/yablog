@@ -1,7 +1,7 @@
 var A, C, MENU_ID, TREE_DATA, Q2O;
 
 seajs.config({
-    base: 'http://localhost/jeasyui/study/layout/js/',
+    base: 'http://localhost/jeasyui/yablog/study/layout/js/',
     map: [
         [/\.js$/, '.js?' + Math.random()]
     ]
