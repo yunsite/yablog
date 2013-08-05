@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>panel</title>
+    <link rel="stylesheet" type="text/css" href="../../themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <script src="../../jquery-1.9.1.min.js"></script>
+    <script src="../../jquery.easyui.min.js"></script>
+    <script src="../json2.js"></script>
+    <script src="../global.js"></script>
+</head>
+<body>
+    <div id="p">
+        <p>panel content.</p>
+        <p>panel content.</p>
+    </div>
+    <script>
+        $('#p').addClass('easyui-panel').data('data-options', {
+            title: '面板Panel',
+            iconCls: 'icon-ok',
+            width: 500,
+            height: 200,
+            //left: 200,
+            //top: 100,
+            cls: 'font-red',
+            headerCls: 'font-red',
+            bodyCls: 'font-red',
+            style: {
+                //border: 'none'
+            },
+            //fit: true,
+            //border: false,
+            //doSize: true,
+            content: 'content',
+            collapsible: true,
+            minimizable: true,
+            maximizable: true,
+            closable: true,
+            //noheader: true,
+            tools: [{
+                iconCls: 'icon-add',
+                handler: function () {
+                    console.log(arguments);
+                }
+            }],
+            href: '../get_users.php',
+            extractor: function (data) {
+                console.log(data);
+                return data;
+            },
+            onBeforeOpen: function () {
+                console.log(arguments);
+            },
+            onLoad: function (data) {
+                console.log(data);
+            }
+        });
+    </script>
+</body>
+</html>

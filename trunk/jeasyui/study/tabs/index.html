@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>tabs</title>
+    <link rel="stylesheet" type="text/css" href="../../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <script src="../../jquery-1.9.1.min.js"></script>
+    <script src="../../jquery.easyui.min.js"></script>
+    <script src="../json2.js"></script>
+    <script src="../global.js"></script>
+</head>
+<body>
+    <div style="margin:10px 0;">
+        <a href="#" class="easyui-linkbutton" onclick="javascript:log($('#tt').tabs('options'))">options</a>
+        <a href="#" class="easyui-linkbutton" onclick="javascript:log($('#tt').tabs('tabs'))">tabs</a>
+        <a href="#" class="easyui-linkbutton" onclick="javascript:log($('#tt').tabs('select', 'tab2'))">select</a>
+    </div>
+    <div id="tt">
+        <div data-options="title: 'tab1', selected: true" style="padding:20px;">
+            tab1
+        </div>
+        <div data-options="closable:true,title: 'tab2'" style="overflow:auto;padding:20px">
+            tab2
+        </div>
+        <div data-options="iconCls:'icon-reload',title: 'tab3',closable:true" style="padding:20px">
+            tab3
+        </div>
+    </div>
+    <script>
+        $('#tt').addClass('easyui-tabs').data('data-options', {
+            height: 200,
+            tools:[{
+                iconCls:'icon-add',
+                handler:function(){
+                    alert('add')
+                }
+            }, {
+                iconCls:'icon-save',
+                handler:function(){
+                    alert('save')
+                }
+            }],
+            //tabPosition: 'left',
+            onSelect: log,
+            onBeforeClose: function () {
+                log(arguments);
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>

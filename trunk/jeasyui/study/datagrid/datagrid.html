@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>datagrid</title>
+    <link rel="stylesheet" type="text/css" href="../../themes/gray/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../themes/icon.css">
+    <script src="../../jquery-1.9.1.min.js"></script>
+    <script src="../../jquery.easyui.min.js"></script>
+    <script src="../json2.js"></script>
+    <script src="../global.js"></script>
+</head>
+<body>
+    <table id="dg" class="easyui-datagrid">
+        <thead>
+        <tr>
+            <th data-options="checkbox: true">用户名</th>
+            <th data-options="field: 'username', sortable: true">用户名</th>
+            <th data-options="field: 'realname', width: 100">真实姓名</th>
+            <th data-options="field: 'verify_code_order', width: 100">验证码顺序</th>
+        </tr>
+        </thead>
+    </table>
+    <div id="toolbar">
+        <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">New User</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">Edit User</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">Remove User</a>
+    </div>
+    <script>
+        $('#dg').data('data-options', {
+            title: '用户列表',
+            queryParams: {keyword: 'm'},
+            url: '../get_users.php',
+            toolbar: '#toolbar',
+            rownumbers: true,
+            striped: true,
+            fitColumns: true,
+            pagination: true,
+            fit: true,
+            checkOnSelect: true,
+            checkbox: true,
+            singleSelect: false
+        });
+    </script>
+</body>
+</html>
