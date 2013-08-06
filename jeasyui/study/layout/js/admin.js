@@ -1,9 +1,10 @@
-define('admin', function(require, exports, module) {
+define('admin', ['fields'], function(require, exports, module) {
     var Base    = require('base');
     var Admin   = Base.extend({
-        _listdatagridOptions: {
+        _datagridOptions: {
             columns: [[
                 {checkbox: true},
+                {title: 'id', field: 'blog_id', width: 50},
                 {title: '标题', field: 'title', width: 200},
                 {title: '点击', field: 'hits', width: 50, fixed: true}
             ]],
@@ -14,8 +15,32 @@ define('admin', function(require, exports, module) {
             fitColumns: true,
             pagination: true,
             fit: true,
-            checkbox: true,
-            checkOnSelect: false
+            sortName: 'blog_id',
+            sortOrder: 'desc',
+            showFooter: true,
+            loadFilter: function(data) {
+                return {
+                    rows: data.data,
+                    total: data.total
+                };
+            },
+            selectOnCheck: true,
+            checkOnSelect: false,
+            onSelect: function(index) {
+                var tr = $(this).datagrid('options').finder.getTr(this, index);
+
+                if (!tr.find('div.datagrid-cell-check input[type=checkbox]').prop('checked')) {
+                    tr.removeClass('datagrid-row-selected');
+                }
+            },
+            onUnselect: function(index) {
+                var tr = $(this).datagrid('options').finder.getTr(this, index);
+
+                if (tr.find('div.datagrid-cell-check input[type=checkbox]').prop('checked')) {
+                    tr.addClass('datagrid-row-selected');
+                }
+            },
+            checkbox: true
         },
 
         /**
@@ -26,7 +51,7 @@ define('admin', function(require, exports, module) {
          *
          * return {void} 无返回值
          */
-        _listdatagrid: function() {
+        _datagrid: function() {
             var tabs        = seajs.require('tabs'),
                 selectedTab = tabs.getSelected(),
                 dg          = tabs.get('_el').find('#dg-' + C + A);
@@ -41,8 +66,8 @@ define('admin', function(require, exports, module) {
             TREE_DATA.queryParams = Q2O;
 
             if (!dg.length) {
-                $.extend(this._listdatagridOptions, pagesize);
-                $.extend(this._listdatagridOptions.queryParams, Q2O);
+                $.extend(this._datagridOptions, pagesize);
+                $.extend(this._datagridOptions.queryParams, Q2O);
             }
             /*else {
                 $.extend(dg.datagrid('options'), pagesize);
@@ -52,7 +77,7 @@ define('admin', function(require, exports, module) {
             if (!dg.length) {
                 dg = $('<table id="dg-' + C + A + '" class="easyui-datagrid"></table>')
                 .appendTo(selectedTab)
-                .data('data-options', this._listdatagridOptions);
+                .data('data-options', this._datagridOptions);
                 this._setToolbar(selectedTab);
                 dg.datagrid();
 
@@ -86,6 +111,7 @@ define('admin', function(require, exports, module) {
             Q2O.keyword && selectedTab.find('#tb-' + C + A).find('#admin-keyword').searchbox('setValue', Q2O.keyword);
             selectedTab.find('#tb-' + C + A).find('#admin-start_date').datetimebox('setValue', Q2O.start_date);
             selectedTab.find('#tb-' + C + A).find('#admin-end_date').datetimebox('setValue', Q2O.end_date);
+            selectedTab.find('#tb-' + C + A).find('#admin-match_mode').combobox('setValue', Q2O.match_mode || 'eq');
         },
         /**
          * 设置活跃面板
@@ -95,17 +121,17 @@ define('admin', function(require, exports, module) {
          *
          * return {void} 无返回值
          */
-        _setActivePanel: function(action) {
+        _setActivePanel: function() {
             var tabs        = seajs.require('tabs').getSelected();
 
             tabs.children().hide();
 
-            if ('list' == action) {
+            if ('list' == A) {
                 tabs.children('.datagrid').show();
             }
             else {
-                var id  = 'admin' + action;
-                tabs.find('#' + 'admin' + action).show();
+                var id  = C + A;
+                tabs.find('#' + id).show();
             }
         },
 
@@ -120,7 +146,10 @@ define('admin', function(require, exports, module) {
         _setToolbar: function(selectedTab) {
             var me      = this,
                 html    = '<div id="tb-' + C + A + '">';
-                html   += '添加时间<input id="admin-start_date" class="datetime" /> - <input id="admin-end_date" class="datetime" /> <input id="admin-keyword" />';
+                html   += '添加时间<input id="admin-start_date" class="datetime" /> - ';
+                html   += '<input id="admin-end_date" class="datetime" /> ';
+                html   += '<input id="admin-match_mode" class="match_mode" /> ';
+                html   += '<input id="admin-keyword" />';
                 html   += '</div>';
 
             selectedTab.append(html)
@@ -131,7 +160,8 @@ define('admin', function(require, exports, module) {
                         $.extend(TREE_DATA.queryParams, {
                             keyword: keyword,
                             start_date: selectedTab.find('#admin-start_date').datetimebox('getValue'),
-                            end_date: selectedTab.find('#admin-end_date').datetimebox('getValue')
+                            end_date: selectedTab.find('#admin-end_date').datetimebox('getValue'),
+                            match_mode: selectedTab.find('#admin-match_mode').combobox('getValue')
                         });
                         var dg = selectedTab.find('#dg-' + C + A);
                         $.extend(dg.datagrid('options').queryParams, TREE_DATA.queryParams);
@@ -141,11 +171,16 @@ define('admin', function(require, exports, module) {
             .end()
             .find('.datetime')
                 .data('data-options', {
+                    width: 140,
                     formatter: function(d) {
                         return date(null, d);
                     }
                 })
-                .datetimebox();
+                .datetimebox()
+            .end()
+            .find('#admin-match_mode')
+                .data('data-options', seajs.require('fields').matchMode)
+                .combobox();
         },
 
         /**
@@ -169,16 +204,20 @@ define('admin', function(require, exports, module) {
          * return {void} 无返回值
          */
         addAction: function() {
-            this._setActivePanel('add');
-            var tabs = seajs.require('tabs');
-            var dg = tabs.get('_el').find('#adminadd');
-
-            if (!dg.length) {
-                $('<div id="adminadd">addAction</div>')
-                .appendTo(tabs.getSelected())
+            this._setActivePanel();
+            var tabs        = seajs.require('tabs'),
+                selectedTab = tabs.getSelected(),
+                cc          = tabs.get('_el').find('#cc-' + C + A);
+log(seajs.require('fields'), seajs.require('fields'));
+            if (!cc.length) {
+                $('<div id="' + C + A + '"><input id="cc-' + C + A + '" class="match_mode" /></div>')
+                .appendTo(selectedTab);
+                cc = tabs.get('_el').find('#cc-' + C + A)
+                .data('data-options', seajs.require('fields').matchMode)
+                .combobox();
             }
             else {
-                //log(dg.datagrid('reload'));
+                cc.combobox('setValue', 'like');
             }
         },
 
@@ -191,7 +230,7 @@ define('admin', function(require, exports, module) {
          * return {void} 无返回值
          */
         changePasswordAction: function() {
-            this._setActivePanel('changePassword');
+            this._setActivePanel();
             var tabs = seajs.require('tabs');
             var dg = tabs.get('_el').find('#adminchangePassword');
 
@@ -213,8 +252,8 @@ define('admin', function(require, exports, module) {
          * return {void} 无返回值
          */
         listAction: function() {
-            this._setActivePanel('list');
-            this._listdatagrid();
+            this._setActivePanel();
+            this._datagrid();
         }
     });
 
