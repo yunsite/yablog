@@ -101,7 +101,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
          * @return {void} Œﬁ∑µªÿ÷µ
          */
         addTab: function(menu_id) {
-            var menuData    = seajs.require('tree').get('_treeData')[menu_id],
+            var menuData    = require('tree').get('_treeData')[menu_id],
                 tabIndex    = this._el.tabs('tabIndex', menuData.controller);
 
             if (-1 == tabIndex) {

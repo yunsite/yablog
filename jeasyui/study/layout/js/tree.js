@@ -43,7 +43,7 @@ define('tree', ['base'], function(require, exports, module) {
             if (isLeaf) {
                 var id  = v.id;
                 var queryParams = object2querystring(this._treeData[id].queryParams);
-                var router = seajs.require('router');
+                var router = require('router');
                 router.navigate('' + id + (queryParams ? '&' + queryParams : ''));
                 router.router(id);
             }
@@ -82,7 +82,7 @@ define('tree', ['base'], function(require, exports, module) {
                     return node.menu_name;
                 },
                 onLoadSuccess: function() {
-                    seajs.require('router').notifyTreeLoaded();
+                    require('router').notifyTreeLoaded();
                 }
             }).tree();
         },
