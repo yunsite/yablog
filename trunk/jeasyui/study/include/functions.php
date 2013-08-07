@@ -30,7 +30,7 @@ function ajax_return($success = true, $msg = '', $data = null, $total = null) {
         $result = array(
             'success' => $success,
             'msg'     => $msg,
-            'rows'    => $data,
+            'data'    => $data,
         );
 
         if (null !== $total) {

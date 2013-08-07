@@ -52,7 +52,7 @@ define('admin', ['fields'], function(require, exports, module) {
          * return {void} 无返回值
          */
         _datagrid: function() {
-            var tabs        = seajs.require('tabs'),
+            var tabs        = require('tabs'),
                 selectedTab = tabs.getSelected(),
                 dg          = tabs.get('_el').find('#dg-' + C + A);
 
@@ -93,7 +93,7 @@ define('admin', ['fields'], function(require, exports, module) {
                         $.extend(TREE_DATA.queryParams, {
                             page: page
                         });
-                        seajs.require('router').navigate('' + MENU_ID + '&' + object2querystring(TREE_DATA.queryParams));
+                        require('router').navigate('' + MENU_ID + '&' + object2querystring(TREE_DATA.queryParams));
                         dg.datagrid('reload');
                     },
                     onChangePageSize: log,
@@ -122,7 +122,7 @@ define('admin', ['fields'], function(require, exports, module) {
          * return {void} 无返回值
          */
         _setActivePanel: function() {
-            var tabs        = seajs.require('tabs').getSelected();
+            var tabs        = require('tabs').getSelected();
 
             tabs.children().hide();
 
@@ -179,7 +179,7 @@ define('admin', ['fields'], function(require, exports, module) {
                 .datetimebox()
             .end()
             .find('#admin-match_mode')
-                .data('data-options', seajs.require('fields').matchMode)
+                .data('data-options', require('fields').matchMode)
                 .combobox();
         },
 
@@ -205,15 +205,15 @@ define('admin', ['fields'], function(require, exports, module) {
          */
         addAction: function() {
             this._setActivePanel();
-            var tabs        = seajs.require('tabs'),
+            var tabs        = require('tabs'),
                 selectedTab = tabs.getSelected(),
                 cc          = tabs.get('_el').find('#cc-' + C + A);
-log(seajs.require('fields'), seajs.require('fields'));
+log(require('fields'), require('fields'));
             if (!cc.length) {
                 $('<div id="' + C + A + '"><input id="cc-' + C + A + '" class="match_mode" /></div>')
                 .appendTo(selectedTab);
                 cc = tabs.get('_el').find('#cc-' + C + A)
-                .data('data-options', seajs.require('fields').matchMode)
+                .data('data-options', require('fields').matchMode)
                 .combobox();
             }
             else {
@@ -231,7 +231,7 @@ log(seajs.require('fields'), seajs.require('fields'));
          */
         changePasswordAction: function() {
             this._setActivePanel();
-            var tabs = seajs.require('tabs');
+            var tabs = require('tabs');
             var dg = tabs.get('_el').find('#adminchangePassword');
 
             if (!dg.length) {

@@ -10,7 +10,7 @@
  * @lastmodify      $Date$ $Author$
  */
 
-define('router', function(require, exports, module) {
+define('router', [], function(require, exports, module) {
     var Router = Backbone.Router.extend({
         /**
          * var {bool} [treeLoaded=false] true导航树已经加载完成
@@ -75,7 +75,7 @@ define('router', function(require, exports, module) {
 
             MENU_ID = menu_id;
 
-            var tree        = seajs.require('tree');
+            var tree        = require('tree');
 
             if (menu_id && 0 != menu_id.indexOf(0)) {
                 var el          = tree.get('_el'),
@@ -102,14 +102,14 @@ define('router', function(require, exports, module) {
 
                     this.navigate(hash);*/
 
-                    seajs.require('tabs').addTab(menu_id);
+                    require('tabs').addTab(menu_id);
                 }
                 else {
                     tree.tree('getSelected', '__none__');
                 }
             }
             else {
-                seajs.require('tabs').get('_el').tabs('select', 0);
+                require('tabs').get('_el').tabs('select', 0);
                 tree.get('_el').tree('select', '__none__');
             }
         }//end router
