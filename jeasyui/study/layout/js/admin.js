@@ -146,8 +146,22 @@ define('admin', ['fields'], function(require, exports, module) {
         _setToolbar: function(selectedTab) {
             var me      = this,
                 html    = '<div id="tb-' + C + A + '">';
+                html   += '<a href="javascript:void(0)"  class="easyui-menubutton" id="admin-operate"\
+        data-options="menu:\'#mm\',iconCls:\'icon-edit\'">操作</a>\
+<div id="mm" style="width:150px;">\
+    <div data-options="iconCls:\'icon-undo\'">删除</div>\
+    <div data-options="iconCls:\'icon-redo\'">Redo</div>\
+    <div class="menu-sep"></div>\
+    <div>Cut</div>\
+    <div>Copy</div>\
+    <div>Paste</div>\
+    <div class="menu-sep"></div>\
+    <div data-options="iconCls:\'icon-remove\'">Delete</div>\
+    <div>Select All</div>\
+</div>';
                 html   += '添加时间<input id="admin-start_date" class="datetime" /> - ';
                 html   += '<input id="admin-end_date" class="datetime" /> ';
+                html   += '<input id="admin-cate_id" /> ';
                 html   += '<input id="admin-match_mode" class="match_mode" /> ';
                 html   += '<input id="admin-keyword" />';
                 html   += '</div>';
@@ -180,7 +194,25 @@ define('admin', ['fields'], function(require, exports, module) {
             .end()
             .find('#admin-match_mode')
                 .data('data-options', require('fields').matchMode)
-                .combobox();
+                .combobox()
+            .end()
+            .find('#admin-cate_id')
+                .data('data-options', {
+                    url: 'categories.php',
+                    valueField: 'cate_id',
+                    textField: 'cate_name'
+                })
+                .combobox()
+            .end()
+            .find('#mm')
+                .data('data-options', {
+                    onClick: function() {
+                        log(selectedTab.find('#dg-' + C + A).datagrid('getChecked'));
+                    }
+                })
+            .end()
+            .find('#admin-operate')
+                .menubutton();
         },
 
         /**
@@ -208,7 +240,7 @@ define('admin', ['fields'], function(require, exports, module) {
             var tabs        = require('tabs'),
                 selectedTab = tabs.getSelected(),
                 cc          = tabs.get('_el').find('#cc-' + C + A);
-log(require('fields'), require('fields'));
+
             if (!cc.length) {
                 $('<div id="' + C + A + '"><input id="cc-' + C + A + '" class="match_mode" /></div>')
                 .appendTo(selectedTab);
