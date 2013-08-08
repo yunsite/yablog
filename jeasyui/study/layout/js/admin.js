@@ -109,9 +109,17 @@ define('admin', ['fields'], function(require, exports, module) {
             }
 
             Q2O.keyword && selectedTab.find('#tb-' + C + A).find('#admin-keyword').searchbox('setValue', Q2O.keyword);
-            selectedTab.find('#tb-' + C + A).find('#admin-start_date').datetimebox('setValue', Q2O.start_date);
-            selectedTab.find('#tb-' + C + A).find('#admin-end_date').datetimebox('setValue', Q2O.end_date);
-            selectedTab.find('#tb-' + C + A).find('#admin-match_mode').combobox('setValue', Q2O.match_mode || 'eq');
+            selectedTab.find('#tb-' + C + A)
+            .find('#admin-start_date')
+                .datetimebox('setValue', Q2O.start_date)
+            .end()
+            .find('#admin-end_date')
+                .datetimebox('setValue', Q2O.end_date)
+            .end()
+            .find('#admin-match_mode')
+                .combobox('setValue', Q2O.match_mode || 'eq')
+            .find('#admin-cate_id')
+                .combobox('setValue', Q2O.cate_id);
         },
         /**
          * 设置活跃面板
@@ -175,7 +183,8 @@ define('admin', ['fields'], function(require, exports, module) {
                             keyword: keyword,
                             start_date: selectedTab.find('#admin-start_date').datetimebox('getValue'),
                             end_date: selectedTab.find('#admin-end_date').datetimebox('getValue'),
-                            match_mode: selectedTab.find('#admin-match_mode').combobox('getValue')
+                            match_mode: selectedTab.find('#admin-match_mode').combobox('getValue'),
+                            cate_id: selectedTab.find('#admin-cate_id').combobox('getValue')
                         });
                         var dg = selectedTab.find('#dg-' + C + A);
                         $.extend(dg.datagrid('options').queryParams, TREE_DATA.queryParams);
@@ -200,7 +209,13 @@ define('admin', ['fields'], function(require, exports, module) {
                 .data('data-options', {
                     url: 'categories.php',
                     valueField: 'cate_id',
-                    textField: 'cate_name'
+                    textField: 'cate_name',
+                    onLoadSuccess: function(data) {
+
+                        if (data && data.length) {
+                            $(this).combobox('setValue', Q2O.cate_id);
+                        }
+                    }
                 })
                 .combobox()
             .end()
