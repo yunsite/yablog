@@ -72,6 +72,51 @@ function object2querystring(object) {
 }
 
 /**
+ * 将object转化为html代码
+ *
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-08-08 16:32:15
+ *
+ * @param {array} object 待转化object
+ *
+ * @return {string} 转化后的html代码
+ */
+function object2html(object) {
+    var arr     = [],
+        object  = 'array' == $.type(object) ? object : [object];
+
+    $.each(object, function(key, value) {
+
+        if ('string' == $.type(value)) {
+            arr.push(value);
+        }
+        else {
+            var tag     = value.tag || 'div';
+
+            delete value.tag;
+
+            arr.push('<', tag);
+
+            $.each(value, function(k, v) {
+                 0 != k.indexOf('_') && arr.push(' ', k, '="', v, '"');
+            });
+
+            if (value._begin) {
+                arr.push('>');
+            }
+            else if ('input' == tag) {
+                arr.push(' />');
+            }
+            else {
+                arr.push('>', undefined === value._text ? '' : value._text, '</', tag, '>');
+            }
+        }
+    });
+
+    return arr.join('');
+}//end object2html
+
+/**
  * 将object转化为字符串
  *
  * @author          mrmsl <msl-138@163.com>
