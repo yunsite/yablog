@@ -1,40 +1,36 @@
-define('admin', ['fields'], function(require, exports, module) {
+define('menu', ['fields'], function(require, exports, module) {
     var Base    = require('base');
     var Admin   = Base.extend({
-        _datagridOptions: {
+        _treegridOptions: {
+            idField: 'menu_id',
+            treeField: 'menu_name',
             columns: [[
                 {checkbox: true},
-                {title: 'id', field: 'blog_id', width: 50},
-                {title: '标题', field: 'title', width: 200},
-                {title: '点击', field: 'hits', width: 50, fixed: true}
+                //{title: 'id', field: 'menu_id', width: 50},
+                {title: 'name', field: 'menu_name', width: 200},
+                {title: '点击', field: 'controller', width: 50, fixed: true}
             ]],
             queryParams: {},
-            toolbar: '#tb-adminlist',
-            url: 'get_blogs.php',
+            toolbar: '#tb-' + C + 'list',
+            url: '../get_tree.php',
             striped: true,
             fitColumns: true,
-            pagination: true,
+            //pagination: true,
             fit: true,
+            singleSelect: false,
             sortName: 'blog_id',
             sortOrder: 'desc',
             showFooter: true,
-            loadFilter: function(data) {
-                return {
-                    rows: data.data,
-                    total: data.total
-                };
-            },
-            selectOnCheck: true,
             checkOnSelect: false,
-            onSelect: function(index) {
-                var tr = $(this).datagrid('options').finder.getTr(this, index);
+            onSelect: function(index) {log(arguments);return;
+                var tr = $(this).treegrid('options').finder.getTr(this, index);
 
                 if (!tr.find('div.datagrid-cell-check input[type=checkbox]').prop('checked')) {
                     tr.removeClass('datagrid-row-selected');
                 }
             },
-            onUnselect: function(index) {
-                var tr = $(this).datagrid('options').finder.getTr(this, index);
+            onUnselect: function(index) {log(arguments);return;
+                var tr = $(this).treegrid('options').finder.getTr(this, index);
 
                 if (tr.find('div.datagrid-cell-check input[type=checkbox]').prop('checked')) {
                     tr.addClass('datagrid-row-selected');
@@ -44,14 +40,14 @@ define('admin', ['fields'], function(require, exports, module) {
         },
 
         /**
-         * 列表datagrid
+         * 列表treegrid
          *
          * @author          mrmsl <msl-138@163.com>
          * @date            2013-08-01 17:03:31
          *
          * return {void} 无返回值
          */
-        _datagrid: function() {
+        _treegrid: function() {
             var tabs        = require('tabs'),
                 selectedTab = tabs.getSelected(),
                 dg          = tabs.get('_el').find('#dg-' + C + A);
@@ -66,27 +62,27 @@ define('admin', ['fields'], function(require, exports, module) {
             TREE_DATA.queryParams = Q2O;
 
             if (!dg.length) {
-                $.extend(this._datagridOptions, pagesize);
-                $.extend(this._datagridOptions.queryParams, Q2O);
+                $.extend(this._treegridOptions, pagesize);
+                $.extend(this._treegridOptions.queryParams, Q2O);
             }
             /*else {
-                $.extend(dg.datagrid('options'), pagesize);
-                $.extend(dg.datagrid('options').queryParams, Q2O);
+                $.extend(dg.treegrid('options'), pagesize);
+                $.extend(dg.treegrid('options').queryParams, Q2O);
             }*/
 
             if (!dg.length) {
-                dg = $('<table id="dg-' + C + A + '" class="easyui-datagrid"></table>')
+                dg = $('<table id="dg-' + C + A + '" class="easyui-treegrid"></table>')
                 .appendTo(selectedTab)
-                .data('data-options', this._datagridOptions);
+                .data('data-options', this._treegridOptions);
                 this._setToolbar(selectedTab);
-                dg.datagrid();
+                dg.treegrid();
 
-                dg.datagrid('getPager').pagination({
+                dg.treegrid('getPager').pagination({
                     onSelectPage: function(page, pageSize) {
-                        $.extend(dg.datagrid('options'), {
+                        $.extend(dg.treegrid('options'), {
                             pageNumber: page
                         });
-                        $.extend(dg.datagrid('getPager').pagination('options'), {
+                        $.extend(dg.treegrid('getPager').pagination('options'), {
                             pageNumber: page
                         });
 
@@ -94,31 +90,31 @@ define('admin', ['fields'], function(require, exports, module) {
                             page: page
                         });
                         require('router').navigate('' + MENU_ID + '&' + object2querystring(TREE_DATA.queryParams));
-                        dg.datagrid('reload');
+                        dg.treegrid('reload');
                     },
                     onChangePageSize: log,
                     showPageList: false
                 });
             }
             else if(object2querystring(TREE_DATA._prevQueryParams) != object2querystring(TREE_DATA.queryParams)) {
-                $.extend(dg.datagrid('options'), pagesize);
-                $.extend(dg.datagrid('options').queryParams, TREE_DATA.queryParams);
-                $.extend(dg.datagrid('getPager').pagination('options'), pagesize);
-                dg.datagrid('getPager').pagination('select', pagesize.pageNumber);
-                //dg.datagrid('reload');log(dg.datagrid('getPager').pagination('options'))
+                $.extend(dg.treegrid('options'), pagesize);
+                $.extend(dg.treegrid('options').queryParams, TREE_DATA.queryParams);
+                $.extend(dg.treegrid('getPager').pagination('options'), pagesize);
+                dg.treegrid('getPager').pagination('select', pagesize.pageNumber);
+                //dg.treegrid('reload');log(dg.treegrid('getPager').pagination('options'))
             }
 
-            Q2O.keyword && selectedTab.find('#tb-' + C + A).find('#admin-keyword').searchbox('setValue', Q2O.keyword);
+            Q2O.keyword && selectedTab.find('#tb-' + C + A).find('#' + C + '-keyword').searchbox('setValue', Q2O.keyword);
             selectedTab.find('#tb-' + C + A)
-            .find('#admin-start_date')
+            .find('#' + C + '-start_date')
                 .datetimebox('setValue', Q2O.start_date)
             .end()
-            .find('#admin-end_date')
+            .find('#' + C + '-end_date')
                 .datetimebox('setValue', Q2O.end_date)
             .end()
-            .find('#admin-match_mode')
+            .find('#' + C + '-match_mode')
                 .combobox('setValue', Q2O.match_mode || 'eq')
-            .find('#admin-cate_id')
+            .find('#' + C + '-cate_id')
                 //.combobox('setValue', 3);
         },
         /**
@@ -135,7 +131,7 @@ define('admin', ['fields'], function(require, exports, module) {
             tabs.children().hide();
 
             if ('list' == A) {
-                tabs.children('.datagrid').show();
+                tabs.children('.treegrid').show();
             }
             else {
                 var id  = C + A;
@@ -154,7 +150,7 @@ define('admin', ['fields'], function(require, exports, module) {
         _setToolbar: function(selectedTab) {
             var me      = this,
                 html    = '<div id="tb-' + C + A + '">';
-                html   += '<a href="javascript:void(0)"  class="easyui-menubutton" id="admin-operate"\
+                html   += '<a href="javascript:void(0)"  class="easyui-menubutton" id="' + C + '-operate"\
         data-options="menu:\'#mm\',iconCls:\'icon-edit\'">操作</a>\
 <div id="mm" style="width:150px;">\
     <div data-options="iconCls:\'icon-undo\'">删除</div>\
@@ -167,28 +163,28 @@ define('admin', ['fields'], function(require, exports, module) {
     <div data-options="iconCls:\'icon-remove\'">Delete</div>\
     <div>Select All</div>\
 </div>';
-                html   += '添加时间<input id="admin-start_date" class="datetime" /> - ';
-                html   += '<input id="admin-end_date" class="datetime" /> ';
-                html   += '<input id="admin-cate_id" /> ';
-                html   += '<input id="admin-match_mode" class="match_mode" /> ';
-                html   += '<input id="admin-keyword" />';
+                html   += '添加时间<input id="' + C + '-start_date" class="datetime" /> - ';
+                html   += '<input id="' + C + '-end_date" class="datetime" /> ';
+                html   += '<input id="' + C + '-cate_id" /> ';
+                html   += '<input id="' + C + '-match_mode" class="match_mode" /> ';
+                html   += '<input id="' + C + '-keyword" />';
                 html   += '</div>';
 
             selectedTab.append(html)
-            .find('#admin-keyword')
+            .find('#' + C + '-keyword')
                 .data('data-options', {
                     prompt: '关键字',
                     searcher: function(keyword) {
                         $.extend(TREE_DATA.queryParams, {
                             keyword: keyword,
-                            start_date: selectedTab.find('#admin-start_date').datetimebox('getValue'),
-                            end_date: selectedTab.find('#admin-end_date').datetimebox('getValue'),
-                            match_mode: selectedTab.find('#admin-match_mode').combobox('getValue'),
-                            cate_id: selectedTab.find('#admin-cate_id').combobox('getValue')
+                            start_date: selectedTab.find('#' + C + '-start_date').datetimebox('getValue'),
+                            end_date: selectedTab.find('#' + C + '-end_date').datetimebox('getValue'),
+                            match_mode: selectedTab.find('#' + C + '-match_mode').combobox('getValue'),
+                            cate_id: selectedTab.find('#' + C + '-cate_id').combobox('getValue')
                         });
                         var dg = selectedTab.find('#dg-' + C + A);
-                        $.extend(dg.datagrid('options').queryParams, TREE_DATA.queryParams);
-                        dg.datagrid('getPager').pagination('select', 1);
+                        $.extend(dg.treegrid('options').queryParams, TREE_DATA.queryParams);
+                        dg.treegrid('getPager').pagination('select', 1);
                     }
                 }).searchbox()
             .end()
@@ -201,11 +197,11 @@ define('admin', ['fields'], function(require, exports, module) {
                 })
                 .datetimebox()
             .end()
-            .find('#admin-match_mode')
+            .find('#' + C + '-match_mode')
                 .data('data-options', require('fields').matchMode)
                 .combobox()
             .end()
-            .find('#admin-cate_id')
+            .find('#' + C + '-cate_id')
                 .data('data-options', {
                     url: 'categories.php',
                     valueField: 'cate_id',
@@ -222,11 +218,11 @@ define('admin', ['fields'], function(require, exports, module) {
             .find('#mm')
                 .data('data-options', {
                     onClick: function() {
-                        log(selectedTab.find('#dg-' + C + A).datagrid('getChecked'));
+                        log(selectedTab.find('#dg-' + C + A).treegrid('getChecked'));
                     }
                 })
             .end()
-            .find('#admin-operate')
+            .find('#' + C + '-operate')
                 .menubutton();
         },
 
@@ -254,33 +250,17 @@ define('admin', ['fields'], function(require, exports, module) {
             this._setActivePanel();
             var tabs        = require('tabs'),
                 selectedTab = tabs.getSelected(),
-                div         = tabs.get('_el').find('#' + C + A);
+                cc          = tabs.get('_el').find('#cc-' + C + A);
 
-            if (!div.length) {
-                var html = '<form id="' + C + A + '" method="post">\
-    <div>\
-        <label for="name">Name:</label>\
-        <input class="easyui-validatebox" type="text" name="name" data-options="required:true" />\
-    </div>\
-    <div>\
-        <label for="email">Email:</label>\
-        <input class="easyui-validatebox" type="text" name="email" data-options="validType:\'email\'" />\
-    </div>\
-</form>';
-                $(html)
-                .appendTo(selectedTab)
-                .form({
-                    onLoadError: function() {
-                        log('error', arguments);
-                    },
-                    url: 'form.php',
-                    success: function() {
-                        log('success', arguments);
-                    }
-                });
+            if (!cc.length) {
+                $('<div id="' + C + A + '"><input id="cc-' + C + A + '" class="match_mode" /></div>')
+                .appendTo(selectedTab);
+                cc = tabs.get('_el').find('#cc-' + C + A)
+                .data('data-options', require('fields').matchMode)
+                .combobox();
             }
             else {
-                //cc.combobox('setValue', 'like');
+                cc.combobox('setValue', 'like');
             }
         },
 
@@ -295,14 +275,14 @@ define('admin', ['fields'], function(require, exports, module) {
         changePasswordAction: function() {
             this._setActivePanel();
             var tabs = require('tabs');
-            var dg = tabs.get('_el').find('#adminchangePassword');
+            var dg = tabs.get('_el').find('#' + C + 'changePassword');
 
             if (!dg.length) {
-                $('<div id="adminchangePassword">changePassword</div>')
+                $('<div id="' + C + 'changePassword">changePassword</div>')
                 .appendTo(tabs.getSelected())
             }
             else {
-                //log(dg.datagrid('reload'));
+                //log(dg.treegrid('reload'));
             }
         },
 
@@ -316,7 +296,7 @@ define('admin', ['fields'], function(require, exports, module) {
          */
         listAction: function() {
             this._setActivePanel();
-            this._datagrid();
+            this._treegrid();
         }
     });
 
