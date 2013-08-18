@@ -22,19 +22,50 @@ define('menu', ['fields'], function(require, exports, module) {
             sortOrder: 'desc',
             showFooter: true,
             checkOnSelect: false,
-            onSelect: function(index) {log(arguments);return;
-                var tr = $(this).treegrid('options').finder.getTr(this, index);
+            onSelect: function(data) {
+                var tr      = $(this).treegrid('options').finder.getTr(this, data.menu_id);
 
                 if (!tr.find('div.datagrid-cell-check input[type=checkbox]').prop('checked')) {
                     tr.removeClass('datagrid-row-selected');
                 }
+
+                //tr.next('tr.treegrid-tr-tree').find('div.datagrid-cell-check input[type=checkbox]').prop('checked', checked);
             },
-            onUnselect: function(index) {log(arguments);return;
-                var tr = $(this).treegrid('options').finder.getTr(this, index);
+            onUnselect: function(data) {
+                var tr      = $(this).treegrid('options').finder.getTr(this, data.menu_id);
 
                 if (tr.find('div.datagrid-cell-check input[type=checkbox]').prop('checked')) {
                     tr.addClass('datagrid-row-selected');
                 }
+            },
+            checkEvent: function(data, checked) {
+                var tr  = $(this).treegrid('options').finder.getTr(this, data.menu_id),
+                    cls = 'div.datagrid-cell-check input[type=checkbox]';
+
+                if (checked) {
+                    var method = 'addClass';
+
+                }
+                else {
+                    var method = 'removeClass';
+                    tr.find(cls)
+                    .parents('tr.treegrid-tr-tree')
+                    .prev('tr[node-id]')
+                    .removeClass('datagrid-row-selected')
+                    .find(cls).prop('checked', false);
+                }
+
+                tr.next('tr.treegrid-tr-tree')
+                .find('tr[node-id]')[method]('datagrid-row-selected')
+                .end()
+                .find(cls)
+                    .prop('checked', checked);
+            },
+            onCheck: function(data) {
+                $(this).treegrid('options').checkEvent.call(this, data, true);
+            },
+            onUncheck: function(data) {
+                $(this).treegrid('options').checkEvent.call(this, data, false);
             },
             checkbox: true
         },
