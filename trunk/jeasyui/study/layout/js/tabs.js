@@ -91,6 +91,21 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
         },
 
         /**
+         * 设置活跃面板
+         *
+         * @author          mrmsl <msl-138@163.com>
+         * @date            2013-08-30 09:03:43
+         *
+         * return {void} 无返回值
+         */
+        _setActivePanel: function() {
+            var tabs = this.getSelected();
+
+            tabs.children().hide();
+            tabs.find('#' + C + A).show();
+        },
+
+        /**
          * 添加标签
          *
          * @author          mrmsl <msl-138@163.com>
@@ -106,9 +121,11 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
 
             if (-1 == tabIndex) {
                 this._el.tabs('add', {
+                    //onLoad: function() {log(arguments);},
                     title: menuData.menu_name,
                     closable: true,
                     content: '',
+                    //href: 'http://localhost/jeasyui/yablog/study/layout/action.php?c={0}&a={1}'.format(menuData.controller, menuData.action),
                     //id: attrs.controller + attrs.action,
                     style: {
                         padding: '8px'
@@ -133,10 +150,13 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                     this._el.tabs('update', {
                         tab: this._el.tabs('getTab', tabIndex),
                         options: {
+                            //href: 'http://localhost/jeasyui/yablog/study/layout/action.php?c={0}&a={1}'.format(menuData.controller, menuData.action),
                             //content: menuData.menu_name,
                             title: menuData.menu_name
                         }
                     });
+
+                    this._setActivePanel();
                 }
 
                 this._el.tabs('select', menuData.menu_name);
@@ -182,7 +202,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
         },
 
         /**
-         *
+         * 获取选中tab
          *
          * @author      mrmsl <msl-138@163.com>
          * @date        2013-08-01 17:07:10

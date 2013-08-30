@@ -315,7 +315,16 @@ define('admin', ['fields'], function(require, exports, module) {
          * return {void} 无返回值
          */
         listAction: function() {
-            this._setActivePanel();
+            var body = require('tabs').getSelected();
+
+            if (body.children('#' + C + A).length) {
+            }
+            else {
+                $.get('http://localhost/jeasyui/yablog/study/layout/action.php?controller={0}&action={1}'.format(C, A), function(data) {
+                    $('<div id="' + C + A + '"></div>').html(data).appendTo(body);
+                });
+            }
+            return;
             this._datagrid();
         }
     });
