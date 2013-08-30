@@ -250,7 +250,7 @@ define('admin', ['fields'], function(require, exports, module) {
          *
          * return {void} 无返回值
          */
-        addAction: function() {
+        addAction: function() {log(C + A);return;
             this._setActivePanel();
             var tabs        = require('tabs'),
                 selectedTab = tabs.getSelected(),
@@ -292,7 +292,7 @@ define('admin', ['fields'], function(require, exports, module) {
          *
          * return {void} 无返回值
          */
-        changePasswordAction: function() {
+        changePasswordAction: function() {log(C + A);return;
             this._setActivePanel();
             var tabs = require('tabs');
             var dg = tabs.get('_el').find('#adminchangePassword');
@@ -314,7 +314,7 @@ define('admin', ['fields'], function(require, exports, module) {
          *
          * return {void} 无返回值
          */
-        listAction: function() {
+        listAction: function() {log(C + A);return;
             var body = require('tabs').getSelected();
 
             if (body.children('#' + C + A).length) {
