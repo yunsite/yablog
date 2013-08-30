@@ -236,12 +236,25 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
         loadScript: function(controller, action) {
             controller  = controller || C;
             action      = action || A;
+            Q2O         = querystring2object(getHash());
+
+            var selected = this.getSelected();
+
             seajs.use(controller, function(o) {
-                Q2O = querystring2object(getHash());
-                action += 'Action';
-                o[action]();
+                var method = action + 'Action';
+
+                if (selected.children('#' + controller + action).length) {
+                    o[method]();
+                }
+                else {
+                    $.get('http://localhost/jeasyui/yablog/study/layout/action.php?controller={0}&action={1}'.format(controller, action), function(data) {
+                        $('<div id="' + controller + action + '"></div>').html(data).appendTo(selected);
+                        o[method]();
+                    });
+                }
+
             });
-        }
+        }//end loadScript
     });
 
     var tabs = new Tabs();
