@@ -1,7 +1,7 @@
 define('menu', ['fields'], function(require, exports, module) {
     var Base    = require('base');
     var Admin   = Base.extend({
-        _treegridOptions: {
+        _treegridOptions: {title: 'aaa',
             idField: 'menu_id',
             treeField: 'menu_name',
             columns: [[
@@ -81,7 +81,7 @@ define('menu', ['fields'], function(require, exports, module) {
         _treegrid: function() {
             var tabs        = require('tabs'),
                 selectedTab = tabs.getSelected(),
-                dg          = tabs.get('_el').find('#dg-' + C + A);
+                dg          = tabs.get('_el').find('#tg-' + C + A);
 
             TREE_DATA._prevQueryParams = _.clone(TREE_DATA.queryParams);
 
@@ -92,19 +92,17 @@ define('menu', ['fields'], function(require, exports, module) {
 
             TREE_DATA.queryParams = Q2O;
 
-            if (!dg.length) {
+            //if (!dg.length) {
                 $.extend(this._treegridOptions, pagesize);
                 $.extend(this._treegridOptions.queryParams, Q2O);
-            }
+            //}
             /*else {
                 $.extend(dg.treegrid('options'), pagesize);
                 $.extend(dg.treegrid('options').queryParams, Q2O);
             }*/
 
-            if (!dg.length) {
-                dg = $('<table id="dg-' + C + A + '" class="easyui-treegrid"></table>')
-                .appendTo(selectedTab)
-                .data('data-options', this._treegridOptions);
+            if (global('FIRST_LOAD')) {
+                dg.data('data-options', this._treegridOptions);
                 this._setToolbar(selectedTab);
                 dg.treegrid();
 
@@ -145,29 +143,9 @@ define('menu', ['fields'], function(require, exports, module) {
             .end()
             .find('#' + C + '-match_mode')
                 .combobox('setValue', Q2O.match_mode || 'eq')
+            .end()
             .find('#' + C + '-cate_id')
                 //.combobox('setValue', 3);
-        },
-        /**
-         * 设置活跃面板
-         *
-         * @author          mrmsl <msl-138@163.com>
-         * @date            2013-08-02 20:06:50
-         *
-         * return {void} 无返回值
-         */
-        _setActivePanel: function() {
-            var tabs        = require('tabs').getSelected();
-
-            tabs.children().hide();
-
-            if ('list' == A) {
-                tabs.children('.treegrid').show();
-            }
-            else {
-                var id  = C + A;
-                tabs.find('#' + id).show();
-            }
         },
 
         /**
@@ -179,30 +157,7 @@ define('menu', ['fields'], function(require, exports, module) {
          * return {void} 无返回值
          */
         _setToolbar: function(selectedTab) {
-            var me      = this,
-                html    = '<div id="tb-' + C + A + '">';
-                html   += '<a href="javascript:void(0)"  class="easyui-menubutton" id="' + C + '-operate"\
-        data-options="menu:\'#mm\',iconCls:\'icon-edit\'">操作</a>\
-<div id="mm" style="width:150px;">\
-    <div data-options="iconCls:\'icon-undo\'">删除</div>\
-    <div data-options="iconCls:\'icon-redo\'">Redo</div>\
-    <div class="menu-sep"></div>\
-    <div>Cut</div>\
-    <div>Copy</div>\
-    <div>Paste</div>\
-    <div class="menu-sep"></div>\
-    <div data-options="iconCls:\'icon-remove\'">Delete</div>\
-    <div>Select All</div>\
-</div>';
-                html   += '添加时间<input id="' + C + '-start_date" class="datetime" /> - ';
-                html   += '<input id="' + C + '-end_date" class="datetime" /> ';
-                html   += '<input id="' + C + '-cate_id" /> ';
-                html   += '<input id="' + C + '-match_mode" class="match_mode" /> ';
-                html   += '<input id="' + C + '-keyword" />';
-                html   += '</div>';
-
-            selectedTab.append(html)
-            .find('#' + C + '-keyword')
+            selectedTab.find('#' + C + '-keyword')
                 .data('data-options', {
                     prompt: '关键字',
                     searcher: function(keyword) {
@@ -213,7 +168,7 @@ define('menu', ['fields'], function(require, exports, module) {
                             match_mode: selectedTab.find('#' + C + '-match_mode').combobox('getValue'),
                             cate_id: selectedTab.find('#' + C + '-cate_id').combobox('getValue')
                         });
-                        var dg = selectedTab.find('#dg-' + C + A);
+                        var dg = selectedTab.find('#tg-' + C + A);
                         $.extend(dg.treegrid('options').queryParams, TREE_DATA.queryParams);
                         dg.treegrid('getPager').pagination('select', 1);
                     }
@@ -229,7 +184,6 @@ define('menu', ['fields'], function(require, exports, module) {
                 .datetimebox()
             .end()
             .find('#' + C + '-match_mode')
-                .data('data-options', require('fields').matchMode)
                 .combobox()
             .end()
             .find('#' + C + '-cate_id')
@@ -246,10 +200,10 @@ define('menu', ['fields'], function(require, exports, module) {
                 })
                 .combobox()
             .end()
-            .find('#mm')
+            .find('#menu-menulist')
                 .data('data-options', {
                     onClick: function() {
-                        log(selectedTab.find('#dg-' + C + A).treegrid('getChecked'));
+                        log(selectedTab.find('#tg-' + C + A).treegrid('getChecked'));
                     }
                 })
             .end()
@@ -277,7 +231,7 @@ define('menu', ['fields'], function(require, exports, module) {
          *
          * return {void} 无返回值
          */
-        addAction: function() {
+        addAction: function() {return;
             this._setActivePanel();
             var tabs        = require('tabs'),
                 selectedTab = tabs.getSelected(),
@@ -326,7 +280,6 @@ define('menu', ['fields'], function(require, exports, module) {
          * return {void} 无返回值
          */
         listAction: function() {
-            this._setActivePanel();
             this._treegrid();
         }
     });
