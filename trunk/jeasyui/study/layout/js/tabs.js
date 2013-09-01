@@ -126,7 +126,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                     closable: true,
                     content: '',
                     //href: 'http://localhost/jeasyui/yablog/study/layout/action.php?c={0}&a={1}'.format(menuData.controller, menuData.action),
-                    //id: attrs.controller + attrs.action,
+                    id: menuData.controller + menuData.action,
                     style: {
                         padding: '8px'
                     },
@@ -243,13 +243,16 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
             seajs.use(controller, function(o) {
                 var method = action + 'Action';
 
-                if (selected.children('#' + controller + action).length) {
+                if (selected.children('.' + controller + action).length) {
                     o[method]();
                 }
                 else {
                     $.get('http://localhost/jeasyui/yablog/study/layout/action.php?controller={0}&action={1}'.format(controller, action), function(data) {
-                        $('<div id="' + controller + action + '"></div>').html(data).appendTo(selected);
+                        //$('<div id="' + controller + action + '"></div>').html(data).appendTo(selected);
+                        selected.append(data);
+                        global('FIRST_LOAD', true);
                         o[method]();
+                        global('FIRST_LOAD', false);
                     });
                 }
 
