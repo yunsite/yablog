@@ -1,14 +1,16 @@
 define('menu', ['fields'], function(require, exports, module) {
     var Base    = require('base');
-    var Admin   = Base.extend({
-        _treegridOptions: {title: 'aaa',
+    var Menu   = Base.extend({
+        _treegridOptions: {
             idField: 'menu_id',
             treeField: 'menu_name',
             columns: [[
                 {checkbox: true},
-                //{title: 'id', field: 'menu_id', width: 50},
-                {title: 'name', field: 'menu_name', width: 200},
-                {title: '点击', field: 'controller', width: 50, fixed: true}
+                {title: '菜单id', field: 'menu_id', width: 60, fixed: true},
+                {title: '菜单名称', field: 'menu_name', width: 200},
+                {title: '控制器', field: 'controller', width: 120, fixed: true},
+                {title: '操作方法', field: 'action', width: 120, fixed: true},
+                {title: '操作', field: 'nofield_op', width: 120, fixed: true, formatter: function() { return ''; }}
             ]],
             queryParams: {},
             toolbar: '#tb-' + C + 'list',
@@ -61,13 +63,22 @@ define('menu', ['fields'], function(require, exports, module) {
                 .find(cls)
                     .prop('checked', checked);
             },
+            rowStyler: function() {
+                return 'cursor: pointer';
+            },
             onCheck: function(data) {
                 $(this).treegrid('options').checkEvent.call(this, data, true);
             },
             onUncheck: function(data) {
                 $(this).treegrid('options').checkEvent.call(this, data, false);
             },
-            checkbox: true
+            onClickRow: function() {
+                log(arguments, 'onClickRow');
+            },
+            onContextMenu: function(e, field) {
+                log(arguments, 'onRowContextMenu');
+                e.preventDefault();
+            }
         },
 
         /**
@@ -81,7 +92,7 @@ define('menu', ['fields'], function(require, exports, module) {
         _treegrid: function() {
             var tabs        = require('tabs'),
                 selectedTab = tabs.getSelected(),
-                dg          = tabs.get('_el').find('#tg-' + C + A);
+                grid          = tabs.get('_el').find('#grid-' + C + A);
 
             TREE_DATA._prevQueryParams = _.clone(TREE_DATA.queryParams);
 
@@ -92,45 +103,45 @@ define('menu', ['fields'], function(require, exports, module) {
 
             TREE_DATA.queryParams = Q2O;
 
-            //if (!dg.length) {
+            //if (!grid.length) {
                 $.extend(this._treegridOptions, pagesize);
                 $.extend(this._treegridOptions.queryParams, Q2O);
             //}
             /*else {
-                $.extend(dg.treegrid('options'), pagesize);
-                $.extend(dg.treegrid('options').queryParams, Q2O);
+                $.extend(grid.treegrid('options'), pagesize);
+                $.extend(grid.treegrid('options').queryParams, Q2O);
             }*/
 
             if (global('FIRST_LOAD')) {
-                dg.data('data-options', this._treegridOptions);
+                grid.data('data-options', this._treegridOptions);
                 this._setToolbar(selectedTab);
-                dg.treegrid();
+                grid.treegrid();
 
-                dg.treegrid('getPager').pagination({
+                grid.treegrid('getPager').pagination({
                     onSelectPage: function(page, pageSize) {
-                        $.extend(dg.treegrid('options'), {
+                        $.extend(grid.treegrid('options'), {
                             pageNumber: page
                         });
-                        $.extend(dg.treegrid('getPager').pagination('options'), {
+                        $.extend(grid.treegrid('getPager').pagination('options'), {
                             pageNumber: page
                         });
 
                         $.extend(TREE_DATA.queryParams, {
                             page: page
                         });
-                        require('router').navigate('' + MENU_ID + '&' + object2querystring(TREE_DATA.queryParams));
-                        dg.treegrid('reload');
+                        require('router').navigate('controller={controller}&action={action}&'.format(TREE_DATA) + object2querystring(TREE_DATA.queryParams));
+                        grid.treegrid('reload');
                     },
                     onChangePageSize: log,
                     showPageList: false
                 });
             }
             else if(object2querystring(TREE_DATA._prevQueryParams) != object2querystring(TREE_DATA.queryParams)) {
-                $.extend(dg.treegrid('options'), pagesize);
-                $.extend(dg.treegrid('options').queryParams, TREE_DATA.queryParams);
-                $.extend(dg.treegrid('getPager').pagination('options'), pagesize);
-                dg.treegrid('getPager').pagination('select', pagesize.pageNumber);
-                //dg.treegrid('reload');log(dg.treegrid('getPager').pagination('options'))
+                $.extend(grid.treegrid('options'), pagesize);
+                $.extend(grid.treegrid('options').queryParams, TREE_DATA.queryParams);
+                $.extend(grid.treegrid('getPager').pagination('options'), pagesize);
+                grid.treegrid('getPager').pagination('select', pagesize.pageNumber);
+                //grid.treegrid('reload');log(grid.treegrid('getPager').pagination('options'))
             }
 
             Q2O.keyword && selectedTab.find('#tb-' + C + A).find('#' + C + '-keyword').searchbox('setValue', Q2O.keyword);
@@ -168,9 +179,9 @@ define('menu', ['fields'], function(require, exports, module) {
                             match_mode: selectedTab.find('#' + C + '-match_mode').combobox('getValue'),
                             cate_id: selectedTab.find('#' + C + '-cate_id').combobox('getValue')
                         });
-                        var dg = selectedTab.find('#tg-' + C + A);
-                        $.extend(dg.treegrid('options').queryParams, TREE_DATA.queryParams);
-                        dg.treegrid('getPager').pagination('select', 1);
+                        var grid = selectedTab.find('#grid-' + C + A);
+                        $.extend(grid.treegrid('options').queryParams, TREE_DATA.queryParams);
+                        grid.treegrid('getPager').pagination('select', 1);
                     }
                 }).searchbox()
             .end()
@@ -184,6 +195,7 @@ define('menu', ['fields'], function(require, exports, module) {
                 .datetimebox()
             .end()
             .find('#' + C + '-match_mode')
+                .data('data-options', require('fields').matchMode)
                 .combobox()
             .end()
             .find('#' + C + '-cate_id')
@@ -203,7 +215,7 @@ define('menu', ['fields'], function(require, exports, module) {
             .find('#menu-menulist')
                 .data('data-options', {
                     onClick: function() {
-                        log(selectedTab.find('#tg-' + C + A).treegrid('getChecked'));
+                        log(selectedTab.find('#grid-' + C + A).treegrid('getChecked'));
                     }
                 })
             .end()
@@ -260,14 +272,14 @@ define('menu', ['fields'], function(require, exports, module) {
         changePasswordAction: function() {
             this._setActivePanel();
             var tabs = require('tabs');
-            var dg = tabs.get('_el').find('#' + C + 'changePassword');
+            var grid = tabs.get('_el').find('#' + C + 'changePassword');
 
-            if (!dg.length) {
+            if (!grid.length) {
                 $('<div id="' + C + 'changePassword">changePassword</div>')
                 .appendTo(tabs.getSelected())
             }
             else {
-                //log(dg.treegrid('reload'));
+                //log(grid.treegrid('reload'));
             }
         },
 
@@ -284,6 +296,6 @@ define('menu', ['fields'], function(require, exports, module) {
         }
     });
 
-    var admin = new Admin();
-    module.exports = admin;
+    var menu = new Menu();
+    module.exports = menu;
 });

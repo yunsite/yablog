@@ -34,47 +34,4 @@ if ($.fn.combobox) {
         editable: false,
         options: {}
     });
-    $.extend($.fn.datagrid.defaults.options, {
-        matchMode: {
-            width: 100,
-            panelHeight: 100,
-            data: [{
-                text: '完全匹配',
-                value: 'eq',
-                selected: true
-            }, {
-                text: '左匹配',
-                value: 'leq'
-            }, {
-                text: '右匹配',
-                value: 'req'
-            }, {
-                text: '模糊匹配',
-                value: 'like'
-            }]
-        }
-    });
 }
-
-$.extend($.fn, {
-    fields: {
-        matchMode: {
-            width: 100,
-            panelHeight: 100,
-            data: [{
-                text: '完全匹配',
-                value: 'eq',
-                selected: true
-            }, {
-                text: '左匹配',
-                value: 'leq'
-            }, {
-                text: '右匹配',
-                value: 'req'
-            }, {
-                text: '模糊匹配',
-                value: 'like'
-            }]
-        }
-    }
-});
