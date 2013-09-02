@@ -7,7 +7,6 @@ $return = array();
 foreach($data as $v) {
     $v['id'] = $v['menu_id'];
     $v['text'] = $v['menu_name'];
-    $v['attributes'] = $v;
     $return[] = $v;
 }
 

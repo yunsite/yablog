@@ -23,6 +23,30 @@ define('tree', ['base'], function(require, exports, module) {
             var me = this;
 
             $.extend($.fn.tree.methods, {
+                /**
+                 * 根据控制器及操作方法查找树节点信息
+                 *
+                 * @author          mrmsl <msl-138@163.com>
+                 * @date            2013-09-02 16:26:34
+                 *
+                 * @param {object} jq jquery对象
+                 * @param {object} controllerAction {controller: controller, action: action}
+                 *
+                 * return {mixed} 如果节点存在，返回节点信息，否则null
+                 */
+                findByControllerAction: function(jq, controllerAction) {
+                    var node = null;
+
+                    $.each(me._treeData, function(index, item) {
+
+                        if (item.controller == controllerAction.controller && item.action == controllerAction.action) {
+                            node = item;
+                            return false;
+                        }
+                    });
+
+                    return node;
+                }
             });
         },
 
@@ -41,11 +65,13 @@ define('tree', ['base'], function(require, exports, module) {
                 isLeaf  = this._el.tree('isLeaf', target);
 
             if (isLeaf) {
-                var id  = v.id;
-                var queryParams = object2querystring(this._treeData[id].queryParams);
-                var router = require('router');
-                router.navigate('' + id + (queryParams ? '&' + queryParams : ''));
-                router.router(id);
+                var id          = v.id,
+                    data        = this._treeData[id],
+                    queryParams = object2querystring(data.queryParams),
+                    router      = require('router');
+
+                router.navigate('controller={controller}&action={action}'.format(data) + (queryParams ? '&' + queryParams : ''));
+                router.router(data.controller, data.action);
             }
             else {
                 this._el.tree('toggle', target);

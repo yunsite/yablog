@@ -10,9 +10,8 @@
  * @lastmodify      $Date$ $Author$
  */
 
-define('fields', function(require, exports, module) {
-    var fields = {};
-    fields.matchMode = {
+define('fields', [], {
+    matchMode: {
         width: 100,
         panelHeight: 100,
         data: [{
@@ -29,7 +28,5 @@ define('fields', function(require, exports, module) {
             text: '模糊匹配',
             value: 'like'
         }]
-    };
-
-    module.exports = fields;
+    }
 });

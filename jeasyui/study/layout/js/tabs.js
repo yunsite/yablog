@@ -99,10 +99,20 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
          * return {void} Œﬁ∑µªÿ÷µ
          */
         _setActivePanel: function() {
-            var tabs = this.getSelected();
+            var tabs    = this.getSelected(),
+                id      = C + A;
 
-            tabs.children().hide();
-            tabs.find('#' + C + A).show();
+            tabs
+                .children()
+                .hide()
+            .end()
+            .find('#' + id)
+            .show();
+
+            if ('list' == A) {
+                var grid = tabs.find('#grid-' + id);
+                grid.length && grid.parents('div.panel.datagrid:first').show();
+            }
         },
 
         /**
@@ -126,7 +136,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                     closable: true,
                     content: '',
                     //href: 'http://localhost/jeasyui/yablog/study/layout/action.php?c={0}&a={1}'.format(menuData.controller, menuData.action),
-                    id: menuData.controller + menuData.action,
+                    //id: menuData.controller + menuData.action,
                     style: {
                         padding: '8px'
                     },
@@ -243,7 +253,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
             seajs.use(controller, function(o) {
                 var method = action + 'Action';
 
-                if (selected.children('.' + controller + action).length) {
+                if (selected.children('#' + controller + action).length) {
                     o[method]();
                 }
                 else {

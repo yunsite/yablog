@@ -13,6 +13,11 @@
 define('router', [], function(require, exports, module) {
     var Router = Backbone.Router.extend({
         /**
+         * var {object} _routerRegexp 导航正则
+         */
+        _routerRegexp: /controller=(\w+)&action=(\w+)/,
+
+        /**
          * var {bool} [treeLoaded=false] true导航树已经加载完成
          */
         treeLoaded: false,
@@ -26,7 +31,7 @@ define('router', [], function(require, exports, module) {
          * return {void} 无返回值
          */
         initialize: function(options) {
-            this.route(/^(\d+)(&.*)?|^$/, 'router');
+            this.route(this._routerRegexp, 'router');
         },
 
         /**
@@ -55,63 +60,56 @@ define('router', [], function(require, exports, module) {
          *
          * return {void} 无返回值
          */
-        router: function(menu_id, navigate) {
+        router: function(controller, action) {
             var hash = getHash();
 
-            if (null === menu_id) {
+            if (null === controller) {
 
                 if ('' === hash) {
                     return;
                 }
 
-                var match = hash.match(/^(\d+)/);
+                var match = hash.match(this._routerRegexp);
 
                 if (!match) {
                     return;
                 }
 
-                menu_id = match[1];
+                controller = match[1];
+                action = match[2];
             }
 
-            MENU_ID = menu_id;
+            var tree    = require('tree'),
+                el      = tree.get('_el'),
+                node    = el.tree('findByControllerAction', {controller: controller, action: action});
 
-            var tree        = require('tree');
+            if (node) {
+                TREE_DATA   = node;
+                C = controller;
+                A = action;
+                node = el.tree('find', node.menu_id);log(node);
+                el.tree('select', node.target);
+                el.tree('expandTo', node.target);
 
-            if (menu_id && 0 != menu_id.indexOf(0)) {
-                var el          = tree.get('_el'),
-                    selected    = el.tree('getSelected'),
-                    node        = el.tree('find', menu_id);
-
-                if (node) {
-                    TREE_DATA   = tree.get('_treeData')[menu_id];
-                    C = TREE_DATA.controller;
-                    A = TREE_DATA.action;
-                    el.tree('select', node.target);
-                    el.tree('expandTo', node.target);
-
-                    if (!global('clickMenu')) {
-                        global('clickMenu', false);
-                        $('#tree-panel').animate({
-                            scrollTop: $(node.target).offset().top - 30
-                        }, 500);
-                    }
-
-                    /*$.extend(TREE_DATA.queryParams, querystring2object(hash));
-                    hash = object2querystring(TREE_DATA.queryParams);
-                    hash = '' + menu_id + (hash ? '&' + hash : '');
-
-                    this.navigate(hash);*/
-
-                    require('tabs').addTab(menu_id);
+                if (!global('clickMenu')) {
+                    global('clickMenu', false);
+                    /*$('#tree-panel').animate({
+                        scrollTop: $(node.target).offset().top - 30
+                    }, 500);*/
                 }
-                else {
-                    tree.tree('getSelected', '__none__');
-                }
+
+                /*$.extend(TREE_DATA.queryParams, querystring2object(hash));
+                hash = object2querystring(TREE_DATA.queryParams);
+                hash = '' + menu_id + (hash ? '&' + hash : '');
+
+                this.navigate(hash);*/
+
+                require('tabs').addTab(node.id);
             }
-            else {
+            /*else {
                 require('tabs').get('_el').tabs('select', 0);
                 tree.get('_el').tree('select', '__none__');
-            }
+            }*/
         }//end router
     });
 
