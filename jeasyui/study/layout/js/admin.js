@@ -205,26 +205,13 @@ define('admin', ['fields'], function(require, exports, module) {
          *
          * return {void} 无返回值
          */
-        addAction: function() {log(C + A);return;
-            this._setActivePanel();
+        addAction: function() {
             var tabs        = require('tabs'),
                 selectedTab = tabs.getSelected(),
-                div         = tabs.get('_el').find('#' + C + A);
+                form         = tabs.get('_el').find('#' + C + A);
 
-            if (!div.length) {
-                var html = '<form id="' + C + A + '" method="post">\
-    <div>\
-        <label for="name">Name:</label>\
-        <input class="easyui-validatebox" type="text" name="name" data-options="required:true" />\
-    </div>\
-    <div>\
-        <label for="email">Email:</label>\
-        <input class="easyui-validatebox" type="text" name="email" data-options="validType:\'email\'" />\
-    </div>\
-</form>';
-                $(html)
-                .appendTo(selectedTab)
-                .form({
+            if (global('FIRST_LOAD')) {
+                form.form({
                     onLoadError: function() {
                         log('error', arguments);
                     },
@@ -232,7 +219,7 @@ define('admin', ['fields'], function(require, exports, module) {
                     success: function() {
                         log('success', arguments);
                     }
-                });
+                }).find('.validatebox').validatebox();
             }
             else {
                 //cc.combobox('setValue', 'like');

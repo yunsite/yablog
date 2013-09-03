@@ -1,5 +1,23 @@
 <?php
 class Admin {
+    public function addAction() {
+        $html = <<<EOT
+<form id="adminadd" method="post">
+    <div>
+        <label for="name">Name:</label>
+        <input class="validatebox" type="text" name="name" data-options="required:true" />
+    </div>
+    <div>
+        <label for="email">Email:</label>
+        <input class="validatebox" type="text" name="email" data-options="required:true,validType:'email'" />
+    </div>
+    <div><input type="submit" value="" /></div>
+    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">Submit</a>
+</form>
+EOT;
+        echo $html;
+    }
+
     public function listAction() {
         $html = <<<EOT
 <table id="grid-adminlist" class="easyui-treegrid"></table>
