@@ -14,4 +14,6 @@ if (is_file($file = __DIR__ . '/' . $controller . '.php')) {
     }
 }
 
+echo '<div id="' . $controller . $action . '">';
 var_dump($_GET);
+echo '</div>';
