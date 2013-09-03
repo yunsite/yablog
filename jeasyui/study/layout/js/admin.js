@@ -54,7 +54,7 @@ define('admin', ['fields'], function(require, exports, module) {
         _datagrid: function() {
             var tabs        = require('tabs'),
                 selectedTab = tabs.getSelected(),
-                dg          = tabs.get('_el').find('#dg-' + C + A);
+                grid        = tabs.get('_el').find('#grid-' + C + A);
 
             TREE_DATA._prevQueryParams = _.clone(TREE_DATA.queryParams);
 
@@ -65,28 +65,26 @@ define('admin', ['fields'], function(require, exports, module) {
 
             TREE_DATA.queryParams = Q2O;
 
-            if (!dg.length) {
+            //if (!grid.length) {
                 $.extend(this._datagridOptions, pagesize);
                 $.extend(this._datagridOptions.queryParams, Q2O);
-            }
+            //}
             /*else {
-                $.extend(dg.datagrid('options'), pagesize);
-                $.extend(dg.datagrid('options').queryParams, Q2O);
+                $.extend(grid.datagrid('options'), pagesize);
+                $.extend(grid.datagrid('options').queryParams, Q2O);
             }*/
 
-            if (!dg.length) {
-                dg = $('<table id="dg-' + C + A + '" class="easyui-datagrid"></table>')
-                .appendTo(selectedTab)
-                .data('data-options', this._datagridOptions);
+            if (global('FIRST_LOAD')) {
+                grid.data('data-options', this._datagridOptions);
                 this._setToolbar(selectedTab);
-                dg.datagrid();
+                grid.datagrid();
 
-                dg.datagrid('getPager').pagination({
+                grid.datagrid('getPager').pagination({
                     onSelectPage: function(page, pageSize) {
-                        $.extend(dg.datagrid('options'), {
+                        $.extend(grid.datagrid('options'), {
                             pageNumber: page
                         });
-                        $.extend(dg.datagrid('getPager').pagination('options'), {
+                        $.extend(grid.datagrid('getPager').pagination('options'), {
                             pageNumber: page
                         });
 
@@ -94,18 +92,18 @@ define('admin', ['fields'], function(require, exports, module) {
                             page: page
                         });
                         require('router').navigate('' + MENU_ID + '&' + object2querystring(TREE_DATA.queryParams));
-                        dg.datagrid('reload');
+                        grid.datagrid('reload');
                     },
                     onChangePageSize: log,
                     showPageList: false
                 });
             }
             else if(object2querystring(TREE_DATA._prevQueryParams) != object2querystring(TREE_DATA.queryParams)) {
-                $.extend(dg.datagrid('options'), pagesize);
-                $.extend(dg.datagrid('options').queryParams, TREE_DATA.queryParams);
-                $.extend(dg.datagrid('getPager').pagination('options'), pagesize);
-                dg.datagrid('getPager').pagination('select', pagesize.pageNumber);
-                //dg.datagrid('reload');log(dg.datagrid('getPager').pagination('options'))
+                $.extend(grid.datagrid('options'), pagesize);
+                $.extend(grid.datagrid('options').queryParams, TREE_DATA.queryParams);
+                $.extend(grid.datagrid('getPager').pagination('options'), pagesize);
+                grid.datagrid('getPager').pagination('select', pagesize.pageNumber);
+                //grid.datagrid('reload');log(grid.datagrid('getPager').pagination('options'))
             }
 
             Q2O.keyword && selectedTab.find('#tb-' + C + A).find('#admin-keyword').searchbox('setValue', Q2O.keyword);
@@ -186,9 +184,9 @@ define('admin', ['fields'], function(require, exports, module) {
                             match_mode: selectedTab.find('#admin-match_mode').combobox('getValue'),
                             cate_id: selectedTab.find('#admin-cate_id').combobox('getValue')
                         });
-                        var dg = selectedTab.find('#dg-' + C + A);
-                        $.extend(dg.datagrid('options').queryParams, TREE_DATA.queryParams);
-                        dg.datagrid('getPager').pagination('select', 1);
+                        var grid = selectedTab.find('#grid-' + C + A);
+                        $.extend(grid.datagrid('options').queryParams, TREE_DATA.queryParams);
+                        grid.datagrid('getPager').pagination('select', 1);
                     }
                 }).searchbox()
             .end()
@@ -222,7 +220,7 @@ define('admin', ['fields'], function(require, exports, module) {
             .find('#mm')
                 .data('data-options', {
                     onClick: function() {
-                        log(selectedTab.find('#dg-' + C + A).datagrid('getChecked'));
+                        log(selectedTab.find('#grid-' + C + A).datagrid('getChecked'));
                     }
                 })
             .end()
@@ -295,14 +293,14 @@ define('admin', ['fields'], function(require, exports, module) {
         changePasswordAction: function() {log(C + A);return;
             this._setActivePanel();
             var tabs = require('tabs');
-            var dg = tabs.get('_el').find('#adminchangePassword');
+            var grid = tabs.get('_el').find('#adminchangePassword');
 
-            if (!dg.length) {
+            if (!grid.length) {
                 $('<div id="adminchangePassword">changePassword</div>')
                 .appendTo(tabs.getSelected())
             }
             else {
-                //log(dg.datagrid('reload'));
+                //log(grid.datagrid('reload'));
             }
         },
 

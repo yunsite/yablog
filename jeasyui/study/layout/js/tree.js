@@ -70,7 +70,7 @@ define('tree', ['base'], function(require, exports, module) {
                     queryParams = object2querystring(data.queryParams),
                     router      = require('router');
 
-                router.navigate('controller={controller}&action={action}'.format(data) + (queryParams ? '&' + queryParams : ''));
+                router.navigate(queryParams ? queryParams : 'controller={controller}&action={action}'.format(data));
                 router.router(data.controller, data.action);
             }
             else {

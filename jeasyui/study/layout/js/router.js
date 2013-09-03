@@ -87,7 +87,7 @@ define('router', [], function(require, exports, module) {
                 TREE_DATA   = node;
                 C = controller;
                 A = action;
-                node = el.tree('find', node.menu_id);log(node);
+                node = el.tree('find', node.menu_id);
                 el.tree('select', node.target);
                 el.tree('expandTo', node.target);
 
