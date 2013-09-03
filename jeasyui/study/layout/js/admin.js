@@ -119,27 +119,6 @@ define('admin', ['fields'], function(require, exports, module) {
             .find('#admin-cate_id')
                 //.combobox('setValue', 3);
         },
-        /**
-         * 设置活跃面板
-         *
-         * @author          mrmsl <msl-138@163.com>
-         * @date            2013-08-02 20:06:50
-         *
-         * return {void} 无返回值
-         */
-        _setActivePanel: function() {
-            var tabs        = require('tabs').getSelected();
-
-            tabs.children().hide();
-
-            if ('list' == A) {
-                tabs.children('.datagrid').show();
-            }
-            else {
-                var id  = C + A;
-                tabs.find('#' + id).show();
-            }
-        },
 
         /**
          * toolbar
@@ -150,29 +129,7 @@ define('admin', ['fields'], function(require, exports, module) {
          * return {void} 无返回值
          */
         _setToolbar: function(selectedTab) {
-            var me      = this,
-                html    = '<div id="tb-' + C + A + '">';
-                html   += '<a href="javascript:void(0)"  class="easyui-menubutton" id="admin-operate"\
-        data-options="menu:\'#mm\',iconCls:\'icon-edit\'">操作</a>\
-<div id="mm" style="width:150px;">\
-    <div data-options="iconCls:\'icon-undo\'">删除</div>\
-    <div data-options="iconCls:\'icon-redo\'">Redo</div>\
-    <div class="menu-sep"></div>\
-    <div>Cut</div>\
-    <div>Copy</div>\
-    <div>Paste</div>\
-    <div class="menu-sep"></div>\
-    <div data-options="iconCls:\'icon-remove\'">Delete</div>\
-    <div>Select All</div>\
-</div>';
-                html   += '添加时间<input id="admin-start_date" class="datetime" /> - ';
-                html   += '<input id="admin-end_date" class="datetime" /> ';
-                html   += '<input id="admin-cate_id" /> ';
-                html   += '<input id="admin-match_mode" class="match_mode" /> ';
-                html   += '<input id="admin-keyword" />';
-                html   += '</div>';
-
-            selectedTab.append(html)
+            selectedTab
             .find('#admin-keyword')
                 .data('data-options', {
                     prompt: '关键字',
@@ -312,17 +269,7 @@ define('admin', ['fields'], function(require, exports, module) {
          *
          * return {void} 无返回值
          */
-        listAction: function() {log(C + A);return;
-            var body = require('tabs').getSelected();
-
-            if (body.children('#' + C + A).length) {
-            }
-            else {
-                $.get('http://localhost/jeasyui/yablog/study/layout/action.php?controller={0}&action={1}'.format(C, A), function(data) {
-                    $('<div id="' + C + A + '"></div>').html(data).appendTo(body);
-                });
-            }
-            return;
+        listAction: function() {
             this._datagrid();
         }
     });
