@@ -15,12 +15,26 @@ define('router', [], function(require, exports, module) {
         /**
          * var {object} _routerRegexp 导航正则
          */
-        _routerRegexp: /controller=(\w+)&action=(\w+)/,
+        _routerRegexp: /^$|controller=(\w+)&action=(\w+)/,
 
         /**
          * var {bool} [treeLoaded=false] true导航树已经加载完成
          */
         treeLoaded: false,
+
+        /**
+         * 首页
+         *
+         * @author      mrmsl <msl-138@163.com>
+         * @date        2013-09-04 17:24:02
+         *
+         * return {void} 无返回值
+         */
+        index: function() {
+            require('tabs').get('_el').tabs('select', 0);
+            require('tree').get('_el').tree('select', '__none__');
+            this.navigate('');
+        },
 
         /**
          * 初始化
@@ -66,6 +80,7 @@ define('router', [], function(require, exports, module) {
             if (null === controller) {
 
                 if ('' === hash) {
+                    this.index();
                     return;
                 }
 
@@ -98,18 +113,11 @@ define('router', [], function(require, exports, module) {
                     }, 500);*/
                 }
 
-                /*$.extend(TREE_DATA.queryParams, querystring2object(hash));
-                hash = object2querystring(TREE_DATA.queryParams);
-                hash = '' + menu_id + (hash ? '&' + hash : '');
-
-                this.navigate(hash);*/
-
                 require('tabs').addTab(node.id);
             }
-            /*else {
-                require('tabs').get('_el').tabs('select', 0);
-                tree.get('_el').tree('select', '__none__');
-            }*/
+            else {
+                this.index()
+            }
         }//end router
     });
 

@@ -11,8 +11,7 @@ class Admin {
         <label for="email">Email:</label>
         <input class="validatebox" type="text" name="email" data-options="required:true,validType:'email'" />
     </div>
-    <div><input type="submit" value="" /></div>
-    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">Submit</a>
+    <div><input type="submit" value="提 交" /></div>
 </form>
 EOT;
         echo $html;
@@ -20,7 +19,7 @@ EOT;
 
     public function listAction() {
         $html = <<<EOT
-<table id="grid-adminlist" class="easyui-treegrid"></table>
+<table id="grid-adminlist"></table>
 <span id="adminlist"></span>
 <div id="tb-adminlist">
     <a href="javascript:void(0)" class="easyui-menubutton" id="admin-operate" data-options="menu:'#admin-menulist'">操作</a>
@@ -36,11 +35,11 @@ EOT;
         <div>Select All</div>
     </div>
     添加时间
-    <input id="admin-start_date" class="datetime" /> -
-    <input id="admin-end_date" class="datetime" />
-    <input id="admin-cate_id" />
-    <input type="text" id="admin-match_mode" />
-    <input type="text" id="admin-keyword" />
+    <input type="text" id="admin-start_date" data-jeasyui="datetimebox" /> -
+    <input type="text" id="admin-end_date" data-jeasyui="datetimebox" />
+    <input type="text" id="admin-cate_id" data-jeasyui="combobox" />
+    <input type="text" id="admin-match_mode" data-jeasyui="combobox" />
+    <input type="text" id="admin-keyword" data-jeasyui="searchbox" />
 </div>
 EOT;
         echo $html;
