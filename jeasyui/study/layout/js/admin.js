@@ -5,7 +5,7 @@ define('admin', ['fields'], function(require, exports, module) {
             columns: [[
                 {checkbox: true},
                 {title: 'id', field: 'blog_id', width: 50},
-                {title: '标题', field: 'title', width: 200},
+                {title: '标题', field: 'title', width: 200, formatter: function() {log(admin, this);}},
                 {title: '点击', field: 'hits', width: 50, fixed: true}
             ]],
             queryParams: {},
@@ -39,8 +39,7 @@ define('admin', ['fields'], function(require, exports, module) {
                 if (tr.find('div.datagrid-cell-check input[type=checkbox]').prop('checked')) {
                     tr.addClass('datagrid-row-selected');
                 }
-            },
-            checkbox: true
+            }
         },
 
         /**
@@ -66,8 +65,6 @@ define('admin', ['fields'], function(require, exports, module) {
             TREE_DATA.queryParams = Q2O;
 
             //if (!grid.length) {
-                $.extend(this._datagridOptions, pagesize);
-                $.extend(this._datagridOptions.queryParams, Q2O);
             //}
             /*else {
                 $.extend(grid.datagrid('options'), pagesize);
@@ -75,6 +72,8 @@ define('admin', ['fields'], function(require, exports, module) {
             }*/
 
             if (global('FIRST_LOAD')) {
+                $.extend(this._datagridOptions, pagesize);
+                $.extend(this._datagridOptions.queryParams, Q2O);
                 grid.data('data-options', this._datagridOptions);
                 this._setToolbar(selectedTab);
                 grid.datagrid();
@@ -91,7 +90,7 @@ define('admin', ['fields'], function(require, exports, module) {
                         $.extend(TREE_DATA.queryParams, {
                             page: page
                         });
-                        require('router').navigate('' + MENU_ID + '&' + object2querystring(TREE_DATA.queryParams));
+                        require('router').navigate(object2querystring(TREE_DATA.queryParams), true);
                         grid.datagrid('reload');
                     },
                     onChangePageSize: log,
@@ -106,18 +105,17 @@ define('admin', ['fields'], function(require, exports, module) {
                 //grid.datagrid('reload');log(grid.datagrid('getPager').pagination('options'))
             }
 
-            Q2O.keyword && selectedTab.find('#tb-' + C + A).find('#admin-keyword').searchbox('setValue', Q2O.keyword);
+            Q2O.keyword && selectedTab.find('#tb-' + C + A).children('#' + C + '-keyword').searchbox('setValue', Q2O.keyword);
             selectedTab.find('#tb-' + C + A)
-            .find('#admin-start_date')
+            .children('#' + C + '-start_date')
                 .datetimebox('setValue', Q2O.start_date)
             .end()
-            .find('#admin-end_date')
+            .children('#' + C + '-end_date')
                 .datetimebox('setValue', Q2O.end_date)
             .end()
-            .find('#admin-match_mode')
+            .children('#' + C + '-match_mode')
                 .combobox('setValue', Q2O.match_mode || 'eq')
-            .find('#admin-cate_id')
-                //.combobox('setValue', 3);
+            .children('#' + C + '-cate_id');
         },
 
         /**
@@ -129,17 +127,17 @@ define('admin', ['fields'], function(require, exports, module) {
          * return {void} 无返回值
          */
         _setToolbar: function(selectedTab) {
-            selectedTab
-            .find('#admin-keyword')
+            var toolbar = selectedTab.children('#tb-' + C + A);
+            toolbar.children('#' + C + '-keyword')
                 .data('data-options', {
                     prompt: '关键字',
                     searcher: function(keyword) {
                         $.extend(TREE_DATA.queryParams, {
                             keyword: keyword,
-                            start_date: selectedTab.find('#admin-start_date').datetimebox('getValue'),
-                            end_date: selectedTab.find('#admin-end_date').datetimebox('getValue'),
-                            match_mode: selectedTab.find('#admin-match_mode').combobox('getValue'),
-                            cate_id: selectedTab.find('#admin-cate_id').combobox('getValue')
+                            start_date: toolbar.children('#' + C + '-start_date').datetimebox('getValue'),
+                            end_date: toolbar.children('#' + C + '-end_date').datetimebox('getValue'),
+                            match_mode: toolbar.children('#' + C + '-match_mode').combobox('getValue'),
+                            cate_id: toolbar.children('#' + C + '-cate_id').combobox('getValue')
                         });
                         var grid = selectedTab.find('#grid-' + C + A);
                         $.extend(grid.datagrid('options').queryParams, TREE_DATA.queryParams);
@@ -147,7 +145,7 @@ define('admin', ['fields'], function(require, exports, module) {
                     }
                 }).searchbox()
             .end()
-            .find('.datetime')
+            .children('input[data-jeasyui=datetimebox]')
                 .data('data-options', {
                     width: 140,
                     formatter: function(d) {
@@ -156,11 +154,11 @@ define('admin', ['fields'], function(require, exports, module) {
                 })
                 .datetimebox()
             .end()
-            .find('#admin-match_mode')
+            .children('#' + C + '-match_mode')
                 .data('data-options', require('fields').matchMode)
                 .combobox()
             .end()
-            .find('#admin-cate_id')
+            .children('#' + C + '-cate_id')
                 .data('data-options', {
                     url: 'categories.php',
                     valueField: 'cate_id',
@@ -174,15 +172,17 @@ define('admin', ['fields'], function(require, exports, module) {
                 })
                 .combobox()
             .end()
-            .find('#mm')
+            .children('#admin-menulist')
                 .data('data-options', {
                     onClick: function() {
-                        log(selectedTab.find('#grid-' + C + A).datagrid('getChecked'));
+                        log(arguments);
+                        //log(selectedTab.find('#grid-' + C + A).datagrid('getChecked'));
                     }
                 })
             .end()
-            .find('#admin-operate')
-                .menubutton();
+            .children('#admin-operate')
+                .menubutton()
+            .end();
         },
 
         /**

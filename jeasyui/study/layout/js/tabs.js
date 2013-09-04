@@ -187,15 +187,16 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
             var me = this;
 
             this._extendMethods();
-            this._el.addClass('easyui-tabs')
-            .data('data-options', {
+            this._el.data('data-options', {
                 onSelect: function (title, index) {
                     var tab = me._el.tabs('getTab', index);
                     var options = tab.panel('options').options;
+                    log(tab, options, TREE_DATA);
 
                     //options && me.loadScript(options.controller, options.action);
                 }
-            }).tabs();
+            })
+             .tabs();
         },
 
         /**
