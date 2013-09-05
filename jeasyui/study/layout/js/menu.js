@@ -2,6 +2,7 @@ define('menu', ['fields'], function(require, exports, module) {
     var Base    = require('base');
     var Menu   = Base.extend({
         _treegridOptions: {
+            title: '<span class="bread">bread</span>',
             idField: 'menu_id',
             treeField: 'menu_name',
             columns: [[

@@ -142,7 +142,8 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                     },
                     options: {
                         controller: menuData.controller,
-                        action: menuData.action
+                        action: menuData.action,
+                        id: menuData.id
                     }
                 });
             }
@@ -188,8 +189,6 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
             this._extendMethods();
             this._el.data('data-options', {
                 onSelect: function (title, index) {
-                    var hash = getHash();
-                    return log(hash);
                     var tab = me._el.tabs('getTab', index);
                     var options = tab.panel('options').options;
                     //log(tab, options, TREE_DATA);
@@ -204,7 +203,8 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                     var options = me.getSelected().panel('options').options;
 
                     if (options) {
-                        require('router').navigate(object2querystring(TREE_DATA.queryParams));
+                        var queryParams = require('tree').get('_treeData')[options.id].queryParams;
+                        require('router').navigate(object2querystring(queryParams));
                     }
                     else {
                         require('router').index();
@@ -262,20 +262,25 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
             action      = action || A;
             Q2O         = querystring2object(getHash());
 
-            var selected = this.getSelected();
+            var me          = this,
+                selected    = this.getSelected(),
+                callback    = function(o, method) {
+                    o[method]();
+                    me._setPageTitle();
+                };
 
             seajs.use(controller, function(o) {
                 var method = action + 'Action';
 
                 if (selected.children('#' + controller + action).length) {
-                    o[method]();
+                    callback(o, method);
                 }
                 else {
                     $.get('http://localhost/jeasyui/yablog/study/layout/action.php?controller={0}&action={1}'.format(controller, action), function(data) {
                         //$('<div id="' + controller + action + '"></div>').html(data).appendTo(selected);
                         selected.append(data);
                         global('FIRST_LOAD', true);
-                        o[method]();
+                        callback(o, method);
                         global('FIRST_LOAD', false);
                     });
                 }

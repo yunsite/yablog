@@ -28,5 +28,10 @@ define('fields', [], {
             text: '模糊匹配',
             value: 'like'
         }]
+    },
+    datetime: {
+        formatter: function(d) {
+            return date('Y-m-d ', d) + date('H:i:s', new Date());
+        }
     }
 });

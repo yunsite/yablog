@@ -30,7 +30,7 @@ define('router', [], function(require, exports, module) {
          *
          * return {void} 无返回值
          */
-        index: function() {
+        index: function() {log('index');
             require('tabs').get('_el').tabs('select', 0);
             require('tree').get('_el').tree('select', '__none__');
             this.navigate('');
@@ -96,9 +96,9 @@ define('router', [], function(require, exports, module) {
 
             var tree    = require('tree'),
                 el      = tree.get('_el'),
-                node    = el.tree('findByControllerAction', {controller: controller, action: action});
+                node    = el.tree('findByControllerAction', [controller, action]);
 
-            if (node) {
+            if (node) {log('here');
                 TREE_DATA   = node;
                 C = controller;
                 A = action;

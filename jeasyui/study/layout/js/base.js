@@ -1,17 +1,22 @@
 define('base', ['router'], function(require, exports, module) {
     var BASE = Base.extend({
         /**
-         * var {object} _self ±¾ÀàÊµÀıÒıÓÃ
+         * var {object} _pageTitle ç½‘ç«™æ ‡é¢˜ç¼“å­˜
+         */
+        _pageTitle: {},
+
+        /**
+         * var {object} _self æœ¬ç±»å®ä¾‹å¼•ç”¨
          */
         _self: null,
 
         /**
-         * datagridÁĞ±í
+         * datagridåˆ—è¡¨
          *
          * @author          mrmsl <msl-138@163.com>
          * @date            2013-09-05 14:37:16
          *
-         * return {void} ÎŞ·µ»ØÖµ
+         * return {void} æ— è¿”å›å€¼
          */
         _datagrid: function(defaults, callback) {
             var tabs        = require('tabs'),
@@ -66,51 +71,102 @@ define('base', ['router'], function(require, exports, module) {
         },//end _datagrid
 
         /**
-         * ¹¹Ôìº¯Êı
+         * è®¾ç½®é¡µé¢æ ‡é¢˜ï¼Œå‚æ•°å¤§äº2ä¸ªå°†æ‰‹åŠ¨è®¾ç½®æ ‡é¢˜
          *
          * @author      mrmsl <msl-138@163.com>
          * @date        2013-08-01 15:37:08
          *
-         * return {void} ÎŞ·µ»ØÖµ
+         * @param {string} [controller=C] æ§åˆ¶å™¨
+         * @param {string} [action==A] æ“ä½œæ–¹æ³•
+         *
+         * @return {void} æ— è¿”å›å€¼
+         */
+        _setPageTitle: function(controller, action) {
+            controller  = controller || C || _GET('controller');
+            action      = action || A || _GET('action');
+
+            if (arguments[2]) {//æ‰‹åŠ¨è®¾ç½®æ ‡é¢˜
+                document.title = arguments[2];
+                //æ·»åŠ  => ç¼–è¾‘
+                this._pageTitle[controller + action] = this._pageTitle[controller + action].replace("lang('ADD')", "lang('EDIT')");
+            }
+            else {
+
+                if (!this._pageTitle[controller + action]) {
+                    var tree        = require('tree'),
+                        treeData    = tree.get('_treeData'),
+                        node        = tree.get('_el').tree('findByControllerAction', [controller, action]),
+                        title       = [];
+
+                    if (node) {
+                        $.each(node.node.split(','), function(index, item) {
+                            title.push(treeData[item].text);
+                        });
+                    }
+
+                    title = title.reverse().join(' - ');
+                    title = strip_tags(title);
+                    this._pageTitle[controller + action] = title;
+                }
+
+                this._origTitle = this._origTitle ? this._origTitle : document.title;
+                //ç¼–è¾‘ => æ·»åŠ 
+                document.title = this._pageTitle[controller + action] ? (this._pageTitle[controller + action].replace("lang('EDIT')", "lang('ADD')") + ' - ' + this._origTitle) : this._origTitle;
+            }
+
+            var title = document.title.split(' - ');
+            title.pop();
+            title = title.reverse().join(' &raquo; ');
+
+            log(require('tabs').getSelected().find('.panel-title').html(title));
+        },//end _setPageTitle
+
+        /**
+         * æ„é€ å‡½æ•°
+         *
+         * @author      mrmsl <msl-138@163.com>
+         * @date        2013-08-01 15:37:08
+         *
+         * return {void} æ— è¿”å›å€¼
          */
         constructor: function() {
             this._self = this;
         },
 
         /**
-         * »ñÈ¡Ö¸¶¨ÊôĞÔ
+         * è·å–æŒ‡å®šå±æ€§
          *
          * @author      mrmsl <msl-138@163.com>
          * @date        2013-08-01 15:40:33
          *
-         * param {string} name ÊôĞÔÃû³Æ
+         * param {string} name å±æ€§åç§°
          *
-         * return {mixed} ÊôĞÔÖµ
+         * return {mixed} å±æ€§å€¼
          */
         get: function(name) {
             return this[name];
         },
 
         /**
-         * »ñÈ¡¿ØÖÆÆ÷Ãû³Æ
+         * è·å–æ§åˆ¶å™¨åç§°
          *
          * @author      mrmsl <msl-138@163.com>
          * @date        2013-08-01 15:37:53
          *
-         * return {string} ¿ØÖÆÆ÷Ãû³Æ
+         * return {string} æ§åˆ¶å™¨åç§°
          */
         getControllerName: function () {
             return this._controllerName;
         },
 
         /**
-         * ÉèÖÃÖ¸¶¨ÊôĞÔ
+         * è®¾ç½®æŒ‡å®šå±æ€§
          *
          * @author      mrmsl <msl-138@163.com>
          * @date        2013-08-01 15:40:33
          *
-         * param {string} name ÊôĞÔÃû³Æ
-         * param {mixed} value ÊôĞÔÖµ
+         * param {string} name å±æ€§åç§°
+         * param {mixed} value å±æ€§å€¼
          *
          * return {object} this
          */

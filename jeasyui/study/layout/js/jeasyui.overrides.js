@@ -31,7 +31,18 @@ if ($.fn.datagrid) {
 
 if ($.fn.combobox) {
     $.extend($.fn.datagrid.defaults, {
-        editable: false,
-        options: {}
+        editable: false
+    });
+}
+
+if ($.fn.datebox) {
+    $.extend($.fn.datebox.defaults, {
+        width: 140
+    });
+}
+
+if ($.fn.datetimebox) {
+    $.extend($.fn.datebox.defaults, {
+        width: 140
     });
 }
