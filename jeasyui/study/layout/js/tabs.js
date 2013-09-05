@@ -142,8 +142,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                     },
                     options: {
                         controller: menuData.controller,
-                        action: menuData.action,
-                        id: menuData.menu_id
+                        action: menuData.action
                     }
                 });
             }
@@ -189,14 +188,28 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
             this._extendMethods();
             this._el.data('data-options', {
                 onSelect: function (title, index) {
+                    var hash = getHash();
+                    return log(hash);
                     var tab = me._el.tabs('getTab', index);
                     var options = tab.panel('options').options;
-                    log(tab, options, TREE_DATA);
+                    //log(tab, options, TREE_DATA);
 
                     //options && me.loadScript(options.controller, options.action);
                 }
             })
-             .tabs();
+            .tabs()
+            .children('div.tabs-header')
+                .find('ul.tabs')
+                .on('click', 'li',  function() {
+                    var options = me.getSelected().panel('options').options;
+
+                    if (options) {
+                        require('router').navigate(object2querystring(TREE_DATA.queryParams));
+                    }
+                    else {
+                        require('router').index();
+                    }
+                });
         },
 
         /**

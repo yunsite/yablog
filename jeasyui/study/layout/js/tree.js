@@ -67,11 +67,10 @@ define('tree', ['base'], function(require, exports, module) {
             if (isLeaf) {
                 var id          = v.id,
                     data        = this._treeData[id],
-                    queryParams = object2querystring(data.queryParams),
                     router      = require('router');
 
-                router.navigate(queryParams ? queryParams : 'controller={controller}&action={action}'.format(data));
-                router.router(data.controller, data.action);
+                router.navigate(object2querystring(data.queryParams), true);
+                //router.router(data.controller, data.action);
             }
             else {
                 this._el.tree('toggle', target);
@@ -103,7 +102,10 @@ define('tree', ['base'], function(require, exports, module) {
                     me._onClick(v);
                 },
                 formatter: function(node) {
-                    node.queryParams = {};
+                    node.queryParams = {
+                        controller: node.controller,
+                        action: node.action
+                    };
                     me._treeData[node.menu_id] = node;
                     return node.menu_name;
                 },

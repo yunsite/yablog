@@ -5,7 +5,7 @@ define('admin', ['fields'], function(require, exports, module) {
             columns: [[
                 {checkbox: true},
                 {title: 'id', field: 'blog_id', width: 50},
-                {title: '标题', field: 'title', width: 200, formatter: function() {log(admin, this);}},
+                {title: '标题', field: 'title', width: 200},
                 {title: '点击', field: 'hits', width: 50, fixed: true}
             ]],
             queryParams: {},
@@ -40,82 +40,6 @@ define('admin', ['fields'], function(require, exports, module) {
                     tr.addClass('datagrid-row-selected');
                 }
             }
-        },
-
-        /**
-         * 列表datagrid
-         *
-         * @author          mrmsl <msl-138@163.com>
-         * @date            2013-08-01 17:03:31
-         *
-         * return {void} 无返回值
-         */
-        _datagrid: function() {
-            var tabs        = require('tabs'),
-                selectedTab = tabs.getSelected(),
-                grid        = tabs.get('_el').find('#grid-' + C + A);
-
-            TREE_DATA._prevQueryParams = _.clone(TREE_DATA.queryParams);
-
-            var pagesize = {
-                pageNumber: intval(Q2O.page || 1),
-                pageSize: Q2O.page_size || 20
-            };
-
-            TREE_DATA.queryParams = Q2O;
-
-            //if (!grid.length) {
-            //}
-            /*else {
-                $.extend(grid.datagrid('options'), pagesize);
-                $.extend(grid.datagrid('options').queryParams, Q2O);
-            }*/
-
-            if (global('FIRST_LOAD')) {
-                $.extend(this._datagridOptions, pagesize);
-                $.extend(this._datagridOptions.queryParams, Q2O);
-                grid.data('data-options', this._datagridOptions);
-                this._setToolbar(selectedTab);
-                grid.datagrid();
-
-                grid.datagrid('getPager').pagination({
-                    onSelectPage: function(page, pageSize) {
-                        $.extend(grid.datagrid('options'), {
-                            pageNumber: page
-                        });
-                        $.extend(grid.datagrid('getPager').pagination('options'), {
-                            pageNumber: page
-                        });
-
-                        $.extend(TREE_DATA.queryParams, {
-                            page: page
-                        });
-                        require('router').navigate(object2querystring(TREE_DATA.queryParams), true);
-                        grid.datagrid('reload');
-                    },
-                    onChangePageSize: log,
-                    showPageList: false
-                });
-            }
-            else if(object2querystring(TREE_DATA._prevQueryParams) != object2querystring(TREE_DATA.queryParams)) {
-                $.extend(grid.datagrid('options'), pagesize);
-                $.extend(grid.datagrid('options').queryParams, TREE_DATA.queryParams);
-                $.extend(grid.datagrid('getPager').pagination('options'), pagesize);
-                grid.datagrid('getPager').pagination('select', pagesize.pageNumber);
-                //grid.datagrid('reload');log(grid.datagrid('getPager').pagination('options'))
-            }
-
-            Q2O.keyword && selectedTab.find('#tb-' + C + A).children('#' + C + '-keyword').searchbox('setValue', Q2O.keyword);
-            selectedTab.find('#tb-' + C + A)
-            .children('#' + C + '-start_date')
-                .datetimebox('setValue', Q2O.start_date)
-            .end()
-            .children('#' + C + '-end_date')
-                .datetimebox('setValue', Q2O.end_date)
-            .end()
-            .children('#' + C + '-match_mode')
-                .combobox('setValue', Q2O.match_mode || 'eq')
-            .children('#' + C + '-cate_id');
         },
 
         /**
@@ -257,7 +181,33 @@ define('admin', ['fields'], function(require, exports, module) {
          * return {void} 无返回值
          */
         listAction: function() {
-            this._datagrid();
+            var defaults = {
+                sort: Q2O.sort || 'blog_id',//排序字段
+                order: Q2O.order || 'DESC',//排序
+                start_date: Q2O.start_date || '',//添加时间,开始
+                end_date: Q2O.end_date || '',//添加时间,结束
+                keyword: Q2O.keyword || '',//关键字
+                role_id: Q2O.role_id || '',//角色id
+                column: Q2O.column || 'username',//搜索字段
+                match_mode: Q2O.match_mode || 'eq',//匹配模式
+                is_lock: undefined === Q2O.is_lock ? -1 : Q2O.is_lock,//锁定状态
+                is_restrict: undefined === Q2O.is_restrict ? -1 : Q2O.is_restrict,//绑定登陆状态
+                page: Q2O.page || 1//页
+            };
+            var callback = function() {
+                require('tabs').getSelected().find('#tb-' + C + A)
+                .children('#' + C + '-start_date')
+                    .datetimebox('setValue', Q2O.start_date)
+                .end()
+                .children('#' + C + '-end_date')
+                    .datetimebox('setValue', Q2O.end_date)
+                .end()
+                .children('#' + C + '-match_mode')
+                    .combobox('setValue', Q2O.match_mode || 'eq')
+                .children('#' + C + '-keyword').searchbox('setValue', Q2O.keyword)
+            };
+
+            this._datagrid(defaults, callback);
         }
     });
 
