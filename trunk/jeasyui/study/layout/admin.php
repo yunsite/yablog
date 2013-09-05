@@ -22,8 +22,8 @@ EOT;
 <table id="grid-adminlist"></table>
 <span id="adminlist"></span>
 <div id="tb-adminlist">
-    <a href="javascript:void(0)" class="easyui-menubutton" id="admin-operate" data-options="menu:'#admin-menulist'">操作</a>
-    <div id="admin-menulist" style="width:150px;">
+    <a href="javascript:void(0)" class="easyui-menubutton" id="admin-operate">操作</a>
+    <div id="admin-menulist">
         <div data-options="iconCls:'icon-undo'">删除</div>
         <div data-options="iconCls:'icon-redo'">Redo</div>
         <div class="menu-sep"></div>
@@ -35,8 +35,8 @@ EOT;
         <div>Select All</div>
     </div>
     添加时间
-    <input type="text" id="admin-start_date" data-jeasyui="datetimebox" /> -
-    <input type="text" id="admin-end_date" data-jeasyui="datetimebox" />
+    <input type="text" id="admin-start_date" data-jeasyui="datebox" /> -
+    <input type="text" id="admin-end_date" data-jeasyui="datebox" />
     <input type="text" id="admin-cate_id" data-jeasyui="combobox" />
     <input type="text" id="admin-match_mode" data-jeasyui="combobox" />
     <input type="text" id="admin-keyword" data-jeasyui="searchbox" />

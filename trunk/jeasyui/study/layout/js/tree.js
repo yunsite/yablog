@@ -30,22 +30,31 @@ define('tree', ['base'], function(require, exports, module) {
                  * @date            2013-09-02 16:26:34
                  *
                  * @param {object} jq jquery对象
-                 * @param {object} controllerAction {controller: controller, action: action}
+                 * @param {array} controllerAction [controller: action]}
                  *
                  * return {mixed} 如果节点存在，返回节点信息，否则null
                  */
                 findByControllerAction: function(jq, controllerAction) {
-                    var node = null;
+                    var node        = null,
+                        controller  = controllerAction[0],
+                        action      = controllerAction[1],
+                        index       = 'findByControllerAction' + controllerAction + action,
+                        o           = global(index);
 
-                    $.each(me._treeData, function(index, item) {
+                    if (!o) {
 
-                        if (item.controller == controllerAction.controller && item.action == controllerAction.action) {
-                            node = item;
-                            return false;
-                        }
-                    });
+                        $.each(me._treeData, function(index, item) {
 
-                    return node;
+                            if (item.controller == controller && item.action == action) {
+                                node = item;
+                                return false;
+                            }
+                        });
+
+                        global(index, node);
+                    }
+
+                    return global(index);
                 }
             });
         },

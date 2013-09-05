@@ -2,6 +2,7 @@ define('admin', ['fields'], function(require, exports, module) {
     var Base    = require('base');
     var Admin   = Base.extend({
         _datagridOptions: {
+            title: '<span class="bread">bread</span>',
             columns: [[
                 {checkbox: true},
                 {title: 'id', field: 'blog_id', width: 50},
@@ -58,8 +59,8 @@ define('admin', ['fields'], function(require, exports, module) {
                     searcher: function(keyword) {
                         $.extend(TREE_DATA.queryParams, {
                             keyword: keyword,
-                            start_date: toolbar.children('#' + C + '-start_date').datetimebox('getValue'),
-                            end_date: toolbar.children('#' + C + '-end_date').datetimebox('getValue'),
+                            start_date: toolbar.children('#' + C + '-start_date').datebox('getValue'),
+                            end_date: toolbar.children('#' + C + '-end_date').datebox('getValue'),
                             match_mode: toolbar.children('#' + C + '-match_mode').combobox('getValue'),
                             cate_id: toolbar.children('#' + C + '-cate_id').combobox('getValue')
                         });
@@ -69,14 +70,9 @@ define('admin', ['fields'], function(require, exports, module) {
                     }
                 }).searchbox()
             .end()
-            .children('input[data-jeasyui=datetimebox]')
-                .data('data-options', {
-                    width: 140,
-                    formatter: function(d) {
-                        return date(null, d);
-                    }
-                })
-                .datetimebox()
+            .children('input[data-jeasyui=datebox]')
+                .data('data-options', require('fields').datetime)
+                .datebox()
             .end()
             .children('#' + C + '-match_mode')
                 .data('data-options', require('fields').matchMode)
@@ -105,6 +101,9 @@ define('admin', ['fields'], function(require, exports, module) {
                 })
             .end()
             .children('#admin-operate')
+                .data('data-options', {
+                    menu:'#admin-menulist'
+                })
                 .menubutton()
             .end();
         },
@@ -197,10 +196,10 @@ define('admin', ['fields'], function(require, exports, module) {
             var callback = function() {
                 require('tabs').getSelected().find('#tb-' + C + A)
                 .children('#' + C + '-start_date')
-                    .datetimebox('setValue', Q2O.start_date)
+                    .datebox('setValue', Q2O.start_date)
                 .end()
                 .children('#' + C + '-end_date')
-                    .datetimebox('setValue', Q2O.end_date)
+                    .datebox('setValue', Q2O.end_date)
                 .end()
                 .children('#' + C + '-match_mode')
                     .combobox('setValue', Q2O.match_mode || 'eq')
