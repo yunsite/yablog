@@ -11,7 +11,38 @@ define('admin', ['fields'], function(require, exports, module) {
             toolbar: '#tb-' + ID,
             url: 'get_blogs.php',
             sortName: 'blog_id',
-            sortOrder: 'desc'
+            sortOrder: 'desc',
+            _createContextMenu: function() {
+
+                if (!$('#contextmenu' + ID).length) {
+                    var o = $('<div id="contextmenu' + ID + '"></div>')
+                    .appendTo($('body'))
+                    .menu()
+                    .menu('appendItem', {text: '删除'});
+                }
+            },
+            onRowContextMenu: function(e, index, data) {
+                var options = $(this).datagrid('options');
+
+                if (!options._contextmenu) {
+                    options._createContextMenu();
+                    options._contextmenu = true;
+                }
+
+                var o = $('#contextmenu' + ID)
+                .menu('show', {
+                    left: e.pageX,
+                    top: e.pageY
+                });
+
+                $.extend(o.menu('options'), {
+                    onClick: function() {
+                        log(data);
+                    }
+                });
+
+                e.preventDefault();
+            }
         },
 
         /**
