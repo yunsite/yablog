@@ -2,45 +2,16 @@ define('admin', ['fields'], function(require, exports, module) {
     var Base    = require('base');
     var Admin   = Base.extend({
         _datagridOptions: {
-            title: '<span class="bread">bread</span>',
             columns: [[
                 {checkbox: true},
                 {title: 'id', field: 'blog_id', width: 50},
                 {title: '标题', field: 'title', width: 200},
                 {title: '点击', field: 'hits', width: 50, fixed: true}
             ]],
-            queryParams: {},
-            toolbar: '#tb-adminlist',
+            toolbar: '#tb-' + ID,
             url: 'get_blogs.php',
-            striped: true,
-            fitColumns: true,
-            pagination: true,
-            fit: true,
             sortName: 'blog_id',
-            sortOrder: 'desc',
-            showFooter: true,
-            loadFilter: function(data) {
-                return {
-                    rows: data.data,
-                    total: data.total
-                };
-            },
-            selectOnCheck: true,
-            checkOnSelect: false,
-            onSelect: function(index) {
-                var tr = $(this).datagrid('options').finder.getTr(this, index);
-
-                if (!tr.find('div.datagrid-cell-check input[type=checkbox]').prop('checked')) {
-                    tr.removeClass('datagrid-row-selected');
-                }
-            },
-            onUnselect: function(index) {
-                var tr = $(this).datagrid('options').finder.getTr(this, index);
-
-                if (tr.find('div.datagrid-cell-check input[type=checkbox]').prop('checked')) {
-                    tr.addClass('datagrid-row-selected');
-                }
-            }
+            sortOrder: 'desc'
         },
 
         /**
@@ -57,6 +28,10 @@ define('admin', ['fields'], function(require, exports, module) {
                 .data('data-options', {
                     prompt: '关键字',
                     searcher: function(keyword) {
+                        $.each(toolbar.children('input[data-jeasyui]'), function(index, item) {
+                            var me = $(this);
+                            log(me[me.attr('data-jeasyui')]
+                        });
                         $.extend(TREE_DATA.queryParams, {
                             keyword: keyword,
                             start_date: toolbar.children('#' + C + '-start_date').datebox('getValue'),
@@ -99,6 +74,8 @@ define('admin', ['fields'], function(require, exports, module) {
                         //log(selectedTab.find('#grid-' + C + A).datagrid('getChecked'));
                     }
                 })
+                //.find('div > select').data('data-options', {}).combobox()
+                //.end()
             .end()
             .children('#admin-operate')
                 .data('data-options', {
