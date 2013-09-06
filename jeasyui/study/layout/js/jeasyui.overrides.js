@@ -12,17 +12,81 @@
 
 if ($.fn.datagrid) {
     $.extend($.fn.datagrid.defaults, {
-        onSelect: function(index) {
-            var tr = $(this).datagrid('options').finder.getTr(this, index);
+        /**
+         * var {string} cbCls 复选框checkbox class
+         */
+        cbCls: 'div.datagrid-cell-check input[type=checkbox]',
 
-            if (!tr.find('div.datagrid-cell-check input[type=checkbox]').prop('checked')) {
+        /**
+         * var {string} title 标题
+         */
+        title: '<span class="bread">bread</span>',
+
+        /**
+         * var {object} queryParams 查询参数
+         */
+        queryParams: {},
+
+        /**
+         * var {bool} [striped=true]
+         */
+        striped: true,
+
+        /**
+         * var {bool} [fitColumns=true] true固定列宽
+         */
+        fitColumns: true,
+
+        /**
+         * var {bool} [pagination=true] true带分页条
+         */
+        pagination: true,
+
+        /**
+         * var {bool} [fit=true] true充满区域
+         */
+        fit: true,
+
+        /**
+         * var {function} loadFilter 处理后端返回数据格式
+         */
+        loadFilter: function(data) {
+            return {
+                rows: data.data,
+                total: data.total
+            };
+        },
+
+        /**
+         * var {bool} [selectOnCheck=true] true勾选时选中行
+         */
+        selectOnCheck: true,
+
+        /**
+         * var {bool} [selectOnCheck=false] true点击行时勾选复选框
+         */
+        checkOnSelect: false,
+
+        /**
+         * var {function} onSelect 选择行后
+         */
+        onSelect: function(index) {
+            var options = $(this).datagrid('options'),
+                tr      = options.finder.getTr(this, index);
+
+            if (!tr.find(options.cbCls).prop('checked')) {//非勾选
                 tr.removeClass('datagrid-row-selected');
             }
         },
-        onUnselect: function(index) {
-            var tr = $(this).datagrid('options').finder.getTr(this, index);
 
-            if (tr.find('div.datagrid-cell-check input[type=checkbox]').prop('checked')) {
+        /**
+         * var {function} onUnselect 取消选择行后
+         */
+        onUnselect: function(index) {
+            var options = $(this).datagrid('options'),
+                tr      = options.finder.getTr(this, index);
+
+            if (tr.find(options.cbCls).prop('checked')) {//已勾选
                 tr.addClass('datagrid-row-selected');
             }
         }
@@ -31,18 +95,27 @@ if ($.fn.datagrid) {
 
 if ($.fn.combobox) {
     $.extend($.fn.datagrid.defaults, {
+        /**
+         * var {bool} [editable=false] true可输入
+         */
         editable: false
     });
 }
 
 if ($.fn.datebox) {
     $.extend($.fn.datebox.defaults, {
+        /**
+         * var {bool} [width=140] 宽度
+         */
         width: 140
     });
 }
 
 if ($.fn.datetimebox) {
     $.extend($.fn.datebox.defaults, {
+        /**
+         * var {bool} [width=140] 宽度
+         */
         width: 140
     });
 }

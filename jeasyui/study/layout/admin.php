@@ -25,14 +25,6 @@ EOT;
     <a href="javascript:void(0)" class="easyui-menubutton" id="admin-operate">操作</a>
     <div id="admin-menulist">
         <div data-options="iconCls:'icon-undo'">删除</div>
-        <div data-options="iconCls:'icon-redo'">Redo</div>
-        <div class="menu-sep"></div>
-        <div>Cut</div>
-        <div>Copy</div>
-        <div>Paste</div>
-        <div class="menu-sep"></div>
-        <div data-options="iconCls:'icon-remove'">Delete</div>
-        <div>Select All</div>
     </div>
     添加时间
     <input type="text" id="admin-start_date" data-jeasyui="datebox" /> -

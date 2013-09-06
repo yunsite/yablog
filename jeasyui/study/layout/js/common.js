@@ -1,4 +1,4 @@
-var A, C, MENU_ID, TREE_DATA, Q2O;
+var A, C, ID, TREE_DATA, Q2O;
 
 seajs.config({
     base: 'http://localhost/jeasyui/yablog/study/layout/js/',
