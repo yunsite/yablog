@@ -27,11 +27,11 @@ EOT;
         <div data-options="iconCls:'icon-undo'">删除</div>
     </div>
     添加时间
-    <input type="text" id="admin-start_date" data-jeasyui="datebox" /> -
-    <input type="text" id="admin-end_date" data-jeasyui="datebox" />
-    <input type="text" id="admin-cate_id" data-jeasyui="combobox" />
-    <input type="text" id="admin-match_mode" data-jeasyui="combobox" />
-    <input type="text" id="admin-keyword" data-jeasyui="searchbox" />
+    <input type="text" data-name="start_date" data-jeasyui="datebox" /> -
+    <input type="text" data-name="end_date" data-jeasyui="datebox" />
+    <input type="text" data-name="cate_id" data-jeasyui="combobox" />
+    <input type="text" data-name="match_mode" data-jeasyui="combobox" />
+    <input type="text" data-name="keyword" data-jeasyui="searchbox" />
 </div>
 EOT;
         echo $html;

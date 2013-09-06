@@ -24,21 +24,18 @@ define('admin', ['fields'], function(require, exports, module) {
          */
         _setToolbar: function(selectedTab) {
             var toolbar = selectedTab.children('#tb-' + C + A);
-            toolbar.children('#' + C + '-keyword')
+            toolbar.children('input[data-name=keyword]')
                 .data('data-options', {
                     prompt: '关键字',
                     searcher: function(keyword) {
+                        var values = {};
+
                         $.each(toolbar.children('input[data-jeasyui]'), function(index, item) {
                             var me = $(this);
-                            log(me[me.attr('data-jeasyui')]
+                            values[me.attr('data-name')] = me[me.attr('data-jeasyui')]('getValue');
                         });
-                        $.extend(TREE_DATA.queryParams, {
-                            keyword: keyword,
-                            start_date: toolbar.children('#' + C + '-start_date').datebox('getValue'),
-                            end_date: toolbar.children('#' + C + '-end_date').datebox('getValue'),
-                            match_mode: toolbar.children('#' + C + '-match_mode').combobox('getValue'),
-                            cate_id: toolbar.children('#' + C + '-cate_id').combobox('getValue')
-                        });
+
+                        $.extend(TREE_DATA.queryParams, values);
                         var grid = selectedTab.find('#grid-' + C + A);
                         $.extend(grid.datagrid('options').queryParams, TREE_DATA.queryParams);
                         grid.datagrid('getPager').pagination('select', 1);
@@ -49,11 +46,11 @@ define('admin', ['fields'], function(require, exports, module) {
                 .data('data-options', require('fields').datetime)
                 .datebox()
             .end()
-            .children('#' + C + '-match_mode')
+            .children('input[data-name=match_mode]')
                 .data('data-options', require('fields').matchMode)
                 .combobox()
             .end()
-            .children('#' + C + '-cate_id')
+            .children('input[data-name=cate_id]')
                 .data('data-options', {
                     url: 'categories.php',
                     valueField: 'cate_id',
@@ -172,15 +169,17 @@ define('admin', ['fields'], function(require, exports, module) {
             };
             var callback = function() {
                 require('tabs').getSelected().find('#tb-' + C + A)
-                .children('#' + C + '-start_date')
+                .children('input[data-name=start_date]')
                     .datebox('setValue', Q2O.start_date)
                 .end()
-                .children('#' + C + '-end_date')
+                .children('input[data-name=end_date]')
                     .datebox('setValue', Q2O.end_date)
                 .end()
-                .children('#' + C + '-match_mode')
+                .children('input[data-name=match_mode]')
                     .combobox('setValue', Q2O.match_mode || 'eq')
-                .children('#' + C + '-keyword').searchbox('setValue', Q2O.keyword)
+                .end()
+                .children('input[data-name=keyword]')
+                    .searchbox('setValue', Q2O.keyword)
             };
 
             this._datagrid(defaults, callback);
