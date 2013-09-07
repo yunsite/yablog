@@ -119,3 +119,26 @@ if ($.fn.datetimebox) {
         width: 140
     });
 }
+
+if ($.fn.menu) {
+    $.extend($.fn.menu.methods, {
+        /**
+         * 批量添加菜单项
+         *
+         * @author          mrmsl <msl-138@163.com>
+         * @date            2013-09-07 21:29:20
+         *
+         * @param {object} jq jquery对象
+         * @param {array} 菜单项
+         *
+         * return {object} this
+         */
+        appendItems: function(jq, items) {
+            $.each(items, function(index, item) {
+                jq.menu('appendItem', item);
+            });
+
+            return jq;
+        }
+    });
+}
