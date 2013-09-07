@@ -20,6 +20,7 @@ define('blog', ['fields'], function(require, exports, module) {
                     .menu()
                     .menu('appendItems', [{
                         text: '删除',
+                        name: 'delete',
                         iconCls: 'icon-remove'
                     }, {
                         text: '编辑',
@@ -43,7 +44,7 @@ define('blog', ['fields'], function(require, exports, module) {
 
                 $.extend(o.menu('options'), {
                     onClick: function() {
-                        log(data);
+                        log(data, arguments);
                     }
                 });
 
