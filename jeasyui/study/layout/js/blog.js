@@ -44,7 +44,7 @@ define('blog', ['fields'], function(require, exports, module) {
 
                 $.extend(o.menu('options'), {
                     onClick: function() {
-                        $.messager.confirm('系统提示', '您确定要删除 ' + data.title + data.title + data.title + data.title + '？', function() {
+                        $.messager.confirm('系统提示', '您确定要删除 ' + data.title + '？', function() {
                             log(arguments);
                         });
                     }

@@ -2,49 +2,49 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
     var Base    = require('base');
     var Tabs    = Base.extend({
         /**
-         * var {object} _el ±êÇ©À¸jquery¶ÔÏó
+         * var {object} _el æ ‡ç­¾æ jqueryå¯¹è±¡
          */
         _el: null,
 
         /**
-         * var {array} _recentTabs ×î½ü²Ù×÷
+         * var {array} _recentTabs æœ€è¿‘æ“ä½œ
          */
         _recentTabs: [],
 
         /**
-         * var {array} _staticTabs ¹Ì¶¨±êÇ©
+         * var {array} _staticTabs å›ºå®šæ ‡ç­¾
          */
         _staticTabs: [],
 
          /**
-         * @var {object} _tabCache ±êÇ©»º´æ{controller: data}
+         * @var {object} _tabCache æ ‡ç­¾ç¼“å­˜{controller: data}
          *
          */
         _tabCache: {},
 
         /**
-         * @var {object} _tabData ËùÓĞ±êÇ©Êı¾İ{controller_action: data}
+         * @var {object} _tabData æ‰€æœ‰æ ‡ç­¾æ•°æ®{controller_action: data}
          *
          */
         _tabData: {},
 
         /**
-         * var {array} _tabs ±êÇ©[controller]
+         * var {array} _tabs æ ‡ç­¾[controller]
          */
         _tabs: [],
 
         /**
-         * var {array} {Array} ÔÚ±êÇ©À¸ÄÚ±êÇ©[controller]
+         * var {array} {Array} åœ¨æ ‡ç­¾æ å†…æ ‡ç­¾[controller]
          */
         _tabsInBar: [],
 
         /**
-         * ¼Ì³Ğ$.fn.tabs.methods
+         * ç»§æ‰¿$.fn.tabs.methods
          *
          * @author          mrmsl <msl-138@163.com>
          * @date            2013-08-01 15:06:08
          *
-         * return {void} ÎŞ·µ»ØÖµ
+         * return {void} æ— è¿”å›å€¼
          */
         _extendMethods: function() {
             var me = this;
@@ -52,12 +52,12 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
             $.extend($.fn.tabs.methods, {
 
                 /**
-                 * ·µ»Ø¿ØÖÆÆ÷controller±êÇ©ÔÚ±êÇ©À¸ÖĞµÄË÷ÒıÎ»ÖÃ
+                 * è¿”å›æ§åˆ¶å™¨controlleræ ‡ç­¾åœ¨æ ‡ç­¾æ ä¸­çš„ç´¢å¼•ä½ç½®
                  *
                  * @author      mrmsl <msl-138@163.com>
                  * @date        2013-08-01 15:06:08
                  *
-                 * return {int} ±êÇ©´æÔÚ,·µ»ØË÷ÒıÎ»ÖÃ,·ñÔò-1
+                 * return {int} æ ‡ç­¾å­˜åœ¨,è¿”å›ç´¢å¼•ä½ç½®,å¦åˆ™-1
                  */
                 tabIndex: function(jq, controller) {
                     var index = -1;
@@ -77,26 +77,26 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
         },
 
         /**
-         * ¼ì²âËùÓĞ±êÇ©ÖĞÊÇ·ñ°üº¬ÓĞÖ¸¶¨±êÇ©
+         * æ£€æµ‹æ‰€æœ‰æ ‡ç­¾ä¸­æ˜¯å¦åŒ…å«æœ‰æŒ‡å®šæ ‡ç­¾
          *
          * @author          mrmsl <msl-138@163.com>
          * @date            2013-08-03 09:45:22
          *
-         * @param {string} controller ±êÇ©controller
+         * @param {string} controller æ ‡ç­¾controller
          *
-         * @return {bool} true´æÔÚ£¬·ñÔòfalse
+         * @return {bool} trueå­˜åœ¨ï¼Œå¦åˆ™false
          */
         _hasTab: function(controller) {
             return $.in_array(controller, this.tabs);
         },
 
         /**
-         * ÉèÖÃ»îÔ¾Ãæ°å
+         * è®¾ç½®æ´»è·ƒé¢æ¿
          *
          * @author          mrmsl <msl-138@163.com>
          * @date            2013-08-30 09:03:43
          *
-         * return {void} ÎŞ·µ»ØÖµ
+         * return {void} æ— è¿”å›å€¼
          */
         _setActivePanel: function() {
             var tabs    = this.getSelected(),
@@ -116,14 +116,14 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
         },
 
         /**
-         * Ìí¼Ó±êÇ©
+         * æ·»åŠ æ ‡ç­¾
          *
          * @author          mrmsl <msl-138@163.com>
          * @date            2013-08-03 09:46:32
          *
-         * @param {int} menu_id ²Ëµ¥id
+         * @param {int} menu_id èœå•id
          *
-         * @return {void} ÎŞ·µ»ØÖµ
+         * @return {void} æ— è¿”å›å€¼
          */
         addTab: function(menu_id) {
             var menuData    = require('tree').get('_treeData')[menu_id],
@@ -176,12 +176,12 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
         },
 
         /**
-         * Æô¶¯
+         * å¯åŠ¨
          *
          * @author          mrmsl <msl-138@163.com>
          * @date            2013-08-01 15:21:41
          *
-         * return {void} ÎŞ·µ»ØÖµ
+         * return {void} æ— è¿”å›å€¼
          */
         bootstrap: function() {
             var me = this;
@@ -194,6 +194,50 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                     //log(tab, options, TREE_DATA);
 
                     //options && me.loadScript(options.controller, options.action);
+                },
+                onBeforeClose: function(title, index) {
+                    log($(this).tabs('getTab', index).options);
+                },
+                onClose: function() {
+                    log($(this).data('tabs').selectHis);log($(this).tabs('getSelected'));
+                },
+                _createContextMenu: function() {
+
+                    if (!$('#tab-contextmenu').length) {
+                        var o = $('<div id="tab-contextmenu"></div>')
+                        .appendTo($('body'))
+                        .menu()
+                        .menu('appendItems', [{
+                            text: 'åˆ é™¤',
+                            name: 'delete',
+                            iconCls: 'icon-remove'
+                        }, {
+                            text: 'ç¼–è¾‘',
+                            iconCls: 'icon-edit'
+                        }]);
+                    }
+                },
+                onContextMenu: function(e, title, index) {
+                    var options = $(this).tabs('options');
+
+                    if (!options._contextmenu) {
+                        options._createContextMenu();
+                        options._contextmenu = true;
+                    }
+
+                    var o = $('#tab-contextmenu')
+                    .menu('show', {
+                        left: e.pageX,
+                        top: e.pageY
+                    });
+
+                    $.extend(o.menu('options'), {
+                        onClick: function() {
+                            log(arguments);
+                        }
+                    });
+
+                    e.preventDefault();
                 }
             })
             .tabs()
@@ -213,12 +257,12 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
         },
 
         /**
-         * ¹¹Ôìº¯Êı
+         * æ„é€ å‡½æ•°
          *
          * @author          mrmsl <msl-138@163.com>
          * @date            2013-08-01 15:43:06
          *
-         * return {void} ÎŞ·µ»ØÖµ
+         * return {void} æ— è¿”å›å€¼
          */
         constructor: function() {
             this.base();
@@ -226,7 +270,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
         },
 
         /**
-         * »ñÈ¡Ñ¡ÖĞtab
+         * è·å–é€‰ä¸­tab
          *
          * @author      mrmsl <msl-138@163.com>
          * @date        2013-08-01 17:07:10
@@ -238,24 +282,24 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
         },
 
         /**
-         * ¹¹Ôìº¯Êı
+         * æ„é€ å‡½æ•°
          *
          * @author          mrmsl <msl-138@163.com>
          * @date            2013-08-01 15:43:06
          *
-         * return {void} ÎŞ·µ»ØÖµ
+         * return {void} æ— è¿”å›å€¼
          */
         hideSelected: function() {
             this.getSelected().hide();
         },
 
         /**
-         * ¹¹Ôìº¯Êı
+         * æ„é€ å‡½æ•°
          *
          * @author          mrmsl <msl-138@163.com>
          * @date            2013-08-01 15:43:06
          *
-         * return {void} ÎŞ·µ»ØÖµ
+         * return {void} æ— è¿”å›å€¼
          */
         loadScript: function(controller, action) {
             controller  = controller || C;
