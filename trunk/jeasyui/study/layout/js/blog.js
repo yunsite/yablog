@@ -4,9 +4,9 @@ define('blog', ['fields'], function(require, exports, module) {
         _datagridOptions: {
             columns: [[
                 {checkbox: true},
-                {title: 'id', field: 'blog_id', width: 50},
-                {title: '标题', field: 'title', width: 200},
-                {title: '点击', field: 'hits', width: 50, fixed: true}
+                {title: 'id', field: 'blog_id', width: 50, sortable: true},
+                {title: '标题', field: 'title', width: 200, sortable: true},
+                {title: '点击', field: 'hits', width: 50, fixed: true, sortable: true}
             ]],
             toolbar: '#tb-' + ID,
             url: 'get_blogs.php',
@@ -196,7 +196,7 @@ define('blog', ['fields'], function(require, exports, module) {
         listAction: function() {
             var defaults = {
                 sort: Q2O.sort || 'blog_id',//排序字段
-                order: Q2O.order || 'DESC',//排序
+                order: Q2O.order || 'desc',//排序
                 start_date: Q2O.start_date || '',//添加时间,开始
                 end_date: Q2O.end_date || '',//添加时间,结束
                 keyword: Q2O.keyword || '',//关键字

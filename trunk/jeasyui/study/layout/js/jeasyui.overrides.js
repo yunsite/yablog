@@ -89,6 +89,32 @@ if ($.fn.datagrid) {
             if (tr.find(options.cbCls).prop('checked')) {//已勾选
                 tr.addClass('datagrid-row-selected');
             }
+        },
+
+        /**
+         * var {function} onSortColumn 排序后
+         */
+        onSortColumn: function(sort, order) {
+            $(this).datagrid('options')._onSortColumn.call(this, sort, order);
+        },
+
+        /**
+         * var {function} onSortColumn 排序后
+         */
+        _onSortColumn: function(sort, order) {
+            var grid        = $(this),
+                pagesize    = {
+                    pageNumber: intval(Q2O.page || 1),
+                    pageSize: Q2O.page_size || 20
+                };
+
+            $.extend(TREE_DATA.queryParams, {
+                sort: sort,
+                order: order
+            });
+
+            $.extend(grid.datagrid('options'), pagesize, {sortName: sort, sortOrder: order});
+            seajs.require('router').navigate(object2querystring(TREE_DATA.queryParams));
         }
     });
 }
