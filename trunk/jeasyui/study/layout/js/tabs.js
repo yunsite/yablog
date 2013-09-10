@@ -12,12 +12,12 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
         _recentTabs: [],
 
         /**
-         * var {array} _staticTabs 固定标签
+         * var {object} _currentTab 当前标签
          */
-        _staticTabs: [],
+        _currentTab: [],
 
          /**
-         * @var {object} _tabCache 标签缓存{controller: data}
+         * @var {object} _tabCache 标签缓存{controller: controller, action: action}
          *
          */
         _tabCache: {},
@@ -115,6 +115,29 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
             }
         },
 
+
+        /**
+         * 设置最近操作
+         *
+         * @author          mrmsl <msl-138@163.com>
+         * @date            2013-09-10 15:02:39
+         *
+         * @return {void} 无返回值
+         */
+        _setRecentTabs: function(controller, action) {
+            var me = this;log(me._recentTabs);
+
+            $.each(this._recentTabs, function(index, item) {
+                //干掉标签栏显示的
+                if (item.controller == controller && item.action == action) {
+                    me._recentTabs.splice(index, 1);
+                    return false;
+                }
+            });
+
+            log(me._recentTabs);
+        },
+
         /**
          * 添加标签
          *
@@ -127,7 +150,9 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
          */
         addTab: function(menu_id) {
             var menuData    = require('tree').get('_treeData')[menu_id],
-                tabIndex    = this._el.tabs('tabIndex', menuData.controller);
+                controller  = menuData.controller,
+                action      = menuData.action,
+                tabIndex    = this._el.tabs('tabIndex', controller);
 
             if (-1 == tabIndex) {
                 this._el.tabs('add', {
@@ -135,14 +160,14 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                     title: menuData.menu_name,
                     closable: true,
                     content: '',
-                    //href: 'http://localhost/jeasyui/yablog/study/layout/action.php?c={0}&a={1}'.format(menuData.controller, menuData.action),
-                    //id: menuData.controller + menuData.action,
+                    //href: 'http://localhost/jeasyui/yablog/study/layout/action.php?c={0}&a={1}'.format(controller, action),
+                    //id: controller + action,
                     style: {
                         padding: '8px'
                     },
                     options: {
-                        controller: menuData.controller,
-                        action: menuData.action,
+                        controller: controller,
+                        action: action,
                         id: menuData.id
                     }
                 });
@@ -153,14 +178,14 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                     var tab = this._el.tabs('getTab', tabIndex);
 
                     $.extend(tab.panel('options').options, {
-                        action: menuData.action,
+                        action: action,
                         id: menuData.menu_id
                     });
 
                     this._el.tabs('update', {
                         tab: this._el.tabs('getTab', tabIndex),
                         options: {
-                            //href: 'http://localhost/jeasyui/yablog/study/layout/action.php?c={0}&a={1}'.format(menuData.controller, menuData.action),
+                            //href: 'http://localhost/jeasyui/yablog/study/layout/action.php?c={0}&a={1}'.format(controller, action),
                             //content: menuData.menu_name,
                             title: menuData.menu_name
                         }
@@ -168,9 +193,22 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
 
                     this._setActivePanel();
                 }
-
                 this._el.tabs('select', menuData.menu_name);
             }
+
+            this._currentTab = menuData;
+
+            this._setRecentTabs(controller, action);
+
+            //相同控制器不同操作，加入最近操作
+            if (this._tabCache[controller] && this._tabCache[controller] != action){
+                this._recentTabs.unshift(this._tabCache[controller]);
+            }
+
+            this._tabCache[controller] = {
+                controller: controller,
+                action: action
+            };
 
             this.loadScript();
         },
@@ -188,44 +226,69 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
 
             this._extendMethods();
             this._el.data('data-options', {
-                onSelect: function (title, index) {
-                    var tab = me._el.tabs('getTab', index);
-                    var options = tab.panel('options').options;
-                    //log(tab, options, TREE_DATA);
-
-                    //options && me.loadScript(options.controller, options.action);
-                },
-                onBeforeClose: function(title, index) {
-                    log($(this).tabs('getTab', index).options);
-                },
                 onClose: function() {
-                    log($(this).data('tabs').selectHis);log($(this).tabs('getSelected'));
+                    me._recentTabs.unshift(me._tabCache[me._currentTab.controller]);
                 },
-                _createContextMenu: function() {
+                _createContextMenu: function(index) {
+                    var options     = $(me._el).tabs('getTab', index).panel('options').options,
+                        recentTabs  = me._recentTabs,
+                        tabs        = $(me._el).data('tabs').tabs,
+                        _0          = 1 == tabs.length,
+                        id          = 'tab-contextmenu';
+log(recentTabs);
+                    this._contextmenu && $('#' + id).menu('destroy');
+                    this._contextmenu = id;
 
-                    if (!$('#tab-contextmenu').length) {
-                        var o = $('<div id="tab-contextmenu"></div>')
-                        .appendTo($('body'))
-                        .menu()
-                        .menu('appendItems', [{
-                            text: '删除',
-                            name: 'delete',
-                            iconCls: 'icon-remove'
-                        }, {
-                            text: '编辑',
-                            iconCls: 'icon-edit'
-                        }]);
+                    var o = $('<div id="' + id + '"></div>')
+                    .appendTo($('body'))
+                    .menu()
+                    .menu('appendItems', [{
+                        disabled: !options,//首页标签卡禁用
+                        text: '刷新',//刷新
+                        handler: function() {log('refresh');
+                        }
+                    }, {
+                        disabled: !options,
+                        text: '关闭',//关闭
+                        handler: function() {
+                            log('close');
+                        }
+                    }, {
+                        text: '关闭其它',//关闭其它
+                        disabled: !options && _0 || options && 'index' != options.controller && 2 == tabs.length,
+                        handler: function() {
+                            log('close other');
+                        }
+                    }, {
+                        text: '全部关闭',//全部关闭
+                        disabled: _0,
+                        handler: function() {
+                            log('close all');
+                        }
+                    }, {
+                        text: '最近操作',//最近操作
+                        disabled: 0 == recentTabs.length
+                    }]);
+
+
+                    if (0 != recentTabs.length) {
+                        var parent      = o.menu('findItem', '最近操作'),
+                            recentItems = [];//最近操作
+
+                        $.each(me._recentTabs, function(index, item) {//最近操作
+                            o.menu('appendItem', {
+                                parent: parent.target,
+                                text: (index + 1) + '. ' + me._pageTitle[item.controller + item.action]
+                            });
+                        });
                     }
                 },
                 onContextMenu: function(e, title, index) {
                     var options = $(this).tabs('options');
 
-                    if (!options._contextmenu) {
-                        options._createContextMenu();
-                        options._contextmenu = true;
-                    }
+                    options._createContextMenu(index);
 
-                    var o = $('#tab-contextmenu')
+                    var o = $('#' + options._contextmenu)
                     .menu('show', {
                         left: e.pageX,
                         top: e.pageY
@@ -254,7 +317,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                         require('router').index();
                     }
                 });
-        },
+        },//end bootstrap
 
         /**
          * 构造函数
