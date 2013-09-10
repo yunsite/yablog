@@ -34,7 +34,7 @@ define('base', ['router'], function(require, exports, module) {
             $.extend(TREE_DATA.queryParams, defaults);
 
             if (global('FIRST_LOAD')) {
-                $.extend(this._datagridOptions, pagesize);
+                $.extend(this._datagridOptions, pagesize, {sortName: defaults.sort, sortOrder: defaults.order});
                 $.extend(this._datagridOptions.queryParams, TREE_DATA.queryParams);
                 grid.data('data-options', this._datagridOptions);
                 this._setToolbar(selectedTab);
@@ -60,11 +60,19 @@ define('base', ['router'], function(require, exports, module) {
                 });
             }
             else if(object2querystring(TREE_DATA._prevQueryParams) != object2querystring(TREE_DATA.queryParams)) {
-                log('prev', TREE_DATA._prevQueryParams, TREE_DATA.queryParams);
-                $.extend(grid.datagrid('options'), pagesize);
+                $.extend(grid.datagrid('options'), pagesize, {sortName: defaults.sort, sortOrder: defaults.order});
                 $.extend(grid.datagrid('options').queryParams, TREE_DATA.queryParams);
                 $.extend(grid.datagrid('getPager').pagination('options'), pagesize);
                 grid.datagrid('getPager').pagination('select', pagesize.pageNumber);
+
+                grid.data('datagrid').dc.header2
+                .find('tr.datagrid-header-row')
+                    .find('div.datagrid-cell')
+                    .removeClass('datagrid-sort-asc datagrid-sort-desc')
+                .end()
+                .find('td[field=' + defaults.sort + ']')
+                    .find('div.datagrid-cell')
+                    .addClass('datagrid-sort-' + defaults.order);
             }
 
             callback && callback();
