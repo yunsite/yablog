@@ -171,6 +171,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
          * @return {void} 无返回值
          */
         addTab: function(menu_id) {
+            Alert('加载中，请稍后...', 'loading', false, false);
             var menuData    = require('tree').get('_treeData')[menu_id],
                 controller  = menuData.controller,
                 action      = menuData.action,
@@ -345,7 +346,9 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
             .children('div.tabs-header')
                 .find('ul.tabs')
                 .on('click', 'li', function() {
+                    Alert('加载中，请稍后...', 'loading', false, false);
                     $(me._el).tabs('newOnSelect');
+                    Alert(null, null, true);
                 });
         },//end bootstrap
 
@@ -404,6 +407,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                 callback    = function(o, method) {
                     o[method]();
                     me.setPageTitle();
+                    Alert(null, null, true);
                 };
 
             seajs.use(controller, function(o) {

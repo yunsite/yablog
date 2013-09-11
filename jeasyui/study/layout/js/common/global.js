@@ -49,7 +49,68 @@ function _GET(name, str) {
     }
 
     return match;
-}
+}/**
+ * 友好提示
+ *
+ * @param {string} msg      提示内容
+ * @param {bool}   [success=true]  true成功提示
+ * @param {bool}   [cancel=false]  true清除提示
+ * @param {int}    [timeout=2000]  提示停留时间,单位毫秒
+ *
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-09-11 22:29:57
+ *
+ * @param {void} 无返回值
+ */
+function Alert(msg, success, cancel, timeout) {
+    'undefined' != typeof(AlertTimeout) && clearTimeout(AlertTimeout);
+
+    var div = $('#div-alert');
+
+    if (!cancel) {
+        var color = '#fff';
+
+        if ('loading' === success) {
+            var background = '#666';
+        }
+        else {
+            var background = false === success ? '#d90000' : '#16960e';
+        }
+
+        if (0 == div.length) {
+            div = $('<div/>').html(msg).attr('id', 'div-alert').css({
+                'background-color': background,
+                color: color,
+                left: '50%',
+                'z-index': 10000,
+                position: 'absolute',
+                padding: '4px 8px',
+                'font-size': '13px'
+            }).appendTo('body').hide();
+        }
+        else {
+            div.html(msg).width('auto').css({
+                'background-color': background,
+                color: color
+            });
+        }
+
+        var width = div.width();
+        width = width < 100 ? 100 : (width > 600 ? 600 : width);
+        div.show().css({
+            height: 'auto',
+            width: width <= 100 ? 100 : width,
+            'margin-left': -width / 2,
+            'text-align': width >= 600 ? 'left' : 'center'
+        });
+
+        hideAlert(timeout);
+    }
+
+    else {
+        div.hide();
+    }
+}//end Alert
 
 /**
  * 格式化时间，类似php date函数
@@ -107,6 +168,25 @@ function global() {
     window[arguments[0]] = arguments[1];
 
     return true;
+}
+
+/**
+ * 隐藏友好提示
+ *
+ * @param {int} [timeout=2000]  提示停留时间,单位毫秒
+ *
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-09-11 22:28:12
+ *
+ * @param {void} 无返回值
+ */
+function hideAlert(timeout) {
+
+    if (false !== timeout) {
+        AlertTimeout = setTimeout(function() {
+            Alert(false, false, true);
+        }, timeout || 2000);
+    }
 }
 
 /**
