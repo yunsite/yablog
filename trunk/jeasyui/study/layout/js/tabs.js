@@ -23,20 +23,10 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
         _tabCache: {},
 
         /**
-         * @var {object} _tabData 所有标签数据{controller_action: data}
+         * @var {object} _controllerObj 控制器对象
          *
          */
-        _tabData: {},
-
-        /**
-         * var {array} _tabs 标签[controller]
-         */
-        _tabs: [],
-
-        /**
-         * var {array} {Array} 在标签栏内标签[controller]
-         */
-        _tabsInBar: [],
+        _controllerObj: {},
 
         /**
          * 继承$.fn.tabs.methods
@@ -265,7 +255,10 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                     .menu('appendItems', [{
                         disabled: !options,//首页标签卡禁用
                         text: '刷新',//刷新
-                        handler: function() {log('refresh');
+                        handler: function() {
+                            global('contextmenu_refresh', true);
+                            me._controllerObj[A + 'Action']();
+                            global('contextmenu_refresh', false);
                         }
                     }, {
                         disabled: !options,
@@ -386,6 +379,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                 };
 
             seajs.use(controller, function(o) {
+                me._controllerObj = o;
                 var method = action + 'Action';
 
                 if (selected.children('#' + controller + action).length) {
