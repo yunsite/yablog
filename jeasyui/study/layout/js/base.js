@@ -74,6 +74,9 @@ define('base', ['router'], function(require, exports, module) {
                     .find('div.datagrid-cell')
                     .addClass('datagrid-sort-' + defaults.order);
             }
+            else if (global('contextmenu_refresh')) {
+                grid.datagrid('reload');
+            }
 
             callback && callback();
         },//end _datagrid
