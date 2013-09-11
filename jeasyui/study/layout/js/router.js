@@ -30,9 +30,9 @@ define('router', [], function(require, exports, module) {
          *
          * return {void} 无返回值
          */
-        index: function() {log('index');
+        index: function() {
             require('tabs').get('_el').tabs('select', 0);
-            require('tree').get('_el').tree('select', '__none__');
+            require('tree').setPageTitle('none', 'none').get('_el').tree('select', '__none__');
             this.navigate('');
         },
 

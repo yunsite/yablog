@@ -14,7 +14,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
         /**
          * var {object} _currentTab 当前标签
          */
-        _currentTab: [],
+        _currentTab: {},
 
          /**
          * @var {object} _tabCache 标签缓存{controller: controller, action: action}
@@ -72,6 +72,18 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                     });
 
                     return index;
+                },
+
+                newOnSelect: function(jq, navigation) {
+                    var options = me.getSelected().panel('options').options;
+
+                    if (options) {
+                        var queryParams = require('tree').get('_treeData')[options.id].queryParams;
+                        require('router').navigate(object2querystring(queryParams), navigation);
+                    }
+                    else {
+                        require('router').index();
+                    }
                 }
             });
         },
@@ -125,7 +137,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
          * @return {void} 无返回值
          */
         _setRecentTabs: function(controller, action) {
-            var me = this;log(me._recentTabs);
+            var me = this;
 
             $.each(this._recentTabs, function(index, item) {
                 //干掉标签栏显示的
@@ -134,8 +146,6 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                     return false;
                 }
             });
-
-            log(me._recentTabs);
         },
 
         /**
@@ -153,6 +163,8 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                 controller  = menuData.controller,
                 action      = menuData.action,
                 tabIndex    = this._el.tabs('tabIndex', controller);
+
+            this._currentTab = menuData;
 
             if (-1 == tabIndex) {
                 this._el.tabs('add', {
@@ -196,18 +208,17 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                 this._el.tabs('select', menuData.menu_name);
             }
 
-            this._currentTab = menuData;
-
             this._setRecentTabs(controller, action);
 
             //相同控制器不同操作，加入最近操作
-            if (this._tabCache[controller] && this._tabCache[controller] != action){
+            if (this._tabCache[controller] && this._tabCache[controller].action != action){
                 this._recentTabs.unshift(this._tabCache[controller]);
             }
 
             this._tabCache[controller] = {
                 controller: controller,
-                action: action
+                action: action,
+                id: menuData.menu_id
             };
 
             this.loadScript();
@@ -226,7 +237,16 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
 
             this._extendMethods();
             this._el.data('data-options', {
+                onSelect: function() {
+                    var flag = global('from_onClose');
+
+                    if (flag) {
+                        global('from_onClose', false);
+                        $(this).tabs('newOnSelect', true);
+                    }
+                },
                 onClose: function() {
+                    global('from_onClose', true);
                     me._recentTabs.unshift(me._tabCache[me._currentTab.controller]);
                 },
                 _createContextMenu: function(index) {
@@ -235,7 +255,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                         tabs        = $(me._el).data('tabs').tabs,
                         _0          = 1 == tabs.length,
                         id          = 'tab-contextmenu';
-log(recentTabs);
+
                     this._contextmenu && $('#' + id).menu('destroy');
                     this._contextmenu = id;
 
@@ -249,7 +269,7 @@ log(recentTabs);
                         }
                     }, {
                         disabled: !options,
-                        text: '关闭',//关闭
+                        text: '关闭<div class="menu-sep"></div>',//关闭
                         handler: function() {
                             log('close');
                         }
@@ -270,15 +290,18 @@ log(recentTabs);
                         disabled: 0 == recentTabs.length
                     }]);
 
-
                     if (0 != recentTabs.length) {
                         var parent      = o.menu('findItem', '最近操作'),
                             recentItems = [];//最近操作
 
                         $.each(me._recentTabs, function(index, item) {//最近操作
                             o.menu('appendItem', {
+                                name: item.id,
                                 parent: parent.target,
-                                text: (index + 1) + '. ' + me._pageTitle[item.controller + item.action]
+                                text: (index + 1) + '. ' + me._pageTitle[item.controller + item.action],
+                                handler: function() {
+                                    require('router').navigate(object2querystring(require('tree').get('_treeData')[item.id].queryParams), true);
+                                }
                             });
                         });
                     }
@@ -294,28 +317,14 @@ log(recentTabs);
                         top: e.pageY
                     });
 
-                    $.extend(o.menu('options'), {
-                        onClick: function() {
-                            log(arguments);
-                        }
-                    });
-
                     e.preventDefault();
                 }
             })
             .tabs()
             .children('div.tabs-header')
                 .find('ul.tabs')
-                .on('click', 'li',  function() {
-                    var options = me.getSelected().panel('options').options;
-
-                    if (options) {
-                        var queryParams = require('tree').get('_treeData')[options.id].queryParams;
-                        require('router').navigate(object2querystring(queryParams));
-                    }
-                    else {
-                        require('router').index();
-                    }
+                .on('click', 'li', function() {
+                    $(me._el).tabs('newOnSelect');
                 });
         },//end bootstrap
 
@@ -373,7 +382,7 @@ log(recentTabs);
                 selected    = this.getSelected(),
                 callback    = function(o, method) {
                     o[method]();
-                    me._setPageTitle();
+                    me.setPageTitle();
                 };
 
             seajs.use(controller, function(o) {
