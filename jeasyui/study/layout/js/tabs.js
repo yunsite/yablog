@@ -70,10 +70,32 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                     if (options) {
                         var queryParams = require('tree').get('_treeData')[options.id].queryParams;
                         require('router').navigate(object2querystring(queryParams), navigation);
+
+                        !navigation && me.setPageTitle(options.controller, options.action);
                     }
                     else {
                         require('router').index();
                     }
+                },
+
+                closeOthers: function(jq, args) {
+                    args[0]._fromClose = null;
+                    var me      = $(jq),
+                        tabs    = me.tabs('tabs')
+                        exclude = me.tabs('getTab', args[1]).panel('options').title
+                        arr     = [];
+
+                    for (var i = 1, len = tabs.length; i < len; i++) {//tabs.length发生变化, 不可me.tabs('close', i)
+                        var title = tabs[i].panel('options').title;
+                        exclude != title && arr.push(title);
+                    }
+
+                    $.each(arr, function(index, item) {
+                        me.tabs('close', item)
+                    });
+
+                    me.tabs('newOnSelect');
+                    args[0]._fromClose = false;
                 }
             });
         },
@@ -228,16 +250,22 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
             this._extendMethods();
             this._el.data('data-options', {
                 onSelect: function() {
-                    var flag = global('from_onClose');
 
-                    if (flag) {
-                        global('from_onClose', false);
+                    if (me._fromClose) {
+                        me._fromClose = false;
                         $(this).tabs('newOnSelect', true);
                     }
                 },
+                onBeforeClose: function(title, index) {
+
+                    if (null !== me._fromClose) {
+                        me._fromClose = true;
+                    }
+
+                    me._recentTabs.unshift(me._el.tabs('getTab', index).panel('options').options);
+                },
                 onClose: function() {
-                    global('from_onClose', true);
-                    me._recentTabs.unshift(me._tabCache[me._currentTab.controller]);
+                    //me._recentTabs.unshift(me._tabCache[me._currentTab.controller]);
                 },
                 _createContextMenu: function(index) {
                     var options     = $(me._el).tabs('getTab', index).panel('options').options,
@@ -262,21 +290,21 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                         }
                     }, {
                         disabled: !options,
-                        text: '关闭<div class="menu-sep"></div>',//关闭
+                        text: '关闭',//关闭
                         handler: function() {
-                            log('close');
+                            me._el.tabs('close', index);
                         }
                     }, {
                         text: '关闭其它',//关闭其它
                         disabled: !options && _0 || options && 'index' != options.controller && 2 == tabs.length,
                         handler: function() {
-                            log('close other');
+                            $(me._el).tabs('closeOthers', [me, index]);
                         }
                     }, {
                         text: '全部关闭',//全部关闭
                         disabled: _0,
                         handler: function() {
-                            log('close all');
+                            $(me._el).tabs('closeOthers', [me, 0]);
                         }
                     }, {
                         text: '最近操作',//最近操作
