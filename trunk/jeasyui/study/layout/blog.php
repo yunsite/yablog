@@ -11,6 +11,10 @@ class Blog {
         <label for="email">Email:</label>
         <input class="validatebox" type="text" name="email" data-options="required:true,validType:'email'" />
     </div>
+    <div>
+        <label for="email">所属分类:</label>
+        <input type="text" name="cate_id" />
+    </div>
     <div><input type="submit" value="提 交" /></div>
 </form>
 EOT;
