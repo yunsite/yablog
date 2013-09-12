@@ -15,6 +15,9 @@ class Blog {
         <label for="email">所属分类:</label>
         <input type="text" name="cate_id" />
     </div>
+    <div>
+        内容: <div id="ueditor-blogadd" style="width: 90%;height: 300px;"></div>
+    </div>
     <div><input type="submit" value="提 交" /></div>
 </form>
 EOT;
