@@ -119,6 +119,14 @@ define('blog', ['fields'], function(require, exports, module) {
                     menu:'#blog-menulist'
                 })
                 .menubutton()
+            .end()
+            .children('input[data-name=combotree]')
+                .data('data-options', {
+                    url: '../get_tree.php',
+                    lines: false,
+                    multiple: true
+                })
+                .combotree()
             .end();
         },
 
