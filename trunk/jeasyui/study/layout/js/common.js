@@ -1,10 +1,19 @@
-var A, C, ID, TREE_DATA, Q2O;
+var A,
+    C,
+    ID,
+    TREE_DATA,
+    Q2O,
+    UEDITOR_HOME_URL = 'http://localhost/ueditor/';
 
 seajs.config({
     base: 'http://localhost/jeasyui/yablog/study/layout/js/',
     map: [
         [/\.js$/, '.js?' + Math.random()]
-    ]
+    ],
+    alias: {
+        ueditor: 'common/ueditor/ueditor',
+        ueconfig: 'common/ueditor/ueconfig'
+    }
 });
 
 seajs.use(['tabs', 'tree', 'router'], function(a, b, c) {

@@ -151,35 +151,60 @@ define('blog', ['fields'], function(require, exports, module) {
          * return {void} 无返回值
          */
         addAction: function() {
-            var tabs        = require('tabs'),
-                selectedTab = tabs.getSelected(),
-                form         = tabs.get('_el').find('#' + C + A);
+            var firstLoad = global('FIRST_LOAD');
 
-            if (global('FIRST_LOAD')) {
-                form.form({
-                    onLoadError: function() {
-                        log('error', arguments);
-                    },
-                    url: 'form.php',
-                    success: function() {
-                        log('success', arguments);
+            seajs.use('ueditor', function() {
+                var value;
+
+                if ('undefined' != typeof EDITOR) {
+                    value = EDITOR.getContent();
+                    UE.delEditor('ueditor-' + ID);
+                }
+
+                EDITOR = UE.getEditor('ueditor-' + ID, {
+                    onready: function() {
+
+                        if (value) {
+                            this.setContent(value);
+                        }
                     }
-                })
-                .find('.validatebox')
-                    .validatebox()
-                .end()
-                .find('input[name=cate_id]')
-                    .data('data-options', {
-                        url: 'categories.php',
-                        valueField: 'cate_id',
-                        textField: 'cate_name',
-                        required: true
+                });
+
+
+                var tabs        = require('tabs'),
+                    selectedTab = tabs.getSelected(),
+                    form         = tabs.get('_el').find('#' + C + A);
+
+                if (firstLoad) {
+                    form.form({
+                        onSubmit: function() {
+                            log(EDITOR.getContent());
+                            return false;
+                        },
+                        onLoadError: function() {
+                            log('error', arguments);
+                        },
+                        url: 'form.php',
+                        success: function() {
+                            log('success', arguments);
+                        }
                     })
-                    .combobox();
-            }
-            else {
-                //cc.combobox('setValue', 'like');
-            }
+                    .find('.validatebox')
+                        .validatebox()
+                    .end()
+                    .find('input[name=cate_id]')
+                        .data('data-options', {
+                            url: 'categories.php',
+                            valueField: 'cate_id',
+                            textField: 'cate_name',
+                            required: true
+                        })
+                        .combobox();
+                }
+                else {
+                    //cc.combobox('setValue', 'like');
+                }
+            });
         },
 
         /**
