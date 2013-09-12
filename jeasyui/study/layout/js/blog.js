@@ -164,7 +164,18 @@ define('blog', ['fields'], function(require, exports, module) {
                     success: function() {
                         log('success', arguments);
                     }
-                }).find('.validatebox').validatebox();
+                })
+                .find('.validatebox')
+                    .validatebox()
+                .end()
+                .find('input[name=cate_id]')
+                    .data('data-options', {
+                        url: 'categories.php',
+                        valueField: 'cate_id',
+                        textField: 'cate_name',
+                        required: true
+                    })
+                    .combobox();
             }
             else {
                 //cc.combobox('setValue', 'like');
