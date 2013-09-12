@@ -25,6 +25,14 @@ EOT;
     <a href="javascript:void(0)" class="easyui-menubutton" id="admin-operate">操作</a>
     <div id="admin-menulist">
         <div data-options="iconCls:'icon-undo'">删除</div>
+        <div>
+            <span>移动</span>
+                <div>
+                <div>数据库</div>
+                <div>php</div>
+                <div>js</div>
+            </div>
+        </div>
     </div>
     添加时间
     <input type="text" data-name="start_date" data-jeasyui="datebox" /> -
