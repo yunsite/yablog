@@ -68,13 +68,16 @@ function Alert(msg, success, cancel, timeout) {
     var div = $('#div-alert');
 
     if (!cancel) {
-        var color = '#fff';
 
         if ('loading' === success) {
-            var background = '#666';
+            timeout = false;
+
+            var background  = '#666',//'#ff8',
+                color       = '#fff';//'#333';
         }
         else {
-            var background = false === success ? '#d90000' : '#16960e';
+            var background  = false === success ? '#d90000' : '#16960e',
+                color       = '#fff';
         }
 
         if (0 == div.length) {
