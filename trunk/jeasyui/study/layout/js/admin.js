@@ -5,13 +5,13 @@ define('admin', ['fields'], function(require, exports, module) {
             queryParams: {},//查询参数
             columns: [[
                 {checkbox: true},
-                {title: 'id', field: 'blog_id', width: 50},
-                {title: '标题', field: 'title', width: 200},
-                {title: '点击', field: 'hits', width: 50, fixed: true}
+                {title: 'id', field: 'admin_id', width: 50},
+                {title: 'username', field: 'username', width: 200},
+                {title: 'realname', field: 'realname', width: 100, fixed: true}
             ]],
             toolbar: '#tb-' + ID,
-            url: 'get_blogs.php',
-            sortName: 'blog_id',
+            url: 'get_admin.php',
+            sortName: 'admin_id',
             sortOrder: 'desc',
             _createContextMenu: function() {
 
@@ -187,7 +187,7 @@ define('admin', ['fields'], function(require, exports, module) {
          */
         listAction: function() {
             var defaults = {
-                sort: Q2O.sort || 'blog_id',//排序字段
+                sort: Q2O.sort || 'admin_id',//排序字段
                 order: Q2O.order || 'DESC',//排序
                 start_date: Q2O.start_date || '',//添加时间,开始
                 end_date: Q2O.end_date || '',//添加时间,结束

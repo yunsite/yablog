@@ -152,14 +152,6 @@ define('blog', ['fields'], function(require, exports, module) {
                     menu:'#blog-menulist'
                 })
                 .menubutton()
-            .end()
-            .children('input[data-name=combotree]')
-                .data('data-options', {
-                    url: '../get_tree.php',
-                    lines: false,
-                    multiple: true
-                })
-                .combotree()
             .end();
         },//end _setToolbar
 
@@ -282,14 +274,14 @@ define('blog', ['fields'], function(require, exports, module) {
          * return {void} 无返回值
          */
         listAction: function() {
-            var defaults = {combotree: Q2O.combotree || '',
+            var defaults = {
                 sort: Q2O.sort || 'blog_id',//排序字段
                 order: Q2O.order || 'desc',//排序
                 start_date: Q2O.start_date || '',//添加时间,开始
                 end_date: Q2O.end_date || '',//添加时间,结束
                 keyword: Q2O.keyword || '',//关键字
                 role_id: Q2O.role_id || '',//角色id
-                cate: Q2O.cate_id || '',//角色id
+                cate_id: Q2O.cate_id || 0,//角色id
                 column: Q2O.column || 'username',//搜索字段
                 match_mode: Q2O.match_mode || 'eq',//匹配模式
                 is_lock: undefined === Q2O.is_lock ? -1 : Q2O.is_lock,//锁定状态
