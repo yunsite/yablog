@@ -24,7 +24,7 @@ define('blog', ['fields'], function(require, exports, module) {
                     columns: [[//列
                         {checkbox: true},//复选框
                         {title: 'id', field: 'blog_id', width: 50, fixed: true, sortable: true},//博客id
-                        {title: '标题', field: 'title', width: 200, sortable: true},//标题
+                        {title: '标题', field: 'title', width: 200, sortable: true, formatter: function(v) { return me._renderKeywordColumn(v); }},//标题
                         {title: '所属分类', field: 'cate_name', width: 100, fixed: true},//所属分类
                         {title: '添加时间', field: 'add_time', width: 140, fixed: true, formatter: this._renderDateTime, sortable: true},//添加时间
                         {title: '发布', field: 'is_issue', width: 50, fixed: true, sortable: true, formatter: function(v) { return me._renderYesNoImg(v); }},//发布状态
