@@ -11,6 +11,11 @@ define('base', ['router'], function(require, exports, module) {
         _self: null,
 
         /**
+         * var {object} [_datagridOptions=null] _datagrid options
+         */
+        _datagridOptions: null,
+
+        /**
          * datagrid列表
          *
          * @author          mrmsl <msl-138@163.com>
@@ -80,6 +85,20 @@ define('base', ['router'], function(require, exports, module) {
 
             callback && callback();
         },//end _datagrid
+
+        /**
+         * 渲染时间
+         *
+         * @author          mrmsl <msl-138@163.com>
+         * @date            2013-09-13 08:53:20
+         *
+         * @param {int} time 时间戳
+         *
+         * return {string} 时间字符串
+         */
+        _renderDateTime: function(time) {
+            return date();
+        },
 
         /**
          * 构造函数

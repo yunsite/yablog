@@ -1,58 +1,88 @@
 define('blog', ['fields'], function(require, exports, module) {
     var Base    = require('base');
-    var Blog   = Base.extend({
-        _datagridOptions: {
-            columns: [[
-                {checkbox: true},
-                {title: 'id', field: 'blog_id', width: 50, sortable: true},
-                {title: '标题', field: 'title', width: 200, sortable: true},
-                {title: '点击', field: 'hits', width: 50, fixed: true, sortable: true}
-            ]],
-            toolbar: '#tb-' + ID,
-            url: 'get_blogs.php',
-            sortName: 'blog_id',
-            sortOrder: 'desc',
-            _createContextMenu: function() {
+    var Blog    = Base.extend({
+        /**
+         * var {object} [_ueditor=null] ueditor实例,格式{instance: ueditorObj, id: ueditorId}
+         */
+        _ueditor: {},
 
-                if (!$('#contextmenu' + ID).length) {
-                    var o = $('<div id="contextmenu' + ID + '"></div>')
-                    .appendTo($('body'))
-                    .menu()
-                    .menu('appendItems', [{
-                        text: '删除',
-                        name: 'delete',
-                        iconCls: 'icon-remove'
-                    }, {
-                        text: '编辑',
-                        iconCls: 'icon-edit'
-                    }]);
-                }
-            },
-            onRowContextMenu: function(e, index, data) {
-                var options = $(this).datagrid('options');
+        /**
+         * 设置datagrid options
+         *
+         * @author          mrmsl <msl-138@163.com>
+         * @date            2013-09-13 09:14:55
+         *
+         * return {void} 无返回值
+         */
+        _setDatagridOptions: function() {
 
-                if (!options._contextmenu) {
-                    options._createContextMenu();
-                    options._contextmenu = true;
-                }
+            if (!this._datagridOptions) {
 
-                var o = $('#contextmenu' + ID)
-                .menu('show', {
-                    left: e.pageX,
-                    top: e.pageY
-                });
+                this._datagridOptions = {
+                    columns: [[//列
+                        {checkbox: true},//复选框
+                        {title: 'id', field: 'blog_id', width: 50, fixed: true, sortable: true},//博客id
+                        {title: '标题', field: 'title', width: 200, sortable: true},//标题
+                        {title: '所属分类', field: 'cate_name', width: 100, fixed: true},//所属分类
+                        {title: '添加时间', field: 'add_time', width: 140, fixed: true, formatter: this._renderDateTime, sortable: true},//添加时间
+                        {title: '评论', field: 'comments', width: 50, fixed: true, sortable: true},//评论
+                        {title: '点击', field: 'hits', width: 50, fixed: true, sortable: true}//点击
+                    ]],
+                    toolbar: '#tb-' + ID,//toolbar id
+                    url: 'get_blogs.php',//url
+                    sortName: 'blog_id',//默认排序字段
+                    sortOrder: 'desc',//默认排序
+                    onClickRow: function() {//点击行
+                        log('row', arguments);
+                    },
+                    onClickCell: function() {//点击单元格
+                        log('cell', arguments);
+                    },
+                    _createContextMenu: function() {//生成右键菜单
 
-                $.extend(o.menu('options'), {
-                    onClick: function() {
-                        $.messager.confirm('系统提示', '您确定要删除 ' + data.title + '？', function() {
-                            log(arguments);
+                        if (!$('#contextmenu' + ID).length) {
+                            var o = $('<div id="contextmenu' + ID + '"></div>')
+                            .appendTo($('body'))
+                            .menu()
+                            .menu('appendItems', [{
+                                text: '删除',
+                                name: 'delete',
+                                iconCls: 'icon-remove'
+                            }, {
+                                text: '编辑',
+                                iconCls: 'icon-edit'
+                            }]);
+                        }
+                    },//end _createContextMenu
+                    onRowContextMenu: function(e, index, data) {//右键
+                        var options = $(this).datagrid('options');
+
+                        if (!options._contextmenu) {
+                            options._createContextMenu();
+                            options._contextmenu = true;
+                        }
+
+                        var o = $('#contextmenu' + ID)
+                        .menu('show', {
+                            left: e.pageX,
+                            top: e.pageY
                         });
-                    }
-                });
 
-                e.preventDefault();
-            }
-        },
+                        $.extend(o.menu('options'), {
+                            onClick: function() {
+                                $.messager.confirm('系统提示', '您确定要删除 ' + data.title + '？', function() {
+                                    log(arguments);
+                                });
+                            }
+                        });
+
+                        e.preventDefault();
+                    }//end onRowContextMenu
+
+                };//end _datagridOptions
+
+            }//end if
+        },//end _setDatagridOptions
 
         /**
          * toolbar
@@ -63,34 +93,36 @@ define('blog', ['fields'], function(require, exports, module) {
          * return {void} 无返回值
          */
         _setToolbar: function(selectedTab) {
-            var toolbar = selectedTab.children('#tb-' + C + A);
-            toolbar.children('input[data-name=keyword]')
+            var toolbar = selectedTab.children('#tb-' + ID);
+            toolbar.children('input[data-name=keyword]')//关键字
                 .data('data-options', {
                     prompt: '关键字',
                     searcher: function(keyword) {
                         var values = {};
 
-                        $.each(toolbar.children('input[data-jeasyui]'), function(index, item) {
+                        $.each(toolbar.children('input[data-jeasyui]'), function(index, item) {//搜索框取值
                             var me = $(this);
-                            values[me.attr('data-name')] = me[me.attr('data-jeasyui')]('getValue');
+                            values[me.attr('data-name')] = me[me.attr('data-jeasyui')]('getValue' + (me.attr('data-multiple') ? 's' : ''));
                         });
 
                         $.extend(TREE_DATA.queryParams, values);
-                        var grid = selectedTab.find('#grid-' + C + A);
+
+                        var grid = selectedTab.find('#grid-' + ID);
+
                         $.extend(grid.datagrid('options').queryParams, TREE_DATA.queryParams);
                         grid.datagrid('getPager').pagination('select', 1);
                     }
                 }).searchbox()
             .end()
-            .children('input[data-jeasyui=datebox]')
+            .children('input[data-jeasyui=datebox]')//时间
                 .data('data-options', require('fields').datetime)
                 .datebox()
             .end()
-            .children('input[data-name=match_mode]')
+            .children('input[data-name=match_mode]')//匹配模式
                 .data('data-options', require('fields').matchMode)
                 .combobox()
             .end()
-            .children('input[data-name=cate_id]')
+            .children('input[data-name=cate_id]')//所属分类
                 .data('data-options', {
                     url: 'categories.php',
                     valueField: 'cate_id',
@@ -104,17 +136,17 @@ define('blog', ['fields'], function(require, exports, module) {
                 })
                 .combobox()
             .end()
-            .children('#blog-menulist')
+            .children('#blog-menulist')//操作菜单
                 .data('data-options', {
                     onClick: function() {
                         log(arguments);
-                        //log(selectedTab.find('#grid-' + C + A).datagrid('getChecked'));
+                        //log(selectedTab.find('#grid-' + ID).datagrid('getChecked'));
                     }
                 })
                 //.find('div > select').data('data-options', {}).combobox()
                 //.end()
             .end()
-            .children('#blog-operate')
+            .children('#blog-operate')//操作
                 .data('data-options', {
                     menu:'#blog-menulist'
                 })
@@ -128,7 +160,7 @@ define('blog', ['fields'], function(require, exports, module) {
                 })
                 .combotree()
             .end();
-        },
+        },//end _setToolbar
 
         /**
          * 构造函数
@@ -140,6 +172,7 @@ define('blog', ['fields'], function(require, exports, module) {
          */
         constructor: function() {
             this.base();
+            this._setDatagridOptions();
         },
 
         /**
@@ -151,17 +184,20 @@ define('blog', ['fields'], function(require, exports, module) {
          * return {void} 无返回值
          */
         addAction: function() {
-            var firstLoad = global('FIRST_LOAD');
+            var me          = this,
+                firstLoad   = global('FIRST_LOAD');
 
             seajs.use('ueditor', function() {
-                var value;
+                var value,
+                    ueditorId = 'ueditor-' + ID;
 
-                if ('undefined' != typeof EDITOR) {
-                    value = EDITOR.getContent();
-                    UE.delEditor('ueditor-' + ID);
+                if (me._ueditor[ueditorId]) {
+                    value = me._ueditor[ueditorId].getContent();
+                    UE.delEditor(ueditorId);
+                    me._ueditor[ueditorId] = null;
                 }
 
-                EDITOR = UE.getEditor('ueditor-' + ID, {
+                me._ueditor[ueditorId] = UE.getEditor(ueditorId, {
                     onready: function() {
 
                         if (value) {
@@ -173,13 +209,20 @@ define('blog', ['fields'], function(require, exports, module) {
 
                 var tabs        = require('tabs'),
                     selectedTab = tabs.getSelected(),
-                    form         = tabs.get('_el').find('#' + C + A);
+                    form         = tabs.get('_el').find('#' + ID);
 
                 if (firstLoad) {
                     form.form({
                         onSubmit: function() {
-                            log(EDITOR.getContent());
-                            return false;
+
+                            if (!me._ueditor[ueditorId].hasContents()) {
+                                me._ueditor[ueditorId].focus();
+                                Alert('请输入内容', false);
+                                return false;
+                            }
+
+                            me._ueditor[ueditorId].sync();
+                            return $(this).form('validate');
                         },
                         onLoadError: function() {
                             log('error', arguments);
@@ -205,7 +248,7 @@ define('blog', ['fields'], function(require, exports, module) {
                     //cc.combobox('setValue', 'like');
                 }
             });
-        },
+        },//end addAction
 
         /**
          * 修改密码
@@ -215,7 +258,7 @@ define('blog', ['fields'], function(require, exports, module) {
          *
          * return {void} 无返回值
          */
-        changePasswordAction: function() {log(C + A);return;
+        changePasswordAction: function() {log(ID);return;
             this._setActivePanel();
             var tabs = require('tabs');
             var grid = tabs.get('_el').find('#blogchangePassword');
@@ -238,13 +281,14 @@ define('blog', ['fields'], function(require, exports, module) {
          * return {void} 无返回值
          */
         listAction: function() {
-            var defaults = {
+            var defaults = {combotree: Q2O.combotree || '',
                 sort: Q2O.sort || 'blog_id',//排序字段
                 order: Q2O.order || 'desc',//排序
                 start_date: Q2O.start_date || '',//添加时间,开始
                 end_date: Q2O.end_date || '',//添加时间,结束
                 keyword: Q2O.keyword || '',//关键字
                 role_id: Q2O.role_id || '',//角色id
+                cate: Q2O.cate_id || '',//角色id
                 column: Q2O.column || 'username',//搜索字段
                 match_mode: Q2O.match_mode || 'eq',//匹配模式
                 is_lock: undefined === Q2O.is_lock ? -1 : Q2O.is_lock,//锁定状态
@@ -252,22 +296,24 @@ define('blog', ['fields'], function(require, exports, module) {
                 page: Q2O.page || 1//页
             };
             var callback = function() {
-                require('tabs').getSelected().find('#tb-' + C + A)
-                .children('input[data-name=start_date]')
-                    .datebox('setValue', Q2O.start_date)
-                .end()
-                .children('input[data-name=end_date]')
-                    .datebox('setValue', Q2O.end_date)
-                .end()
-                .children('input[data-name=match_mode]')
-                    .combobox('setValue', Q2O.match_mode || 'eq')
-                .end()
-                .children('input[data-name=keyword]')
-                    .searchbox('setValue', Q2O.keyword)
+                var toolbar = require('tabs').getSelected().find('#tb-' + ID);
+
+                $.each(toolbar.children('input[data-jeasyui]'), function(index, item) {//搜索框y值
+                    var me      = $(this),
+                        name    = me.attr('data-name'),
+                        type    = me.attr('data-jeasyui');
+
+                    if (me.attr('data-multiple')) {
+                        me[type]('setValues', defaults[name].split(','));
+                    }
+                    else {
+                        me[type]('setValue', defaults[name]);
+                    }
+                });
             };
 
             this._datagrid(defaults, callback);
-        }
+        }//end listAction
     });
 
     var blog = new Blog();
