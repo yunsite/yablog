@@ -1,6 +1,13 @@
 define('base', ['router'], function(require, exports, module) {
     var BASE = Base.extend({
         /**
+         * var {array} _images 是与否小图片路径
+         */
+        _images: [
+            'http://localhost/jeasyui/themes/icons/no.png',
+            'http://localhost/jeasyui/themes/icons/ok.png'
+        ],
+        /**
          * var {object} _pageTitle 网站标题缓存
          */
         _pageTitle: {},
@@ -122,6 +129,22 @@ define('base', ['router'], function(require, exports, module) {
          */
         _renderDateTime: function(time) {
             return date();
+        },
+
+
+        /**
+         * 渲染是与否小图片
+         *
+         * @author          mrmsl <msl-138@163.com>
+         * @date            2013-09-13 17:05:20
+         *
+         * @param {int}     v       值
+         * @param {string} [cls]    图片class
+         *
+         * @return {string} 图片<img 标签
+         */
+        _renderYesNoImg: function(v, cls) {
+            return '<img alt="" src="{0}" class="img-yesno{1}" />'.format(this._images[v], cls ? ' ' + cls : '');
         },
 
         /**
