@@ -71,7 +71,10 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                         var queryParams = require('tree').get('_treeData')[options.id].queryParams;
                         require('router').navigate(object2querystring(queryParams), navigation);
 
-                        !navigation && me.setPageTitle(options.controller, options.action);
+                        if (!navigation) {
+                            setCA(queryParams);
+                            me.setPageTitle(options.controller, options.action);
+                        }
                     }
                     else {
                         require('router').index();
@@ -329,6 +332,12 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                     }
                 },
                 onContextMenu: function(e, title, index) {
+
+                    if (index != $(this).tabs('getTabIndex', $(this).tabs('getSelected'))) {
+                        $(this).tabs('select', index);
+                        $(this).tabs('newOnSelect', true);
+                    }
+
                     var options = $(this).tabs('options');
 
                     options._createContextMenu(index);

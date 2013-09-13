@@ -2,6 +2,7 @@ define('admin', ['fields'], function(require, exports, module) {
     var Base    = require('base');
     var Admin   = Base.extend({
         _datagridOptions: {
+            queryParams: {},//查询参数
             columns: [[
                 {checkbox: true},
                 {title: 'id', field: 'blog_id', width: 50},
