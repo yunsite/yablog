@@ -19,6 +19,7 @@ define('blog', ['fields'], function(require, exports, module) {
             if (!this._datagridOptions) {
 
                 this._datagridOptions = {
+                    queryParams: {},//查询参数
                     columns: [[//列
                         {checkbox: true},//复选框
                         {title: 'id', field: 'blog_id', width: 50, fixed: true, sortable: true},//博客id
@@ -295,24 +296,8 @@ define('blog', ['fields'], function(require, exports, module) {
                 is_restrict: undefined === Q2O.is_restrict ? -1 : Q2O.is_restrict,//绑定登陆状态
                 page: Q2O.page || 1//页
             };
-            var callback = function() {
-                var toolbar = require('tabs').getSelected().find('#tb-' + ID);
 
-                $.each(toolbar.children('input[data-jeasyui]'), function(index, item) {//搜索框y值
-                    var me      = $(this),
-                        name    = me.attr('data-name'),
-                        type    = me.attr('data-jeasyui');
-
-                    if (me.attr('data-multiple')) {
-                        me[type]('setValues', defaults[name].split(','));
-                    }
-                    else {
-                        me[type]('setValue', defaults[name]);
-                    }
-                });
-            };
-
-            this._datagrid(defaults, callback);
+            this._datagrid(defaults, true);
         }//end listAction
     });
 

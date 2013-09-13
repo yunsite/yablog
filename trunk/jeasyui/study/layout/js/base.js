@@ -21,12 +21,16 @@ define('base', ['router'], function(require, exports, module) {
          * @author          mrmsl <msl-138@163.com>
          * @date            2013-09-05 14:37:16
          *
+         * @param {object} defaults 默认datagrid options
+         * @param {mixed} callback 回调,callback=true将设置toolbar搜索值
+         *
          * return {void} 无返回值
          */
         _datagrid: function(defaults, callback) {
             var tabs        = require('tabs'),
                 selectedTab = tabs.getSelected(),
-                grid        = tabs.get('_el').find('#grid-' + C + A);
+                toolbar     = selectedTab.find('#tb-' + ID),
+                grid        = tabs.get('_el').find('#grid-' + ID);
 
             TREE_DATA._prevQueryParams = _.clone(TREE_DATA.queryParams);
 
@@ -83,7 +87,27 @@ define('base', ['router'], function(require, exports, module) {
                 grid.datagrid('reload');
             }
 
-            callback && callback();
+            if (callback && !global('contextmenu_refresh')) {
+
+                if (true === callback) {
+
+                    $.each(toolbar.children('input[data-jeasyui]'), function(index, item) {//搜索框y值
+                        var me      = $(this),
+                            name    = me.attr('data-name'),
+                            type    = me.attr('data-jeasyui');
+
+                        if (me.attr('data-multiple')) {
+                            me[type]('setValues', defaults[name].split(','));
+                        }
+                        else {
+                            me[type]('setValue', defaults[name]);
+                        }
+                    });
+                }
+                else {
+                    callback();
+                }
+            }
         },//end _datagrid
 
         /**
