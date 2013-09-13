@@ -37,7 +37,7 @@ EOT;
     <input type="text" data-name="start_date" data-jeasyui="datebox" /> -
     <input type="text" data-name="end_date" data-jeasyui="datebox" />
     <input type="text" data-name="cate_id" data-jeasyui="combobox" />
-    <input type="text" data-name="combotree" data-jeasyui="combotree" data-multiple="true" />
+    <!--<input type="text" data-name="combotree" data-jeasyui="combotree" data-multiple="true" />-->
     <input type="text" data-name="match_mode" data-jeasyui="combobox" />
     <input type="text" data-name="keyword" data-jeasyui="searchbox" />
 </div>
