@@ -15,6 +15,7 @@ define('blog', ['fields'], function(require, exports, module) {
          * return {void} 无返回值
          */
         _setDatagridOptions: function() {
+            var me = this;
 
             if (!this._datagridOptions) {
 
@@ -26,6 +27,7 @@ define('blog', ['fields'], function(require, exports, module) {
                         {title: '标题', field: 'title', width: 200, sortable: true},//标题
                         {title: '所属分类', field: 'cate_name', width: 100, fixed: true},//所属分类
                         {title: '添加时间', field: 'add_time', width: 140, fixed: true, formatter: this._renderDateTime, sortable: true},//添加时间
+                        {title: '发布', field: 'is_issue', width: 50, fixed: true, sortable: true, formatter: function(v) { return me._renderYesNoImg(v); }},//发布状态
                         {title: '评论', field: 'comments', width: 50, fixed: true, sortable: true},//评论
                         {title: '点击', field: 'hits', width: 50, fixed: true, sortable: true}//点击
                     ]],
