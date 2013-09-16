@@ -1,10 +1,10 @@
 ﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -181,7 +181,7 @@
                 {
                     var manager = liger.get(this[ext.idAttrName] || $(this).attr(ext.idAttrName));
                     if (manager && args.length > 0) manager.set(args[0]);
-                    //已经执行过 
+                    //已经执行过
                     return;
                 }
                 if (args.length >= 1 && typeof args[0] == 'string') return;
@@ -225,8 +225,8 @@
         },
 
         //扩展
-        //1,默认参数     
-        //2,本地化扩展 
+        //1,默认参数
+        //2,本地化扩展
         defaults: {},
         //3,方法接口扩展
         methods: {},
@@ -289,7 +289,7 @@
         },
 
         //设置属性
-        // arg 属性名    value 属性值 
+        // arg 属性名    value 属性值
         // arg 属性/值   value 是否只设置事件
         set: function (arg, value)
         {
@@ -436,7 +436,7 @@
     });
 
 
-    //界面组件基类, 
+    //界面组件基类,
     //1,完成界面初始化:设置组件id并存入组件管理器池,初始化参数
     //2,渲染的工作,细节交给子类实现
     //parm [element] 组件对应的dom element对象
@@ -909,13 +909,13 @@
                     if ($.inArray(type, ["select", "combobox", "autocomplete", "popup"]) != -1)
                     {
                         txtInputName = field.textField || field.comboboxName;
-                        if (field.comboboxName && !field.id) 
+                        if (field.comboboxName && !field.id)
                             p.id = (options.prefixID || "") + field.comboboxName;
                     }
                     if ($.inArray(type, ["select", "combobox", "autocomplete", "popup", "radiolist", "checkboxlist", "listbox"]) != -1)
                     {
                         p.valueFieldID = prefixID + field.name;
-                    } 
+                    }
                     if (!e.body)
                     {
                         var inputName = prefixID  + txtInputName;
@@ -1097,11 +1097,11 @@
     }
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -1121,9 +1121,9 @@
 
         prev: 'liger-',
 
-        /* 
-        命名规则：插件名_属性名(包括第N级的属性) (插件名首字母大写,属性名首字母小写) 
-        获取规则：获取default时会先找这里,找不到再找liger.defaults,比如 liger.defaults.Grid_columns 
+        /*
+        命名规则：插件名_属性名(包括第N级的属性) (插件名首字母大写,属性名首字母小写)
+        获取规则：获取default时会先找这里,找不到再找liger.defaults,比如 liger.defaults.Grid_columns
         备注：这里只定义了参数的列表
         */
         defaults: {
@@ -1255,7 +1255,7 @@
                 var subElement = $("> ." + className, jelement);
                 //忽略
                 if ($.inArray(proName, config.ignores.split(',')) != -1) continue;
-                //判断子节点 (复杂属性) 
+                //判断子节点 (复杂属性)
                 if (subElement.length)
                 {
                     var defaultName = e.controlName + "_" + proName;
@@ -1335,7 +1335,7 @@
                     var jelement = $(this), value;
                     var defaults = $.extend({
                         onrender: null,
-                        onrendered : null 
+                        onrendered : null
                     }, liger.defaults[controlName]);
                     var options = g.getOptions({
                         defaults: defaults,
@@ -1357,11 +1357,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -1379,7 +1379,7 @@
         height: null,
         speed: "normal",
         changeHeightOnResize: false,
-        heightDiff: 0 // 高度补差  
+        heightDiff: 0 // 高度补差
     };
     $.ligerMethos.Accordion = {};
 
@@ -1540,11 +1540,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -1657,16 +1657,16 @@
         {
             this.set('disabled', true);
         }
-    }); 
+    });
 
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -1713,7 +1713,7 @@
             {
                 if (g.input.attr('disabled') || g.input.attr('readonly')) { return false; }
                 if (p.disabled || p.readonly) return false;
-                if (g.trigger('beforeClick', [g.element]) == false) return false; 
+                if (g.trigger('beforeClick', [g.element]) == false) return false;
                 if ($(this).hasClass("l-checkbox-checked"))
                 {
                     g._setValue(false);
@@ -1789,11 +1789,11 @@
     });
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -1801,22 +1801,22 @@
     $.fn.ligerCheckBoxList = function (options)
     {
         return $.ligerui.run.call(this, "ligerCheckBoxList", arguments);
-    }; 
+    };
 
-    $.ligerDefaults.CheckBoxList = {  
-        rowSize: 3,            //每行显示元素数   
+    $.ligerDefaults.CheckBoxList = {
+        rowSize: 3,            //每行显示元素数
         valueField: 'id',       //值成员
-        textField: 'text',      //显示成员 
+        textField: 'text',      //显示成员
         valueFieldID:null,      //隐藏域
         name : null,            //表单名
         split: ";",             //分隔符
-        data: null,             //数据  
-        parms: null,            //ajax提交表单 
+        data: null,             //数据
+        parms: null,            //ajax提交表单
         url: null,              //数据源URL(需返回JSON)
         onSuccess: null,
-        onError: null,  
-        css: null,               //附加css  
-        value: null,            //值 
+        onError: null,
+        css: null,               //附加css
+        value: null,            //值
         valueFieldCssClass : null
     };
 
@@ -1839,14 +1839,14 @@
         },
         _init: function ()
         {
-            $.ligerui.controls.CheckBoxList.base._init.call(this); 
+            $.ligerui.controls.CheckBoxList.base._init.call(this);
         },
         _render: function ()
         {
-            var g = this, p = this.options; 
-            g.data = p.data;    
-            g.valueField = null; //隐藏域(保存值) 
-               
+            var g = this, p = this.options;
+            g.data = p.data;
+            g.valueField = null; //隐藏域(保存值)
+
             if (p.valueFieldID)
             {
                 g.valueField = $("#" + p.valueFieldID + ":input,[name=" + p.valueFieldID + "]:input");
@@ -1866,14 +1866,14 @@
             g.valueField.attr("data-ligerid", g.id);
             g.checkboxList = $(this.element);
             g.checkboxList.html('<div class="l-checkboxlist-inner"><table cellpadding="0" cellspacing="0" border="0" class="l-checkboxlist-table"></table></div>').addClass("l-checkboxlist").append(g.valueField);
-            g.checkboxList.table = $("table:first", g.checkboxList); 
-              
-            g.set(p); 
+            g.checkboxList.table = $("table:first", g.checkboxList);
+
+            g.set(p);
 
             g._addClickEven();
         },
         destroy: function ()
-        { 
+        {
             if (this.checkboxList) this.checkboxList.remove();
             this.options = null;
             $.ligerui.remove(this);
@@ -1882,13 +1882,13 @@
         {
             this._changeValue("");
             this.trigger('clear');
-        }, 
+        },
         _setCss : function(css)
         {
             if (css) {
                 this.checkboxList.addClass(css);
-            } 
-        }, 
+            }
+        },
         _setDisabled: function (value)
         {
             //禁用样式
@@ -1902,7 +1902,7 @@
                 this.checkboxList.removeClass('l-checkboxlist-disabled');
                 $("input:checkbox", this.radioList).removeAttr("disabled");
             }
-        }, 
+        },
         _setWidth: function (value)
         {
             this.checkboxList.width(value);
@@ -1910,7 +1910,7 @@
         _setHeight: function (value)
         {
             this.checkboxList.height(value);
-        },  
+        },
         indexOf : function(item)
         {
             var g = this, p = this.options;
@@ -1950,7 +1950,7 @@
         insertItem: function (item,index)
         {
             var g = this;
-            if (!g.data) g.data = []; 
+            if (!g.data) g.data = [];
             g.data.splice(index, 0, item);
             g.refresh();
         },
@@ -1970,18 +1970,18 @@
             if (!g.data) g.data = [];
             g.data.push(item);
             g.refresh();
-        },  
+        },
         _setValue: function (value)
         {
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             p.value = value;
             g.valueField.val(p.value);
             this._dataInit();
         },
         setValue: function (value)
-        { 
+        {
             this._setValue(value);
-        }, 
+        },
         _setUrl: function (url) {
             if (!url) return;
             var g = this, p = this.options;
@@ -1992,7 +1992,7 @@
                 data: parms,
                 cache: false,
                 dataType: 'json',
-                success: function (data) { 
+                success: function (data) {
                     g.setData(data);
                     g.trigger('success', [data]);
                 },
@@ -2010,20 +2010,20 @@
             var parms = g.get('parms');
             if (!parms) parms = {};
             parms[name] = value;
-            g.set('parms', parms); 
+            g.set('parms', parms);
         },
         clearContent: function ()
         {
             var g = this, p = this.options;
-            $("table", g.checkboxList).html(""); 
-        }, 
+            $("table", g.checkboxList).html("");
+        },
         _setData : function(data)
         {
             this.setData(data);
         },
         setData: function (data)
         {
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             if (!data || !data.length) return;
             g.data = data;
             g.refresh();
@@ -2031,9 +2031,9 @@
         },
         refresh:function()
         {
-            var g = this, p = this.options, data = this.data; 
+            var g = this, p = this.options, data = this.data;
             this.clearContent();
-            if (!data) return; 
+            if (!data) return;
             var out = [], rowSize = p.rowSize, appendRowStart = false, name = p.name || g.id;
             for (var i = 0; i < data.length; i++)
             {
@@ -2042,7 +2042,7 @@
                 //0,5,10
                 if (newRow)
                 {
-                    if (appendRowStart) out.push('</tr>'); 
+                    if (appendRowStart) out.push('</tr>');
                     out.push("<tr>");
                     appendRowStart = true;
                 }
@@ -2052,7 +2052,7 @@
             g.checkboxList.table.append(out.join(''));
         },
         _getValue: function ()
-        { 
+        {
             var g = this, p = this.options, name = p.name || g.id;
             var values = [];
             $('input:checkbox[name="' + name + '"]:checked').each(function ()
@@ -2066,14 +2066,14 @@
         {
             //获取值
             return this._getValue();
-        },  
+        },
         updateStyle: function ()
         {
             this._dataInit();
         },
         _dataInit: function ()
         {
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             var value = g.valueField.val();
             g._changeValue(value);
         },
@@ -2083,7 +2083,7 @@
             var g = this, p = this.options, name = p.name || g.id;
             var valueArr = value ? value.split(p.split) : [];
             $("input:checkbox[name='" + name + "']", g.checkboxList).each(function ()
-            { 
+            {
                 this.checked = $.inArray(this.value, valueArr) > -1;
             });
             g.valueField.val(value);
@@ -2094,21 +2094,21 @@
             var g = this, p = this.options;
             //选项点击
             g.checkboxList.click(function (e)
-            {  
-                var value = g.getValue(); 
+            {
+                var value = g.getValue();
                 if (value) g.valueField.val(value);
             });
-        } 
+        }
     });
-      
+
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -2131,7 +2131,7 @@
         selectBoxWidth: null, //宽度
         selectBoxHeight: null, //高度
         onBeforeSelect: false, //选择前事件
-        onSelected: null, //选择值事件 
+        onSelected: null, //选择值事件
         initValue: null,
         initText: null,
         valueField: 'id',
@@ -2140,7 +2140,7 @@
         slide: false,           //是否以动画的形式显示
         split: ";",
         data: null,
-        tree: null,            //下拉框以树的形式显示，tree的参数跟LigerTree的参数一致 
+        tree: null,            //下拉框以树的形式显示，tree的参数跟LigerTree的参数一致
         treeLeafOnly: true,   //是否只选择叶子
         condition: null,       //列表条件搜索 参数同 ligerForm
         grid: null,              //表格 参数同 ligerGrid
@@ -2156,9 +2156,9 @@
         absolute: true,         //选择框是否在附加到body,并绝对定位
         cancelable: true,      //可取消选择
         css: null,            //附加css
-        parms: null,         //ajax提交表单 
+        parms: null,         //ajax提交表单
         renderItem : null,   //选项自定义函数
-        autocomplete: false,  //自动完成 
+        autocomplete: false,  //自动完成
         readonly: false,              //是否只读
         ajaxType: 'post',
         alwayShowInTop: false,      //下拉框是否一直显示在上方
@@ -2197,17 +2197,17 @@
             if (p.isMultiSelect)
             {
                 p.isShowCheckBox = true;
-            } 
-        }, 
+            }
+        },
         _render: function ()
         {
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             g.data = p.data;
             g.inputText = null;
             g.select = null;
             g.textFieldID = "";
             g.valueFieldID = "";
-            g.valueField = null; //隐藏域(保存值) 
+            g.valueField = null; //隐藏域(保存值)
             //文本框初始化
             if (this.element.tagName.toLowerCase() == "input")
             {
@@ -2225,13 +2225,13 @@
                 g.textFieldID = this.element.id + "_txt";
                 g.inputText = $('<input type="text" readonly="true"/>');
                 g.inputText.attr("id", g.textFieldID).insertAfter($(this.element));
-            }  
-            if (g.inputText[0].name == undefined) g.inputText[0].name = g.textFieldID; 
+            }
+            if (g.inputText[0].name == undefined) g.inputText[0].name = g.textFieldID;
             //隐藏域初始化
             g.valueField = null;
             if (p.valueFieldID)
             {
-                g.valueField = $("#" + p.valueFieldID + ":input,[name=" + p.valueFieldID + "]:input").filter("input:hidden"); 
+                g.valueField = $("#" + p.valueFieldID + ":input,[name=" + p.valueFieldID + "]:input").filter("input:hidden");
                 if (g.valueField.length == 0) g.valueField = $('<input type="hidden"/>');
                 g.valueField[0].id = g.valueField[0].name = p.valueFieldID;
             }
@@ -2248,13 +2248,13 @@
             g.valueField.attr("data-ligerid", g.id);
             //开关
             g.link = $('<div class="l-trigger"><div class="l-trigger-icon"></div></div>');
-           
+
             //下拉框
             g.selectBox = $('<div class="l-box-select" style="display:none"><div class="l-box-select-inner"><table cellpadding="0" cellspacing="0" border="0" class="l-box-select-table"></table></div></div>');
             g.selectBox.table = $("table:first", g.selectBox);
             //外层
             g.wrapper = g.inputText.wrap('<div class="l-text l-text-combobox"></div>').parent();
-            g.wrapper.append('<div class="l-text-l"></div><div class="l-text-r"></div>'); 
+            g.wrapper.append('<div class="l-text-l"></div><div class="l-text-r"></div>');
             g.wrapper.append(g.link);
             //添加个包裹，
             g.textwrapper = g.wrapper.wrap('<div class="l-text-wrapper"></div>').parent();
@@ -2273,7 +2273,7 @@
             {
                 p.isShowCheckBox = false;
                 $("table", g.selectBox).addClass("l-table-nocheckbox");
-            }  
+            }
             //开关 事件
             g.link.hover(function ()
             {
@@ -2327,12 +2327,12 @@
                 {
                     g._toggleSelectBox(true);
                 }
-            }); 
+            });
             //下拉框内容初始化
             g.bulidContent();
 
-            g.set(p); 
-            //下拉框宽度、高度初始化   
+            g.set(p);
+            //下拉框宽度、高度初始化
             if (p.selectBoxWidth)
             {
                 g.selectBox.width(p.selectBoxWidth);
@@ -2348,11 +2348,11 @@
                         g.set('SelectBoxHeight', p.selectBoxHeight);
                     }
                 });
-            } 
+            }
             g.updateSelectBoxPosition();
             $(document).bind("click.combobox", function (e)
             {
-                var tag = (e.target || e.srcElement).tagName.toLowerCase(); 
+                var tag = (e.target || e.srcElement).tagName.toLowerCase();
                 if (tag == "html" || tag == "body")
                 {
                     g._toggleSelectBox(true);
@@ -2383,14 +2383,14 @@
                     g.selectBox.height(p.selectBoxHeight);
                 }
             }
-        }, 
+        },
         _setCss : function(css)
         {
             if (css) {
                 this.wrapper.addClass(css);
-            } 
-        }, 
-        //取消选择 
+            }
+        },
+        //取消选择
         _setCancelable: function (value)
         {
             var g = this, p = this.options;
@@ -2400,9 +2400,9 @@
             }
             if (!value && !g.unselect) return;
             g.unselect = $('<div class="l-trigger l-trigger-cancel"><div class="l-trigger-icon"></div></div>').hide();
-            g.wrapper.hover(function () { 
+            g.wrapper.hover(function () {
                 g.unselect.show();
-            }, function () { 
+            }, function () {
                 g.unselect.hide();
             })
             if (!p.disabled && !p.readonly && p.cancelable) {
@@ -2428,12 +2428,12 @@
             }
         },
         _setReadonly: function (readonly)
-        { 
+        {
             if (readonly)
-            { 
+            {
                 this.wrapper.addClass("l-text-readonly");
             } else
-            { 
+            {
                 this.wrapper.removeClass("l-text-readonly");
             }
         },
@@ -2490,19 +2490,19 @@
             if (value > 10)
             {
                 g.wrapper.height(value);
-                g.inputText.height(value - 2); 
+                g.inputText.height(value - 2);
                 g.textwrapper.css({ width: value });
             }
         },
         _setResize: function (resize)
         {
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             if (p.columns) {
                 return;
             }
             //调整大小支持
             if (resize && $.fn.ligerResizable)
-            { 
+            {
                 g.selectBox.ligerResizable({ handles: 'se,s,e', onStartResize: function ()
                 {
                     g.resizing = true;
@@ -2596,7 +2596,7 @@
         },
         _setValue: function (value,text)
         {
-            var g = this, p = this.options;  
+            var g = this, p = this.options;
             text = g.findTextByValue(value);
             if (p.tree)
             {
@@ -2631,7 +2631,7 @@
             if (g.select)
             {
                 g.setSelect();
-            } 
+            }
             else if (p.tree)
             {
                 g.setTree(p.tree);
@@ -2659,7 +2659,7 @@
                 data: parms,
                 cache: false,
                 dataType: 'json',
-                success: function (data) { 
+                success: function (data) {
                     g.setData(data);
                     g.trigger('success', [data]);
                 },
@@ -2677,7 +2677,7 @@
             var parms = g.get('parms');
             if (!parms) parms = {};
             parms[name] = value;
-            g.set('parms', parms); 
+            g.set('parms', parms);
         },
         clearContent: function ()
         {
@@ -2740,7 +2740,7 @@
         },
         setData: function (data)
         {
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             if (!data || !data.length) return;
             if (g.data != data) g.data = data;
             this.clearContent();
@@ -2791,16 +2791,16 @@
                         var columnname = p.columns[j].name;
                         out.push("<td>" + data[i][columnname] + "</td>");
                     }
-                    out.push('</tr>');  
+                    out.push('</tr>');
                 }
-            } 
+            }
             if (!p.columns) {
                 if (p.isShowCheckBox) {
                     $("table.l-table-checkbox", g.selectBox).append(out.join(''));
                 }else{
                     $("table.l-table-nocheckbox", g.selectBox).append(out.join(''));
                 }
-            } else { 
+            } else {
                 g.selectBox.table.append(out.join(''));
             }
             //自定义复选框支持
@@ -2923,7 +2923,7 @@
         setGrid: function (grid)
         {
             var g = this, p = this.options;
-            if (g.grid) return; 
+            if (g.grid) return;
             p.hideOnLoseFocus = p.hideGridOnLoseFocus ? true : false;
             this.clearContent();
             g.selectBox.addClass("l-box-select-lookup");
@@ -2937,7 +2937,7 @@
                 var conditionParm = $.extend({
                     labelWidth: 60,
                     space: 20
-                }, p.condition); 
+                }, p.condition);
                 g.condition = conditionPanel.ligerForm(conditionParm);
             } else {
                 conditionPanel.remove();
@@ -2963,10 +2963,10 @@
             });
             g.grid = g.gridManager = gridPanel.ligerGrid(grid);
             g.grid.bind('afterShowData', function ()
-            { 
+            {
                 g.updateSelectBoxPosition();
             });
-            var selecteds = [], onGridSelect = function () { 
+            var selecteds = [], onGridSelect = function () {
                 var value = [], text = [];
                 $(selecteds).each(function (i, rowdata) {
                     value.push(rowdata[p.valueField]);
@@ -3018,7 +3018,7 @@
             else
             {
                 g.grid.bind('SelectRow', function (rowdata) {
-                    selecteds = [rowdata]; 
+                    selecteds = [rowdata];
                     onGridSelect();
                     g._toggleSelectBox(true);
                 });
@@ -3041,7 +3041,7 @@
                 $("ul:first", conditionPanel).append(containerBtn1).append(containerBtn2).after('<div class="l-clear"></div>');
                 $("div", containerBtn1).ligerButton({
                     text: p.Search, width: 40,
-                    click: function () { 
+                    click: function () {
                         var rules = g.condition.toConditions();
                         g.grid.setParm(grid.conditionParmName || 'condition', $.ligerui.toJSON(rules));
                         g.grid.reload();
@@ -3090,7 +3090,7 @@
         _dataInit: function ()
         {
             var g = this, p = this.options;
-            var value = null; 
+            var value = null;
             if (p.initValue != null && p.initText != null)
             {
                 g._changeValue(p.initValue, p.initText);
@@ -3109,7 +3109,7 @@
                     var text = g.findTextByValue(value);
                     g._changeValue(value, text);
                 }
-            } 
+            }
             else if (g.valueField.val() != "")
             {
                 value = g.valueField.val();
@@ -3138,7 +3138,7 @@
                 });
             }
             else
-            { 
+            {
                 $(":checkbox", g.selectBox).each(function ()
                 {
                     var parentTD = null;
@@ -3168,7 +3168,7 @@
         //设置值到 文本框和隐藏域
         _changeValue: function (newValue, newText)
         {
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             g.valueField.val(newValue);
             if (p && p.render)
             {
@@ -3180,8 +3180,8 @@
             }
             g.selectedValue = newValue;
             g.selectedText = newText;
-            g.inputText.trigger("change").focus(); 
-            g.trigger('selected', [newValue, newText]); 
+            g.inputText.trigger("change").focus();
+            g.trigger('selected', [newValue, newText]);
         },
         //更新选中的值(复选框)
         _checkboxUpdateValue: function ()
@@ -3251,7 +3251,7 @@
         },
         updateSelectBoxPosition: function ()
         {
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             if (p && p.absolute)
             {
                 var contentHeight = $(document).height();
@@ -3263,7 +3263,7 @@
                 } else
                 {
                     g.selectBox.css({ left: g.wrapper.offset().left, top: g.wrapper.offset().top + 1 + g.wrapper.outerHeight() });
-                } 
+                }
             }
             else
             {
@@ -3324,7 +3324,7 @@
             g.isShowed = g.selectBox.is(":visible");
             g.trigger('toggle', [isHide]);
             g.trigger(isHide ? 'hide' : 'show');
-        }, 
+        },
         _highLight: function (str, key)
         {
             var index = str.indexOf(key);
@@ -3352,7 +3352,7 @@
                     {
                         g.grid.setParm('key', g.inputText.val());
                         g.grid.reload();
-                    } 
+                    }
                     lastText = g.inputText.val();
                 }, 1);
             });
@@ -3362,15 +3362,15 @@
     $.ligerui.controls.ComboBox.prototype.setValue = $.ligerui.controls.ComboBox.prototype.selectValue;
     //设置文本框和隐藏控件的值
     $.ligerui.controls.ComboBox.prototype.setInputValue = $.ligerui.controls.ComboBox.prototype._changeValue;
-    
+
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -3551,7 +3551,7 @@
             }
             //设置主体
             g.bulidContent();
-            //初始化   
+            //初始化
             //初始值
             if (p.initValue)
             {
@@ -4065,7 +4065,7 @@
             this.set('value', '');
             this.usedDate = null;
         },
-        //取消选择 
+        //取消选择
         _setCancelable: function (value)
         {
             var g = this, p = this.options;
@@ -4284,11 +4284,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 
 (function ($)
@@ -4332,19 +4332,19 @@
     $.ligerDefaults.Dialog = {
         cls: null,       //给dialog附加css class
         id: null,        //给dialog附加id
-        buttons: null, //按钮集合 
+        buttons: null, //按钮集合
         isDrag: true,   //是否拖动
         width: 280,     //宽度
-        height: null,   //高度，默认自适应 
+        height: null,   //高度，默认自适应
         content: '',    //内容
         target: null,   //目标对象，指定它将以appendTo()的方式载入
         url: null,      //目标页url，默认以iframe的方式载入
-        load: false,     //是否以load()的方式加载目标页的内容 
+        load: false,     //是否以load()的方式加载目标页的内容
         type: 'none',   //类型 warn、success、error、question
         left: null,     //位置left
         top: null,      //位置top
         modal: true,    //是否模态对话框
-        name: null,     //创建iframe时 作为iframe的name和id 
+        name: null,     //创建iframe时 作为iframe的name和id
         isResize: false, // 是否调整大小
         allowClose: true, //允许关闭
         opener: null,
@@ -4352,13 +4352,13 @@
         closeWhenEnter: null, //回车时是否关闭dialog
         isHidden: true,        //关闭对话框时是否只是隐藏，还是销毁对话框
         show: true,          //初始化时是否马上显示
-        title: '提示',        //头部 
-        showMax: false,                             //是否显示最大化按钮 
+        title: '提示',        //头部
+        showMax: false,                             //是否显示最大化按钮
         showToggle: false,                          //是否显示收缩窗口按钮
         showMin: false,                             //是否显示最小化按钮
-        slide: $.browser.msie ? false : true,        //是否以动画的形式显示 
+        slide: $.browser.msie ? false : true,        //是否以动画的形式显示
         fixedType: null,            //在固定的位置显示, 可以设置的值有n, e, s, w, ne, se, sw, nw
-        showType: null,             //显示类型,可以设置为slide(固定显示时有效) 
+        showType: null,             //显示类型,可以设置为slide(固定显示时有效)
         onLoaded: null,
         onExtend: null,
         onExtended: null,
@@ -4475,7 +4475,7 @@
                         g.frame = window.frames[g.jiframe.attr("name")];
                     }, 0);
                     // 为了解决ie下对含有iframe的div窗口销毁不正确，进而导致第二次打开时焦点不在当前图层的问题
-                    // 加入以下代码 
+                    // 加入以下代码
                     tmpId = 'jquery_ligerui_' + new Date().getTime();
                     g.tmpInput = $("<input></input>");
                     g.tmpInput.attr("id", tmpId);
@@ -5012,7 +5012,7 @@
             {
                 g.dialog.show();
             }
-            //前端显示 
+            //前端显示
             $.ligerui.win.setFront.ligerDefer($.ligerui.win, 100, [g]);
         },
         setUrl: function (url)
@@ -5376,11 +5376,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 
 (function ($)
@@ -5710,11 +5710,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -5768,9 +5768,9 @@
                 if (!$(box).hasClass("l-easytab-panelbox")) $(box).addClass("l-easytab-panelbox");
             });
             g.tabs.ul.prependTo(g.tabs);
-            //init  
+            //init
             $(".l-easytab-panelbox:eq(" + selectedIndex + ")", g.tabs).show().siblings(".l-easytab-panelbox").hide();
-            //add even 
+            //add even
             $("> ul:first span", g.tabs).click(function ()
             {
                 if ($(this).hasClass("l-selected")) return;
@@ -5790,11 +5790,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -6037,7 +6037,7 @@
             return row.find("table:first");
         },
 
-        //删除分组 
+        //删除分组
         deleteGroup: function (group)
         {
             var g = this, p = this.options;
@@ -6142,7 +6142,7 @@
                 if (g.enabledEditor(field)) editorType = field.editor.type;
                 if (oldEditorType)
                 {
-                    //如果存在旧的输入框 
+                    //如果存在旧的输入框
                     g.removeEditor(rulerow);
                 }
                 if (editorType)
@@ -6232,7 +6232,7 @@
             return $(".valtxt:first", rulerow).val();
         },
 
-        //判断某字段是否启用自定义的输入框  
+        //判断某字段是否启用自定义的输入框
         enabledEditor: function (field)
         {
             var g = this, p = this.options;
@@ -6338,11 +6338,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -6377,9 +6377,9 @@
         数组的集合,支持的类型包括在$.ligerDefaults.Form.editors,这个editors同Grid的editors继承于base.js中提供的编辑器集合,具体可以看liger.editors
         字段的参数参考 127行左右的 $.ligerDefaults.Form_fields,
         ui内置的编辑表单元素都会调用ui的表单插件集合,所以这些字段都有属于自己的"liger对象",可以同liger.get("[ID]")的方式获取，这里的[ID]获取方式优先级如下：
-        1,定义了field.id 则取field.id 
+        1,定义了field.id 则取field.id
         2,如果是下拉框和PopupEdit，并且定义了comboboxName，则取comboboxName(如果表单定义了prefixID,需要加上)
-        3,默认取field.name(如果表单定义了prefixID,需要加上) 
+        3,默认取field.name(如果表单定义了prefixID,需要加上)
         */
         fields: [],
         //创建的表单元素是否附加ID
@@ -6486,8 +6486,8 @@
     };
 
     //description 自动创建ligerui风格的表单-编辑器构造函数
-    //editorBulider -> editorBuilder 命名错误 
-    //param {jinput} 表单元素jQuery对象 比如input、select、textarea 
+    //editorBulider -> editorBuilder 命名错误
+    //param {jinput} 表单元素jQuery对象 比如input、select、textarea
     $.ligerDefaults.Form.editorBulider = function (jinput)
     {
         //这里this就是form的ligerui对象
@@ -6790,7 +6790,7 @@
                         out.push('><ul>');
                         //append label
                         out.push(g._buliderLabelContainer(field, index));
-                        //append input 
+                        //append input
                         out.push(g._buliderControlContainer(field, index));
                         //append space
                         out.push(g._buliderSpaceContainer(field, index));
@@ -7174,11 +7174,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 
 (function ($)
@@ -7204,21 +7204,21 @@
         url: false,                             //ajax url
         data: null,                            //初始化数据
         usePager: true,                         //是否分页
-        page: 1,                                //默认当前页 
+        page: 1,                                //默认当前页
         pageSize: 10,                           //每页默认的结果数
         pageSizeOptions: [10, 20, 30, 40, 50],  //可选择设定的每页结果数
         parms: [],                         //提交到服务器的参数
         columns: [],                          //数据源
         minColToggle: 1,                        //最小显示的列
         dataType: 'server',                     //数据源：本地(local)或(server),本地是将读取p.data。不需要配置，取决于设置了data或是url
-        dataAction: 'server',                    //提交数据的方式：本地(local)或(server),选择本地方式时将在客服端分页、排序。 
-        showTableToggleBtn: false,              //是否显示'显示隐藏Grid'按钮 
+        dataAction: 'server',                    //提交数据的方式：本地(local)或(server),选择本地方式时将在客服端分页、排序。
+        showTableToggleBtn: false,              //是否显示'显示隐藏Grid'按钮
         switchPageSizeApplyComboBox: false,     //切换每页记录数是否应用ligerComboBox
-        allowAdjustColWidth: true,              //是否允许调整列宽     
+        allowAdjustColWidth: true,              //是否允许调整列宽
         checkbox: false,                         //是否显示复选框
         allowHideColumn: true,                 //是否显示'切换列层'按钮
         enabledEdit: false,                      //是否允许编辑
-        isScroll: true,                         //是否滚动 
+        isScroll: true,                         //是否滚动
         dateFormat: 'yyyy-MM-dd',              //默认时间显示格式
         inWindow: true,                        //是否以窗口的高度为准 height设置为百分比时可用
         statusName: '__status',                    //状态名
@@ -7232,8 +7232,8 @@
         pageParmName: 'page',               //页索引参数名，(提交给服务器)
         pagesizeParmName: 'pagesize',        //页记录数参数名，(提交给服务器)
         sortnameParmName: 'sortname',        //页排序列名(提交给服务器)
-        sortorderParmName: 'sortorder',      //页排序方向(提交给服务器) 
-        allowUnSelectRow: false,           //是否允许反选行 
+        sortorderParmName: 'sortorder',      //页排序方向(提交给服务器)
+        allowUnSelectRow: false,           //是否允许反选行
         alternatingRow: true,           //奇偶行效果
         mouseoverRowCssClass: 'l-grid-row-over',
         enabledSort: true,                      //是否允许排序
@@ -7244,7 +7244,7 @@
         totalRender: null,                       //统计行(全部数据)
         delayLoad: false,                        //初始化时是否不加载
         where: null,                           //数据过滤查询函数,(参数一 data item，参数二 data item index)
-        selectRowButtonOnly: false,            //复选框模式时，是否只允许点击复选框才能选择行 
+        selectRowButtonOnly: false,            //复选框模式时，是否只允许点击复选框才能选择行
         whenRClickToSelect: false,                //右击行时是否选中
         contentType: null,                     //Ajax contentType参数
         checkboxColWidth: 27,                  //复选框列宽度
@@ -7274,7 +7274,7 @@
         headerRowHeight: 23,                    //表头行的高度
         toolbar: null,                           //工具条,参数同 ligerToolbar的,额外参数有title、icon
         toolbarShowInLeft: true,               //工具条显示在左边
-        headerImg: null,                        //表格头部图标  
+        headerImg: null,                        //表格头部图标
         unSetValidateAttr: true,             //是否不设置validate属性到inuput
         onDragCol: null,                       //拖动列事件
         onToggleCol: null,                     //切换列事件
@@ -7284,7 +7284,7 @@
         onSelectRow: null,                    //选择行事件
         onUnSelectRow: null,                   //取消选择行事件
         onBeforeCheckRow: null,                 //选择前事件，可以通过return false阻止操作(复选框)
-        onCheckRow: null,                    //选择事件(复选框) 
+        onCheckRow: null,                    //选择事件(复选框)
         onBeforeCheckAllRow: null,              //选择前事件，可以通过return false阻止操作(复选框 全选/全不选)
         onCheckAllRow: null,                    //选择事件(复选框 全选/全不选)onextend
         onBeforeShowData: null,                  //显示数据前事件，可以通过reutrn false阻止操作
@@ -7599,13 +7599,13 @@
             g.header = $(".l-panel-header:first", g.grid);
             //主体
             g.body = $(".l-panel-body:first", g.grid);
-            //底部工具条         
+            //底部工具条
             g.toolbar = $(".l-panel-bar:first", g.grid);
-            //显示/隐藏列      
+            //显示/隐藏列
             g.popup = $(".l-grid-popup:first", g.grid);
             //加载中
             g.gridloading = $(".l-grid-loading:first", g.grid);
-            //调整列宽层 
+            //调整列宽层
             g.draggingline = $(".l-grid-dragging-line", g.grid);
             //顶部工具栏
             g.topbar = $(".l-panel-topbarinner:first", g.grid);
@@ -7614,16 +7614,16 @@
             g.gridview.attr("id", g.id + "grid");
             g.gridview1 = $(".l-grid1:first", g.gridview);
             g.gridview2 = $(".l-grid2:first", g.gridview);
-            //表头     
+            //表头
             g.gridheader = $(".l-grid-header:first", g.gridview2);
-            //表主体     
+            //表主体
             g.gridbody = $(".l-grid-body:first", g.gridview2);
 
             //frozen
             g.f = {};
-            //表头     
+            //表头
             g.f.gridheader = $(".l-grid-header:first", g.gridview1);
-            //表主体     
+            //表主体
             g.f.gridbody = $(".l-grid-body:first", g.gridview1);
 
             g.currentData = null;
@@ -8411,7 +8411,7 @@
             g.records[o['__id']] = o;
             return o;
         },
-        //将原始的数据转换成适合 grid的行数据 
+        //将原始的数据转换成适合 grid的行数据
         _getRows: function (data)
         {
             var g = this, p = this.options;
@@ -9536,7 +9536,7 @@
         _initColumns: function ()
         {
             var g = this, p = this.options;
-            g._columns = {};             //全部列的信息  
+            g._columns = {};             //全部列的信息
             g._columnCount = 0;
             g._columnLeafCount = 0;
             g._columnMaxLevel = 1;
@@ -9623,7 +9623,7 @@
                     col['__rowSpan'] = g._columnMaxLevel - col['__level'] + 1;
                 }
             }
-            //叶级别列的信息  
+            //叶级别列的信息
             g.columns = g.getColumns();
             $(g.columns).each(function (i, column)
             {
@@ -9934,7 +9934,7 @@
         _fillGridBody: function (data, frozen)
         {
             var g = this, p = this.options;
-            //加载数据 
+            //加载数据
             var gridhtmlarr = ['<div class="l-grid-body-inner"><table class="l-grid-body-table" cellpadding=0 cellspacing=0><tbody>'];
             if (g.enabledGroup()) //启用分组模式
             {
@@ -9988,7 +9988,7 @@
             }
             gridhtmlarr.push('</tbody></table></div>');
             (frozen ? g.f.gridbody : g.gridbody).html(gridhtmlarr.join(''));
-            //分组时不需要            
+            //分组时不需要
             if (!g.enabledGroup())
             {
                 //创建汇总行
@@ -10120,7 +10120,7 @@
                 if (!item) continue;
                 gridhtmlarr.push('<tr');
                 gridhtmlarr.push(' id="' + g._getRowDomId(item, frozen) + '"');
-                gridhtmlarr.push(' class="l-grid-row'); //class start 
+                gridhtmlarr.push(' class="l-grid-row'); //class start
                 if (!frozen && g.enabledCheckbox() && p.isChecked && p.isChecked(item))
                 {
                     g.select(item);
@@ -10659,9 +10659,9 @@
                 indetail: indetail,
                 frozen: fn(g.gridview1[0]) ? true : false,
                 header: fn("l-panel-header"), //标题
-                gridheader: fn("l-grid-header"), //表格头 
+                gridheader: fn("l-grid-header"), //表格头
                 gridbody: fn("l-grid-body"),
-                total: fn("l-panel-bar-total"), //总汇总 
+                total: fn("l-panel-bar-total"), //总汇总
                 popup: fn("l-grid-popup"),
                 toolbar: fn("l-panel-bar")
             };
@@ -10745,7 +10745,7 @@
             {
                 delete g.ctrlKey;
             });
-            //表体 - 滚动联动事件 
+            //表体 - 滚动联动事件
             g.gridbody.bind('scroll.grid', function ()
             {
                 var scrollLeft = g.gridbody.scrollLeft();
@@ -11491,7 +11491,7 @@
             var childrenName = "children";
             if (p.tree) childrenName = p.tree.childrenName;
             if (!data || !data.length) return [];
-            var targetData = [];                    //存储数据的容器(返回) 
+            var targetData = [];                    //存储数据的容器(返回)
             var records = {};
             var itemLength = data.length;           //数据集合的个数
             for (var i = 0; i < itemLength; i++)
@@ -11599,11 +11599,11 @@
     }
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -11636,7 +11636,7 @@
         allowRightResize: true,     //是否允许 右边可以调整大小
         allowTopResize: true,      //是否允许 头部可以调整大小
         allowBottomResize: true,     //是否允许 底部可以调整大小
-        space: 3, //间隔 
+        space: 3, //间隔
         onEndResize: null,          //调整大小结束事件
         minLeftWidth: 80,            //调整左侧宽度时的最小允许宽度
         minRightWidth: 80           //调整右侧宽度时的最小允许宽度
@@ -12007,10 +12007,10 @@
             }
         },
         _onResize: function ()
-        { 
+        {
             var g = this, p = this.options;
             var oldheight = g.layout.height();
-            //set layout height 
+            //set layout height
             var h = 0;
             var windowHeight = $(window).height();
             var parentHeight = null;
@@ -12190,13 +12190,13 @@
             {
                 g.yresize = { startY: e.pageY };
                 g.draggingxline.css({ top: e.pageY - g.layout.offset().top, width: g.layout.width() }).show();
-                $('body').css('cursor', 'row-resize'); 
+                $('body').css('cursor', 'row-resize');
                 g.mask.height(g.layout.height()).removeClass("l-layout-xmask").addClass("l-layout-ymask").show();
             }
             else
             {
                 return;
-            } 
+            }
             g.layout.lock.width(g.layout.width());
             g.layout.lock.height(g.layout.height());
             g.layout.lock.show();
@@ -12218,7 +12218,7 @@
             {
                 g.xresize.diff = e.pageX - g.xresize.startX;
                 g.draggingyline.css({ left: e.pageX - g.layout.offset().left });
-                $('body').css('cursor', 'col-resize'); 
+                $('body').css('cursor', 'col-resize');
             }
             else if (g.yresize)
             {
@@ -12323,11 +12323,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -12335,7 +12335,7 @@
     $.fn.ligerListBox = function (options)
     {
         return $.ligerui.run.call(this, "ligerListBox", arguments);
-    }; 
+    };
 
     $.ligerDefaults.ListBox = {
         isMultiSelect: false,   //是否多选
@@ -12344,19 +12344,19 @@
         width: 150,            //宽度
         height: 100,           //高度
         onSelect: false,        //选择前事件
-        onSelected: null,       //选择值事件  
+        onSelected: null,       //选择值事件
         valueField: 'id',       //值成员
         textField: 'text',      //显示成员
-        valueFieldID: null,     //值 隐藏域 表单名 
+        valueFieldID: null,     //值 隐藏域 表单名
         split: ";",             //分隔符
-        data: null,             //数据  
-        parms: null,            //ajax提交表单 
+        data: null,             //数据
+        parms: null,            //ajax提交表单
         url: null,              //数据源URL(需返回JSON)
         onSuccess: null,
         onError: null,
-        render: null,            //显示html自定义函数 
-        css: null,               //附加css  
-        value: null,            //值 
+        render: null,            //显示html自定义函数
+        css: null,               //附加css
+        value: null,            //值
         valueFieldCssClass: null
     };
 
@@ -12379,14 +12379,14 @@
         },
         _init: function ()
         {
-            $.ligerui.controls.ListBox.base._init.call(this); 
+            $.ligerui.controls.ListBox.base._init.call(this);
         },
         _render: function ()
         {
-            var g = this, p = this.options; 
-            g.data = p.data;    
-            g.valueField = null; //隐藏域(保存值) 
-               
+            var g = this, p = this.options;
+            g.data = p.data;
+            g.valueField = null; //隐藏域(保存值)
+
             if (p.valueFieldID)
             {
                 g.valueField = $("#" + p.valueFieldID + ":input,[name=" + p.valueFieldID + "]:input");
@@ -12407,14 +12407,14 @@
             //选择框框
             g.selectBox = $(this.element);
             g.selectBox.html('<div class="l-listbox-inner"><table cellpadding="0" cellspacing="0" border="0" class="l-listbox-table"></table></div>').addClass("l-listbox").append(g.valueField);
-            g.selectBox.table = $("table:first", g.selectBox); 
-              
-            g.set(p); 
+            g.selectBox.table = $("table:first", g.selectBox);
+
+            g.set(p);
 
             g._addClickEven();
         },
         destroy: function ()
-        { 
+        {
             if (this.selectBox) this.selectBox.remove();
             this.options = null;
             $.ligerui.remove(this);
@@ -12430,7 +12430,7 @@
             {
                 $("table", this.selectBox).addClass("l-table-checkbox");
             } else
-            { 
+            {
                 $("table", this.selectBox).addClass("l-table-nocheckbox");
             }
         },
@@ -12439,8 +12439,8 @@
             if (css)
             {
                 this.selectBox.addClass(css);
-            } 
-        }, 
+            }
+        },
         _setDisabled: function (value)
         {
             //禁用样式
@@ -12451,7 +12451,7 @@
             {
                 this.selectBox.removeClass('l-text-disabled');
             }
-        }, 
+        },
         _setWidth: function (value)
         {
             this.selectBox.width(value);
@@ -12459,7 +12459,7 @@
         _setHeight: function (value)
         {
             this.selectBox.height(value);
-        }, 
+        },
         //查找Text,适用多选和单选
         findTextByValue: function (value)
         {
@@ -12536,7 +12536,7 @@
         insertItem: function (item,index)
         {
             var g = this;
-            if (!g.data) g.data = []; 
+            if (!g.data) g.data = [];
             g.data.splice(index, 0, item);
             g.refresh();
         },
@@ -12556,7 +12556,7 @@
             if (!g.data) g.data = [];
             g.data.push(item);
             g.refresh();
-        }, 
+        },
         getSelectedItems: function()
         {
             var g = this, p = this.options;
@@ -12573,18 +12573,18 @@
         },
         _setValue: function (value)
         {
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             p.value = value;
             this._dataInit();
         },
         setValue: function (value)
-        { 
+        {
             this._setValue(value);
         },
         _setUrl: function (url)
         {
             if (!url) return;
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             $.ajax({
                 type: 'post',
                 url: url,
@@ -12613,12 +12613,12 @@
             var parms = g.get('parms');
             if (!parms) parms = {};
             parms[name] = value;
-            g.set('parms', parms); 
+            g.set('parms', parms);
         },
         clearContent: function ()
         {
             var g = this, p = this.options;
-            $("table", g.selectBox).html(""); 
+            $("table", g.selectBox).html("");
         },
         _setColumns : function(columns)
         {
@@ -12632,7 +12632,7 @@
         },
         setData: function (data)
         {
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             if (!data || !data.length) return;
             g.data = data;
             g.refresh();
@@ -12640,7 +12640,7 @@
         },
         refresh:function()
         {
-            var g = this, p = this.options, data = this.data; 
+            var g = this, p = this.options, data = this.data;
             this.clearContent();
             if (!data) return;
             if (p.columns)
@@ -12675,9 +12675,9 @@
                         itemHtml = p.render({
                             data: data[i],
                             value: val,
-                            text: txt 
+                            text: txt
                         });
-                    } 
+                    }
                     out.push("<td align='left'>" + itemHtml + "</td></tr>");
                 } else
                 {
@@ -12687,9 +12687,9 @@
                         var columnname = p.columns[j].name;
                         out.push("<td>" + data[i][columnname] + "</td>");
                     }
-                    out.push('</tr>');  
+                    out.push('</tr>');
                 }
-            } 
+            }
             g.selectBox.table.append(out.join(''));
         },
         _getValue: function ()
@@ -12700,20 +12700,20 @@
         {
             //获取值
             return this._getValue();
-        },  
+        },
         updateStyle: function ()
-        { 
+        {
             this._dataInit();
         },
         selectAll: function ()
         {
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             var values = [];
             $("tr", g.selectBox).each(function ()
             {
                 var jrow = $(this);
                 values.push(jrow.attr("value"));
-            }); 
+            });
             $("tr", g.selectBox).addClass("l-selected").find(":checkbox").each(function () { this.checked = true; });
             g.valueField.val(values.join(p.split));
         },
@@ -12725,11 +12725,11 @@
             if (value != null)
             {
                 g._changeValue(value);
-            } 
+            }
             else if (g.valueField.val() != "")
             {
-                p.value = g.valueField.val();  
-            } 
+                p.value = g.valueField.val();
+            }
             var valueArr = (value || "").toString().split(p.split);
 
             $("tr.l-selected", g.selectBox)
@@ -12740,13 +12740,13 @@
                 $("tr[value='" + item + "']", g.selectBox)
                     .addClass("l-selected")
                     .find(":checkbox").each(function () { this.checked = true; });
-            }); 
+            });
         },
         //设置值到 隐藏域
         _changeValue: function (newValue)
         {
-            var g = this, p = this.options; 
-            g.valueField.val(newValue); 
+            var g = this, p = this.options;
+            g.valueField.val(newValue);
             g.selectedValue = newValue;
         },
         //更新值到隐藏域
@@ -12761,7 +12761,7 @@
                 {
                     values.push(jrow.attr("value"));
                 }
-            }); 
+            });
             g._changeValue(values.join(p.split));
         },
         _addClickEven: function ()
@@ -12769,8 +12769,8 @@
             var g = this, p = this.options;
             //选项点击
             g.selectBox.click(function (e)
-            {  
-                var obj = (e.target || e.srcElement); 
+            {
+                var obj = (e.target || e.srcElement);
                 var jrow = $(obj).parents("tr:first");
                 if (!jrow.length) return;
                 var value = jrow.attr("value");
@@ -12799,17 +12799,17 @@
                 g._updateValue();
                 g.trigger('selected', [value, text, data]);
             });
-        } 
+        }
     });
-      
+
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -13066,11 +13066,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -13164,11 +13164,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -13399,11 +13399,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -13421,15 +13421,15 @@
     $.ligerDefaults.PopupEdit = {
         valueFieldID: null,     //生成的value input:hidden 字段名
         css: null,             //附加css
-        onButtonClick: null,    //利用这个参数来调用其他函数，比如打开一个新窗口来选择值 
+        onButtonClick: null,    //利用这个参数来调用其他函数，比如打开一个新窗口来选择值
         nullText: null,         //不能为空时的提示
         disabled: false,        //是否无效
         cancelable: true,
         width: 200,
         heigth: null,
-        render: null,        //显示函数   
+        render: null,        //显示函数
         split: ';',
-        grid: null,       //在 可查询、可分页列表的弹出框 中选择值 
+        grid: null,       //在 可查询、可分页列表的弹出框 中选择值
         condition: null,  // 条件字段,比如 {fields:[{ name : 'Title' ,op : 'like', vt : 'string',type:'text' }]}
         valueField: 'id', //值字段
         textField: 'text',   //显示字段
@@ -13563,7 +13563,7 @@
                 this.wrapper.addClass(css);
             }
         },
-        //取消选择 
+        //取消选择
         _setCancelable: function (value)
         {
             var g = this, p = this.options;
@@ -13652,7 +13652,7 @@
             }
             g.valueField.val(value);
         },
-        //设置值到 文本框 
+        //设置值到 文本框
         setText: function (text)
         {
             var g = this, p = this.options;
@@ -13716,7 +13716,7 @@
             var g = this, p = this.options;
             var gridOptions = $.extend({
                 parms: p.parms
-            }, p.grid); 
+            }, p.grid);
             this.bind('buttonClick', function ()
             {
                 if (!g.popupFn)
@@ -13760,10 +13760,10 @@
 
     //创建一个可查询、可分页列表的选取弹出框 需要dialog,grid,form等插件的支持
     $.ligerui.getPopupFn = function (p)
-    { 
+    {
         p = $.extend({
             title: '选择数据',     //窗口标题
-            width: 700,            //窗口宽度     
+            width: 700,            //窗口宽度
             height: 320,           //列表高度
             top: null,
             left: null,
@@ -13772,7 +13772,7 @@
             textField: null,     //接收表格的text字段名
             grid: null,          //表格的参数 同ligerGrid
             condition: null,     //搜索表单的参数 同ligerForm
-            onSelect: function (p) { },   //选取函数 
+            onSelect: function (p) { },   //选取函数
             selectInit: function (rowdata) { return false }  //选择初始化
         }, p);
         if (!p.grid) return;
@@ -13807,7 +13807,7 @@
                 var conditionParm = $.extend({
                     labelWidth: 60,
                     space: 20
-                }, p.condition); 
+                }, p.condition);
                 condition = conditionPanel.ligerForm(conditionParm);
             } else
             {
@@ -13911,11 +13911,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 
 (function ($)
@@ -14056,11 +14056,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -14068,21 +14068,21 @@
     $.fn.ligerRadioList = function (options)
     {
         return $.ligerui.run.call(this, "ligerRadioList", arguments);
-    }; 
+    };
 
-    $.ligerDefaults.RadioList = {  
-        rowSize: 3,            //每行显示元素数   
+    $.ligerDefaults.RadioList = {
+        rowSize: 3,            //每行显示元素数
         valueField: 'id',       //值成员
-        textField: 'text',      //显示成员 
+        textField: 'text',      //显示成员
         valueFieldID:null,      //隐藏域
-        name : null,            //表单名 
-        data: null,             //数据  
-        parms: null,            //ajax提交表单 
+        name : null,            //表单名
+        data: null,             //数据
+        parms: null,            //ajax提交表单
         url: null,              //数据源URL(需返回JSON)
         onSuccess: null,
-        onError: null,  
-        css: null,               //附加css  
-        value: null,            //值 
+        onError: null,
+        css: null,               //附加css
+        value: null,            //值
         valueFieldCssClass : null
     };
 
@@ -14109,10 +14109,10 @@
         },
         _render: function ()
         {
-            var g = this, p = this.options; 
-            g.data = p.data;    
-            g.valueField = null; //隐藏域(保存值) 
-               
+            var g = this, p = this.options;
+            g.data = p.data;
+            g.valueField = null; //隐藏域(保存值)
+
             if (p.valueFieldID)
             {
                 g.valueField = $("#" + p.valueFieldID + ":input,[name=" + p.valueFieldID + "]:input");
@@ -14132,17 +14132,17 @@
             g.valueField.attr("data-ligerid", g.id);
             g.radioList = $(this.element);
             g.radioList.html('<div class="l-radiolist-inner"><table cellpadding="0" cellspacing="0" border="0" class="l-radiolist-table"></table></div>').addClass("l-radiolist").append(g.valueField);
-            g.radioList.table = $("table:first", g.radioList); 
-              
+            g.radioList.table = $("table:first", g.radioList);
+
 
             p.value = g.valueField.val() || p.value;
 
-            g.set(p); 
+            g.set(p);
 
             g._addClickEven();
         },
         destroy: function ()
-        { 
+        {
             if (this.radioList) this.radioList.remove();
             this.options = null;
             $.ligerui.remove(this);
@@ -14151,13 +14151,13 @@
         {
             this._changeValue("");
             this.trigger('clear');
-        }, 
+        },
         _setCss : function(css)
         {
             if (css) {
                 this.radioList.addClass(css);
-            } 
-        }, 
+            }
+        },
         _setDisabled: function (value)
         {
             //禁用样式
@@ -14170,7 +14170,7 @@
                 this.radioList.removeClass('l-radiolist-disabled');
                 $("input:radio", this.radioList).removeAttr("disabled");
             }
-        }, 
+        },
         _setWidth: function (value)
         {
             this.radioList.width(value);
@@ -14178,7 +14178,7 @@
         _setHeight: function (value)
         {
             this.radioList.height(value);
-        },  
+        },
         indexOf : function(item)
         {
             var g = this, p = this.options;
@@ -14218,7 +14218,7 @@
         insertItem: function (item,index)
         {
             var g = this;
-            if (!g.data) g.data = []; 
+            if (!g.data) g.data = [];
             g.data.splice(index, 0, item);
             g.refresh();
         },
@@ -14238,27 +14238,27 @@
             if (!g.data) g.data = [];
             g.data.push(item);
             g.refresh();
-        },  
+        },
         _setValue: function (value)
-        { 
+        {
             var g = this, p = this.options;
             p.value = value;
-            this._dataInit(); 
+            this._dataInit();
         },
         setValue: function (value)
-        { 
+        {
             this._setValue(value);
-        }, 
+        },
         _setUrl: function (url) {
             if (!url) return;
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             $.ajax({
                 type: 'post',
                 url: url,
                 data: p.parms,
                 cache: false,
                 dataType: 'json',
-                success: function (data) { 
+                success: function (data) {
                     g.setData(data);
                     g.trigger('success', [data]);
                 },
@@ -14276,20 +14276,20 @@
             var parms = g.get('parms');
             if (!parms) parms = {};
             parms[name] = value;
-            g.set('parms', parms); 
+            g.set('parms', parms);
         },
         clearContent: function ()
         {
             var g = this, p = this.options;
-            $("table", g.radioList).html(""); 
-        }, 
+            $("table", g.radioList).html("");
+        },
         _setData : function(data)
         {
             this.setData(data);
         },
         setData: function (data)
         {
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             if (!data || !data.length) return;
             g.data = data;
             g.refresh();
@@ -14297,9 +14297,9 @@
         },
         refresh:function()
         {
-            var g = this, p = this.options, data = this.data; 
+            var g = this, p = this.options, data = this.data;
             this.clearContent();
-            if (!data) return; 
+            if (!data) return;
             var out = [], rowSize = p.rowSize, appendRowStart = false, name = p.name || g.id;
             for (var i = 0; i < data.length; i++)
             {
@@ -14308,7 +14308,7 @@
                 //0,5,10
                 if (newRow)
                 {
-                    if (appendRowStart) out.push('</tr>'); 
+                    if (appendRowStart) out.push('</tr>');
                     out.push("<tr>");
                     appendRowStart = true;
                 }
@@ -14318,7 +14318,7 @@
             g.radioList.table.append(out.join(''));
         },
         _getValue: function ()
-        { 
+        {
             var g = this, p = this.options, name = p.name || g.id;
             return $('input:radio[name="' + name + '"]:checked').val();
         },
@@ -14326,9 +14326,9 @@
         {
             //获取值
             return this._getValue();
-        },  
+        },
         updateStyle: function ()
-        { 
+        {
             this._dataInit();
         },
         _dataInit: function ()
@@ -14353,21 +14353,21 @@
             var g = this, p = this.options;
             //选项点击
             g.radioList.click(function (e)
-            {  
+            {
                 var value = g.getValue();
                 if (value) g.valueField.val(value);
             });
-        } 
+        }
     });
-      
+
 
 })(jQuery);/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -14556,7 +14556,7 @@
         },
         _stop: function (e)
         {
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             if (g.hasBind('stopResize'))
             {
                 if (g.trigger('stopResize', [g.current, e]) != false)
@@ -14643,11 +14643,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -14765,7 +14765,7 @@
                 $(document).unbind("selectstart.spinner");
                 $(this).removeClass("l-spinner-up-over");
             }).mousedown(function ()
-            { 
+            {
                 if (!p.disabled)
                 {
                     g._uping.call(g);
@@ -14976,7 +14976,7 @@
         },
         _addValue: function (num)
         {
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             var value = g.inputText.val();
             value = parseFloat(value) + num;
             if (g._isOverValue(value)) return;
@@ -15041,11 +15041,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -15062,7 +15062,7 @@
 
     $.ligerDefaults.Tab = {
         height: null,
-        heightDiff: 0, // 高度补差 
+        heightDiff: 0, // 高度补差
         changeHeightOnResize: false,
         contextmenu: true,
         dblClickToClose: false, //是否双击时关闭
@@ -15190,7 +15190,7 @@
                     }
                 }
             });
-            //init 
+            //init
             g.selectTabItem(g.selectedTabId);
             //set content height
             if (p.height)
@@ -15212,7 +15212,7 @@
             }
             if (g.makeFullHeight)
                 g.setContentHeight();
-            //add even 
+            //add even
             $("li", g.tab.links).each(function ()
             {
                 g._addTabItemEvent($(this));
@@ -15440,7 +15440,7 @@
                 sumwidth += $(this).width() + 2;
             });
             var mainwidth = g.tab.width();
-            var leftList = new Array(); //记录每个tab的left,由右到左 
+            var leftList = new Array(); //记录每个tab的left,由右到左
             for (var i = tabItems.length - 1; i >= 0; i--)
             {
                 var currentItemLeft = sumwidth - mainwidth + btnWitdth + 2;
@@ -15531,7 +15531,7 @@
         },
         //设置页签项标题
         setHeader: function(tabid,header)
-        { 
+        {
             $("li[tabid=" + tabid + "] a", this.tab.links.ul).text(header);
         },
         //选中tab项
@@ -15611,7 +15611,7 @@
             }
             else
             {
-                iframe.remove(); 
+                iframe.remove();
                 iframeloading.remove();
             }
             if (content)
@@ -15673,7 +15673,7 @@
         //移除tab项
         removeTabItem: function (tabid)
         {
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             if (g.trigger('beforeRemoveTabItem', [tabid]) == false)
                 return false;
             var currentIsSelected = $("li[tabid=" + tabid + "]", g.tab.links.ul).hasClass("l-selected");
@@ -15682,8 +15682,8 @@
                 $(".l-tab-content-item[tabid=" + tabid + "]", g.tab.content).prev().show();
                 $("li[tabid=" + tabid + "]", g.tab.links.ul).prev().addClass("l-selected").siblings().removeClass("l-selected");
             }
-            var contentItem = $(".l-tab-content-item[tabid=" + tabid + "]", g.tab.content); 
-            var jframe = $('iframe', contentItem); 
+            var contentItem = $(".l-tab-content-item[tabid=" + tabid + "]", g.tab.content);
+            var jframe = $('iframe', contentItem);
             if (jframe.length)
             {
                 var frame = jframe[0];
@@ -15691,7 +15691,7 @@
                 frame.contentWindow.document.write('');
                 $.browser.msie && CollectGarbage();
                 jframe.remove();
-            } 
+            }
             contentItem.remove();
             $("li[tabid=" + tabid + "]", g.tab.links.ul).remove();
             g.setTabButton();
@@ -15841,11 +15841,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -15867,7 +15867,7 @@
         onFocus: null,
         width: null,
         disabled: false,
-        value: null,     //初始化值 
+        value: null,     //初始化值
         nullText: null,   //不能为空时的提示
         digits: false,     //是否限定为数字输入框
         number: false,    //是否限定为浮点数格式输入框
@@ -16131,11 +16131,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 
 (function ($)
@@ -16322,11 +16322,11 @@
     });
 })(jQuery);﻿﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -16466,11 +16466,11 @@
     $.ligerui.controls.ToolBar.prototype.setDisable = $.ligerui.controls.ToolBar.prototype.setDisabled;
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -16527,8 +16527,8 @@
         render: null,               //自定义函数
         selectable: null,           //可选择判断函数
         /*
-        是否展开 
-            1,可以是true/false 
+        是否展开
+            1,可以是true/false
             2,也可以是数字(层次)N 代表第1层到第N层都是展开的，其他收缩
             3,或者是判断函数 函数参数e(data,level) 返回true/false
 
@@ -16536,16 +16536,16 @@
         */
         isExpand: null,
         /*
-        是否延迟加载 
-            1,可以是true/false 
-            2,也可以是数字(层次)N 代表第N层延迟加载 
+        是否延迟加载
+            1,可以是true/false
+            2,也可以是数字(层次)N 代表第N层延迟加载
             3,或者是字符串(Url) 加载数据的远程地址
             4,如果是数组,代表这些层都延迟加载,如[1,2]代表第1、2层延迟加载
             5,再是函数(运行时动态获取延迟加载参数) 函数参数e(data,level),返回true/false或者{url:...,parms:...}
 
         优先级没有节点数据的delay属性高
         */
-        delay: null                
+        delay: null
     };
 
     $.ligerui.controls.Tree = function (element, options)
@@ -16589,7 +16589,7 @@
         },
         _setUrl: function (url)
         {
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             if (url)
             {
                 g.clear();
@@ -16597,7 +16597,7 @@
             }
         },
         _setData: function (data)
-        { 
+        {
             if (data)
             {
                 this.clear();
@@ -16740,8 +16740,8 @@
                     g.loading.hide();
                 }
             }, e || {});
-            var ajaxtype = p.ajaxType; 
-            param = param || []; 
+            var ajaxtype = p.ajaxType;
+            param = param || [];
             //请求服务器
             $.ajax({
                 type: ajaxtype,
@@ -16907,7 +16907,7 @@
                 }, function ()
                 {
                     $(this).removeClass("l-over");
-                }); 
+                });
                 g._upadteTreeWidth();
                 g.trigger('afterAppend', [parentNode, newdata])
                 return;
@@ -16938,7 +16938,7 @@
             }
             else
             {
-                //remove last node class  
+                //remove last node class
                 if ($("> .l-children > li:last", treeitem).length > 0)
                     g._setTreeItem($("> .l-children > li:last", treeitem)[0], { isLast: false });
                 $(">.l-children", parentNode).append(gridhtmlarr.join(''));
@@ -17041,7 +17041,7 @@
         arrayToTree: function (data, id, pid)      //将ID、ParentID这种数据格式转换为树格式
         {
             if (!data || !data.length) return [];
-            var targetData = [];                    //存储数据的容器(返回) 
+            var targetData = [];                    //存储数据的容器(返回)
             var records = {};
             var itemLength = data.length;           //数据集合的个数
             for (var i = 0; i < itemLength; i++)
@@ -17109,18 +17109,18 @@
         _addToNodes: function (data)
         {
             var g = this, p = this.options;
-            g.nodes = g.nodes || []; 
+            g.nodes = g.nodes || [];
             g.nodes.push(data);
-            if (!data.children) return; 
+            if (!data.children) return;
             $(data.children).each(function (i, item)
             {
                 g._addToNodes(item);
-            }); 
+            });
         },
         //添加项到g.data
         _appendData: function (treeNode, data)
         {
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             var treedataindex = parseInt($(treeNode).attr("treedataindex"));
             var treenodedata = g._getDataNodeByTreeDataIndex(g.data, treedataindex);
             if (g.treedataindex == undefined) g.treedataindex = 0;
@@ -17193,22 +17193,22 @@
             if (typeof (isExpand) == "function") isExpand = p.isExpand({ data: o, level: level });
             if (typeof (isExpand) == "boolean") return isExpand;
             if (typeof (isExpand) == "string") return isExpand == "true";
-            if (typeof (isExpand) == "number") return isExpand > level; 
+            if (typeof (isExpand) == "number") return isExpand > level;
             return true;
         },
         //获取节点的延迟加载状态,返回true/false (本地模式) 或者是object({url :'...',parms:null})(远程模式)
         _getDelay: function (o, level)
         {
-            var g = this, p = this.options; 
+            var g = this, p = this.options;
             var delay = o.delay != null ? o.delay : p.delay;
-            if (delay == null) return false; 
+            if (delay == null) return false;
             if (typeof (delay) == "function") delay = delay({ data: o, level: level });
             if (typeof (delay) == "boolean") return delay;
-            if (typeof (delay) == "string") return { url: delay }; 
+            if (typeof (delay) == "string") return { url: delay };
             if (typeof (delay) == "number") delay = [delay];
             if ($.isArray(delay)) return $.inArray(level, delay) != -1;
             if (typeof (delay) == "object" && delay.url) return delay;
-            return false; 
+            return false;
         },
         //根据data生成最终完整的tree html
         _getTreeHTMLByData: function (data, outlineLevel, isLast, isExpand)
@@ -17228,7 +17228,7 @@
                 var isLastCurrent = i == data.length - 1;
                 var delay = g._getDelay(o, outlineLevel);
                 var isExpandCurrent = delay ? false : g._isExpand(o, outlineLevel);
-                
+
                 treehtmlarr.push('<li ');
                 if (o.treedataindex != undefined)
                     treehtmlarr.push('treedataindex="' + o.treedataindex + '" ');
@@ -17264,7 +17264,7 @@
                 {
                     if (isLast[k]) treehtmlarr.push('<div class="l-box"></div>');
                     else treehtmlarr.push('<div class="l-box l-line"></div>');
-                } 
+                }
                 if (g.hasChildren(o))
                 {
                     if (isExpandCurrent) treehtmlarr.push('<div class="l-box l-expandable-open"></div>');
@@ -17302,7 +17302,7 @@
                     }
                     if (p.childIcon)
                     {
-                        //node icon 
+                        //node icon
                         treehtmlarr.push('<div class="l-box l-tree-icon ');
                         treehtmlarr.push(g._getChildNodeClassName() + " ");
                         if (p.iconFieldName && o[p.iconFieldName])
@@ -17328,9 +17328,9 @@
                     {
                         isLastNew.push(isLast[k]);
                     }
-                    isLastNew.push(isLastCurrent); 
+                    isLastNew.push(isLastCurrent);
                     if (delay)
-                    { 
+                    {
                         if (delay == true)
                         {
                             g.toggleNodeCallbacks.push({
@@ -17360,7 +17360,7 @@
                                     {
                                         g.loadData(dom, url, parms, {
                                             showLoading: function ()
-                                            { 
+                                            {
                                                 $("div.l-expandable-close:first", dom).addClass("l-box-loading");
                                             },
                                             hideLoading: function ()
@@ -17431,7 +17431,7 @@
         _applyTree: function ()
         {
             var g = this, p = this.options;
-            g.data = g._getDataByTreeHTML(g.tree); 
+            g.data = g._getDataByTreeHTML(g.tree);
             var gridhtmlarr = g._getTreeHTMLByData(g.data, 1, [], true);
             gridhtmlarr[gridhtmlarr.length - 1] = gridhtmlarr[0] = "";
             g.tree.html(gridhtmlarr.join(''));
@@ -17443,7 +17443,7 @@
             {
                 $(this).removeClass("l-over");
             });
-        },  
+        },
         _getSrcElementByEvent: function (e)
         {
             var g = this;
@@ -17510,7 +17510,7 @@
                 var treeitembtn = $("div.l-body:first", treeitem).find("div.l-expandable-open:first,div.l-expandable-close:first");
                 var clickOnTreeItemBtn = $(obj).hasClass("l-expandable-open") || $(obj).hasClass("l-expandable-close");
                 if (!$(obj).hasClass("l-checkbox") && !clickOnTreeItemBtn)
-                { 
+                {
                     if (!treeitem.hasClass("l-unselectable"))
                     {
                         if ($(">div:first", treeitem).hasClass("l-selected") && p.needCancel)
@@ -17847,11 +17847,11 @@
 
 })(jQuery);﻿/**
 * jQuery ligerUI 1.2.2
-* 
+*
 * http://ligerui.com
-*  
-* Author daomi 2013 [ gd_star@163.com ] 
-* 
+*
+* Author daomi 2013 [ gd_star@163.com ]
+*
 */
 (function ($)
 {
@@ -18016,7 +18016,7 @@
                 });
                 g.window.append("<div class='l-btn-nw-drop'></div>");
             }
-            //设置事件 
+            //设置事件
             $(".l-window-toggle", g.window).click(function ()
             {
                 if ($(this).hasClass("l-window-toggle-close"))
