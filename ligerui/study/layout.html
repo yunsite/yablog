@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>layout</title>
+    <link rel="stylesheet" type="text/css" href="../ligerui/skins/Aqua/css/ligerui-all.css" />
+    <script src="js/common/jquery-1.9.1.min.js"></script>
+    <script src="../ligerui/ligerui.all.js"></script>
+    <script src="js/common/global.js"></script>
+    <script src="js/common/json2.js"></script>
+    <script src="js/common/base.js"></script>
+    <script src="js/common/underscore.js"></script>
+    <script src="js/common/backbone.js"></script>
+    <script src="js/common/sea-2.1.1-debug.js" id="seajsnode"></script>
+</head>
+<body class="easyui-layout">
+    <div style="color: #fff; background:#666; display: none;">
+        <div id="header-inner">
+        <table cellpadding="0" cellspacing="0" style="width:100%;">
+        <tr>
+        <td rowspan="2" style="width:20px;">
+        </td>
+        <td style="height:52px;">
+        <div style="color:#fff;font-size:22px;font-weight:bold;">
+        <a href="/index.php" style="color:#fff;font-size:22px;font-weight:bold;text-decoration:none">jQuery EasyUI</a>
+        </div>
+        <div style="color:#fff">
+        <a href="/index.php" style="color:#fff;text-decoration:none">easyui help you build your web page easily!</a>
+        </div>
+        </td>
+        <td style="padding-right:5px;text-align:right;vertical-align:bottom;">
+        <div id="topmenu">
+            <a href="/index.php">Home</a>
+            <a href="/demo/main/index.php">Demo</a>
+            <a href="/tutorial/index.php">Tutorial</a>
+            <a href="/documentation/index.php">Documentation</a>
+            <a href="/download/index.php">Download</a>
+            <a href="/extension/index.php">Extension</a>
+            <a href="/contact.php">Contact</a>
+            <a href="/forum/index.php">Forum</a>
+        </div>
+        </td>
+        </tr>
+        </table>
+        </div>
+    </div>
+
+    <div id="layout">
+        <div position="left"  title="主要菜单">
+            <div title="功能列表" class="l-scroll">
+                <ul id="tree" style="margin-top:3px;">
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div position="center" id="framecenter">
+            <div tabid="home" title="管理中心">
+                管理中心
+            </div>
+        </div>
+    </div>
+    <div style="height:32px; line-height:32px; text-align:center;">Copyright © 2011-2013 www.ligerui.com</div>
+    <script></script>
+</body>
+</html>
