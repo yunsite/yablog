@@ -35,12 +35,6 @@
         </div>
     </div>
     <script>
-        function heightChanged(options) {
-
-            if (accordion && options.middleHeight > 0) {
-                accordion.setHeight(options.middleHeight);
-            }
-        }
 
         function addTab(tabid,text, url) {
             tab.addTabItem({tabid : tabid,text: text, content: text});
@@ -49,45 +43,97 @@
         $('#layout').ligerLayout({
             leftWidth: 200,
             height: '100%',
-            onHeightChanged: heightChanged
+            onHeightChanged: function(options) {
+
+                if (accordion && options.middleHeight > 0) {
+                    accordion.setHeight(options.middleHeight);
+                }
+            }
         });
 
         var height = $('.l-layout-center').height();
 
         $('#main').ligerTab({
-            height: height
+            height: height,
+            contextmenu: false,
+            onRendered: function() {
+                var g = this, p = this.options;
+                this.set({
+                    contextmenu: true
+                });
+                g.tab.menu = $.ligerMenu({ width: 100, items: [
+                        { text: p.closeMessage, id: 'close', click: function ()
+                        {
+                            g._menuItemClick.apply(g, arguments);
+                        }
+                        },
+                        { text: p.closeOtherMessage, id: 'closeother', click: function ()
+                        {log(arguments);
+                            g._menuItemClick.apply(g, arguments);
+                        }
+                        },
+                        { text: p.closeAllMessage, id: 'closeall', click: function ()
+                        {
+                            g._menuItemClick.apply(g, arguments);
+                        }
+                        },
+                        { text: p.reloadMessage, id: 'reload', click: function ()
+                        {
+                            g._menuItemClick.apply(g, arguments);
+                        }
+                        }
+                    ]
+                });
+                $("li", g.tab.links).each(function ()
+            {
+                g._addTabItemEvent($(this));
+            });
+                }
         });
 
         $('#tree').ligerTree({
+            isExpand: false,
             url: '../get_tree.php',
             textFieldName: 'menu_name',
             idFieldName: 'menu_id',
             parentIDFieldName: 'parent_id',
             //treeLine: false,
+            btnClickToToggleOnly: false,
+            needCancel: false,
             nodeWidth: 120,
             single: true,
             checkbox: false,
             height: 120,
             onSelect: function (node) {
-                var tabid = $(node.target).attr('tabid');
+                var data        = node.data,
+                    controller  = data.controller
+                    action      = data.action;
 
-                if (!tabid) {
-                    tabid = new Date().getTime();
-                    $(node.target).attr('tabid', tabid)
+                    $(node.target)
+                    .parents('ul.l-children:not(:visible)')
+                    .prev('div.l-body')
+                    .find('.l-expandable-close')
+                    .click();
+
+                if ('#' == action) {
                 }
-
-                addTab(tabid, node.data.menu_name, node.data.url);
+                else {
+                    addTab(controller + action, data.menu_name, data.url);
+                }
+            },
+            onBeforeSelect0: function(data) {
+                return '#' != data.data.action;
             }
         });
 
         $('#left').ligerAccordion({
-            height: height
+            height: height,onRendered:log
         });
 
 
         var tab = $('#main').ligerGetTabManager(),
         accordion = $('#left').ligerGetAccordionManager(),
-        tree = $('tree').ligerGetTreeManager();
+        tree = $('#tree').ligerGetTreeManager();
 
     </script>
 </body>
