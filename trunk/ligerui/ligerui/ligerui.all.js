@@ -16626,7 +16626,7 @@
             var parentTreeNode = g.getParentTreeItem(treenode, level);
             if (!parentTreeNode) return null;
             var parentIndex = $(parentTreeNode).attr("treedataindex");
-            return g._getDataNodeByTreeDataIndex(parentIndex);
+            return g._getDataNodeByTreeDataIndex(this.data, parentIndex);
         },
         //获取父节点
         getParentTreeItem: function (treenode, level)
