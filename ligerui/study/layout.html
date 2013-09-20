@@ -36,6 +36,25 @@
     </div>
     <script>
 
+        $.extend($.ligerMethos.Tab, {
+            _activeTab: function() {
+                log(this);return;
+                var g = this;
+                var from = g.tab.links.ul.find(">li[tabid=" + fromTabItemID + "]");
+                var to = g.tab.links.ul.find(">li[tabid=" + toTabItemID + "]");
+                var index1 = g.tab.links.ul.find(">li").index(from);
+                var index2 = g.tab.links.ul.find(">li").index(to);
+                if (index1 < index2)
+                {
+                    to.after(from);
+                }
+                else
+                {
+                    to.before(from);
+                }
+            }
+        });
+
         function addTab(tabid,text, url) {
             tab.addTabItem({tabid : tabid,text: text, content: text});
         }
@@ -88,6 +107,12 @@
             {
                 g._addTabItemEvent($(this));
             });
+                },
+                onBeforeSelectTabItem: function() {
+                    log(this.selectedTabId, arguments);
+                },
+                onAfterSelectTabItem: function() {
+                    log(this.selectedTabId, arguments);
                 }
         });
 
@@ -104,7 +129,7 @@
             single: true,
             checkbox: false,
             height: 120,
-            onSelect: function (node) {
+            onSelect: function (node) {tab._activeTab(node);
                 var data        = node.data,
                     controller  = data.controller
                     action      = data.action;
