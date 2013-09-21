@@ -41,6 +41,12 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
         _controllerObj: {},
 
         /**
+         * @var {object} _ligerTab ligerTab对象
+         *
+         */
+        _ligerTab: null,
+
+        /**
          * 检测所有标签中是否包含有指定标签
          *
          * @author          mrmsl <msl-138@163.com>
@@ -109,58 +115,27 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
          *
          * @return {void} 无返回值
          */
-        addTab: function(menu_id) {
+        addTab: function(controller, action) {
+            controller  = controller || C;
+            action      = action || A;
             Alert('加载中，请稍后...', 'loading', false, false);
-            var menuData    = require('tree').get('_treeData')[menu_id],
+            var menuData    = require('tree').getData(controller, action),
                 controller  = menuData.controller,
-                action      = menuData.action,
-                tabIndex    = this._el.tabs('tabIndex', controller);
+                action      = menuData.action;
 
-            this._currentTab = menuData;
-
-            if (-1 == tabIndex) {
-                this._el.tabs('add', {
-                    //onLoad: function() {log(arguments);},
-                    title: menuData.menu_name,
-                    closable: true,
-                    content: '',
-                    //href: 'http://localhost/jeasyui/yablog/study/layout/action.php?c={0}&a={1}'.format(controller, action),
-                    //id: controller + action,
-                    style: {
-                        padding: '8px'
-                    },
-                    options: {
-                        controller: controller,
-                        action: action,
-                        id: menuData.id
-                    }
-                });
+            if (this._ligerTab.isTabItemExist(controller)) {
+                this._ligerTab.setHeader(controller, menuData.menu_name);
+                this._ligerTab.selectTabItem(controller);
             }
             else {
-
-                if (!this._el.tabs('exists', menuData.menu_name)) {
-                    var tab = this._el.tabs('getTab', tabIndex);
-
-                    $.extend(tab.panel('options').options, {
-                        action: action,
-                        id: menuData.menu_id
-                    });
-
-                    this._el.tabs('update', {
-                        tab: this._el.tabs('getTab', tabIndex),
-                        options: {
-                            //href: 'http://localhost/jeasyui/yablog/study/layout/action.php?c={0}&a={1}'.format(controller, action),
-                            //content: menuData.menu_name,
-                            title: menuData.menu_name
-                        }
-                    });
-
-                    this._setActivePanel();
-                }
-                this._el.tabs('select', menuData.menu_name);
+                this._ligerTab.addTabItem({
+                    tabid: controller,
+                    text: menuData.menu_name,
+                    content: menuData.menu_name
+                });
             }
 
-            this._setRecentTabs(controller, action);
+            /*this._setRecentTabs(controller, action);
 
             //相同控制器不同操作，加入最近操作
             if (this._tabCache[controller] && this._tabCache[controller].action != action){
@@ -171,7 +146,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                 controller: controller,
                 action: action,
                 id: menuData.menu_id
-            };
+            };*/
 
             this.loadScript();
         },
@@ -192,12 +167,13 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                 height: $('.l-layout-center').height(),
                 contextmenu: false,
                 onBeforeSelectTabItem: function() {
-                    log('onBeforeSelectTabItem' + this.selectedTabId);
+                    log('onBeforeSelectTabItem' + this.selectedTabId, arguments);
                 },
                 onAfterSelectTabItem: function() {log(this.getSelectedTabItemID());
                     log('onAfterSelectTabItem' + this.selectedTabId);
                 }
             });
+            this._ligerTab = this._el.ligerGetTabManager();
         },//end bootstrap
 
         /**
@@ -232,13 +208,13 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
          *
          * return {void} 无返回值
          */
-        loadScript: function(controller, action) {
+        loadScript: function(controller, action) {return;
             controller  = controller || C;
             action      = action || A;
             Q2O         = querystring2object(getHash());
 
             var me          = this,
-                selected    = this.getSelected(),
+                //selected    = this.getSelected(),
                 callback    = function(o, method) {
                     o[method]();
                     me.setPageTitle();

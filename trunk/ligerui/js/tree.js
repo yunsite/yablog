@@ -24,6 +24,12 @@ define('tree', ['base'], function(require, exports, module) {
         _treeData: {},
 
         /**
+         * @var {object} _ligerTree ligerTree对象
+         *
+         */
+        _ligerTree: null,
+
+        /**
          * 点击事件
          *
          * @author      mrmsl <msl-138@163.com>
@@ -34,39 +40,12 @@ define('tree', ['base'], function(require, exports, module) {
          * return {void} 无返回值
          */
         _onClick: function(data) {
-            var data        = node.data,
-                controller  = data.controller
-                action      = data.action;
 
-            /*$(node.target)
-            .parents('ul.l-children:not(:visible)')
-            .prev('div.l-body')
-            .find('.l-expandable-close')
-            .click();*/
-
-            if ('#' == action) {
+            if (data.children) {
             }
             else {
-                addTab(controller + action, data.menu_name, data.url);
+                require('router').navigate(object2querystring(data.queryParams), true);
             }
-            global('clickMenu', true);
-
-            var target  = v.target,
-                isLeaf  = this._el.tree('isLeaf', target);
-
-            if (isLeaf) {
-                var id          = v.id,
-                    data        = this._treeData[id],
-                    router      = require('router');
-
-                router.navigate(object2querystring(data.queryParams), true);
-                //router.router(data.controller, data.action);
-            }
-            else {
-                this._el.tree('toggle', target);
-            }
-
-            global('clickMenu', false);
         },
 
         /**
@@ -95,22 +74,57 @@ define('tree', ['base'], function(require, exports, module) {
                 single: true,
                 checkbox: false,
                 height: 120,
+                onSuccess: function(data) {
+                    $.each(data, function(index, item) {
+                        var controller  = item.controller,
+                            action      = item.action;
+
+                        item.queryParams = {
+                            controller: controller,
+                            action: action
+                        };
+                        me._treeData[item['menu_id']] = item;
+                        me._treeData[controller + action] = item['menu_id'];
+                    });
+
+                    require('router').notifyTreeLoaded();
+                },
                 onClick: function (node) {
+                    global('clickTree', true);
                     me._onClick(node.data, node.target);
+                    global('clickTree', false);
+                },
+                onAfterAppend: function (node) {
                 }
             });
+
+            this._ligerTree = this._el.ligerGetTreeManager();
         },
 
         /**
-         *
+         * 获取树节点数据
          *
          * @author      mrmsl <msl-138@163.com>
-         * @date        2013-08-01 17:07:10
+         * @date        2013-09-21 15:33:49
          *
-         * return {function} $.fn.tree
+         * @param {mixed} index 索引
+         *
+         * return {object} index为空,返回整个_treeData;index为数字或controller+arguments[1],返回指定索引数据
          */
-        getSelected: function() {
-            return this._el.tree('getSelected');
+        getData: function(index) {
+
+            if (!index) {//整个_treeData
+                return this._treeData;
+            }
+            else if (intval(index)) {//id
+                return this._treeData[index];
+
+            }
+            else if (2 == arguments.length) {
+                index += arguments[1];
+            }
+
+            return this._treeData[this._treeData[index]];
         }
     });
 

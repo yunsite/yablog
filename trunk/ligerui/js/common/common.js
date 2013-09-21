@@ -98,7 +98,7 @@ function Alert(msg, success, cancel, timeout) {
                 position: 'absolute',
                 padding: '4px 8px',
                 'font-size': '13px'
-            }).appendTo('body').hide();
+            }).appendTo($('#layout')).hide();
         }
         else {
             div.html(msg).width('auto').css({
