@@ -1,3 +1,15 @@
+/**
+ * 底层库
+ *
+ * @file            base.js
+ * @version         0.1
+ * @copyright       Copyright (c) 2013 {@link http://www.yablog.cn yablog} All rights reserved
+ * @license         http://www.apache.org/licenses/LICENSE-2.0.html Apache License 2.0
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-09-21 11:41:50
+ * @lastmodify      $Date$ $Author$
+ */
+
 define('base', ['router'], function(require, exports, module) {
     var BASE = Base.extend({
         /**
@@ -11,111 +23,6 @@ define('base', ['router'], function(require, exports, module) {
          * var {object} _pageTitle 网站标题缓存
          */
         _pageTitle: {},
-
-        /**
-         * var {object} _self 本类实例引用
-         */
-        _self: null,
-
-        /**
-         * var {object} [_datagridOptions=null] _datagrid options
-         */
-        _datagridOptions: null,
-
-        /**
-         * datagrid列表
-         *
-         * @author          mrmsl <msl-138@163.com>
-         * @date            2013-09-05 14:37:16
-         *
-         * @param {object} defaults 默认datagrid options
-         * @param {mixed} callback 回调,callback=true将设置toolbar搜索值
-         *
-         * return {void} 无返回值
-         */
-        _datagrid: function(defaults, callback) {
-            var tabs        = require('tabs'),
-                selectedTab = tabs.getSelected(),
-                toolbar     = selectedTab.find('#tb-' + ID),
-                grid        = tabs.get('_el').find('#grid-' + ID);
-
-            TREE_DATA._prevQueryParams = _.clone(TREE_DATA.queryParams);
-
-            var page        = intval(Q2O.page || 1),
-                pagesize    = {
-                pageNumber: page,
-                pageSize: Q2O.page_size || 20
-            };
-
-            $.extend(TREE_DATA.queryParams, defaults);
-
-            if (global('FIRST_LOAD')) {
-                $.extend(this._datagridOptions, pagesize, {sortName: defaults.sort, sortOrder: defaults.order});
-                $.extend(this._datagridOptions.queryParams, TREE_DATA.queryParams);
-                grid.data('data-options', this._datagridOptions);
-                this._setToolbar(selectedTab);
-                grid.datagrid();
-
-                grid.datagrid('getPager').pagination({
-                    onSelectPage: function(page, pageSize) {
-                        $.extend(grid.datagrid('options'), {
-                            pageNumber: page
-                        });
-                        $.extend(grid.datagrid('getPager').pagination('options'), {
-                            pageNumber: page
-                        });
-
-                        $.extend(TREE_DATA.queryParams, {
-                            page: page
-                        });
-
-                        require('router').navigate(object2querystring(TREE_DATA.queryParams));
-                        grid.datagrid('reload');
-                    },
-                    showPageList: false
-                });
-            }
-            else if(object2querystring(TREE_DATA._prevQueryParams) != object2querystring(TREE_DATA.queryParams)) {
-                $.extend(grid.datagrid('options'), pagesize, {sortName: defaults.sort, sortOrder: defaults.order});
-                $.extend(grid.datagrid('options').queryParams, TREE_DATA.queryParams);
-                $.extend(grid.datagrid('getPager').pagination('options'), pagesize);
-                grid.datagrid('getPager').pagination('select', pagesize.pageNumber);
-
-                grid.data('datagrid').dc.header2
-                .find('tr.datagrid-header-row')
-                    .find('div.datagrid-cell')
-                    .removeClass('datagrid-sort-asc datagrid-sort-desc')
-                .end()
-                .find('td[field=' + defaults.sort + ']')
-                    .find('div.datagrid-cell')
-                    .addClass('datagrid-sort-' + defaults.order);
-            }
-            else if (global('contextmenu_refresh')) {
-                grid.datagrid('reload');
-            }
-
-            if (callback && !global('contextmenu_refresh')) {
-
-                if (true === callback) {
-
-                    $.each(toolbar.children('input[data-jeasyui]'), function(index, item) {//搜索框y值
-                        var me      = $(this),
-                            name    = me.attr('data-name'),
-                            type    = me.attr('data-jeasyui');
-
-                        if (me.attr('data-multiple')) {
-                            me[type]('setValues', defaults[name].split(','));
-                        }
-                        else {
-                            me[type]('setValue', defaults[name]);
-                        }
-                    });
-                }
-                else {
-                    callback();
-                }
-            }
-        },//end _datagrid
 
         /**
          * 渲染时间
@@ -178,7 +85,7 @@ define('base', ['router'], function(require, exports, module) {
          * return {void} 无返回值
          */
         constructor: function() {
-            this._self = this;
+            this.bootstrap && this.bootstrap();
         },
 
         /**
@@ -233,7 +140,7 @@ define('base', ['router'], function(require, exports, module) {
          *
          * @return {object} this
          */
-        setPageTitle: function(controller, action) {
+        setPageTitle: function(controller, action) {return '';
             controller  = controller || C || _GET('controller');
             action      = action || A || _GET('action');
 
