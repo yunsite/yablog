@@ -1,3 +1,15 @@
+/**
+ * nf
+ *
+ * @file            tree.js
+ * @version         0.1
+ * @copyright       Copyright (c) 2013 {@link http://www.yablog.cn yablog} All rights reserved
+ * @license         http://www.apache.org/licenses/LICENSE-2.0.html Apache License 2.0
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-09-21 11:45:37
+ * @lastmodify      $Date$ $Author$
+ */
+
 define('tree', ['base'], function(require, exports, module) {
     var Base    = require('base');
     var Tree    = Base.extend({
@@ -12,62 +24,31 @@ define('tree', ['base'], function(require, exports, module) {
         _treeData: {},
 
         /**
-         * 继承$.fn.tree.methods
-         *
-         * @author          mrmsl <msl-138@163.com>
-         * @date            2013-08-01 15:06:08
-         *
-         * return {void} 无返回值
-         */
-        _extendMethods: function() {
-            var me = this;
-
-            $.extend($.fn.tree.methods, {
-                /**
-                 * 根据控制器及操作方法查找树节点信息
-                 *
-                 * @author          mrmsl <msl-138@163.com>
-                 * @date            2013-09-02 16:26:34
-                 *
-                 * @param {object} jq jquery对象
-                 * @param {array} controllerAction [controller: action]}
-                 *
-                 * return {mixed} 如果节点存在，返回节点信息，否则null
-                 */
-                findByControllerAction: function(jq, controllerAction) {
-                    var node        = null,
-                        controller  = controllerAction[0],
-                        action      = controllerAction[1],
-                        index       = 'findByControllerAction' + controllerAction + action,
-                        o           = global(index);
-
-                    if (!o) {
-
-                        $.each(me._treeData, function(index, item) {
-
-                            if (item.controller == controller && item.action == action) {
-                                node = item;
-                                return false;
-                            }
-                        });
-
-                        global(index, node);
-                    }
-
-                    return global(index);
-                }
-            });
-        },
-
-        /**
          * 点击事件
          *
          * @author      mrmsl <msl-138@163.com>
          * @date        2013-08-01 17:06:45
          *
+         * @param {object} data
+         *
          * return {void} 无返回值
          */
-        _onClick: function(v) {
+        _onClick: function(data) {
+            var data        = node.data,
+                controller  = data.controller
+                action      = data.action;
+
+            /*$(node.target)
+            .parents('ul.l-children:not(:visible)')
+            .prev('div.l-body')
+            .find('.l-expandable-close')
+            .click();*/
+
+            if ('#' == action) {
+            }
+            else {
+                addTab(controller + action, data.menu_name, data.url);
+            }
             global('clickMenu', true);
 
             var target  = v.target,
@@ -99,41 +80,25 @@ define('tree', ['base'], function(require, exports, module) {
         bootstrap: function() {
             var me = this;
 
-            this._extendMethods();
-
-            $('#tree-panel').append('<ul id="tree"></ul>');
             this._el = $('#tree');
-            this._el.addClass('easyui-tree')
-            .data('data-options', {
-                url: '../get_tree.php',
-                lines: false,
-                onClick: function(v) {
-                    me._onClick(v);
-                },
-                formatter: function(node) {
-                    node.queryParams = {
-                        controller: node.controller,
-                        action: node.action
-                    };
-                    me._treeData[node.menu_id] = node;
-                    return node.menu_name;
-                },
-                onLoadSuccess: function() {
-                    require('router').notifyTreeLoaded();
-                }
-            }).tree();
-        },
 
-        /**
-         * 构造函数
-         *
-         * @author      mrmsl <msl-138@163.com>
-         * @date        2013-08-01 15:23:08
-         *
-         * return {void} 无返回值
-         */
-        constructor: function() {
-            this.base();
+            this._el.ligerTree({
+                isExpand: false,
+                url: '../get_tree.php',
+                textFieldName: 'menu_name',
+                idFieldName: 'menu_id',
+                parentIDFieldName: 'parent_id',
+                btnClickToToggleOnly: false,
+                attribute: ['menu_id', 'controller', 'action'],
+                needCancel: false,
+                nodeWidth: 120,
+                single: true,
+                checkbox: false,
+                height: 120,
+                onClick: function (node) {
+                    me._onClick(node.data, node.target);
+                }
+            });
         },
 
         /**
@@ -149,9 +114,5 @@ define('tree', ['base'], function(require, exports, module) {
         }
     });
 
-    var tree = new Tree();
-
-    tree.bootstrap();
-
-    module.exports = tree;
+    module.exports = new Tree();
 });

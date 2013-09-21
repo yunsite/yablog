@@ -1,3 +1,15 @@
+/**
+ * 全局库
+ *
+ * @file            global.js
+ * @version         0.1
+ * @copyright       Copyright (c) 2013 {@link http://www.yablog.cn yablog} All rights reserved
+ * @license         http://www.apache.org/licenses/LICENSE-2.0.html Apache License 2.0
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-09-21 11:38:56
+ * @lastmodify      $Date$ $Author$
+ */
+
 var A,
     C,
     ID,
@@ -6,7 +18,7 @@ var A,
     UEDITOR_HOME_URL = 'http://localhost/ueditor/';
 
 seajs.config({
-    base: 'http://localhost/jeasyui/yablog/study/layout/js/',
+    base: 'http://localhost/ligerui/yablog/js/',
     map: [
         [/\.js$/, '.js?' + Math.random()]
     ],
@@ -16,11 +28,40 @@ seajs.config({
     }
 });
 
-seajs.use(['tabs', 'tree', 'router'], function(a, b, c) {
-    //log(a, b, c);
+$(function() {
+    bootstrap();
+
+    seajs.use(['tabs', 'tree', 'router'], function(a, b, c) {
+        //log(a, b, c);
+    });
 });
 
+/**
+ * 启动
+ *
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-09-21 12:50:15
+ *
+ * return {void} 无返回值
+ */
+function bootstrap() {
+    $('#layout').ligerLayout({
+        leftWidth: 200,
+        height: '100%',
+        onHeightChanged: function(options) {
 
+            if (accordion && options.middleHeight > 0) {
+                accordion.setHeight(options.middleHeight);
+            }
+        }
+    });
+
+    $('#left').ligerAccordion({
+        height: $('.l-layout-center').height()
+    });
+
+     var accordion = $('#left').ligerGetAccordionManager();
+}
 
 /**
  * 获取location.hash
@@ -35,51 +76,6 @@ function getHash() {
 
     return match ? match[1] : '';
 }
-
-/**
- * 将object转化为html代码
- *
- * @author          mrmsl <msl-138@163.com>
- * @date            2013-08-08 16:32:15
- *
- * @param {array} object 待转化object
- *
- * @return {string} 转化后的html代码
- */
-function object2html(object) {
-    var arr     = [],
-        object  = 'array' == $.type(object) ? object : [object];
-
-    $.each(object, function(key, value) {
-
-        if ('string' == $.type(value)) {
-            arr.push(value);
-        }
-        else {
-            var tag     = value.tag || 'div';
-
-            delete value.tag;
-
-            arr.push('<', tag);
-
-            $.each(value, function(k, v) {
-                 0 != k.indexOf('_') && arr.push(' ', k, '="', v, '"');
-            });
-
-            if (value._begin) {
-                arr.push('>');
-            }
-            else if ('input' == tag) {
-                arr.push(' />');
-            }
-            else {
-                arr.push('>', undefined === value._text ? '' : value._text, '</', tag, '>');
-            }
-        }
-    });
-
-    return arr.join('');
-}//end object2html
 
 /**
  * 将object转化为url格式字符串
@@ -137,22 +133,4 @@ function querystring2object(querystring) {
     });
 
     return object;
-}
-
-/**
- * 设置控制器C,操作方法A
- *
- * @author          mrmsl <msl-138@163.com>
- * @date            2013-09-13 13:38:16
- *
- * @param {mixed} hash hash或_treeData[id].queryParams
- *
- * @return {void} 无返回值
- */
-function setCA(hash) {
-    hash    = hash || getHash();
-    Q2O     = 'string' == typeof(hash) ? querystring2object(hash) : hash;
-    C       = Q2O.controller;
-    A       = Q2O.action;
-    ID      = C + A;
 }

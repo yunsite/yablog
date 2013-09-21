@@ -12,12 +12,14 @@
     </style>
     <script src="../js/common/jquery-1.9.1.min.js"></script>
     <script src="../ligerui/ligerui.all.js"></script>
-    <script src="../js/common/global.js"></script>
+    <script src="../js/common/common.js"></script>
     <script src="../js/common/json2.js"></script>
     <script src="../js/common/base.js"></script>
     <script src="../js/common/underscore.js"></script>
     <script src="../js/common/backbone.js"></script>
     <script src="../js/common/sea-2.1.1-debug.js" id="seajsnode"></script>
+    <script src="../js/ligerui.overrides.js" id="seajsnode"></script>
+    <script src="../js/global.js"></script>
 </head>
 <body style="">
     <div id="layout" style="width: 99.2%; margin: 0 auto;">
@@ -28,138 +30,11 @@
                 </ul>
                 </div>
         </div>
-        <div position="center" id="main">
+        <div position="center" id="tabs">
             <div title="管理中心">
                 管理中心
             </div>
         </div>
     </div>
-    <script>
-
-        $.extend($.ligerMethos.Tab, {
-            _activeTab: function() {
-                log(this);return;
-                var g = this;
-                var from = g.tab.links.ul.find(">li[tabid=" + fromTabItemID + "]");
-                var to = g.tab.links.ul.find(">li[tabid=" + toTabItemID + "]");
-                var index1 = g.tab.links.ul.find(">li").index(from);
-                var index2 = g.tab.links.ul.find(">li").index(to);
-                if (index1 < index2)
-                {
-                    to.after(from);
-                }
-                else
-                {
-                    to.before(from);
-                }
-            }
-        });
-
-        function addTab(tabid,text, url) {
-            tab.addTabItem({tabid : tabid,text: text, content: text});
-        }
-
-        $('#layout').ligerLayout({
-            leftWidth: 200,
-            height: '100%',
-            onHeightChanged: function(options) {
-
-                if (accordion && options.middleHeight > 0) {
-                    accordion.setHeight(options.middleHeight);
-                }
-            }
-        });
-
-        var height = $('.l-layout-center').height();
-
-        $('#main').ligerTab({
-            height: height,
-            contextmenu: false,
-            onRendered: function() {
-                var g = this, p = this.options;
-                this.set({
-                    contextmenu: true
-                });
-                g.tab.menu = $.ligerMenu({ width: 100, items: [
-                        { text: p.closeMessage, id: 'close', click: function ()
-                        {
-                            g._menuItemClick.apply(g, arguments);
-                        }
-                        },
-                        { text: p.closeOtherMessage, id: 'closeother', click: function ()
-                        {log(arguments);
-                            g._menuItemClick.apply(g, arguments);
-                        }
-                        },
-                        { text: p.closeAllMessage, id: 'closeall', click: function ()
-                        {
-                            g._menuItemClick.apply(g, arguments);
-                        }
-                        },
-                        { text: p.reloadMessage, id: 'reload', click: function ()
-                        {
-                            g._menuItemClick.apply(g, arguments);
-                        }
-                        }
-                    ]
-                });
-                $("li", g.tab.links).each(function ()
-            {
-                g._addTabItemEvent($(this));
-            });
-                },
-                onBeforeSelectTabItem: function() {
-                    log(this.selectedTabId, arguments);
-                },
-                onAfterSelectTabItem: function() {
-                    log(this.selectedTabId, arguments);
-                }
-        });
-
-        $('#tree').ligerTree({
-            isExpand: false,
-            url: '../get_tree.php',
-            textFieldName: 'menu_name',
-            idFieldName: 'menu_id',
-            parentIDFieldName: 'parent_id',
-            //treeLine: false,
-            btnClickToToggleOnly: false,
-            needCancel: false,
-            nodeWidth: 120,
-            single: true,
-            checkbox: false,
-            height: 120,
-            onSelect: function (node) {tab._activeTab(node);
-                var data        = node.data,
-                    controller  = data.controller
-                    action      = data.action;
-
-                    $(node.target)
-                    .parents('ul.l-children:not(:visible)')
-                    .prev('div.l-body')
-                    .find('.l-expandable-close')
-                    .click();
-
-                if ('#' == action) {
-                }
-                else {
-                    addTab(controller + action, data.menu_name, data.url);
-                }
-            },
-            onBeforeSelect0: function(data) {
-                return '#' != data.data.action;
-            }
-        });
-
-        $('#left').ligerAccordion({
-            height: height,onRendered:log
-        });
-
-
-        var tab = $('#main').ligerGetTabManager(),
-        accordion = $('#left').ligerGetAccordionManager(),
-        tree = $('#tree').ligerGetTreeManager();
-
-    </script>
 </body>
 </html>

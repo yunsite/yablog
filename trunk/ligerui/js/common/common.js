@@ -1,4 +1,13 @@
-//字符串格式化输出
+/**
+ * 通用库
+ *
+ * @file            common.js
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-09-21 11:37:15
+ * @lastmodify      $Date$ $Author$
+ */
+
+ //字符串格式化输出
 String.prototype.format = function() {
 
     if (typeof arguments[0] == 'object') {//json形，如'a{a}b{b}'.format({a: 'a', b: 'b'}) => aabb
@@ -227,23 +236,6 @@ function log() {
             console.log(arguments[i]);
         }
     }
-}
-
-/**
- * 标红搜索关键字
- *
- * @author          mrmsl <msl-138@163.com>
- * @date            2012-08-11 17:02:39
- * @lastmodify      2013-01-14 11:00:20 by mrmsl
- *
- * @protected
- *
- * @param {String} v      值
- * @param {String} [column] 字段
- *
- * @return {String} 搜索关键字标红的字段值
- */
-function replace(needle, column, stripTags) {
 }
 
 /**
