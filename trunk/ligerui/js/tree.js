@@ -14,24 +14,24 @@ define('tree', ['base'], function(require, exports, module) {
     var Base    = require('base');
     var Tree    = Base.extend({
         /**
-         * var {object} [_el=null] ±êÇ©À¸jquery¶ÔÏó
+         * var {object} [_el=null] æ ‡ç­¾æ jqueryå¯¹è±¡
          */
         _el: null,
 
         /**
-         * var {object} [_treeData={}] ²Ëµ¥½ÚµãÊı¾İ
+         * var {object} [_treeData={}] èœå•èŠ‚ç‚¹æ•°æ®
          */
         _treeData: {},
 
         /**
-         * µã»÷ÊÂ¼ş
+         * ç‚¹å‡»äº‹ä»¶
          *
          * @author      mrmsl <msl-138@163.com>
          * @date        2013-08-01 17:06:45
          *
          * @param {object} data
          *
-         * return {void} ÎŞ·µ»ØÖµ
+         * return {void} æ— è¿”å›å€¼
          */
         _onClick: function(data) {
             var data        = node.data,
@@ -70,12 +70,12 @@ define('tree', ['base'], function(require, exports, module) {
         },
 
         /**
-         * Æô¶¯
+         * å¯åŠ¨
          *
          * @author      mrmsl <msl-138@163.com>
          * @date        2013-08-01 15:21:41
          *
-         * return {void} ÎŞ·µ»ØÖµ
+         * return {void} æ— è¿”å›å€¼
          */
         bootstrap: function() {
             var me = this;
