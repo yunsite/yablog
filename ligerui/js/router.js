@@ -18,9 +18,9 @@ define('router', [], function(require, exports, module) {
         _routerRegexp: /^$|controller=(\w+)&action=(\w+)/,
 
         /**
-         * var {bool} [treeLoaded=false] true导航树已经加载完成
+         * var {bool} [_treeLoaded=false] true导航树已经加载完成
          */
-        treeLoaded: false,
+        _treeLoaded: false,
 
         /**
          * 首页
@@ -31,8 +31,10 @@ define('router', [], function(require, exports, module) {
          * return {void} 无返回值
          */
         index: function() {
-            require('tabs').get('_el').tabs('select', 0);
-            require('tree').setPageTitle('none', 'none').get('_el').tree('select', '__none__');
+            var tree = require('tree');
+            tree.get('_el').find('div.l-body.l-selected').removeClass('l-selected');
+            require('tabs').get('_ligerTab').selectTabItem('index');
+            tree.setPageTitle('none', 'none');
             this.navigate('');
         },
 
@@ -58,8 +60,8 @@ define('router', [], function(require, exports, module) {
          */
         notifyTreeLoaded: function() {
 
-            if (!this.treeLoaded) {
-                this.treeLoaded = true;
+            if (!this._treeLoaded) {
+                this._treeLoaded = true;
                 this.router(null);
             }
         },
@@ -80,7 +82,7 @@ define('router', [], function(require, exports, module) {
             if (null === controller) {
 
                 if ('' === hash) {
-                    this.index();
+                    //this.index();
                     return;
                 }
 
@@ -94,31 +96,21 @@ define('router', [], function(require, exports, module) {
                 action = match[2];
             }
 
-            var tree    = require('tree'),
-                el      = tree.get('_el'),
-                node    = el.tree('findByControllerAction', [controller, action]);
+            if (!global('clickTree')) {
+                var tree    = require('tree'),
+                    data    = tree.getData(controller + action);
 
-            if (node) {
-                TREE_DATA   = node;
-                C = controller;
-                A = action;
-                ID = C + A;
-                node = el.tree('find', node.menu_id);
-                el.tree('select', node.target);
-                el.tree('expandTo', node.target);
-
-                if (!global('clickMenu')) {
-                    global('clickMenu', false);
-                    /*$('#tree-panel').animate({
-                        scrollTop: $(node.target).offset().top - 30
-                    }, 500);*/
+                if (!data) {
+                    return this.index();
                 }
 
-                require('tabs').addTab(node.id);
+                tree.get('_ligerTree').selectNode(data.menu_id);
             }
-            else {
-                this.index()
-            }
+
+            C = controller;
+            A = action;
+            ID = C + A;
+            require('tabs').addTab();
         }//end router
     });
 
