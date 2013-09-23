@@ -31,10 +31,13 @@ define('router', [], function(require, exports, module) {
          * return {void} 无返回值
          */
         index: function() {
-            var tree = require('tree');
+            var tree    = require('tree'),
+                tab     = require('tabs').get('_ligerTab');
+
             tree.get('_el').find('div.l-body.l-selected').removeClass('l-selected');
-            require('tabs').get('_ligerTab').selectTabItem('index');
-            tree.setPageTitle('none', 'none');
+            'index' != tab.getSelected().attr('tabid') && tab.selectTabItem('index');
+
+            tree.setPageTitle('index', 'index');
             this.navigate('');
         },
 
@@ -82,7 +85,7 @@ define('router', [], function(require, exports, module) {
             if (null === controller) {
 
                 if ('' === hash) {
-                    //this.index();
+                    this.index();
                     return;
                 }
 
@@ -101,16 +104,14 @@ define('router', [], function(require, exports, module) {
                     data    = tree.getData(controller + action);
 
                 if (!data) {
-                    return this.index();
+                    return $.ligerDialog.error('非法操作');
+                    //return this.index();
                 }
 
                 tree.get('_ligerTree').selectNode(data.menu_id);
             }
 
-            C = controller;
-            A = action;
-            ID = C + A;
-            require('tabs').addTab();
+            require('tabs').addTab(controller, action);
         }//end router
     });
 

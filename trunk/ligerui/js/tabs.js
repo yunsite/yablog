@@ -116,22 +116,23 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
          * @return {void} 无返回值
          */
         addTab: function(controller, action) {
-            controller  = controller || C;
-            action      = action || A;
+            C = controller;
+            A = action;
+            ID = C + A;
+            TREE_DATA = require('tree').getData(controller, action)
+
             Alert('加载中，请稍后...', 'loading', false, false);
-            var menuData    = require('tree').getData(controller, action),
-                controller  = menuData.controller,
-                action      = menuData.action;
+            var controller  = TREE_DATA.controller,
+                action      = TREE_DATA.action;
 
             if (this._ligerTab.isTabItemExist(controller)) {
-                this._ligerTab.setHeader(controller, menuData.menu_name);
+                this._ligerTab.setHeader(controller, TREE_DATA.menu_name);
                 this._ligerTab.selectTabItem(controller);
             }
             else {
                 this._ligerTab.addTabItem({
                     tabid: controller,
-                    text: menuData.menu_name,
-                    content: menuData.menu_name
+                    text: TREE_DATA.menu_name
                 });
             }
 
@@ -145,7 +146,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
             this._tabCache[controller] = {
                 controller: controller,
                 action: action,
-                id: menuData.menu_id
+                id: TREE_DATA.menu_id
             };*/
 
             this.loadScript();
@@ -167,10 +168,28 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                 height: $('.l-layout-center').height(),
                 contextmenu: false,
                 onBeforeSelectTabItem: function() {
-                    log('onBeforeSelectTabItem' + this.selectedTabId, arguments);
+                    this._prevSelectedTabId = this.selectedTabId;
+                    log('onBeforeSelectTabItem' + this.selectedTabId);
                 },
-                onAfterSelectTabItem: function() {log(this.getSelectedTabItemID());
-                    log('onAfterSelectTabItem' + this.selectedTabId);
+                onAfterSelectTabItem: function(selectedTabId) {
+                    log('onAfterSelectTabItem');
+                    var router = require('router');
+
+                    if (!global('clickTree') && TREE_DATA) {
+
+                        if ('index' != selectedTabId) {
+                            require('tree').get('_ligerTree').tree.find('li[menu_id=' + TREE_DATA.menu_id + ']')
+                            .parents('ul.l-children:not(:visible)')
+                            .prev('div.l-body')
+                            .children('.l-expandable-close')
+                            .click();
+
+                            getHash() != TREE_DATA.queryParams && router.navigate(object2querystring(TREE_DATA.queryParams), true);
+                        }
+                        else if(this._prevSelectedTabId != selectedTabId) {
+                            router.index();
+                        }
+                    }
                 }
             });
             this._ligerTab = this._el.ligerGetTabManager();
@@ -208,30 +227,46 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
          *
          * return {void} 无返回值
          */
-        loadScript: function(controller, action) {return;
+        loadScript: function(controller, action) {
             controller  = controller || C;
             action      = action || A;
-            Q2O         = querystring2object(getHash());
+            Q2O         = querystring2object(getHash()),
+            selected    = this._ligerTab.getSelected();
 
             var me          = this,
                 //selected    = this.getSelected(),
                 callback    = function(o, method) {
-                    o[method]();
+                    if (o[method]) {
+                        o[method]();
+                    }
+                    else if (o.__call){
+                        o.__call();
+                    }
+                    else {
+                        return $.ligerDialog.error('控制器{0}方法{1}不存在'.format(TEXT.red(controller), TEXT.red(action)));
+                    }
+
                     me.setPageTitle();
                     Alert(null, null, true);
                 };
 
             seajs.use(controller, function(o) {
-                me._controllerObj = o;
-                var method = action + 'Action';
+                if (!o) {
+                    var url = require.resolve(controller)
+                    return $.ligerDialog.error('加载' + TEXT.red(url.split('?').shift()) + '失败')
+                }
 
-                if (selected.children('#' + controller + action).length) {
+                me._controllerObj = o;
+                var method      = action + 'Action',
+                    contentItem = me._ligerTab.tab.content;//.children('.l-tab-content-item[tabid=' + selected.attr('tabid') + ']');
+
+                if (contentItem.children('#' + controller + action).length) {
                     callback(o, method);
                 }
                 else {
-                    $.get('http://localhost/jeasyui/yablog/study/layout/action.php?controller={0}&action={1}'.format(controller, action), function(data) {
+                    $.get('http://localhost/ligerui/yablog/action.php?controller={0}&action={1}'.format(controller, action), function(data) {
                         //$('<div id="' + controller + action + '"></div>').html(data).appendTo(selected);
-                        selected.append(data);
+                        contentItem.append(data);
                         global('FIRST_LOAD', true);
                         callback(o, method);
                         global('FIRST_LOAD', false);

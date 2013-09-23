@@ -12,6 +12,9 @@
 
 if ($.fn.ligerTab) {
     $.extend($.ligerMethos.Tab, {
+        getSelected: function () {
+            return this.tab.links.ul.children('li.l-selected');
+        },
         _activeTab: function() {
             log('_activeTab');return;
             var g = this;

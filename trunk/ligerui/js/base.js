@@ -140,9 +140,9 @@ define('base', ['router'], function(require, exports, module) {
          *
          * @return {object} this
          */
-        setPageTitle: function(controller, action) {return '';
-            controller  = controller || C || _GET('controller');
-            action      = action || A || _GET('action');
+        setPageTitle: function(controller, action) {
+            controller  = controller || C;
+            action      = action || A;
 
             if (arguments[2]) {//手动设置标题
                 document.title = arguments[2];
@@ -152,20 +152,18 @@ define('base', ['router'], function(require, exports, module) {
             else {
 
                 if (!this._pageTitle[controller + action]) {
-                    var tree        = require('tree'),
-                        treeData    = tree.get('_treeData'),
-                        node        = tree.get('_el').tree('findByControllerAction', [controller, action]),
-                        title       = [];
 
-                    if (node) {
-                        $.each(node.node.split(','), function(index, item) {
-                            title.push(treeData[item].text);
+                    if ('index' != controller) {
+                        var treeData    = require('tree').getData();
+                            title       = [];
+                        $.each(TREE_DATA.node.split(','), function(index, item) {
+                            title.push(treeData[item].menu_name);
                         });
-                    }
 
-                    title = title.reverse().join(' - ');
-                    title = strip_tags(title);
-                    this._pageTitle[controller + action] = title;
+                        title = title.reverse().join(' - ');
+                        title = strip_tags(title);
+                        this._pageTitle[controller + action] = title;
+                    }
                 }
 
                 this._origTitle = this._origTitle ? this._origTitle : document.title;
@@ -177,7 +175,7 @@ define('base', ['router'], function(require, exports, module) {
             title.pop();
             title = title.reverse().join(' &raquo; ');
 
-            require('tabs').getSelected().find('.panel-title').html(title);
+            //require('tabs').getSelected().find('.panel-title').html(title);
 
             return this;
         }//end setPageTitle

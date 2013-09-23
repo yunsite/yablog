@@ -1,5 +1,5 @@
 <?php
-require(dirname(__DIR__) . '/common.php');
+require(__DIR__ . '/common.php');
 $controller = $_GET['controller'];
 $action     = $_GET['action'];
 
@@ -14,6 +14,6 @@ if (is_file($file = __DIR__ . '/' . $controller . '.php')) {
     }
 }
 
-echo '<div id="' . $controller . $action . '">';
+echo '<div id="' . $controller . $action . '" tabid="' . $controller . $action . '">';
 var_dump($_GET);
 echo '</div>';
