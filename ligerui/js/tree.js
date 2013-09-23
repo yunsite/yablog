@@ -68,7 +68,7 @@ define('tree', ['base'], function(require, exports, module) {
                 idFieldName: 'menu_id',
                 parentIDFieldName: 'parent_id',
                 btnClickToToggleOnly: false,
-                attribute: ['menu_id', 'controller', 'action'],
+                attribute: ['menu_id', 'controller', 'action', 'node'],
                 needCancel: false,
                 nodeWidth: 120,
                 single: true,

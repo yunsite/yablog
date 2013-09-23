@@ -15,8 +15,24 @@ var A,
     ID,
     TREE_DATA,
     Q2O,
-    UEDITOR_HOME_URL = 'http://localhost/ueditor/';
-
+    UEDITOR_HOME_URL = 'http://localhost/ueditor/',
+    TEXT = {
+        common: function(color, text, extra) {
+            return '<span style="color: {0};{1}">{2}</span>'.format(color, extra || '', text);
+        },
+        red: function(text) {//红
+            return this.common('red', text || '*');
+        },
+        green: function(text) {//绿
+            return this.common('green', text);
+        },
+        gray: function(text, extra) {//灰
+            return this.common('gray', text, extra === undefined ? 'padding-left: 4px;' : '');
+        },
+        strong: function(text, extra) {//strong by mrmsl on 2012-08-28 11:19:36
+            return '<span style="font-weight: bold;{0}">{1}</span>'.format(extra ? extra : '', text);
+        }
+    };
 seajs.config({
     base: 'http://localhost/ligerui/yablog/js/',
     map: [
@@ -61,6 +77,20 @@ function bootstrap() {
     });
 
      var accordion = $('#left').ligerGetAccordionManager();
+}
+
+/**
+ * 获取控制器controller或action名称
+ *
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-09-23 10:50:11
+ *
+ * @parma {string} [ca=controller] c或a
+ *
+ * return {string} 控制器controller或action名称
+ */
+function getCA(ca) {
+    return _GET('a' == ca ? 'action' : 'controller');
 }
 
 /**

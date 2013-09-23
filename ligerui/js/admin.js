@@ -186,6 +186,7 @@ define('admin', ['fields'], function(require, exports, module) {
          * return {void} 无返回值
          */
         listAction: function() {
+            return;
             var defaults = {
                 sort: Q2O.sort || 'admin_id',//排序字段
                 order: Q2O.order || 'DESC',//排序
