@@ -62,6 +62,7 @@ $(function() {
  */
 function bootstrap() {
     $('#layout').ligerLayout({
+        isLeftCollapse: true,
         leftWidth: 200,
         height: '100%',
         onHeightChanged: function(options) {
