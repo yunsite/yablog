@@ -151,19 +151,17 @@ define('base', ['router'], function(require, exports, module) {
             }
             else {
 
-                if (!this._pageTitle[controller + action]) {
+                if ('index' != controller && !this._pageTitle[controller + action]) {
+                    var treeData    = require('tree').getData();
+                        title       = [];
 
-                    if ('index' != controller) {
-                        var treeData    = require('tree').getData();
-                            title       = [];
-                        $.each(TREE_DATA.node.split(','), function(index, item) {
-                            title.push(treeData[item].menu_name);
-                        });
+                    $.each(TREE_DATA.node.split(','), function(index, item) {
+                        title.push(treeData[item].menu_name);
+                    });
 
-                        title = title.reverse().join(' - ');
-                        title = strip_tags(title);
-                        this._pageTitle[controller + action] = title;
-                    }
+                    title = title.reverse().join(' - ');
+                    title = strip_tags(title);
+                    this._pageTitle[controller + action] = title;
                 }
 
                 this._origTitle = this._origTitle ? this._origTitle : document.title;
