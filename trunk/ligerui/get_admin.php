@@ -1,5 +1,5 @@
 <?php
-require(dirname(__DIR__) . '/common.php');
+require(__DIR__ . '/common.php');
 $page   = isset($_POST['page']) ? intval($_POST['page']) : 1;
 $page   = $page > 0 ? $page : 1;
 $size   = isset($_POST['rows']) ? intval($_POST['rows']) : 10;

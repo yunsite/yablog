@@ -186,36 +186,21 @@ define('admin', ['fields'], function(require, exports, module) {
          * return {void} 无返回值
          */
         listAction: function() {
-            return;
-            var defaults = {
-                sort: Q2O.sort || 'admin_id',//排序字段
-                order: Q2O.order || 'DESC',//排序
-                start_date: Q2O.start_date || '',//添加时间,开始
-                end_date: Q2O.end_date || '',//添加时间,结束
-                keyword: Q2O.keyword || '',//关键字
-                role_id: Q2O.role_id || '',//角色id
-                column: Q2O.column || 'username',//搜索字段
-                match_mode: Q2O.match_mode || 'eq',//匹配模式
-                is_lock: undefined === Q2O.is_lock ? -1 : Q2O.is_lock,//锁定状态
-                is_restrict: undefined === Q2O.is_restrict ? -1 : Q2O.is_restrict,//绑定登陆状态
-                page: Q2O.page || 1//页
-            };
-            var callback = function() {
-                require('tabs').getSelected().find('#tb-' + C + A)
-                .children('input[data-name=start_date]')
-                    .datebox('setValue', Q2O.start_date)
-                .end()
-                .children('input[data-name=end_date]')
-                    .datebox('setValue', Q2O.end_date)
-                .end()
-                .children('input[data-name=match_mode]')
-                    .combobox('setValue', Q2O.match_mode || 'eq')
-                .end()
-                .children('input[data-name=keyword]')
-                    .searchbox('setValue', Q2O.keyword)
-            };
-
-            this._datagrid(defaults, callback);
+            require('tabs').get('_ligerTab').tab.content.find('#adminlist').ligerGrid({
+                columns: [
+                { display: '顾客', name: 'admin_id', align: 'left', width: 100, minWidth: 60 },
+                { display: '公司名', name: 'username', minWidth: 120 },
+                { display: '联系名', name: 'realname', minWidth: 140 }
+                ], url: '../get_admin.php',  pageSize:30 ,rownumbers:true,
+                toolbar: { items: [
+                { text: '增加', click: log, icon: 'add' },
+                { line: true },
+                { text: '修改', click: log, icon: 'modify' },
+                { line: true },
+                { text: '删除', click: log }
+                ]
+                }
+            });
         }
     });
 

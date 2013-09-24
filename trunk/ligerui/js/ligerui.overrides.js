@@ -33,3 +33,10 @@ if ($.fn.ligerTab) {
         }
     });
 }
+
+if ($.fn.ligerGrid) {
+    $.extend($.ligerDefaults.Grid, {
+        root: 'data',
+        record: 'total'
+    });
+}
