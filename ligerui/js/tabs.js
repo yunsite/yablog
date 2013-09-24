@@ -119,7 +119,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
             C = controller;
             A = action;
             ID = C + A;
-            TREE_DATA = require('tree').getData(controller, action)
+            TREE_DATA = require('tree').getData(controller, action);
 
             Alert('加载中，请稍后...', 'loading', false, false);
             var controller  = TREE_DATA.controller,
@@ -184,7 +184,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                             .children('.l-expandable-close')
                             .click();
 
-                            getHash() != TREE_DATA.queryParams && router.navigate(object2querystring(TREE_DATA.queryParams), true);
+                            getHash() != object2querystring(TREE_DATA.queryParams) && router.navigate(object2querystring(TREE_DATA.queryParams), true);
                         }
                         else if(this._prevSelectedTabId != selectedTabId) {
                             router.index();
