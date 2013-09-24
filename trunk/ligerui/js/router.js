@@ -23,6 +23,11 @@ define('router', [], function(require, exports, module) {
         _treeLoaded: false,
 
         /**
+         * var {object} _pageTitle 网站标题缓存
+         */
+        _pageTitle: {},
+
+        /**
          * 首页
          *
          * @author      mrmsl <msl-138@163.com>
@@ -37,7 +42,7 @@ define('router', [], function(require, exports, module) {
             tree.get('_el').find('div.l-body.l-selected').removeClass('l-selected');
             'index' != tab.getSelected().attr('tabid') && tab.selectTabItem('index');
 
-            tree.setPageTitle('index', 'index');
+            this.setPageTitle('index', 'index');
             this.navigate('');
         },
 
@@ -101,7 +106,7 @@ define('router', [], function(require, exports, module) {
 
             if (!global('clickTree')) {
                 var tree    = require('tree'),
-                    data    = tree.getData(controller + action);
+                    data    = tree.getData(controller, action);
 
                 if (!data) {
                     return $.ligerDialog.error('非法操作');
@@ -112,7 +117,58 @@ define('router', [], function(require, exports, module) {
             }
 
             require('tabs').addTab(controller, action);
-        }//end router
+        },//end router
+
+        /**
+         * 设置页面标题，参数大于2个将手动设置标题
+         *
+         * @author      mrmsl <msl-138@163.com>
+         * @date        2013-08-01 15:37:08
+         *
+         * @param {string} [controller=C] 控制器
+         * @param {string} [action==A] 操作方法
+         *
+         * @return {object} this
+         */
+        setPageTitle: function(controller, action) {
+            controller  = controller || C;
+            action      = action || A;
+
+            var key = controller + action;
+
+            if (arguments[2]) {//手动设置标题
+                document.title = arguments[2];
+                //添加 => 编辑
+                this._pageTitle[key] = this._pageTitle[key].replace("lang('ADD')", "lang('EDIT')");
+            }
+            else {
+
+                if ('index' != controller && !this._pageTitle[key]) {
+                    var treeData    = require('tree').getData();
+                        title       = [];
+
+                    $.each(TREE_DATA.node.split(','), function(index, item) {
+                        title.push(treeData[item].menu_name);
+                    });
+
+                    title = title.reverse().join(' - ');
+                    title = strip_tags(title);
+                    this._pageTitle[key] = title;
+                }
+
+                this._origTitle = this._origTitle ? this._origTitle : document.title;
+                //编辑 => 添加
+                document.title = this._pageTitle[key] ? (this._pageTitle[key].replace("lang('EDIT')", "lang('ADD')") + ' - ' + this._origTitle) : this._origTitle;
+            }
+
+            /*var title = document.title.split(' - ');
+            title.pop();
+            title = title.reverse().join(' &raquo; ');*/
+
+            //require('tabs').getSelected().find('.panel-title').html(title);
+
+            return this;
+        }//end setPageTitle
     });
 
     Backbone.history.start();

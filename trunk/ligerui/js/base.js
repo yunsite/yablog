@@ -19,10 +19,6 @@ define('base', ['router'], function(require, exports, module) {
             'http://localhost/jeasyui/themes/icons/no.png',
             'http://localhost/jeasyui/themes/icons/ok.png'
         ],
-        /**
-         * var {object} _pageTitle 网站标题缓存
-         */
-        _pageTitle: {},
 
         /**
          * 渲染时间
@@ -127,56 +123,7 @@ define('base', ['router'], function(require, exports, module) {
          */
         set: function(name, value) {
             return this[name] = value;
-        },
-
-        /**
-         * 设置页面标题，参数大于2个将手动设置标题
-         *
-         * @author      mrmsl <msl-138@163.com>
-         * @date        2013-08-01 15:37:08
-         *
-         * @param {string} [controller=C] 控制器
-         * @param {string} [action==A] 操作方法
-         *
-         * @return {object} this
-         */
-        setPageTitle: function(controller, action) {
-            controller  = controller || C;
-            action      = action || A;
-
-            if (arguments[2]) {//手动设置标题
-                document.title = arguments[2];
-                //添加 => 编辑
-                this._pageTitle[controller + action] = this._pageTitle[controller + action].replace("lang('ADD')", "lang('EDIT')");
-            }
-            else {
-
-                if ('index' != controller && !this._pageTitle[controller + action]) {
-                    var treeData    = require('tree').getData();
-                        title       = [];
-
-                    $.each(TREE_DATA.node.split(','), function(index, item) {
-                        title.push(treeData[item].menu_name);
-                    });
-
-                    title = title.reverse().join(' - ');
-                    title = strip_tags(title);
-                    this._pageTitle[controller + action] = title;
-                }
-
-                this._origTitle = this._origTitle ? this._origTitle : document.title;
-                //编辑 => 添加
-                document.title = this._pageTitle[controller + action] ? (this._pageTitle[controller + action].replace("lang('EDIT')", "lang('ADD')") + ' - ' + this._origTitle) : this._origTitle;
-            }
-
-            var title = document.title.split(' - ');
-            title.pop();
-            title = title.reverse().join(' &raquo; ');
-
-            //require('tabs').getSelected().find('.panel-title').html(title);
-
-            return this;
-        }//end setPageTitle
+        }
     });
 
     module.exports = BASE;
