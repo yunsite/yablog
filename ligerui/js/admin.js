@@ -186,19 +186,36 @@ define('admin', ['fields'], function(require, exports, module) {
          * return {void} 无返回值
          */
         listAction: function() {
-            require('tabs').get('_ligerTab').tab.content.find('#adminlist').ligerGrid({
+            require('tabs').get('_ligerTab').tab.content.children('#adminlist').ligerGrid({
+                switchPageSizeApplyComboBox: true,
+                selectRowButtonOnly: true,
+                frozen: false,
+                height: '100%',
+                pageParmName: 'page',
+                pagesizeParmName: 'page_size',
+                sortnameParmName: 'sort',
+                sortorderParmName: 'order',
+                sortName: 'admin_id',
+                sortOrder: 'DESC',
+                width: 0,
                 columns: [
-                { display: '顾客', name: 'admin_id', align: 'left', width: 100, minWidth: 60 },
-                { display: '公司名', name: 'username', minWidth: 120 },
-                { display: '联系名', name: 'realname', minWidth: 140 }
-                ], url: '../get_admin.php',  pageSize:30 ,rownumbers:true,
-                toolbar: { items: [
-                { text: '增加', click: log, icon: 'add' },
-                { line: true },
-                { text: '修改', click: log, icon: 'modify' },
-                { line: true },
-                { text: '删除', click: log }
-                ]
+                    { display: '用户id', name: 'admin_id', align: 'left', width: 100, minWidth: 60 },
+                    { display: '用户名', name: 'username', minWidth: 120 },
+                    { display: '真实姓名', name: 'realname', minWidth: 140 }
+                ],
+                url: '../get_admin.php',
+                pageSize: 30,
+                rownumbers: true,
+                checkbox: true,
+                title: 'admin list',
+                toolbar: {
+                    items: [
+                        { text: '增加', click: log, icon: 'add' },
+                        { line: true },
+                        { text: '修改', click: log, icon: 'modify' },
+                        { line: true },
+                        { text: '删除', click: log }
+                    ]
                 }
             });
         }

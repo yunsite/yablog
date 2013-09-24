@@ -60,9 +60,9 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
             var me          = this
                 o           = this._controllerObj,
                 method      = action + 'Action',
-                contentItem = this._ligerTab.tab.content.children('.l-tab-content-item[tabid=' + selected.attr('tabid') + ']');
+                contentItem = this._ligerTab.tab.content;//.children('.l-tab-content-item[tabid=' + selected.attr('tabid') + ']');
 
-            if (!contentItem.find('#' + controller + action).length) {
+            if (!contentItem.children('#' + controller + action).length) {
                 contentItem.append('<div id="' + controller + action + '"></div>');
             }
 
@@ -259,6 +259,9 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                             router.index();
                         }
                     }
+                },
+                onAfterAddTabItem: function() {
+                    log(this);
                 }
             });
             this._ligerTab = this._el.ligerGetTabManager();
