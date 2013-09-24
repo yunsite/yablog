@@ -2,7 +2,7 @@
 require(__DIR__ . '/common.php');
 $page   = isset($_POST['page']) ? intval($_POST['page']) : 1;
 $page   = $page > 0 ? $page : 1;
-$size   = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+$size   = isset($_POST['page_size']) ? intval($_POST['page_size']) : 10;
 $size   = $size > 0 ? $size : 10;
 $sort   = isset($_POST['sort']) ? $_POST['sort'] : 'admin_id';
 $order  = isset($_POST['order']) ? $_POST['order'] : 'DESC';
