@@ -246,7 +246,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                         return $.ligerDialog.error('控制器{0}方法{1}不存在'.format(TEXT.red(controller), TEXT.red(action)));
                     }
 
-                    me.setPageTitle();
+                    require('router').setPageTitle();
                     Alert(null, null, true);
                 };
 
