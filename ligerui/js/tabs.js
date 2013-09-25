@@ -120,7 +120,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                     if (!o) {
                         var url = require.resolve(controller);
                         Alert(false, false, true);
-                        return $.ligerDialog.error('加载' + TEXT.red(url.split('?').shift()) + '失败')
+                        return $.ligerDialog.error('加载' + TEXT.red(url.split('?').shift()) + '失败');
                     }
 
                     me._controllerObj = o;
