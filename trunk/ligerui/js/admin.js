@@ -255,7 +255,7 @@ define('admin', ['fields'], function(require, exports, module) {
             html.push('         <div class="l-panel-topbar">');
             html.push('            <div class="l-panel-bbar-inner">');
             html.push('                <div class="l-bar-group  l-bar-message"><span class="l-bar-text"></span></div>');
-            html.push('            <div class="l-bar-group operate"><select><option>操作</option><option>删除</option><option>绑定登录</option><option>取消绑定登录</option></select></div>');
+            html.push('            <div class="l-bar-group operate"><div class="l-menubar-item-down"></div></div>');
             html.push('                <div class="l-bar-separator"></div>');
             html.push('                <div class="l-bar-group">');
             html.push('                    <div class="l-bar-button l-bar-btnfirst"><span></span></div>');
@@ -279,7 +279,32 @@ define('admin', ['fields'], function(require, exports, module) {
             html.push('            </div>');
                     this.grid.children('.l-grid-loading').after(html.join(''));
             this.grid.topbar = this.grid.children('.l-panel-topbar').children('.l-panel-bbar-inner');
-            this.grid.topbar.children('.operate').children('select').ligerComboBox({ width: 80 });
+            this.grid.topbar.children('.operate').children('div').ligerToolBar({
+                items: [{
+                    text: '操作',
+                    menu: {
+                        items: [{
+                            text: '删除选中',
+                            title: '删除',
+                            click: function() {
+                                log('click', arguments);
+                                log(this);
+                            }
+                        }, {
+                            text: '绑定登陆',
+                            click: function() {
+                                //log('click', arguments);
+                            }
+                        }, {
+                            text: '解除绑定登陆',
+                            click: function() {
+                                //log('click', arguments);
+                            }
+                        }]
+                    }
+                }]
+            });
+            log(this.grid.topbar.children('.operate').children('div'));
                     /*var toolbar = this.grid.children('.l-panel-topbar');
                     toolbar.children('.menubar').ligerMenuBar({
                         items: [{text: '文件'}]
