@@ -37,6 +37,39 @@ if ($.fn.ligerTab) {
 if ($.fn.ligerGrid) {
     $.extend($.ligerDefaults.Grid, {
         root: 'data',
-        record: 'total'
+        record: 'total',
+        dateFormat: 'Y-m-d H:i:s'
+    });
+    $.extend($.ligerDefaults.Grid.formatters, {
+        date: function(value, column) {
+            return 0 == value ? '' : date(column.dateFormat || this.options.dateFormat, intval(value) * 1000);
+        },
+        yesno: function (value, column) {
+            return '<img alt="" src="' + IMAGES[value] + '" class="img-yesno" />';
+        }
+    });
+    $.extend($.ligerMethos.Grid, {
+        _initBuildHeader: function () {
+            var g = this, p = this.options;
+            if (p.title)
+            {
+                $(".l-panel-header-text", g.header).html(p.title);
+                if (p.headerImg)
+                    g.header.append("<img src='" + p.headerImg + "' />").addClass("l-panel-header-hasicon");
+            }
+            else
+            {
+                g.header.hide();
+            }
+            if (p.toolbar)
+            {
+                //if ($.fn.ligerToolBar)
+                    //g.toolbarManager = g.topbar.ligerToolBar(p.toolbar);
+            }
+            else
+            {
+                g.topbar.parent().remove();
+            }
+        }
     });
 }
