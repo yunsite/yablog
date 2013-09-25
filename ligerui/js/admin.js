@@ -186,7 +186,9 @@ define('admin', ['fields'], function(require, exports, module) {
          * return {void} 无返回值
          */
         listAction: function() {
-            require('tabs').get('_ligerTab').tab.content.children('#adminlist').ligerGrid({
+            var me = this;
+
+            var o = require('tabs').get('_ligerTab').tab.content.children('#adminlist').ligerGrid({
                 switchPageSizeApplyComboBox: true,
                 selectRowButtonOnly: true,
                 frozen: false,
@@ -198,10 +200,16 @@ define('admin', ['fields'], function(require, exports, module) {
                 sortName: 'admin_id',
                 sortOrder: 'DESC',
                 width: 0,
+                fixedCellHeight: false,
                 columns: [
+                    { display: '操作', minWidth: 100, render: function() {
+                        return '<a href="javascript:void(0);">编辑</a> | <a href="javascript:void(0);">删除</a>';
+                    } },
                     { display: '用户id', name: 'admin_id', align: 'left', width: 100, minWidth: 60 },
                     { display: '用户名', name: 'username', minWidth: 120 },
-                    { display: '真实姓名', name: 'realname', minWidth: 140 }
+                    { display: '真实姓名', name: 'realname', minWidth: 140 },
+                    { display: '添加时间', name: 'add_time', type: 'date' },
+                    { display: '绑定登录', name: 'is_restrict', minWidth: 50, type: 'yesno' }
                 ],
                 url: '../get_admin.php',
                 pageSize: 30,
@@ -209,15 +217,46 @@ define('admin', ['fields'], function(require, exports, module) {
                 checkbox: true,
                 title: 'admin list',
                 toolbar: {
-                    items: [
-                        { text: '增加', click: log, icon: 'add' },
-                        { line: true },
-                        { text: '修改', click: log, icon: 'modify' },
-                        { line: true },
-                        { text: '删除', click: log }
-                    ]
+                    items: [{
+                        text: '操作',
+                        menu: {
+                            items: [{
+                                text: '删除选中',
+                                title: '删除',
+                                click: function() {
+                                    log('click', arguments);
+                                    log(this);
+                                }
+                            }, {
+                                text: '绑定登陆',
+                                click: function() {
+                                    //log('click', arguments);
+                                }
+                            }, {
+                                text: '解除绑定登陆',
+                                click: function() {
+                                    //log('click', arguments);
+                                }
+                            }]
+                        }
+                    }]
+                },
+                onRendered: function() {
+
+                    this.grid.bind('click', function(e) {
+                        var target = $(e.target), next = -1 == target.attr('src').indexOf('yes') ? 'yes' : 'no';
+
+                        if (target.is('img.img-yesno')) {
+                            target.attr('src', IMAGES['loading']);
+                            setTimeout(function() {
+                                target.attr('src', IMAGES[next]);
+                            }, 1000);
+                        }
+                    });
                 }
             });
+
+            return o;
         }
     });
 

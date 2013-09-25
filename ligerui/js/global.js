@@ -32,7 +32,16 @@ var A,
         strong: function(text, extra) {//strong by mrmsl on 2012-08-28 11:19:36
             return '<span style="font-weight: bold;{0}">{1}</span>'.format(extra ? extra : '', text);
         }
+    },
+    IMAGES = {
+        yes: 'http://localhost/ligerui/yablog/images/yes.gif',
+        no: 'http://localhost/ligerui/yablog/images/no.gif',
+        loading: 'http://localhost/ligerui/yablog/images/loading.gif'
     };
+
+IMAGES[0] = IMAGES.no;
+IMAGES[1] = IMAGES.yes;
+
 seajs.config({
     base: 'http://localhost/ligerui/yablog/js/',
     map: [
