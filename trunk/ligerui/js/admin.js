@@ -200,6 +200,7 @@ define('admin', ['fields'], function(require, exports, module) {
                 sortName: 'admin_id',
                 sortOrder: 'DESC',
                 width: 0,
+                heightDiff: -30,
                 fixedCellHeight: false,
                 columns: [
                     { display: '操作', minWidth: 100, render: function() {
@@ -215,8 +216,8 @@ define('admin', ['fields'], function(require, exports, module) {
                 pageSize: 30,
                 rownumbers: true,
                 checkbox: true,
-                title: 'admin list',
-                toolbar: {
+                //title: 'admin list',
+                toolbar0: {
                     items: [{
                         text: '操作',
                         menu: {
@@ -239,14 +240,59 @@ define('admin', ['fields'], function(require, exports, module) {
                                 }
                             }]
                         }
+                    }, {
+                        line: true
+                    }, {
+                        text: '<input type="text" placeholder="关键字" name="keyword" />',
+                        click: function() {
+                            log(this);
+                        }
                     }]
                 },
                 onRendered: function() {
+                    var html = [];
 
-                    this.grid.bind('click', function(e) {
-                        var target = $(e.target), next = -1 == target.attr('src').indexOf('yes') ? 'yes' : 'no';
+            html.push('         <div class="l-panel-topbar">');
+            html.push('            <div class="l-panel-bbar-inner">');
+            html.push('                <div class="l-bar-group  l-bar-message"><span class="l-bar-text"></span></div>');
+            html.push('            <div class="l-bar-group operate"><select><option>操作</option><option>删除</option><option>绑定登录</option><option>取消绑定登录</option></select></div>');
+            html.push('                <div class="l-bar-separator"></div>');
+            html.push('                <div class="l-bar-group">');
+            html.push('                    <div class="l-bar-button l-bar-btnfirst"><span></span></div>');
+            html.push('                    <div class="l-bar-button l-bar-btnprev"><span></span></div>');
+            html.push('                </div>');
+            html.push('                <div class="l-bar-separator"></div>');
+            html.push('                <div class="l-bar-group"><span class="pcontrol"> <input type="text" size="4" value="1" style="width:20px" maxlength="3" /> / <span></span></span></div>');
+            html.push('                <div class="l-bar-separator"></div>');
+            html.push('                <div class="l-bar-group">');
+            html.push('                     <div class="l-bar-button l-bar-btnnext"><span></span></div>');
+            html.push('                    <div class="l-bar-button l-bar-btnlast"><span></span></div>');
+            html.push('                </div>');
+            html.push('                <div class="l-bar-separator"></div>');
+            html.push('                <div class="l-bar-group">');
+            html.push('                     <div class="l-bar-button l-bar-btnload"><span></span></div>');
+            html.push('                </div>');
+            html.push('                <div class="l-bar-separator"></div>');
+
+            html.push('                <div class="l-clear"></div>');
+            html.push('            </div>');
+            html.push('            </div>');
+                    this.grid.children('.l-grid-loading').after(html.join(''));
+            this.grid.topbar = this.grid.children('.l-panel-topbar').children('.l-panel-bbar-inner');
+            this.grid.topbar.children('.operate').children('select').ligerComboBox({ width: 80 });
+                    /*var toolbar = this.grid.children('.l-panel-topbar');
+                    toolbar.children('.menubar').ligerMenuBar({
+                        items: [{text: '文件'}]
+                    });
+*/
+                    this.grid.find('.role').ligerComboBox({width: 50});
+                    //this.grid.children('.l-panel-topbar').children('input').ligerTextBox();
+
+                    this.grid.find('#adminlistgrid').bind('click', function(e) {log(e);
+                        var target = $(e.target);
 
                         if (target.is('img.img-yesno')) {
+                            var next = -1 == target.attr('src').indexOf('yes') ? 'yes' : 'no';
                             target.attr('src', IMAGES['loading']);
                             setTimeout(function() {
                                 target.attr('src', IMAGES[next]);

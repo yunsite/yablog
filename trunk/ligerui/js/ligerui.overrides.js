@@ -49,7 +49,7 @@ if ($.fn.ligerGrid) {
         }
     });
     $.extend($.ligerMethos.Grid, {
-        _initBuildHeader: function () {
+        _initBuildHeader0: function () {
             var g = this, p = this.options;
             if (p.title)
             {
@@ -70,6 +70,8 @@ if ($.fn.ligerGrid) {
             {
                 g.topbar.parent().remove();
             }
+        },
+        _setToolbar0: function() {
         }
     });
 }
