@@ -247,47 +247,42 @@ function debug_end($label = 'global', $echo = false) {
  *
  * @param string $name   文件名，不包括.php拓展名
  * @param mixed  $value  文件内容。默认''
- * @param string $path   文件所在目录。默认CACHE_PATH常量
- * @param bool   $reload true重新加载文件。默认false
+ * @param string $path   文件所在目录。默认null=CACHE_PATH常量
  *
  * @return mixed
  */
 //快速文件数据读取和保存 针对简单类型数据 字符串、数组
-function F($name, $value = '', $path = CACHE_PATH, $reload = false) {
+function F($name, $value = '', $path = null) {
     static $_cache = array();
 
-    $filename = $path . $name . '.cache.php';
+    $path       = $path ? $path : CACHE_PATH;
+    $filename   = $path . $name . '.cache.php';
+    $cache_key  = md5($filename);
 
     if ('' !== $value) {
 
         if (is_null($value)) {//删除缓存
-            return is_file($filename) ? unlink($filename) : false;
+            return new_unlink($filename);
         }
         else {//缓存数据
             $dir = dirname($filename);
 
             new_mkdir($dir);//目录不存在则创建
 
-            $_cache[$name] = $value;
+            $_cache[$cache_key] = $value;
 
             return file_put_contents($filename, '<?php' . PHP_EOL . sprintf(AUTO_CREATE_COMMENT, new_date()) . PHP_EOL . 'return ' . var_export($value, true) . ';');
         }
     }
 
     //获取缓存数据
-    if (isset($_cache[$name]) && !$reload) {
-        return $_cache[$name];
+    if (array_key_exists($cache_key, $_cache)) {
+        return $_cache[$cache_key];
     }
 
-    if (is_file($filename)) {
-        $value = include $filename;
-        $_cache[$name] = $value;
-    }
-    else {
-        $value = false;
-    }
+    $_cache[$cache_key] = is_file($filename) ? include($filename) : false;
 
-    return $value;
+    return $_cache[$cache_key];
 }//end F
 
 /**
@@ -1787,7 +1782,7 @@ function htmlquotes($string) {
 function js($files, $include_ext = true, $base_url = '') {
 
     if ('script' === $include_ext) {//js代码 by mrmsl on 2012-09-06 16:51:57
-        return '<script type="text/javascript">' . $files . '</script>' . PHP_EOL;
+        return '<script>' . $files . '</script>' . PHP_EOL;
     }
 
     if ($base_url) {
@@ -1802,7 +1797,7 @@ function js($files, $include_ext = true, $base_url = '') {
     $include_ext && array_unshift($files, 'ext-all' . (IS_LOCAL ? '-debug' : '.min') . '.js');
 
     foreach ($files as $js) {
-        $str .= $js ? PHP_EOL . '<script type="text/javascript" src="' . $base_url . trim($js) . '"></script>' : '';
+        $str .= $js ? PHP_EOL . '<script src="' . $base_url . trim($js) . '"></script>' : '';
     }
 
     return $str . PHP_EOL;
@@ -1945,23 +1940,13 @@ function sys_auth($str, $encode = true, $key = '') {
  * @param string $key        获取字段。默认''
  * @param string $cache_name 缓存文件名。默认''，取System
  * @param string $default    缓存字段不存在默认值。默认''
- * @param string $cache_name 缓存路径。默认MODULE_CACHE_PATH
- * @param bool   $reload     true重新载入缓存。默认false
+ * @param string $cache_name 缓存路径。默认null=MODULE_CACHE_PATH
  *
  * @return mixed 如果未传字段，返回正在缓存;如果字段存在，返回该字段值，否则返回空字符串
  */
-function sys_config($key = '', $cache_name = '', $default = '',  $cache_path = MODULE_CACHE_PATH, $reload = false) {
-    static $_data;
-
+function sys_config($key = '', $cache_name = '', $default = '', $cache_path = null) {
     $cache_name = $cache_name ? $cache_name : 'System';
-
-    if (isset($_data[$cache_name])) {
-        $data = $_data[$cache_name];
-    }
-    else {
-        $data = F($cache_name, '', $cache_path, $reload);
-        $_data[$cache_name] = $data;
-    }
+    $data       = F($cache_name, '', $cache_path ? $cache_path : MODULE_CACHE_PATH);
 
     if ('' === $key) {
         return $data;
