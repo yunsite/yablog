@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>系统提示 - yablog,又一个博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="mrmsl" />
+    
+<link rel="stylesheet" type="text/css" href="http://imgcache.yablog.cn/v0.1/front/css/yablog.css" />
+</head>
+<body><!---->
+<div id="wrap">
+    <!--#include virtual="/v0.1/ssi/navbar.shtml"-->
+<div class="container-fluid">
+    <div class="row-fluid panel">
+        <div class="panel-header">
+            <span class="icon-home"></span>
+            您现在的位置：<a href="http://www.yablog.cn/v0.1/">首页</a>
+             <span class="divider">&raquo;</span>             系统提示        </div>
+        <div class="panel-body hide" id="div-system-information">
+            <div class="system-information">
+                <img class="pull-left" alt="" id="img-information" src="http://imgcache.yablog.cn/common/images/ok.gif" />
+                <div class="text-left pull-left ml-10">
+                    <h4 id="h4-info">您的{0}已经成功，感谢您的参与。</h4><br /><strong>您可以：</strong><ul><li>进入<a href="http://www.yablog.cn/v0.1/">首页</a></li><li>返回<a href="javascript: history.back();" rel="nofollow">上一页</a></li></ul>                </div>
+                <div class="clear-both"></div>
+            </div>
+        </div>
+    </div><!--end row-fluid-->
+</div><!--end container-fluid-->
+
+<script>
+    var ON_LOAD = function () {
+        var success = _GET('success'),
+            type = _GET('type'),
+            div = $('#div-system-information'),
+            h4 = $('#h4-info'),
+            msg;
+
+        if (success) {
+
+            if (-1 == $.inArray(type, ['guestbook', 'comment'])) {
+                location.replace(System.sys_base_site_url + '404.shtml');
+                return;
+            }
+
+            msg = h4.text().replace('{0}', lang(type));
+        }
+        else {
+            h4.css('color', 'red');
+            div.find('#img-information').attr('src', System.sys_base_common_imgcache + 'images/failure.gif');
+            msg = decodeURIComponent(_GET('msg')) || lang('SERVER_ERROR');
+        }
+
+        h4.text(msg);
+        div.show();
+    }
+</script>
+
+</div><!--end #wrap-->
+
+<!--#include virtual="/v0.1/ssi/footer.shtml"-->
+<script>
+    var NAV_ID = 'html';
+    </script>
+
+<script type="text/javascript" src="http://www.yablog.cn/v0.1/static/js/System.js"></script>
+<script type="text/javascript" src="http://www.yablog.cn/v0.1/static/js/lang/admin.zh_cn.js"></script>
+<script src="http://imgcache.yablog.cn/common/js/seajs/sea-2.0.1.js" id="seajsnode" data-main="http://imgcache.yablog.cn/v0.1/front/js/global"></script>
+</body>
+</html>
