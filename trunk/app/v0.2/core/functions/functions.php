@@ -1045,7 +1045,7 @@ function check_verifycode_limit($module, $type = 'error') {
 
                     if ($new_num - $num < 11) {
                         $log = D('Log');
-                        $log && $log->->addLog(L('VERIFY_CODE') . "({$module})" . L(($type == 'error' ? 'ERROR' : 'REFRESH') . ",CN_CISHU,%({$new_num}),EXCEED,LIMIT") . $num, LOG_TYPE_VERIFYCODE_ERROR);
+                        $log && $log->addLog(L('VERIFY_CODE') . "({$module})" . L(($type == 'error' ? 'ERROR' : 'REFRESH') . ",CN_CISHU,%({$new_num}),EXCEED,LIMIT") . $num, LOG_TYPE_VERIFYCODE_ERROR);
                     }
 
                     return false;
