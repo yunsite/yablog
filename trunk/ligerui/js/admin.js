@@ -257,6 +257,8 @@ define('admin', ['fields'], function(require, exports, module) {
             html.push('                <div class="l-bar-group  l-bar-message"><span class="l-bar-text"></span></div>');
             html.push('            <div class="l-bar-group operate"></div>');
             html.push('                <div class="l-bar-separator"></div>');
+            html.push('            <div class="l-bar-group">添加时间从</div>');
+            html.push('                 <div class="l-bar-group"><input type="text" data-type="datetime" size="8" /></div>');
             html.push('                <div class="l-bar-group">');
             html.push('                    <div class="l-bar-button l-bar-btnfirst"><span></span></div>');
             html.push('                    <div class="l-bar-button l-bar-btnprev"><span></span></div>');
@@ -279,6 +281,7 @@ define('admin', ['fields'], function(require, exports, module) {
             html.push('            </div>');
                     this.grid.children('.l-grid-loading').after(html.join(''));
             this.grid.topbar = this.grid.children('.l-panel-topbar').children('.l-panel-bbar-inner');
+            this.grid.topbar.find('input[data-type=datetime]').ligerDateEditor();
             this.grid.topbar.children('.operate').ligerMenuBar({
                 items: [{
                     text: '操作',
