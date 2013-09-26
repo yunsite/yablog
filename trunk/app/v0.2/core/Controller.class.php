@@ -355,6 +355,7 @@ class Controller {
      * @return bool false跨模块,否则true
      */
     public function __construct() {
+        method_exists($this, '_initialize') && $this->_initialize();//控制器初始化
 
         if ($this->_init_model) {//实例对应模型
 
