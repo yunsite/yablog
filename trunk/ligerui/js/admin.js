@@ -279,7 +279,7 @@ define('admin', ['fields'], function(require, exports, module) {
             html.push('            </div>');
                     this.grid.children('.l-grid-loading').after(html.join(''));
             this.grid.topbar = this.grid.children('.l-panel-topbar').children('.l-panel-bbar-inner');
-            this.grid.topbar.children('.operate').ligerToolBar({
+            this.grid.topbar.children('.operate').ligerMenuBar({
                 items: [{
                     text: '操作',
                     menu: {
@@ -288,7 +288,24 @@ define('admin', ['fields'], function(require, exports, module) {
                             title: '删除',
                             click: function() {
                                 log('click', arguments);
-                            }
+                            },
+                            children: [{
+                                text: '删除选中',
+                                title: '删除',
+                                click: function() {
+                                    log('click', arguments);
+                                }
+                            }, {
+                                text: '绑定登陆',
+                                click: function() {
+                                    //log('click', arguments);
+                                }
+                            }, {
+                                text: '解除绑定登陆',
+                                click: function() {
+                                    //log('click', arguments);
+                                }
+                            }]
                         }, {
                             text: '绑定登陆',
                             click: function() {
