@@ -288,7 +288,7 @@ class Template {
         $source = preg_replace('#\{([a-z_]\w+)\}#i', '<?php echo $1;?>', $source);//{CONSTANT
         $source = preg_replace('#\{((\$\w+)\.(\w+))\}#', '<?php echo $2[\'$3\'];?>', $source);//{$array.key 数组，仅支持一维
         $source = preg_replace('#\{(\$\w+)\}#', '<?php echo $1;?>', $source);//{$var
-        $source = "<?php\n!defined('YAB_PATH') && exit('Access Denied'); ?>" . $source;
+        $source = '<?php' . PHP_EOL . "!defined('YAB_PATH') && exit('Access Denied'); ?>" . $source;
 
         file_put_contents($compile_file, $source);
 
