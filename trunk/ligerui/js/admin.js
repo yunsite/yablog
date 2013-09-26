@@ -252,36 +252,39 @@ define('admin', ['fields'], function(require, exports, module) {
                 onRendered: function() {
                     var html = [];
 
-            html.push('         <div class="l-panel-topbar">');
-            html.push('            <div class="l-panel-bbar-inner">');
-            html.push('                <div class="l-bar-group  l-bar-message"><span class="l-bar-text"></span></div>');
-            html.push('            <div class="l-bar-group operate"></div>');
-            html.push('                <div class="l-bar-separator"></div>');
-            html.push('            <div class="l-bar-group">添加时间从</div>');
-            html.push('                 <div class="l-bar-group"><input type="text" data-type="datetime" size="8" /></div>');
-            html.push('                <div class="l-bar-group">');
-            html.push('                    <div class="l-bar-button l-bar-btnfirst"><span></span></div>');
-            html.push('                    <div class="l-bar-button l-bar-btnprev"><span></span></div>');
-            html.push('                </div>');
-            html.push('                <div class="l-bar-separator"></div>');
-            html.push('                <div class="l-bar-group"><span class="pcontrol"> <input type="text" size="4" value="1" style="width:20px" maxlength="3" /> / <span></span></span></div>');
-            html.push('                <div class="l-bar-separator"></div>');
-            html.push('                <div class="l-bar-group">');
-            html.push('                     <div class="l-bar-button l-bar-btnnext"><span></span></div>');
-            html.push('                    <div class="l-bar-button l-bar-btnlast"><span></span></div>');
-            html.push('                </div>');
-            html.push('                <div class="l-bar-separator"></div>');
-            html.push('                <div class="l-bar-group">');
-            html.push('                     <div class="l-bar-button l-bar-btnload"><span></span></div>');
-            html.push('                </div>');
-            html.push('                <div class="l-bar-separator"></div>');
-
-            html.push('                <div class="l-clear"></div>');
-            html.push('            </div>');
-            html.push('            </div>');
+            html.push(' <div class="l-panel-topbar">');
+            html.push('     <div class="l-panel-bbar-inner">');
+            html.push('         <div class="l-bar-group  l-bar-message"><span class="l-bar-text"></span></div>');
+            html.push('         <div class="l-bar-group operate"></div>');
+            html.push('         <div class="l-bar-separator"></div>');
+            html.push('         <div class="l-bar-group">添加时间从</div>');
+            html.push('         <div class="l-bar-group"><input type="text" data-type="datetime" size="8" /></div>');
+            html.push('         <div class="l-bar-group">到</div>');
+            html.push('         <div class="l-bar-group"><input type="text" data-type="datetime" size="8" /></div>');
+            html.push('         <div class="l-bar-separator"></div>');
+            html.push('         <div class="l-bar-group role"><input type="text" name="role_id" /></div>');
+            html.push('         <div class="l-bar-group keyword"><input type="text" name="keyword" /></div>');
+            html.push('     </div>');
+            html.push(' </div>');
                     this.grid.children('.l-grid-loading').after(html.join(''));
             this.grid.topbar = this.grid.children('.l-panel-topbar').children('.l-panel-bbar-inner');
             this.grid.topbar.find('input[data-type=datetime]').ligerDateEditor();
+            this.grid.topbar.children('.role').children('input').ligerComboBox({
+                initValue: 0,
+                data: [{
+                    id: 0,
+                    text: '所属角色'
+                }, {
+                    text: '站长',
+                    id: 1
+                }, {
+                    text: '超级管理员',
+                    id: 2
+                }]
+            });
+            this.grid.topbar.children('.keyword').children('input').ligerTextBox({
+                value: '关键字'
+            });
             this.grid.topbar.children('.operate').ligerMenuBar({
                 items: [{
                     text: '操作',
@@ -328,7 +331,7 @@ define('admin', ['fields'], function(require, exports, module) {
                         items: [{text: '文件'}]
                     });
 */
-                    this.grid.find('.role').ligerComboBox({width: 50});
+                    //this.grid.find('.role').ligerComboBox({width: 50});
                     //this.grid.children('.l-panel-topbar').children('input').ligerTextBox();
 
                     this.grid.find('#adminlistgrid').bind('click', function(e) {log(e);
