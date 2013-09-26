@@ -2,7 +2,7 @@
 /**
  * 底层通用控制器类。摘自{@link http://www.thinkphp.cn thinkphp}，已对源码进行修改
  *
- * @file            Common.class.php
+ * @file            CommonController.class.php
  * @package         Yab\Module\Admin\Controller
  * @version         0.2
  * @copyright       Copyright (c) 2013 {@link http://www.yablog.cn yablog} All rights reserved
