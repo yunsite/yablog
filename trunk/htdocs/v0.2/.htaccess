@@ -1,0 +1,27 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /v0.1/
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} ^.*\.(gif|jpg|jpeg|png|swf)$
+RewriteRule .? - [S=6]
+
+#index.shtml
+RewriteRule ^$ yabindex\.php [L]
+
+#ajax/metainfo.shtml ajax/digg.shtml ...
+RewriteRule ^(ajax|guestbook|test|comments)/([a-z]+)\.shtml$ yabindex\.php/$1/$2 [L]
+
+#verifycode/module_admin.shtml
+RewriteRule ^(verifycode)/([a-z_]+)\.shtml$ yabindex\.php/$1?module=$2 [L]
+
+#category.shtml,miniblog/page/2.shtml...
+RewriteRule ^(index|category|miniblog|tag|guestbook)(/page/([2-9]|[1-9]\d+))?\.shtml$ yabindex\.php/$1/index?page=$3 [L]
+
+#cagegory/php.shtml,tag/seo/page/2.shtml...
+RewriteRule ^(category|tag)/([^/]+)(/page/([2-9]|[1-9]\d+))?\.shtml$ yabindex\.php/category/index?name=$2&page=$4&flag=$1 [L]
+
+#blog/20130417/100.shtml,miniblog/20130417/100.shtml
+RewriteRule ^(blog|miniblog)/(20\d{2}\d{2}\d{2})/([1-9]\d*)\.shtml$ yabindex\.php/$1/detail?date=$2&id=$3 [L]
+</IfModule>
+
+ErrorDocument 404 /v0.1/404.shtml

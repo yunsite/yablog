@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>404错误页面 - yablog,又一个博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="mrmsl" />
+    
+<link rel="stylesheet" type="text/css" href="http://imgcache.yablog.cn/v0.1/front/css/yablog.css" />
+</head>
+<body><!---->
+<div id="wrap">
+    <!--#include virtual="/v0.1/ssi/navbar.shtml"-->
+<div class="container-fluid">
+    <div class="row-fluid panel">
+        <div class="panel-header">
+            <span class="icon-home"></span>
+            您现在的位置：<a href="http://www.yablog.cn/v0.1/">首页</a>
+             <span class="divider">&raquo;</span>             404错误页面        </div>
+        <div class="panel-body">
+            <div class="page-not-found">
+                <img class="pull-left" alt="" src="http://imgcache.yablog.cn/common/images/404.gif" />
+                <div class="text-left pull-left">
+                    <h4>抱歉，您访问的页面不存在或已经被删除。</h4><br /><strong>您可以：</strong><ul><li>检查您输入的网址拼写是否正确</li><li>进入<a href="http://www.yablog.cn/v0.1/">首页</a></li><li>返回<a href="javascript: history.back();" rel="nofollow">上一页</a></li></ul>                </div>
+                <div class="clear-both"></div>
+            </div>
+        </div>
+    </div><!--end row-fluid-->
+</div><!--end container-fluid-->
+
+</div><!--end #wrap-->
+
+<!--#include virtual="/v0.1/ssi/footer.shtml"-->
+<script>
+    var NAV_ID = 'html';
+    </script>
+
+<script type="text/javascript" src="http://www.yablog.cn/v0.1/static/js/System.js"></script>
+<script type="text/javascript" src="http://www.yablog.cn/v0.1/static/js/lang/admin.zh_cn.js"></script>
+<script src="http://imgcache.yablog.cn/common/js/seajs/sea-2.0.1.js" id="seajsnode" data-main="http://imgcache.yablog.cn/v0.1/front/js/global"></script>
+</body>
+</html>

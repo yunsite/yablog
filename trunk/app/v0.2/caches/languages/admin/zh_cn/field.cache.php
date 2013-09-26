@@ -1,0 +1,56 @@
+<?php
+//后台自动生成，请毋修改
+//最后更新时间:2013-06-24 18:08:47
+
+return array (
+  'AUTO_OPERATION_TIP' => '填充规则：<span class="font-red">填充内容,填充时候,附加规则,附加参数</span>',
+  'FIELD_CODE' => '表单域js代码',
+  'FIELD_NAME' => '表单域名',
+  'INPUT_NAME' => '输入框名称',
+  'CONTROLLER_NAME_FIELD' => '表单域',
+  'PARENT_FIELD' => '所属分组',
+  'VALIDATE_RULE' => '验证规则',
+  'VALIDATE_RULE_TIP' => '一行一个验证规则，其中首行为输入框值类型。验证规则：<span class="font-red">规则,提示信息,验证条件,附加规则,验证时候,附加参数</span>',
+  'CUSTOMIZE_1_FIELD_TIP' => '系统设置(0,不写js;1则写)',
+  'SYSTEM_TAB_ARR' => '[
+        ["base", "基本信息"],
+        ["seo", "SEO设置"],
+        ["security", "完全设置"],
+        ["account", "帐号设置"],
+        ["timezone", "时间区域"],
+        ["session", "session设置"],
+        ["cookie", "cookie设置"],
+        ["mail", "邮件配置"],
+        ["template", "模板设置"],
+        ["log", "日志设置"],
+        ["verifycode", "验证码设置"],
+        ["show", "显示设置"],
+        ["other", "其它设置"]
+    ]',
+  'CONTROLLER_NAME_SYSTEM' => '系统设置',
+  'SYS_LOG_LEVEL_DEBUG' => '调试信息，如执行时间',
+  'SYS_LOG_LEVEL_INFO' => '程序输出信息，如变量值',
+  'SYS_LOG_LEVEL_SQL' => 'SQL语句，以跟踪语句执行轨迹，正式环境下强烈建议不要开启',
+  'SYS_LOG_LEVEL_ROOLBACK_SQL' => 'SQL执行出错，当前db类执行SQL组，建议开启',
+  'VERIFY_CODE_TYPE_LETTERS_VALUE' => '0',
+  'VERIFY_CODE_TYPE_LETTERS_UPPER_VALUE' => '1',
+  'VERIFY_CODE_TYPE_LETTERS_LOWER_VALUE' => '2',
+  'VERIFY_CODE_TYPE_NUMERIC_VALUE' => '3',
+  'VERIFY_CODE_TYPE_ALPHANUMERIC_VALUE' => '4',
+  'VERIFY_CODE_TYPE_ALPHANUMERIC_EXTEND_VALUE' => '5',
+  'VERIFY_CODE_TYPE_LETTERS' => '大小写字母(a-zA-Z)',
+  'VERIFY_CODE_TYPE_LETTERS_UPPER' => '大写字母(A-Z)',
+  'VERIFY_CODE_TYPE_LETTERS_LOWER' => '小写字母(a-z)',
+  'VERIFY_CODE_TYPE_NUMERIC' => '数字(0-9)',
+  'VERIFY_CODE_TYPE_ALPHANUMERIC' => '字母与数字(a-xA-Z0-9)',
+  'VERIFY_CODE_TYPE_ALPHANUMERIC_EXTEND' => '字母与数字(a-xA-Z0-9)，排除容易混淆的字符oOLl和数字01',
+  'VERIFY_CODE_ORDER_TIP' => '如：4123表示分别表示第四、一、二、三个字母;2222表示都为第二个字母;332表示只需要填写三个;如果不是数字，则所填字符串即为验证码。0表示按验证码顺序',
+  'VERIFY_CODE_REFRESH_LIMIT_TIP' => '格式：最大刷新次数/超出次数锁定时间(单位：秒)。0表示不限制',
+  'VERIFY_CODE_ERROR_LIMIT_TIP' => '格式：最大错误次数/超出次数锁定时间(单位：秒)。0表示不限制',
+  'MODULE_TAB_ARR' => '[
+     ["admin", "管理员模块"],
+     ["guestbook_comments", "留言评论模块"],
+     ["guestbook", "留言模块"],
+     ["comments", "评论模块"]
+    ]',
+);

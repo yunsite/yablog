@@ -1,0 +1,35 @@
+{template 'include', 'header'}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span9 panel">
+            <div class="panel-header">
+                <span class="icon-home"></span>
+                {L NOW_POSITION}：<a href="{BASE_SITE_URL}">{L HOME}</a>
+                {BREAD_SEPARATOR}
+                {L TAG}
+            </div>
+            <div class="panel-body">
+                {if $tag_arr}
+                    {php $num = count($tag_arr);}
+
+                    <ul class="inline">
+                    {foreach $tag_arr $item}
+                        <li class="span2"><a href="{BASE_SITE_URL}tag/{echo urlencode($item['tag']);}.shtml">{$item.tag}</a></li>
+                        {if 0 == $n % 6 && $n != $num}</ul><ul class="inline">{/if}
+                    {/foreach}
+                    </ul>
+                    {$paging}
+                {/if}
+                <!--end 网文-->
+            </div>
+        </div><!--end span9-->
+        <div class="span3">
+            <!--#include virtual="/{VERSION_PATH}ssi/hot_blogs.shtml"-->
+            <!--#include virtual="/{VERSION_PATH}ssi/tags.shtml"-->
+            <!--#include virtual="/{VERSION_PATH}ssi/new_comments.shtml"-->
+        </div><!--end  span3-->
+    </div><!--end row-fluid-->
+</div><!--end container-fluid-->
+
+{template 'include', 'footer'}

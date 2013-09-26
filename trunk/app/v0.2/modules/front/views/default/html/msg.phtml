@@ -1,0 +1,51 @@
+{template 'include', 'header'}
+
+<div class="container-fluid">
+    <div class="row-fluid panel">
+        <div class="panel-header">
+            <span class="icon-home"></span>
+            {L NOW_POSITION}：<a href="{BASE_SITE_URL}">{L HOME}</a>
+            {BREAD_SEPARATOR}
+            {L SYSTEM_INFOMATION}
+        </div>
+        <div class="panel-body hide" id="div-system-information">
+            <div class="system-information">
+                <img class="pull-left" alt="" id="img-information" src="{COMMON_IMGCACHE}images/ok.gif" />
+                <div class="text-left pull-left ml-10">
+                    {L SYSTEM_INFORMATION_CONTENT}
+                </div>
+                <div class="clear-both"></div>
+            </div>
+        </div>
+    </div><!--end row-fluid-->
+</div><!--end container-fluid-->
+
+<script>
+    var ON_LOAD = function () {
+        var success = _GET('success'),
+            type = _GET('type'),
+            div = $('#div-system-information'),
+            h4 = $('#h4-info'),
+            msg;
+
+        if (success) {
+
+            if (-1 == $.inArray(type, ['guestbook', 'comment'])) {
+                location.replace(System.sys_base_site_url + '404.shtml');
+                return;
+            }
+
+            msg = h4.text().replace('{0}', lang(type));
+        }
+        else {
+            h4.css('color', 'red');
+            div.find('#img-information').attr('src', System.sys_base_common_imgcache + 'images/failure.gif');
+            msg = decodeURIComponent(_GET('msg')) || lang('SERVER_ERROR');
+        }
+
+        h4.text(msg);
+        div.show();
+    }
+</script>
+
+{template 'include', 'footer'}

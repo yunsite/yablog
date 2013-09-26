@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{echo !empty($page) ? sprintf(L('N_PAGES'), $page) . TITLE_SEPARATOR : '', isset($web_title) ? $web_title : '';}{TITLE_SEPARATOR}{$sys_base_web_title}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="{echo isset($seo_keywords) ? $seo_keywords : '';}" />
+    <meta name="description" content="{echo isset($seo_description) ? $seo_description : '';}" />
+    <meta name="author" content="mrmsl" />
+    <script src="{COMMON_IMGCACHE}js/jquery/jquery-1.9.1.min.js"></script>
+</head>
+<body class="hide">
+<script>
+    {if isset($guestbook)}
+    var data = {echo json_encode($guestbook); };
+    $.post('{BASE_SITE_URL}guestbook/add.shtml', '{echo http_build_query($guestbook[0]);}', function(data) {
+        console.log(data);
+    });
+    {elseif isset($digg)}
+    var data = {echo json_encode($digg); };
+    $.post('{BASE_SITE_URL}ajax/digg.shtml', '{echo http_build_query($digg);}', function(data) {
+        console.log(data);
+    });
+    {/if}
+</script>
+</body>
+</html>

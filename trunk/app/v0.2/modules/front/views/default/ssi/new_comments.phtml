@@ -1,0 +1,28 @@
+<div class="panel">
+    <div class="panel-header"><h3>{L NEWEST,COMMENT}</h3></div>
+    <div class="panel-body new_comments">
+        {foreach $comments $item}
+        <div class="panel-list media comments-detail">
+            <img class="media-object pull-left avatar avatar-level-4" alt="" src="{echo $item['user_pic'] ? $item['user_pic'] : COMMON_IMGCACHE . 'images/guest.png'; }" />
+            <div class="media-body">
+                <p class="muted">
+                    {if $item['user_homepage']}
+                    <a href="{$item.user_homepage}" rel="nofollow">{$item.username}</a>
+                    {else}
+                    {$item.username}
+                    {/if}
+                     | <span class="time-axis" data-time="{$item.add_time}">{echo new_date(null, $item['add_time']);}</span>
+                </p>
+                <p class="dot">
+                    {php $content = cn_substr($item['content'], 40);}
+                    {if isset($item['link_url'])}
+                    <a href="{$item.link_url}#comment-{$item.comment_id}" rel="nofollow" title="{L COMMENT} {php echo htmlspecialchars($item['title'], ENT_QUOTES);}">{$content}</a>
+                    {else}
+                    <a href="{BASE_SITE_URL}guestbook.shtml#comment-{$item.comment_id}" rel="nofollow" title="{L GUESTBOOK}">{$content}</a>
+                    {/if}
+                </p>
+            </div>
+        </div>
+        {/foreach}
+    </div>
+</div>
