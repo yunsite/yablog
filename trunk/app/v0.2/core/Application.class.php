@@ -35,21 +35,21 @@ class Application {
 
             foreach ($this->_require_files as $file) {
                 require($file);
-
-                $filesize += filesize($file);
-                $compile  .= compile_file($file);
             }
         }
         else {
 
             foreach ($this->_require_files as $file) {
                 require($file);
+
+                $filesize += filesize($file);
+                $compile  .= compile_file($file);
             }
         }
 
         $require_files = array(
-            CORE_PATH . 'Bootstrap' . PHP_EXT,      //启动插件类
             CORE_PATH . 'Template' . PHP_EXT,       //模板类
+            CORE_PATH . 'Controller' . PHP_EXT,     //控制器类
             CORE_PATH . 'Model' . PHP_EXT,          //模型类
             CORE_PATH . 'Logger' . PHP_EXT,         //日志类
             CORE_PATH . 'Filter' . PHP_EXT,         //参数验证及过滤类
@@ -61,15 +61,7 @@ class Application {
             $require_files[] = $filename;
         }
 
-        if (is_file($filename = APP_PATH . 'controllers/CommonController' . PHP_EXT)) {//模块底层通用控制器类
-            $require_files[] = $filename;
-        }
-
         if (is_file($filename = LIB_PATH . 'BaseModel' . PHP_EXT)) {//项目底层模型类
-            $require_files[] = $filename;
-        }
-
-        if (is_file($filename = APP_PATH . 'models/CommonModel' . PHP_EXT)) {//模块底层通用模型类
             $require_files[] = $filename;
         }
 
@@ -140,9 +132,9 @@ class Application {
         set_exception_handler('exception_handler');
         register_shutdown_function('fatal_error');
         spl_autoload_register('autoload');
+        error_reporting(E_ALL|E_STRICT);//错误报告
 
         if (IS_LOCAL && APP_DEBUG) {//本地开发环境
-            error_reporting(E_ALL|E_STRICT);//错误报告
             ini_set('display_errors', 1);//显示错误
         }
         else {

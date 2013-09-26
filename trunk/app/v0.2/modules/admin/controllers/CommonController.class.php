@@ -526,7 +526,7 @@ class CommonController extends BaseController {
             }
         }
 
-        return $diff ? preg_replace('/ +/', ' ', stripslashes(str_replace("\n", '', var_export($diff, true)))) : '';
+        return $diff ? preg_replace('/ +/', ' ', stripslashes(str_replace(PHP_EOL, '', var_export($diff, true)))) : '';
     }
 
     /**
