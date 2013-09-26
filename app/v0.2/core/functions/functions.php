@@ -1415,6 +1415,7 @@ function error_handler($errno, $errstr, $errfile, $errline, $vars = '') {
     Logger::record($error, $log_filename);
 
     if (isset($quit_arr[$errno])) {
+        Logger::save();
         $trace = $vars && is_string($vars) && 0 === strpos($vars, '__') ? substr($vars, 2) : '';
         halt($errstr, $errfile, $errline, $trace);
     }

@@ -2,8 +2,8 @@
 /**
  * 底层控制器类。摘自{@link http://www.thinkphp.cn thinkphp}，已对源码进行修改
  *
- * @file            BaseController.class.php
- * @package         Yab\Controller
+ * @file            Controller.class.php
+ * @package         Yab\Core
  * @version         0.2
  * @copyright       Copyright (c) 2013 {@link http://www.yablog.cn yablog} All rights reserved
  * @license         http://www.apache.org/licenses/LICENSE-2.0.html Apache License 2.0
@@ -12,8 +12,7 @@
  * @lastmodify      $Date$ $Author$
  */
 
-class BaseController extends Yaf_Controller_Abstract {
-
+class Controller {
     /**
      * @var object $_view_template 模板编译对象。默认null
      */
