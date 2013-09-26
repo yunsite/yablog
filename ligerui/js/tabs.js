@@ -259,9 +259,6 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                             router.index();
                         }
                     }
-                },
-                onAfterAddTabItem: function() {
-                    log(this);
                 }
             });
             this._ligerTab = this._el.ligerGetTabManager();
