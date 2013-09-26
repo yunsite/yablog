@@ -48,30 +48,70 @@ if ($.fn.ligerGrid) {
             return '<img alt="" src="' + IMAGES[value] + '" class="img-yesno" />';
         }
     });
-    $.extend($.ligerMethos.Grid, {
-        _initBuildHeader0: function () {
+}
+
+if ($.fn.ligerToolBar) {
+     $.extend($.ligerMethos.ToolBar, {
+addItem: function (item)
+        {
             var g = this, p = this.options;
-            if (p.title)
+            if (item.line)
             {
-                $(".l-panel-header-text", g.header).html(p.title);
-                if (p.headerImg)
-                    g.header.append("<img src='" + p.headerImg + "' />").addClass("l-panel-header-hasicon");
+                g.toolBar.append('<div class="l-bar-separator"></div>');
+                return;
+            }
+            var ditem = $('<div class="l-toolbar-item l-panel-btn"><span></span><div class="l-panel-btn-l"></div><div class="l-panel-btn-r"></div></div>');
+            g.toolBar.append(ditem);
+            if(!item.id) item.id = 'item-'+(++g.toolbarItemCount);
+			ditem.attr("toolbarid", item.id);
+            if (item.img)
+            {
+                ditem.append("<img src='" + item.img + "' />");
+                ditem.addClass("l-toolbar-item-hasicon");
+            }
+            else if (item.icon)
+            {
+                ditem.append("<div class='l-icon l-icon-" + item.icon + "'></div>");
+                ditem.addClass("l-toolbar-item-hasicon");
+            }
+			else if (item.color)
+			{
+				ditem.append("<div class='l-toolbar-item-color' style='background:"+item.color+"'></div>");
+                ditem.addClass("l-toolbar-item-hasicon");
+			}
+            item.text && $("span:first", ditem).html(item.text);
+            item.disable && ditem.addClass("l-toolbar-item-disable");
+            item.click && ditem.click(function () { if ($(this).hasClass("l-toolbar-item-disable")) return;item.click(item); });
+			if (item.menu)
+            {ditem.append('<div class="l-menubar-item-down"></div>');
+                item.menu = $.ligerMenu(item.menu);
+                ditem.hover(function ()
+                {
+					if ($(this).hasClass("l-toolbar-item-disable")) return;
+                    g.actionMenu && g.actionMenu.hide();
+                    var left = $(this).offset().left;
+                    var top = $(this).offset().top + $(this).height();
+                    item.menu.show({ top: top, left: left });
+                    g.actionMenu = item.menu;
+                    $(this).addClass("l-panel-btn-over");
+                }, function ()
+                {
+					if ($(this).hasClass("l-toolbar-item-disable")) return;
+                    $(this).removeClass("l-panel-btn-over");
+                });
             }
             else
             {
-                g.header.hide();
+                ditem.hover(function ()
+				{
+					if ($(this).hasClass("l-toolbar-item-disable")) return;
+					$(this).addClass("l-panel-btn-over");
+				}, function ()
+				{
+					if ($(this).hasClass("l-toolbar-item-disable")) return;
+					$(this).removeClass("l-panel-btn-over");
+				});
             }
-            if (p.toolbar)
-            {
-                //if ($.fn.ligerToolBar)
-                    //g.toolbarManager = g.topbar.ligerToolBar(p.toolbar);
-            }
-            else
-            {
-                g.topbar.parent().remove();
-            }
-        },
-        _setToolbar0: function() {
         }
     });
 }
