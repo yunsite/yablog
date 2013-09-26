@@ -61,7 +61,7 @@ class Application {
             $require_files[] = $filename;
         }
 
-        if (is_file($filename = APP_PATH . 'controllers/Common' . PHP_EXT)) {//模块底层通用控制器类
+        if (is_file($filename = APP_PATH . 'controllers/CommonController' . PHP_EXT)) {//模块底层通用控制器类
             $require_files[] = $filename;
         }
 
@@ -69,7 +69,7 @@ class Application {
             $require_files[] = $filename;
         }
 
-        if (is_file($filename = APP_PATH . 'models/Common' . PHP_EXT)) {//模块底层通用模型类
+        if (is_file($filename = APP_PATH . 'models/CommonModel' . PHP_EXT)) {//模块底层通用模型类
             $require_files[] = $filename;
         }
 

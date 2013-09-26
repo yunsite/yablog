@@ -2,7 +2,7 @@
 /**
  * 后台首页控制器类
  *
- * @file            Index.class.php
+ * @file            IndexController.class.php
  * @package         Yab\Module\Admin\Controller
  * @version         0.2
  * @copyright       Copyright (c) 2013 {@link http://www.yablog.cn yablog} All rights reserved
