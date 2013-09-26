@@ -196,7 +196,7 @@ class Template {
             if (C('CLEAR_COMPILE_FILE')) {
 
                 foreach(glob($compile_dir . '*') as $filename) {//编译文件
-                    is_file($filename) && unlink($filename);var_dump($filename);
+                    new_unlink($filename);
                 }
             }
 
