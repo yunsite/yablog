@@ -28,7 +28,7 @@ class Application {
      */
     private function _buildRuntimeFile() {
         $filesize = 0;//加载文件大小
-        $compile  = "<?php\n!defined('YAB_PATH') && exit('Access Denied');";//编译内容
+        $compile  = '<?php' . PHP_EOL . "!defined('YAB_PATH') && exit('Access Denied');";//编译内容
 
         //加载核心文件，用空间换时间
         if (APP_DEBUG) {//调试

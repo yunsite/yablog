@@ -12,6 +12,36 @@
  * @lastmodify      $Date$ $Author$
  */
 
+
+/**
+ * 实例化模块Action
+ *
+ * @author          liu21st <liu21st@gmail.com>
+ * @lastmodify      2013-01-22 17:06:39 by mrmsl
+ *
+ * @param string $name      模块名称
+ * @param array  $argumetns 传递给模块构造函数参数
+ *
+ * @return object 模块实例
+ */
+function A($name) {
+    static $_action = array();
+
+    if (isset($_action[$name])) {
+        return $_action[$name];
+    }
+
+    if (class_exists($class = $name . 'Controller')) {
+        $_action[$name] = new $class();
+    }
+    else {
+        trigger_error($class . L('NOT_EXIST'), E_USER_ERROR);
+        $_action[$name] = false;
+    }
+
+    return $_action[$name];
+}
+
 /**
  * 获取或设置配置值
  *
@@ -229,6 +259,7 @@ function F($name, $value = '', $path = CACHE_PATH, $reload = false) {
     $filename = $path . $name . '.cache.php';
 
     if ('' !== $value) {
+
         if (is_null($value)) {//删除缓存
             return is_file($filename) ? unlink($filename) : false;
         }
@@ -239,7 +270,7 @@ function F($name, $value = '', $path = CACHE_PATH, $reload = false) {
 
             $_cache[$name] = $value;
 
-            return file_put_contents($filename, "<?php\n" . sprintf(AUTO_CREATE_COMMENT, new_date()) . "\nreturn " . var_export($value, true) . ';');
+            return file_put_contents($filename, '<?php' . PHP_EOL . sprintf(AUTO_CREATE_COMMENT, new_date()) . PHP_EOL . 'return ' . var_export($value, true) . ';');
         }
     }
 
@@ -489,10 +520,11 @@ function parse_name($name, $type = 0) {
  * @return mixed 模块的操作方法返回结果
  */
 function R($url, $vars = array()) {
-    $info   =   pathinfo($url);
-    $action =   $info['basename'];
-    $module =   $info['dirname'];
-    $class  =   A($module);
+    //R('Index/index') => array('dirname' => 'Index', 'basename' => 'index', 'filename' => 'index')
+    $info       =   pathinfo($url);
+    $action     =   $info['basename'];
+    $controller =   $info['dirname'];
+    $class      =   A($module);
 
     if($class){
 
@@ -849,7 +881,6 @@ function to_guid_string($mix) {
  *
  * @author          mrmsl <msl-138@163.com>
  * @date            2012-07-12 11:07:35
- * @lastmodify      2013-01-22 17:05:35 by mrmsl
  *
  * @param array $data 数据
  * @param mixed $keys key值
@@ -862,35 +893,6 @@ function _unset(&$data, $keys) {
     foreach ($keys as $key) {
         unset($data[trim($key)]);
     }
-}
-
-/**
- * 实例化模块Action
- *
- * @author          liu21st <liu21st@gmail.com>
- * @lastmodify      2013-01-22 17:06:39 by mrmsl
- *
- * @param string $name      模块名称
- * @param array  $argumetns 传递给模块构造函数参数
- *
- * @return object 模块实例
- */
-function A($name) {
-    static $_action = array();
-
-    if (isset($_action[$name])) {
-        return $_action[$name];
-    }
-
-    if (class_exists($class = $name . 'Controller')) {
-        $_action[$name] = new $class();
-    }
-    else {VAR_DUMP(get_included_files());
-        trigger_error($class . L('NOT_EXIST'), E_USER_ERROR);
-        $_action[$name] = false;
-    }
-
-    return $_action[$name];
 }
 
 /**
@@ -1042,7 +1044,8 @@ function check_verifycode_limit($module, $type = 'error') {
                     session($key . $temp, $new_num);
 
                     if ($new_num - $num < 11) {
-                        D('Log')->addLog(L('VERIFY_CODE') . "({$module})" . L(($type == 'error' ? 'ERROR' : 'REFRESH') . ",CN_CISHU,%({$new_num}),EXCEED,LIMIT") . $num, LOG_TYPE_VERIFYCODE_ERROR);
+                        $log = D('Log');
+                        $log && $log->->addLog(L('VERIFY_CODE') . "({$module})" . L(($type == 'error' ? 'ERROR' : 'REFRESH') . ",CN_CISHU,%({$new_num}),EXCEED,LIMIT") . $num, LOG_TYPE_VERIFYCODE_ERROR);
                     }
 
                     return false;
@@ -1196,7 +1199,7 @@ function compile_file($filename) {
         $content = substr($content, 0, -2);
     }
 
-    return  "\n\n//{$filename}\n" . $content;
+    return  PHP_EOL . PHP_EOL . '//' . $filename . PHP_EOL . $content;
 }
 
 /**
@@ -1721,8 +1724,8 @@ function halt($errstr, $errfile = '', $errline = '', $trace = '') {
                 $trace_info .=  isset($t['file']) ? $t['file'] . ' (' . $t['line'] . ') ' : '';
                 $trace_info .= isset($t['class']) ? $t['class'] . $t['type'] : '';
                 $trace_info .= $t['function'] . '(';
-                $trace_info .= empty($t['args']) ? '' : substr(stripslashes(str_replace("\n", ' ', print_r($t['args'], true))), 0, 200);
-                $trace_info .= ")\n";
+                $trace_info .= empty($t['args']) ? '' : substr(stripslashes(str_replace(PHP_EOL, ' ', print_r($t['args'], true))), 0, 200);
+                $trace_info .= ')' . PHP_EOL;
             }
 
             $e['trace'] = $trace_info;
