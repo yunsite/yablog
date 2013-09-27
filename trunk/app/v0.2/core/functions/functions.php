@@ -1279,10 +1279,17 @@ function new_date($format = null, $time = null) {
  * @param string $path 路径
  * @param int    $mode 权限。默认0755
  *
+ * @throw 创建目录失败,抛出异常
+ *
  * @return bool true创建成功，否则false
  */
 function new_mkdir($path, $mode = 0755) {
-    return is_dir($path) ? true : mkdir($path, $mode, true);
+
+    if (!is_dir($path) && !mkdir($path, $mode, true)) {
+        throw new Exception(L('CN_CHUANGJIAN,DIRECTORY') . ': ' . $path . L('FAILURE'));
+    }
+
+    return true;
 }
 
 /**
