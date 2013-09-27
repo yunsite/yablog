@@ -201,6 +201,10 @@ class Application {
             L($languages);
         }
 
+        if ($languages = F(MODULE_NAME . DS . LANG . DS . strtolower(CONTROLLER_NAME), '', LANG_PATH)) {//当前控制器语言包
+            L($languages);
+        }
+
         $theme = cookie('theme');
         $theme = $theme ? $theme : sys_config('sys_base_theme', '', $default = 'default');//皮肤
 
