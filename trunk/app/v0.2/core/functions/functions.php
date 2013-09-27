@@ -527,7 +527,7 @@ function R($url, $vars = array()) {
             parse_str($vars,$vars);
         }
 
-        return call_user_func_array(array(&$class, $action . 'Action'), $vars);
+        return call_user_func_array(array(&$class, strpos($action, 'Action') ? $action : $action . 'Action'), $vars);
     }
     else{
         return false;
