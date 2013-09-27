@@ -35,8 +35,8 @@ return array(
     'JSONP_CALLBACK'        => JSONP_CALLBACK,//jsonp 回调参数名
 
     //模板设置
-    'HTML_SUFFIX'           => 'shtml',//静态文件名后缀
-    'TEMPLATE_SUFFIX'       => 'phtml',//模板后缀
+    'HTML_SUFFIX'           => '.shtml',//静态文件名后缀
+    'TEMPLATE_SUFFIX'       => TEMPLATE_EXT,//模板后缀
     'TMPL_EXCEPTION_FILE'   => VIEW_PATH . 'error/error.phtml',//错误模板
     'TEMPLATE_CONFIG'       => array(//模板配置
         '_templates_path'   => FRONT_THEME_PATH,
