@@ -359,33 +359,20 @@ class Application {
             throw new Exception(L('CONTROLLER') . ': ' . CONTROLLER_NAME . L('NOT_EXIST'));
         }
 
-        try {
+        if (method_exists($controller, $action) || method_exists($controller, '__call')) {
 
-            //执行当前操作
-            $method =   new ReflectionMethod($controller, $action);
-
-            if($method->isPublic()) {
-                $class  =   new ReflectionClass($controller);
-
-                if ($class->hasMethod($before = 'before' . $action)) {//前置操作
-                    $before = $class->getMethod($before);
-                    $before->isPublic() && $before->invoke($controller);
-                }
-
-                $method->invoke($controller);
-
-                if($class->hasMethod($after = 'after' . $action)) {//后置操作
-                    $after = $class->getMethod($after);
-                    $after->isPublic() && $after->invoke($controller);
-                }
+            if (method_exists($controller, $before = 'before' . $action)) {//前置操作
+                call_user_func(array(&$controller, $before));
             }
-            else {//操作方法不是Public 抛出异常
-                throw new ReflectionException();
+
+            call_user_func(array(&$controller, $action));
+
+            if (method_exists($controller, $after = 'after' . $action)) {//后置操作
+                call_user_func(array(&$controller, $after));
             }
         }
-        catch (ReflectionException $e) {//方法调用发生异常后 引导到__call方法处理
-            $method = new ReflectionMethod($controller, '__call');
-            $method->invokeArgs($controller, array($action, ''));
+        else {
+            throw new Exception(L('INVALID,ACTION') . ': ' . $action);
         }
     }//end run
 }
