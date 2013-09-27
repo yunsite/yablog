@@ -12,7 +12,7 @@
  * @lastmodify      $Date$ $Author$
  */
 
-class CommonController extends BaseController {
+class CommonController extends Controller {
     /**
      * @var array $_admin_info 管理员信息
      */
