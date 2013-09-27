@@ -167,7 +167,7 @@ class BaseModel extends Model {
      * @return int 管理员id
      */
     protected function _getAdminId() {
-        $admin_info = Yaf_Registry::get(SESSION_ADMIN_KEY);
+        $admin_info = C(SESSION_ADMIN_KEY);
 
         return $admin_info ? $admin_info['admin_id'] : 0;
     }
