@@ -1,6 +1,6 @@
 <?php
 /**
- * 底层通用控制器类。摘自{@link http://www.thinkphp.cn thinkphp}，已对源码进行修改
+ * 后台通用控制器类。摘自{@link http://www.thinkphp.cn thinkphp}，已对源码进行修改
  *
  * @file            CommonController.class.php
  * @package         Yab\Module\Admin\Controller
@@ -303,7 +303,7 @@ class CommonController extends Controller {
 
             if(!empty($this->_priv_map)) {
 
-                $this->_priv_map = array_map('strtolower', $this->_priv_map);
+                $this->_priv_map = array_change_key_case($this->_priv_map, CASE_LOWER);
 
                 if (isset($this->_priv_map, $action)) {//权限映射
                     $priv_str = $module . $this->_priv_map[$action];
