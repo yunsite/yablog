@@ -24,7 +24,7 @@ class CommonModel extends BaseModel {
      * @return bool true验证成功,否则false
      */
     protected function _checkCacheExists($id, $filename = CONTROLLER_NAME) {
-        return $id && $this->_getCache($id, $filename) ? true : false;
+        return $id && $this->_module->cache($id, $filename) ? true : false;
     }
 
     /**
@@ -55,7 +55,7 @@ class CommonModel extends BaseModel {
         $name       = strtolower($name);
         $pk_value   = isset($data[$pk_field]) ? $data[$pk_field] : 0;
         $lang_name  = $lang_name ? $lang_name : $field_name;
-        $caches     = $this->_getCache();
+        $caches     = $this->_module->cache();
 
         if (!$caches) {
             return true;

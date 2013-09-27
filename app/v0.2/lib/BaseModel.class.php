@@ -188,36 +188,6 @@ class BaseModel extends Model {
     }
 
     /**
-     * 获取表数据缓存
-     *
-     * @author          mrmsl <msl-138@163.com>
-     * @lastmodify      2013-01-22 11:13:36 by mrmsl
-     *
-     * @param int    $id     数据id。默认0
-     * @param string $name   文件名。默认null，模块名称
-     * @param bool   $reload true重新加载。默认false
-     * @param string $path   缓存路径。默认MODULE_CACHE_PATH
-     *
-     * @return mixed 如果不指定id，返回全部缓存，如果指定id并指定id缓存存在，返回指定id缓存，否则返回false
-     */
-    protected function _getCache($id = 0, $name = null, $reload = false, $path = MODULE_CACHE_PATH) {
-        $data = F($name ? $name : $this->getModelName(), '', $path, $reload);
-
-        if ($id) {
-
-            if (strpos($id, '.')) {//直接获取某一字段值
-                list($id, $key) = explode('.', $id);
-                return isset($data[$id][$key]) ? $data[$id][$key] : false;
-            }
-            else {
-                return isset($data[$id]) ? $data[$id] : false;
-            }
-        }
-
-        return $data;
-    }
-
-    /**
      * 获取checkbox值
      *
      * @author          mrmsl <msl-138@163.com>

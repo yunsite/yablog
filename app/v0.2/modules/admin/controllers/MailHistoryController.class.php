@@ -117,7 +117,7 @@ class MailHistoryController extends CommonController {
 
         $data === false && $this->_sqlErrorExit(L('QUERY,CONTROLLER_NAME') . L('LIST,ERROR'));//出错
 
-        $templates = $this->_getCache(false, 'Mail');
+        $templates = $this->cache(false, 'Mail');
 
         foreach($data as &$v) {
             $v['template_name'] = isset($templates[$id = $v['template_id']]) ? $templates[$id]['template_name'] : '';

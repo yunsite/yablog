@@ -104,7 +104,7 @@ class CategoryModel extends CommonModel {
         }
 
         $cate_name = strtolower($cate_name);
-        $caches    = $this->_getCache();
+        $caches    = $this->_module->cache();
 
         if (!$caches) {
             return true;
@@ -140,7 +140,7 @@ class CategoryModel extends CommonModel {
         }
 
         $pk_value  = isset($data[$this->_pk_field]) ? $data[$this->_pk_field] : 0;
-        $caches    = $this->_getCache();
+        $caches    = $this->_module->cache();
 
         if (!$caches) {
             return true;
@@ -178,7 +178,7 @@ class CategoryModel extends CommonModel {
             return L('INVALID,PARENT_CATEGORY');
         }
 
-        $caches    = $this->_getCache();
+        $caches    = $this->_module->cache();
 
         if (!isset($caches[$parent_id])) {//父类不存在
             return L('PARENT_CATEGORY,NOT_EXIST');

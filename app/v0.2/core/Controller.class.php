@@ -153,32 +153,6 @@ class Controller {
         ->fetch($controller ? $controller : CONTROLLER_NAME, $action ? $action : ACTION_NAME, $cache_id);
     }
 
-    /** 获取表数据缓存
-     *
-     * @param int    $id     数据id。默认0
-     * @param string $name   文件名。默认null，模块名称
-     * @param string $path   缓存路径。默认MODULE_CACHE_PATH
-     *
-     * @return mixed 如果不指定id，返回全部缓存，如果指定id并指定id缓存存在，返回指定id缓存，否则返回false
-     */
-    protected function _getCache($id = 0, $name = null, $path = MODULE_CACHE_PATH) {
-        $name = $name ? $name : $this->_getControllerName();
-        $data = F($name, '', $path);
-
-        if ($id) {
-
-            if (strpos($id, '.')) {//直接获取某一字段值
-                list($id, $key) = explode('.', $id);
-                return isset($data[$id][$key]) ? $data[$id][$key] : false;
-            }
-            else {
-                return isset($data[$id]) ? $data[$id] : false;
-            }
-        }
-
-        return $data;
-    }
-
     /**
      * 获取指定分类下所有子类id
      *
@@ -193,7 +167,7 @@ class Controller {
      */
     protected function _getChildrenIds($item_id, $include_self = true, $return_array = false, $filename = null, $level_field = 'level', $node_field = 'node') {
         $filename      = $filename ? $filename : $this->_getControllerName();
-        $cache_data    = $this->_getCache(null, $filename);
+        $cache_data    = $this->cache(null, $filename);
 
         if (!isset($cache_data[$item_id])) {
             return $return_array ? array() : '';
@@ -382,7 +356,54 @@ class Controller {
         L('CONTROLLER_NAME', L('CONTROLLER_NAME_' .  $this->_getControllerName()));//C => L
 
         return true;
-    }//end init
+    }//end __construct
+
+    /** 设置(获取)表数据缓存
+     *
+     * @param int    $id     数据id。默认0
+     * @param mixed  $value  数据,空表示取数据,否则,设置数据
+     * @param string $name   文件名。默认null，模块名称
+     * @param string $path   缓存路径。默认null=MODULE_CACHE_PATH
+     *
+     * @return mixed 如果不指定id，返回全部缓存，如果指定id并指定id缓存存在，返回指定id缓存，否则返回false
+     */
+    public function cache($id = 0, $value = '', $name = null, $path = null) {
+        $name = $name ? $name : $this->_getControllerName();
+        $path = $path ? $path : MODULE_CACHE_PATH;
+
+        if ('' === $value) {
+            $data = F($name, '', $path);
+
+            if ($id) {
+
+                if (strpos($id, '.')) {//直接获取某一字段值
+                    list($id, $key) = explode('.', $id);
+                    return isset($data[$id][$key]) ? $data[$id][$key] : false;
+                }
+                else {
+                    return isset($data[$id]) ? $data[$id] : false;
+                }
+            }
+
+            return $data;
+        }
+        else {
+
+            if (null === $value) {
+
+                if (method_exists($this, '_setCacheData')) {
+                    $value = $this->_setCacheData();
+                }
+                else {
+                    $value = $this->_model->key_column($this->_model->getPk())->select();
+                }
+            }
+
+            F($name, $value, $path);
+            
+            return $this;
+        }
+    }//end cache
 
     /**
      * 获取留言评论设置值
@@ -500,7 +521,7 @@ class Controller {
     public function nav($id, $name_field, $filename = null, $separator = null) {
         $separator  = null === $separator ? BREAD_SEPARATOR : $separator;
         $nav        = array();
-        $data       = $this->_getCache(null, $filename ? $filename : $this->_getControllerName());
+        $data       = $this->cache(null, $filename ? $filename : $this->_getControllerName());
         $info       = $data[$id];
 
         foreach(explode(',', $info['node']) as $item) {

@@ -43,7 +43,7 @@ class MailController extends CommonController {
      */
     protected function _afterDelete($pk_id) {
         $o      = $this->getViewTemplate();
-        $data   = $this->_getCache();
+        $data   = $this->cache();
         $path   = THEME_PATH . 'mail/';
         $suffix = C('TEMPLATE_SUFFIX');
 
@@ -102,7 +102,7 @@ class MailController extends CommonController {
 
         if ($pk_value) {//编辑
 
-            if (!$info = $this->_getCache($pk_value)) {//不存在
+            if (!$info = $this->cache($pk_value)) {//不存在
                 $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,CONTROLLER_NAME,%{$pk_field}({$pk_value}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
                 $this->_ajaxReturn(false, $error_msg);
             }
@@ -113,7 +113,7 @@ class MailController extends CommonController {
 
             $diff = $this->_dataDiff($info, $data, $diff_key);//差异
             $this->_model->addLog($msg . L('CONTROLLER_NAME')  . "{$info['template_name']}({$pk_value})." . $diff. L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
-            $this->_setCache()->_ajaxReturn(true, $msg . L('SUCCESS'));
+            $this->cache(null, null, null)->_ajaxReturn(true, $msg . L('SUCCESS'));
 
         }
         else {
@@ -124,7 +124,7 @@ class MailController extends CommonController {
             }
 
             $this->_model->addLog($msg . L('CONTROLLER_NAME') . $data . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
-            $this->_setCache()->_ajaxReturn(true, $msg . L('SUCCESS'));
+            $this->cache(null, null, null)->_ajaxReturn(true, $msg . L('SUCCESS'));
         }
     }//end addAction
 
@@ -137,7 +137,7 @@ class MailController extends CommonController {
      * @return void 无返回值
      */
     public function listAction() {
-        $data = $this->_getCache();
+        $data = $this->cache();
         $data = $data ? array_values($data) : array();
 
         if (isset($_GET['combo'])) {//邮件历史,所属邮件模板

@@ -84,7 +84,7 @@ class RoleModel extends CommonModel {
 
         $rolename = strtolower($rolename);
         $pk_value = isset($data[$pk_field]) ? $data[$pk_field] : 0;
-        $roles    = $this->_getCache();
+        $roles    = $this->_module->cache();
 
         foreach ($roles as $role_id => $role) {
 
@@ -114,7 +114,7 @@ class RoleModel extends CommonModel {
             $this->table(TB_ADMIN_ROLE_PRIV)->where('role_id=' . $role_id)->delete();
         }
         else {
-            $role_data   = $this->_getCache($role_id);
+            $role_data   = $this->_module->cache($role_id);
             $priv_arr    = $this->_module->diffRolePriv($role_data ? array_keys($role_data['priv']) : '', $menu_id);
 
             if ($delete = $priv_arr['delete']) {//删除的

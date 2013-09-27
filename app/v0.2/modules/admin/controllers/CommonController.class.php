@@ -90,7 +90,7 @@ class CommonController extends Controller {
         $msg = L('GET,CONTROLLER_NAME,INFO,FAILURE');
 
         if ($id) {
-            $info = true === $field ? $this->_getCache($id, false === $exclude ? $this->_getControllerName() : $exclude) : $this->_model->field($field, $exclude)->find($id);
+            $info = true === $field ? $this->cache($id, $exclude) : $this->_model->field($field, $exclude)->find($id);
 
             if ($info) {
                 $this->_infoCallback($info);
@@ -158,7 +158,7 @@ class CommonController extends Controller {
         }
 
         if (!empty($this->_name_column)) {//名称字段
-            $data = $this->_getCache();//数据缓存
+            $data = $this->cache();//数据缓存
 
             foreach($pk_id as $k => $id) {//获取操作日志与删除(更新)指定缓存
 
@@ -204,7 +204,7 @@ class CommonController extends Controller {
     protected function _bubble($pk_value) {
         $pk_value  = is_array($pk_value) ? $pk_value : explode(',', $pk_value);
         $data      = array();
-        $data_arr  = $this->_getCache();
+        $data_arr  = $this->cache();
 
         foreach ($pk_value as $v1) {
             $arr = explode(',', $data_arr[$v1]['node']);
@@ -313,7 +313,7 @@ class CommonController extends Controller {
             $checked  = in_array($priv_str, $this->_role_info['priv']);//检测权限
 
             if ($checked) {//判断父级菜单权限
-                $menu_arr  = $this->_getCache(0, 'Menu');
+                $menu_arr  = $this->cache(0, 'Menu');
                 $menu_id   = array_search($priv_str, $this->_role_info['priv'], true);
                 $menu_node = $menu_arr[$menu_id]['node'];
 
@@ -361,7 +361,7 @@ class CommonController extends Controller {
     protected function _checkIsLeaf($pk_value) {
         static $data   = null;
 
-        $data = null === $data ? $this->_getCache() : $data;
+        $data = null === $data ? $this->cache() : $data;
 
         if (!$data) {
             return true;
@@ -410,7 +410,7 @@ class CommonController extends Controller {
         $msg         = L($pk_value ? 'EDIT' : 'ADD');//添加或编辑
         $log_msg     = $msg . L($module_key . ',FAILURE');//错误日志
         $error_msg   = $msg . L('FAILURE');//错误提示信息
-        $cache_data  = $this->_getCache();//缓存数据
+        $cache_data  = $this->cache();//缓存数据
         $parent_info = $parent_id && isset($cache_data[$parent_id]) ? $cache_data[$parent_id] : false;
 
         //父类不存在
@@ -564,7 +564,7 @@ class CommonController extends Controller {
         $pk_value = $pk_value === null ? Filter::int('node', 'get') : $pk_value;
 
         $data     = array();
-        $data_arr = $this->_getCache();
+        $data_arr = $this->cache();
         $total    = 0;
 
         foreach ($data_arr as $item) {
@@ -709,7 +709,7 @@ class CommonController extends Controller {
             else {
 
                 if (!empty($this->_after_exec_cache) && isset($data)) {
-                    $this->_setCache($data);//生成缓存
+                    $this->cache(null, null, $data);//生成缓存
                 }
 
                 method_exists($this, '_afterSetField') && $this->_afterSetField($field, $value, $pk_id);
@@ -735,7 +735,7 @@ class CommonController extends Controller {
      * @return bool true成功设置，否则false
      */
     protected function _setLevelAndNode($level_field = 'level', $node_field = 'node', $parent_id_field = 'parent_id') {
-        $cache_data   = $this->_getCache();
+        $cache_data   = $this->cache();
         $pk_field     = $this->_model->getPk();//主键
         $pk_value     = $this->_model->$pk_field;//主键值
         $parent_id    = $this->_model->$parent_id_field;//所属父类id
@@ -857,7 +857,7 @@ class CommonController extends Controller {
      * @return void 无返回值
      */
     protected function _treeInfoCallback(&$info, $name_column = '') {
-        $data = $this->_getCache();
+        $data = $this->cache();
         $pid  = $info['parent_id'];
 
         if ('Menu' == CONTROLLER_NAME) {
@@ -896,7 +896,7 @@ class CommonController extends Controller {
 
         if ($this->_admin_info) {
             //角色信息
-            $this->_role_info = $this->_getCache($this->_admin_info['role_id'], 'Role');
+            $this->_role_info = $this->cache($this->_admin_info['role_id'], 'Role');
         }
 
         if ($this->_auto_check_priv && (!APP_DEBUG || !__GET)) {//自动检测权限
@@ -957,7 +957,7 @@ class CommonController extends Controller {
                 method_exists($this, '_afterDelete') && $this->_afterDelete($pk_id);
 
                 if (!empty($this->_after_exec_cache) && isset($data)) {
-                    $this->_setCache($data);//生成缓存
+                    $this->cache(null, null, $data);//生成缓存
                 }
 
                 $this->_model->addLog($log . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);//管理员操作日志
@@ -1080,6 +1080,6 @@ class CommonController extends Controller {
      * @return void 无返回值
      */
     public function setCacheAction() {
-        $this->_setCache();
+        $this->cache(null, null, null);
     }
 }

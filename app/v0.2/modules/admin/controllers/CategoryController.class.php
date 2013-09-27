@@ -86,7 +86,7 @@ class CategoryController extends CommonController {
      * @return array 分类树数据
      */
     private function _getCategory($data = array()) {
-        $data = $data ? $data : $this->_getCache(0, CONTROLLER_NAME . '_tree');
+        $data = $data ? $data : $this->cache(0, CONTROLLER_NAME . '_tree');
 
         if (!$data) {//无分类缓存，直接返回
             return array();
@@ -152,7 +152,7 @@ class CategoryController extends CommonController {
     public function clearCacheAction() {
         $cate_id    = Filter::string($pk_field = $this->_pk_field);
         $cate_id    = map_int($cate_id, true);
-        $cate_arr   = $this->_getCache();
+        $cate_arr   = $this->cache();
 
         if ($cate_id) {
             $error          = '';
@@ -229,7 +229,7 @@ class CategoryController extends CommonController {
         $tree_data = Tree::array2tree($data, $this->_pk_field);//树形式
 
 
-        return $this->_setCache($data)->_setCache($tree_data, $this->_getControllerName() . '_tree');
+        return $this->cache(null, null, $data)->cache(null, $this->_getControllerName() . '_tree', $tree_data);
     }
 
     /**
@@ -257,9 +257,9 @@ class CategoryController extends CommonController {
             $this->_ajaxReturn(true, '', $this->_getTreeData($cate_id, false));
         }
 
-        $data = $this->_getCache(0, CONTROLLER_NAME . '_tree');
+        $data = $this->cache(0, CONTROLLER_NAME . '_tree');
 
-        $this->_ajaxReturn(true, '', $data, count($this->_getCache()));
+        $this->_ajaxReturn(true, $data, count($this->cache()));
     }//end listAction
 
     /**
@@ -279,7 +279,7 @@ class CategoryController extends CommonController {
         $parent_id = Filter::int('parent_id', 'get');
 
         //添加指定分类子分类，获取指定分类信息by mashanlng on 2012-08-21 13:53:35
-        if ($parent_id && ($parent_info = $this->_getCache($parent_id))) {
+        if ($parent_id && ($parent_info = $this->cache($parent_id))) {
             $parent_info = array(
                  'cate_id'     => $parent_id,
                  'parent_name' => $parent_info['cate_name'],
@@ -299,7 +299,7 @@ class CategoryController extends CommonController {
      * @return void 无返回值
      */
     public function publicDeleteHtmlAction($build_info = null) {
-        $cate_arr   = $this->_getCache();
+        $cate_arr   = $this->cache();
         $build_info = null === $build_info ? C('HTML_BUILD_INFO') : $build_info;
         $set_arr    = array();
 

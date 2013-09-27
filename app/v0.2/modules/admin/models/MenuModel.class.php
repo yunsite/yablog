@@ -114,7 +114,7 @@ class MenuModel extends CommonModel {
         $action      = strtolower($action);
         $controller  = isset($data['controller']) ? strtolower($data['controller']) : '';
         $pk_value    = isset($data[$this->_pk_field]) ? $data[$this->_pk_field] : 0;
-        $menu_arr    = $this->_getCache();
+        $menu_arr    = $this->_module->cache();
 
         foreach ($menu_arr as $menu_id => $menu) {
 
@@ -145,7 +145,7 @@ class MenuModel extends CommonModel {
 
         $parent_id = isset($data['parent_id']) ? $data['parent_id'] : 0;
         $pk_value  = isset($data[$this->_pk_field]) ? $data[$this->_pk_field] : 0;
-        $menu_arr  = $this->_getCache();
+        $menu_arr  = $this->_module->cache();
         $controller = strtolower($controller);
 
         foreach ($menu_arr as $menu_id => $menu) {
@@ -175,8 +175,8 @@ class MenuModel extends CommonModel {
             $this->table(TB_ADMIN_ROLE_PRIV)->where('menu_id=' . $menu_id)->delete();
         }
         else {
-            $role_data   = $this->_getCache(0, 'Role');
-            $menu_data   = $this->_getCache($menu_id);
+            $role_data   = $this->_module->cache(0, 'Role');
+            $menu_data   = $this->_module->cache($menu_id);
             $priv_arr    = $this->_module->diffMenuPriv($menu_data ? array_keys($menu_data['priv']) : '', $role_id);
 
             if ($delete = $priv_arr['delete']) {//删除的

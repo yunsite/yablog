@@ -14,7 +14,7 @@
 
 class AdminController extends CommonController {
     /**
-     * @var bool $_after_exec_cache true删除后调用CommonController->_setCache()生成缓存， CommonController->delete()会用到。默认true
+     * @var bool $_after_exec_cache true删除后调用CommonController->cache()生成缓存， CommonController->delete()会用到。默认true
      */
     protected $_after_exec_cache   = true;
     /**
@@ -86,7 +86,7 @@ class AdminController extends CommonController {
         $log_msg   = $msg . L('CONTROLLER_NAME_ADMIN,FAILURE');//错误日志
         $error_msg = $msg . L('FAILURE');//错误提示信息
 
-        if (!$role_info = $this->_getCache($role_id = $this->_model->role_id, 'Role')) {//角色不存在
+        if (!$role_info = $this->cache($role_id = $this->_model->role_id, 'Role')) {//角色不存在
             $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,ROLE,%role_id({$role_id}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
             $this->_ajaxReturn(false, $error_msg);
         }
@@ -100,7 +100,7 @@ class AdminController extends CommonController {
                 $this->_ajaxReturn(false, L('EDIT,FAILURE'));
             }
 
-            if (!$admin_info = $this->_getCache($pk_value)) {//管理员不存在
+            if (!$admin_info = $this->cache($pk_value)) {//管理员不存在
                 $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,CONTROLLER_NAME_ADMIN,%{$pk_field}({$pk_value}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
                 $this->_ajaxReturn(false, $error_msg);
             }
@@ -109,7 +109,7 @@ class AdminController extends CommonController {
                 $this->_sqlErrorExit($msg . L('CONTROLLER_NAME_ADMIN') . "{$admin_info['username']}({$pk_value})" . L('FAILURE'), $error_msg);
             }
 
-            $role_info = $this->_getCache($admin_info['role_id'], 'Role');
+            $role_info = $this->cache($admin_info['role_id'], 'Role');
             $admin_info['role_name'] = $role_info['role_name'];//角色名
 
             if (isset($data['password'])) {
@@ -118,7 +118,7 @@ class AdminController extends CommonController {
 
             $diff = $this->_dataDiff($admin_info, $data, $diff_key);//差异
             $this->_model->addLog($msg . L('CONTROLLER_NAME_ADMIN')  . "{$admin_info['username']}({$pk_value})." . $diff. L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
-            $this->_setCache()->_ajaxReturn(true, $msg . L('SUCCESS'));
+            $this->cache(null, null, null)->_ajaxReturn(true, $msg . L('SUCCESS'));
 
         }
         else {
@@ -129,7 +129,7 @@ class AdminController extends CommonController {
             }
 
             $this->_model->addLog($msg . L('CONTROLLER_NAME_ADMIN') . $data . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
-            $this->_setCache()->_ajaxReturn(true, $msg . L('SUCCESS'));
+            $this->cache(null, null, null)->_ajaxReturn(true, $msg . L('SUCCESS'));
         }
     }//end addAction
 
@@ -170,7 +170,7 @@ class AdminController extends CommonController {
         }
 
         clear_verifycoe('module_admin');//清空验证码
-        $admin_arr = $this->_getCache();
+        $admin_arr = $this->cache();
 
         if (isset($data['password'])) {
             $data['password'] = md5($data['password']);
@@ -179,7 +179,7 @@ class AdminController extends CommonController {
 
         $this->setAdminSession($admin_arr[$this->_admin_info[$pk_field]]);//重设session
         $this->_model->addLog(L('CN_XIUGAI,PASSWORD,SUCCESS'), LOG_TYPE_ADMIN_OPERATE);//操作日志
-        $this->_setCache($admin_arr)->_ajaxReturn(true, L('CN_XIUGAI,SUCCESS'));
+        $this->cache(null, null, $admin_arr)->_ajaxReturn(true, L('CN_XIUGAI,SUCCESS'));
     }//end changePassword
 
     /**
@@ -307,7 +307,7 @@ class AdminController extends CommonController {
         $error_msg   = $msg . L('FAILURE');//错误提示信息
 
         if ($role_id) {//角色id
-            $role_info = $this->_getCache($role_id, 'Role');
+            $role_info = $this->cache($role_id, 'Role');
 
             if (!$role_info) {//角色不存在
                 $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,ROLE,%{$field}({$role_id}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);

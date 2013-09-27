@@ -99,7 +99,7 @@ class FieldModel extends CommonModel {
         $input_name = strtolower($input_name);
         $menu_id    = isset($data['menu_id']) ? $data['menu_id'] : 0;
         $pk_value   = empty($data[$this->_pk_field]) ? 0 : $data[$this->_pk_field];
-        $fields     = $this->_getCache();
+        $fields     = $this->_module->cache();
 
         foreach ($fields as $field_id => $field) {
 
