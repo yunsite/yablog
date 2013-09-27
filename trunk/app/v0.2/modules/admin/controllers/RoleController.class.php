@@ -14,7 +14,7 @@
 
 class RoleController extends CommonController {
     /**
-     * @var bool $_after_exec_cache true删除后调用CommonController->_setCache()生成缓存， CommonController->delete()会用到。默认true
+     * @var bool $_after_exec_cache true删除后调用CommonController->cache()生成缓存， CommonController->delete()会用到。默认true
      */
     protected $_after_exec_cache    = true;
     /**
@@ -91,7 +91,7 @@ class RoleController extends CommonController {
             }
         }
 
-        $this->_setCache($admin, 'Admin');
+        $this->cache(null, 'Admin', $admin);
     }
 
     /**

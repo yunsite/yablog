@@ -634,35 +634,6 @@ class CommonController extends Controller {
     }
 
     /**
-     * 设置表数据缓存
-     *
-     * @param array  $data  手工设置缓存数据
-     * @param string $name  文件名。默认模块名称
-     * @param mixed  $model 模型。默认null，当前模型
-     * @param string $path  缓存路径。默认MODULE_CACHE_PATH
-     *
-     * @return object this
-     */
-    protected function _setCache($data = array(), $name = null, $model = null, $path = MODULE_CACHE_PATH) {
-        $name = $name ? $name : $this->_getControllerName();
-
-        if (!$data && $name == $this->_getControllerName() && method_exists($this, '_setCacheData')) {
-            $data = $this->_setCacheData();
-        }
-
-        if (null === $model) {
-            $model = $this->_model;
-        }
-        else {
-            $model = is_string($model) ? D($model) : $model;
-        }
-
-        F($name ? $name : $this->_getControllerName(), $data ? $data : $model->key_column($model->getPk())->select(), $path);
-
-        return $this;
-    }
-
-    /**
      * 更新某一字段值
      *
      * @param string $field     字段

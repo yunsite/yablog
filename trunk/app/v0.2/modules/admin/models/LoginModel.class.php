@@ -193,7 +193,7 @@ class LoginModel extends CommonModel {/**
                 $admin_arr[$admin_id]['mac_address'] = $mac_address;
             }
 
-            $this->_setCache($admin_arr, 'Admin');//缓存
+            $this->_setCache(null, 'Admin', $admin_arr);//缓存
             clear_verifycoe('module_admin');//清空验证码
 
             return true;
