@@ -182,7 +182,7 @@ class BaseModel extends Model {
      * @return string 管理 员姓名
      */
     protected function _getAdminName() {
-        $admin_info = Yaf_Registry::get(SESSION_ADMIN_KEY);
+        $admin_info = C(SESSION_ADMIN_KEY);
 
         return $admin_info ? $admin_info['realname'] : '';
     }
@@ -251,18 +251,18 @@ class BaseModel extends Model {
             $params = isset($auto[1]) ? $auto[1] :  null;//额外参数
 
             switch($method) {
-                case '_setPassword'://密码array('password', 'setPassword', Model::MODEL_BOTH, 'callback', 'data')
-                case '_unsigned'://unsigned类型array('sort_order', 'unsigned', Model::MODEL_BOTH, 'callback', 'data'),
-                case '_getCheckboxValue': //复选框array('is_restrict', '_getCheckboxValue', Model::MODEL_BOTH, 'callback'
-                case '_addtime'://strtotime array('add_time', 'add_time', Model::MODEL_BOTH, 'callback')
-                case '_strtotime'://strtotime array('lock_start_time', 'strtotime', Model::MODEL_BOTH, 'callback')
-                    $auto  = array($method, Model::MODEL_BOTH, 'callback');
+                case '_setPassword'://密码array('password', 'setPassword', 'callback', Model::MODEL_BOTH, 'data')
+                case '_unsigned'://unsigned类型array('sort_order', 'unsigned', 'callback', Model::MODEL_BOTH, 'data'),
+                case '_getCheckboxValue': //复选框array('is_restrict', '_getCheckboxValue', 'callback', Model::MODEL_BOTH
+                case '_addtime'://strtotime array('add_time', 'add_time', 'callback', Model::MODEL_BOTH)
+                case '_strtotime'://strtotime array('lock_start_time', 'strtotime', 'callback', Model::MODEL_BOTH)
+                    $auto  = array($method, 'callback', Model::MODEL_BOTH);
                     isset($params) ? $auto[] = $params : '';
                     break;
 
-                case 'get_user_id'://用户id array('user_id', 'get_user_id', Model::MODEL_BOTH, 'function')
+                case 'get_user_id'://用户id array('user_id', 'get_user_id', 'function', Model::MODEL_BOTH)
                 case 'get_client_ip'://用户ip  array('admin_ip', 'get_client_ip', Model::MODEL_INSERT, 'function', '1'),
-                case 'time'://时间戳array('last_time', 'time', Model::MODEL_BOTH, 'function'),
+                case 'time'://时间戳array('last_time', 'time', 'function', Model::MODEL_BOTH),
 
                     if ('insert' == $params) {
                         $when = Model::MODEL_INSERT;
@@ -271,20 +271,20 @@ class BaseModel extends Model {
                         $when = isset($this->_auto_validate_map[$params]) ? $this->_auto_validate_map[$params] : Model::MODEL_BOTH;
                     }
 
-                    $auto  = array($method, $when, 'function');
+                    $auto  = array($method, 'function', $when);
                     isset($params) ? $auto[] = $params : '';
                     break;
 
                 case 'string'://字符串填充array('controller', CONTROLLER_NAME, Model::MODEL_BOTH, 'string')
-                    $auto = array($method, Model::MODEL_BOTH, 'string');
+                    $auto = array($method, 'string', Model::MODEL_BOTH);
                     break;
 
-                /*case 'getAdminId'://管理员idarray('admin_name', 'getAdminId', Model::MODEL_INSERT, 'callback')
-                case 'getAdminName'://管理员姓名array('page_url', 'getAdminName', Model::MODEL_INSERT, 'callback')
-                case 'getPageUrl'://当前页面array('page_url', 'getPageUrl', Model::MODEL_INSERT, 'callback'),
-                case 'getRefererUrl'://来路页面array('referer_url', 'getRefererUrl', Model::MODEL_INSERT, 'callback')*/
+                /*case 'getAdminId'://管理员idarray('admin_name', 'getAdminId', 'callback', Model::MODEL_INSERT)
+                case 'getAdminName'://管理员姓名array('page_url', 'getAdminName', 'callback', Model::MODEL_INSERT)
+                case 'getPageUrl'://当前页面array('page_url', 'getPageUrl', 'callback', Model::MODEL_INSERT),
+                case 'getRefererUrl'://来路页面array('referer_url', 'getRefererUrl', 'callback', Model::MODEL_INSERT)*/
                 default:
-                    $auto  = array($method, $params == 'insert' ? Model::MODEL_INSERT : Model::MODEL_BOTH, 'callback');
+                    $auto  = array($method, 'callback', $params == 'insert' ? Model::MODEL_INSERT : Model::MODEL_BOTH);
                     break;
             }//end switch
         }//end if
@@ -344,36 +344,36 @@ class BaseModel extends Model {
             $params     = isset($validate[2]) ? $validate[2] :  null;//额外参数
 
             switch($method) {
-                case 'return'://只过滤array('', '{%PERMISSION,DATA,INVALID}', Model::MUST_VALIDATE, 'return')
-                    $validate = array('', $msg . L('DATA,INVALID'), Model::MUST_VALIDATE, $method);
+                case 'return'://只过滤array('', '{%PERMISSION,DATA,INVALID}', 'return', Model::MUST_VALIDATE)
+                    $validate = array('', $msg . L('DATA,INVALID'), $method, Model::MUST_VALIDATE);
                     break;
 
-                case 'unsigned': //unsigned类型array('', '{%PRIMARY_KEY,DATA,INVALID}', Model::MUST_VALIDATE, 'unsigned')
+                case 'unsigned': //unsigned类型array('', '{%PRIMARY_KEY,DATA,INVALID}', 'unsigned', Model::MUST_VALIDATE)
                     $min      = isset($params) ? $params : -1;//PLEASE_SELECT,PARENT_MENU
-                    $validate = array($min, $msg . (strpos($validate[1], ',') ? '' : L('MUST,GT') . $min), Model::MUST_VALIDATE, $method);
+                    $validate = array($min, $msg . (strpos($validate[1], ',') ? '' : L('MUST,GT') . $min), $method, Model::MUST_VALIDATE);
                     break;
 
-                case 'notblank'://不允许为空array('', '{%PLEASE_ENTER,CONTROLLER_NAME_MENU}', Model::MUST_VALIDATE, 'notblank')
-                    $validate = array('', L('PLEASE_ENTER') . $msg, Model::MUST_VALIDATE, $method);
+                case 'notblank'://不允许为空array('', '{%PLEASE_ENTER,CONTROLLER_NAME_MENU}', 'notblank', Model::MUST_VALIDATE)
+                    $validate = array('', L('PLEASE_ENTER') . $msg, $method, Model::MUST_VALIDATE);
                     break;
 
-                case 'validate_dir'://路径验证array('validate_dir', 'css路径非法', Model::VALUE_VALIDATE, 'function', Model::MODEL_BOTH, 'css路径|ROOT')
-                    $validate = array($method, $msg . L('DATA,INVALID'), Model::MUST_VALIDATE, 'function', Model::MODEL_BOTH, $msg . (isset($params) ? '|' . $params : ''));
+                case 'validate_dir'://路径验证array('validate_dir', 'css路径非法', 'function', Model::VALUE_VALIDATE, Model::MODEL_BOTH, 'css路径|ROOT')
+                    $validate = array($method, $msg . L('DATA,INVALID'), 'function', Model::MUST_VALIDATE, Model::MODEL_BOTH, $msg . (isset($params) ? '|' . $params : ''));
                     break;
 
                 case 'validate_path'://路径验证，不需要判断物理路径是否存在，只是判断/开始或结尾
-                    $validate = array('validate_dir', $msg . L('DATA,INVALID'), Model::MUST_VALIDATE, 'function', Model::MODEL_BOTH, $msg . '|null' . (isset($params) ? '|' . $params : ''));
+                    $validate = array('validate_dir', $msg . L('DATA,INVALID'), 'function', Model::MUST_VALIDATE, Model::MODEL_BOTH, $msg . '|null' . (isset($params) ? '|' . $params : ''));
                     break;
 
-                case '_checkLength'://验证长度 '_checkLength', '{%USERNAME,DATA,INVALID}', Model::VALUE_VALIDATE, 'callback', Model::MODEL_BOTH, array('USERNAME', 0, 20)
+                case '_checkLength'://验证长度 '_checkLength', '{%USERNAME,DATA,INVALID}', 'callback', Model::VALUE_VALIDATE, Model::MODEL_BOTH, array('USERNAME', 0, 20)
                     $params        = explode('|', $params);
                     $must_validate = $params[1] == 'must';//必须验证
                     $params[0]     = $validate[1];
-                    $validate      = array('_checkLength', $msg . L('DATA,INVALID'), $must_validate ? Model::MUST_VALIDATE : Model::VALUE_VALIDATE, 'callback', Model::MODEL_BOTH, $params);
+                    $validate      = array('_checkLength', $msg . L('DATA,INVALID'), 'callback', $must_validate ? Model::MUST_VALIDATE : Model::VALUE_VALIDATE, Model::MODEL_BOTH, $params);
                     break;
 
-                default://array('checkUsername', '{%PLEASE_ENTER,USERNAME}', Model::MUST_VALIDATE, 'callback', model::MODEL_BOTH, 'data')
-                    $validate = array($method, $msg, Model::MUST_VALIDATE, 'callback', Model::MODEL_BOTH, $params);
+                default://array('checkUsername', '{%PLEASE_ENTER,USERNAME}', 'callback', Model::MUST_VALIDATE, model::MODEL_BOTH, 'data')
+                    $validate = array($method, $msg, 'callback', Model::MUST_VALIDATE, Model::MODEL_BOTH, $params);
                     break;
             }//end switch
         }//end if
