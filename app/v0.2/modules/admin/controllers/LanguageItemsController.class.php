@@ -51,16 +51,15 @@ class LanguageItemsController extends CommonController {
             }
         }
 
-        C(array(APP_FORWARD => true, 'T_MODULE_ID' => $module_id));
-        $this->forward('LanguageModules', 'build');
+        C(array('T_MODULE_ID' => $module_id));
+        $this->R('LanguageModules/buildAction');
     }
 
     /**
      * {@inheritDoc}
      */
     protected function _afterSetField($field, $value, $pk_id) {
-        C(APP_FORWARD, true);
-        $this->forward('LanguageModules', 'languageItemsAfterSetField');
+        $this->R('LanguageModules/languageItemsAfterSetFieldAction');
     }
 
     /**
@@ -119,8 +118,8 @@ class LanguageItemsController extends CommonController {
             $diff = $this->_dataDiff($item_info, $data, $diff_key);//差异
             $this->_model->addLog($msg . L('CONTROLLER_NAME')  . "{$item_info[$this->_name_column]}({$pk_value})." . $diff. L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
             $this->createAction();
-            C(array(APP_FORWARD => true, 'T_MODULE_ID' => array($data['module_id'], $item_info['module_id'])));
-            $this->forward('LanguageModules', 'build', array('all'));
+            C(array('T_MODULE_ID' => array($data['module_id'], $item_info['module_id'])));
+            $this->R('LanguageModules/buildAction', array('all'));
             $this->_ajaxReturn(true, $msg . L('SUCCESS'));
 
         }
@@ -133,8 +132,8 @@ class LanguageItemsController extends CommonController {
 
             $this->_model->addLog($msg . L('CONTROLLER_NAME') . $diff . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
             $this->createAction();
-            C(array(APP_FORWARD => true, 'T_MODULE_ID' => array($data['module_id'])));
-            $this->forward('LanguageModules', 'build', array('all'));
+            C(array('T_MODULE_ID' => array($data['module_id'])));
+            $this->R('LanguageModules/buildAction', array('all'));
             $this->_ajaxReturn(true, $msg . L('SUCCESS'));
         }
     }

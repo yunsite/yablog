@@ -70,8 +70,7 @@ class CategoryController extends CommonController {
         $blog_arr = $this->_model->table(TB_BLOG)->field('link_url')->where(array('cate_id' => array('IN', $pk_id)))->select();//博客
         $this->_model->table(TB_BLOG)->where(array('cate_id' => array('IN', $pk_id)))->delete();//删除
         C('HTML_BUILD_INFO', $blog_arr);
-        C(APP_FORWARD, true);
-        $this->forward('Blog', 'publicDeleteHtml', array('build_arr' => null));//删除博客静态文件
+        $this->R('Blog/publicDeleteHtmlAction', array('build_arr' => null));//删除博客静态文件
     }
 
     /**
