@@ -308,7 +308,7 @@ class Model {
      */
     private function _validateFieldItem($data, $val) {
 
-        switch ($val[4]) {
+        switch ($val[3]) {
             case 'function': //使用函数进行验证
             case 'callback': //调用方法进行验证
                 $args = array();
@@ -325,7 +325,7 @@ class Model {
 
                 array_unshift($args, $data[$val[0]]);
 
-                if ('function' == $val[4]) {
+                if ('function' == $val[3]) {
 
                     //是否为允许的回调函数 by mrmsl on 2012-09-07 14:47:27
                     if (!ALLOW_AUTO_VALIDATE_FUNCTION || false === strpos(ALLOW_AUTO_VALIDATE_FUNCTION, ',' . $val[1] . ',')) {
@@ -392,7 +392,7 @@ class Model {
                 break;
 
             default: //检查附加规则
-                return $this->check($data[$val[0]], $val[1], $val[4]);
+                return $this->check($data[$val[0]], $val[1], $val[3]);
         } //end switch
     } //end _validateFieldItem
 
@@ -506,7 +506,8 @@ class Model {
         if ($this->_validate) {//如果设置了数据自动验证则进行数据验证
             $this->_error = $this->_patch_validate ? array() : $this->_error; //重置验证错误信息
 
-            //验证因子定义格式array(field,rule,message,condition,type,when,params)
+            //验证因子定义格式array(field,rule,message,condition,type,when,params) thinkphp
+            //验证因子定义格式array(field,rule,message,type,condition,when,params) yablog by mrmsl on 2013-09-27 11:13:03
             foreach ($this->_validate as $key => $val) {
 
                 if (empty($val[5]) || $val[5] == self::MODEL_BOTH || $val[5] == $type) {//判断是否需要执行验证
@@ -515,10 +516,10 @@ class Model {
                         $val[2] = L(substr($val[2], 2, -1));
                     }
 
-                    $val[3] = empty($val[3]) ? self::MUST_VALIDATE : $val[3];
-                    $val[4] = isset($val[4]) ? $val[4] : 'regex';
+                    $val[3] = isset($val[3]) ? $val[3] : 'regex';
+                    $val[4] = empty($val[4]) ? self::MUST_VALIDATE : $val[4];
 
-                    switch ($val[3]) { //判断验证条件
+                    switch ($val[4]) { //判断验证条件
                         case self::MUST_VALIDATE: //必须验证,不管表单是否有设置该字段
 
                             if (false === $this->_validateField($data, $val)) {
@@ -857,12 +858,13 @@ class Model {
         if ($this->_auto) { //自动填充
 
             foreach ($this->_auto as $auto) {
-                //填充因子定义格式 array('field','填充内容','填充条件','附加规则',[额外参数])
-                $auto[2] = empty($auto[2]) ? self::MODEL_INSERT : $auto[2]; //默认为新增的时候自动填充
+                //填充因子定义格式 array('field','填充内容','填充条件','附加规则',[额外参数]) thinkphp
+                //填充因子定义格式 array('field','填充内容','附加规则','填充条件',[额外参数]) yablog by mrmsl on 2013-09-27 11:18:15
+                $auto[3] = empty($auto[3]) ? self::MODEL_INSERT : $auto[3]; //默认为新增的时候自动填充
 
-                if ($type == $auto[2] || self::MODEL_BOTH == $auto[2]) {
+                if ($type == $auto[3] || self::MODEL_BOTH == $auto[3]) {
 
-                    switch ($auto[3]) {//附加规则
+                    switch ($auto[2]) {//附加规则
                         case 'function': //使用函数进行填充 字段的值作为参数
                         case 'callback': //使用回调方法
                             $args = array();
@@ -879,7 +881,7 @@ class Model {
 
                             isset($data[$auto[0]]) && array_unshift($args, $data[$auto[0]]);
 
-                            if ('function' == $auto[3]) {
+                            if ('function' == $auto[2]) {
 
                                 //是否为允许的回调函数 by mrmsl on 2012-09-07 14:47:27
                                 if (false === strpos(ALLOW_AUTO_OPERATION_FUNCTION, ',' . $auto[1] . ',')) {
