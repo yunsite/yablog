@@ -295,33 +295,6 @@ class BaseModel extends Model {
     }//end _setAutoOperate
 
     /**
-     * 设置表数据缓存
-     *
-     * @author          mrmsl <msl-138@163.com>
-     * @lastmodify      2013-01-22 11:17:05 by mrmsl
-     *
-     * @param array  $data  手工设置缓存数据
-     * @param string $name  文件名。默认模块名称
-     * @param mixed  $model 模型。默认null，当前模型
-     * @param string $path  缓存路径。默认MODULE_CACHE_PATH
-     *
-     * @return object this
-     */
-    protected function _setCache($data = array(), $name = null, $model = null, $path = MODULE_CACHE_PATH) {
-
-        if ($model === null) {
-            $model = $this;
-        }
-        else {
-            $model = is_string($model) ? D($model) : $model;
-        }
-
-        F($name ? $name : $this->getModelName(), $data ? $data : $model->key_column($model->getPk())->select(), $path);
-
-        return $model;
-    }
-
-    /**
      * 设置自动验证规则
      *
      * @author          mrmsl <msl-138@163.com>

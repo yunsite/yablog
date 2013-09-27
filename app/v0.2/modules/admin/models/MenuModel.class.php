@@ -217,7 +217,7 @@ class MenuModel extends CommonModel {
 
         //重新生成管理角色缓存
         if (isset($role_data)) {
-            $this->_setCache($role_data, 'Role', 'Role');
+            $this->_module->cache(null, 'Role', $role_data);
         }
         else {
             C(APP_FORWARD, true);

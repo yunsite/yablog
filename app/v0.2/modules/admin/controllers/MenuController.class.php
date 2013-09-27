@@ -189,7 +189,7 @@ class MenuController extends CommonController {
         array_walk($data, array($this, '_explodePriv'));
         $tree_data = Tree::array2tree($data, $this->_pk_field);//树形式
 
-        return $this->cache(null, null, $data)->_setCache($tree_data, $this->_getControllerName() . '_tree');
+        return $this->cache(null, null, $data)->cache(null, $this->_getControllerName() . '_tree', $tree_data);
     }
 
     /**
