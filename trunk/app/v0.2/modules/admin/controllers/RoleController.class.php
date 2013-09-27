@@ -178,7 +178,7 @@ class RoleController extends CommonController {
             $priv_id && $this->_model->setRolePriv($insert_id, $priv_id);
 
             $this->_model->addLog(L('ADD,CONTROLLER_NAME_ROLE') . $insert_data . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
-            $this->cache(null, null, null)->_ajaxReturn(true, L('ADD,SUCCESS'), $priv_id? APP_FORWARD : null);
+            $this->cache(null, null, null)->_ajaxReturn(true, L('ADD,SUCCESS'));
         }
     }//end add
 

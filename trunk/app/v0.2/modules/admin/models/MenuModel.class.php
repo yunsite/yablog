@@ -61,8 +61,7 @@ class MenuModel extends CommonModel {
      */
     protected function _afterDelete($data, $options = array()) {
         $this->_module->createAction();
-        C(APP_FORWARD, true);
-        $this->_module->forward('Role', 'setCache');//角色缓存
+        $this->_module->R('Role/setCacheAction');//角色缓存
     }
 
     /**
@@ -220,8 +219,7 @@ class MenuModel extends CommonModel {
             $this->_module->cache(null, 'Role', $role_data);
         }
         else {
-            C(APP_FORWARD, true);
-            $this->_module->forward('Role', 'setCache');
+            $this->_module->R('Role/setCacheAction');
         }
     }//end setMenuPriv
 }

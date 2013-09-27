@@ -74,8 +74,7 @@ class LanguageModulesController extends CommonController {
     protected function _afterDelete($pk_id) {
         $this->_deleteLanguageFile($pk_id);
 
-        C(APP_FORWARD, true);
-        $this->forward('LanguageItems', 'create');
+        $this->R('LanguageItems/createAction');
         $build_data = $this->_getBuildData($pk_id);
         $this->_buildScriptItems($build_data['js_data']);
         $this->createAction();
@@ -276,7 +275,7 @@ class LanguageModulesController extends CommonController {
      */
     public function buildAction() {
 
-        if ($t_module_id = C('T_MODULE_ID')) {//forward
+        if ($t_module_id = C('T_MODULE_ID')) {//$this->R()
             $module_id = $t_module_id;
         }
         else {

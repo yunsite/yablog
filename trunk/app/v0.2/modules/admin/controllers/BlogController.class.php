@@ -45,8 +45,7 @@ class BlogController extends CommonController {
 
         if ('cate_id' == $field || ($value && 'is_delete' == $field) || (!$value && 'is_issue' == $field)) {//转移分类、未发布、已删除
             //$this->getViewTemplate()->clearCache($this->_getControllerName(), 'detail', $pk_id);
-            C(APP_FORWARD, true);
-            $this->forward('Category', 'publicDeleteHtml');
+            $this->R('Category/publicDeleteHtmlAction');
             $this->_deleteBlogHtml(null);//删除静态文件
         }
     }

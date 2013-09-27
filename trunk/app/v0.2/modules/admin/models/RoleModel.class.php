@@ -135,7 +135,6 @@ class RoleModel extends CommonModel {
             }
         }
 
-        C(APP_FORWARD, true);
-        $this->_module->forward('Menu', 'create');//菜单缓存
+        $this->_module->R('Menu/createAction');//菜单缓存
     }//end setRolePriv
 }

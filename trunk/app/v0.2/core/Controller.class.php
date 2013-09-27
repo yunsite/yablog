@@ -400,7 +400,7 @@ class Controller {
             }
 
             F($name, $value, $path);
-            
+
             return $this;
         }
     }//end cache
@@ -533,6 +533,21 @@ class Controller {
         }
 
         return join($separator, $nav);
+    }
+
+    /**
+     * 远程调用模块的操作方法 URL 参数格式: 模块/操作
+     *
+     * @author          mrmsl <msl-138@163.com>
+     * @date            2013-09-27 16:53:36
+     *
+     * @param string $url 调用地址
+     * @param string|array $vars 调用参数,支持字符串和数组
+
+     * @return mixed 模块的操作方法返回结果
+     */
+    public function R($url, $vars = array()) {
+        R($url, $vars);
     }
 
     /**
