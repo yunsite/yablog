@@ -1407,8 +1407,9 @@ function error_handler($errno, $errstr, $errfile, $errline, $vars = '') {
     $error      .= defined('REQUEST_METHOD' ? REQUEST_METHOD : $_SERVER['REQUEST_METHOD']) . ' ';
     $error      .= defined('REQUEST_URI') ? REQUEST_URI : (empty($_SERVER['REQUEST_URI']) ? '': urldecode($_SERVER['REQUEST_URI']));
     $error      .= PHP_EOL;
+    $error      .= "in {$errfile} on line {$errline}" . PHP_EOL;
     $error      .= "{$error_arr[$errno]}[$errno]: ";
-    $error      .= "{$errstr} in {$errfile} on line {$errline} " . PHP_EOL;
+    $error      .= $errstr . PHP_EOL;
 
     //if (in_array($errno, $user_errors)) {
         //$error .= PHP_EOL . var_export($vars, true);
