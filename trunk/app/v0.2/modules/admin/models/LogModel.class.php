@@ -57,7 +57,7 @@ class LogModel extends CommonModel {
      * @return string 管理员姓名
      */
     protected function _getAdminName() {
-        $admin_info = Yaf_Registry::get(SESSION_ADMIN_KEY);
+        $admin_info = C(SESSION_ADMIN_KEY);
 
         return $admin_info ? $admin_info['realname'] : '';
     }
