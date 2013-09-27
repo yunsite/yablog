@@ -197,8 +197,11 @@ class Db {
         $this->_model = '_think_';
         $query_time = G('queryStartTime', 'queryEndTime', 6);//记录操作结束时间
         $log        = $this->_query_str . ' [ RunTime:' . $query_time . 's ]';
-        C(array('LOG_LEVEL' => E_APP_SQL, 'LOG_FILENAME' => 'sql'));
-        trigger_error($log);
+
+        if ($this->debug) {
+            C(array('LOG_LEVEL' => E_APP_SQL, 'LOG_FILENAME' => 'sql'));
+            trigger_error($log);
+        }
 
         //记录慢查询 by mrmsl on 2012-09-12 15:08:30
         if (($log_sloqeury = sys_config('sys_log_slowquery')) && $query_time > $log_sloqeury && false === strpos($this->_query_str, ' ' . $this->_parseTable(TB_LOG) . ' ')) {
