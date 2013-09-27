@@ -103,7 +103,7 @@ class BlogModel extends CommonModel {
             return L('INVALID,BELONG_TO_CATEGORY,DATA');
         }
 
-        return $this->_getCache($cate_id, 'Category') ? true : L('BELONG_TO_CATEGORY,NOT_EXIST');
+        return $this->_module->cache($cate_id, 'Category') ? true : L('BELONG_TO_CATEGORY,NOT_EXIST');
     }
 
     /**

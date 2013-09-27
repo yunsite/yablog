@@ -80,7 +80,7 @@ class LanguageModulesModel extends CommonModel {
         elseif (empty($data[$pk_field]) && !$parent_id) {//添加,必须选择所属模块
             return L('PLEASE_SELECT,PARENT_LANGUAGEMODULES');
         }
-        elseif (!$parent_info = $this->_getCache($parent_id)) {//模块不存在
+        elseif (!$parent_info = $this->_module->cache($parent_id)) {//模块不存在
             return L('PARENT_LANGUAGEMODULES,NOT_EXIST');
         }
         elseif (!in_array($parent_id, $this->_module->getProperty('_exclude_delete_id'))) {//二级模块不可以增加子模块

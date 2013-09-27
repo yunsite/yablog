@@ -14,7 +14,7 @@
 
 class FieldController extends CommonController {
     /**
-     * @var bool $_after_exec_cache true删除后调用CommonController->_setCache()生成缓存， CommonController->delete()会用到。默认true
+     * @var bool $_after_exec_cache true删除后调用CommonController->cache()生成缓存， CommonController->delete()会用到。默认true
      */
     protected $_after_exec_cache   = true;
     /**
@@ -176,12 +176,12 @@ class FieldController extends CommonController {
      * @return void 无返回值
      */
     private function _saveValueCallbackModule($menu_info) {
-        $menu_info  = is_int($menu_info) ? $this->_getCache($menu_info, 'Menu') : $menu_info;
+        $menu_info  = is_int($menu_info) ? $this->cache($menu_info, 'Menu') : $menu_info;
         $controller = $menu_info['controller'];//控制器
         $cache_key  = ucfirst($controller);
         $node_arr   = explode(',', $menu_info['node']);
         $parent_id  = $node_arr[count($node_arr) - 2];//父级菜单id
-        $parent_info= $this->_getCache($parent_id, 'Menu');
+        $parent_info= $this->cache($parent_id, 'Menu');
 
         if ('guestbook_comments' == $parent_info['action']) {//留言评论模块,包含留言模块,评论模块
             $parent_id = $parent_info['parent_id'];
@@ -189,7 +189,7 @@ class FieldController extends CommonController {
 
         $menu_ids   = $this->_getChildrenIds($parent_id, false, false, 'Menu');
         $data       = $this->_model->where("menu_id IN({$menu_ids}) AND is_enable=1")->getField('input_name,input_value');
-        $this->_setCache($data, $cache_key);
+        $this->ache(null, $cache_key, $data);
 
         $system_js_filename = WWWROOT . sys_config('sys_base_js_path') . 'System.js';
         $system_js_data     = file_get_contents($system_js_filename);
@@ -209,7 +209,7 @@ class FieldController extends CommonController {
      * @return void 无返回值
      */
     private function _saveValueCallbackSystem($menu_info) {
-        $menu_info  = is_int($menu_info) ? $this->_getCache($menu_info, 'Menu') : $menu_info;
+        $menu_info  = is_int($menu_info) ? $this->cache($menu_info, 'Menu') : $menu_info;
         $controller = $menu_info['controller'];//控制器
         $cache_key  = ucfirst($controller);
         $node_arr   = explode(',', $menu_info['node']);
@@ -218,7 +218,7 @@ class FieldController extends CommonController {
         //$data       = $this->_model->where("menu_id IN({$menu_ids}) AND is_enable=1")->field('input_name,input_value,customize_1,is_enable')->select();
         //走缓存 by mrmsl on 2012-09-10 09:49:03
         $menu_ids   = var_export($menu_ids, true);
-        $data       = array_filter($this->_getCache(false, null, true), create_function('$v', 'return in_array($v["menu_id"],' . $menu_ids . ') && $v["is_enable"];'));
+        $data       = array_filter($this->cache(), create_function('$v', 'return in_array($v["menu_id"],' . $menu_ids . ') && $v["is_enable"];'));
 
         if (empty($data)) {//空数据，不修改，直接返回
             return;
@@ -240,7 +240,7 @@ class FieldController extends CommonController {
         $system_data['sys_base_domain_scope'] = substr($system_data['sys_base_domain'], strpos($system_data['sys_base_domain'], '.'));//
         $system_data['sys_base_website'] = $system_data['sys_base_http_protocol'] . '://' . $system_data['sys_base_domain'] . '/';//网站url
 
-        $this->_setCache($system_data, $cache_key);
+        $this->cache(null, $cache_key, $system_data);
 
         $js_data['IS_LOCAL'] = IS_LOCAL;
         $js_data['sys_base_website'] = $system_data['sys_base_website'];//网站url
@@ -263,7 +263,7 @@ class FieldController extends CommonController {
      */
     protected function _infoCallback(&$info) {
 
-        if ($menu_info = $this->_getCache($info['menu_id'], 'Menu')) {
+        if ($menu_info = $this->cache($info['menu_id'], 'Menu')) {
             $info['menu_name'] = $menu_info['menu_name'];
         }
     }
@@ -373,7 +373,7 @@ class FieldController extends CommonController {
         $log_msg   = $msg . L($module_key . ',FAILURE');//错误日志
         $error_msg = $msg . L('FAILURE');//错误提示信息
 
-        if (!$menu_info = $this->_getCache($menu_id = $this->_model->menu_id, 'Menu')) {//菜单不存在
+        if (!$menu_info = $this->cache($menu_id = $this->_model->menu_id, 'Menu')) {//菜单不存在
             $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,PARENT_FIELD,%menu_id({$menu_id}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
             $this->_ajaxReturn(false, $error_msg);
         }
@@ -382,7 +382,7 @@ class FieldController extends CommonController {
 
         if ($pk_value) {//编辑
 
-            if (!$field_info = $this->_getCache($pk_value)) {//表单域不存在
+            if (!$field_info = $this->cache($pk_value)) {//表单域不存在
                 $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,CONTROLLER_NAME_ADMIN,%{$pk_field}({$pk_value}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
                 $this->_ajaxReturn(false, $error_msg);
             }
@@ -391,12 +391,12 @@ class FieldController extends CommonController {
                 $this->_sqlErrorExit($msg . L($module_key) . "{$field_info[$this->_name_column]}({$pk_value})" . L('FAILURE'), $error_msg);
             }
 
-            $menu_info = $this->_getCache($field_info['menu_id'], 'Role');
+            $menu_info = $this->cache($field_info['menu_id'], 'Role');
             $field_info['menu_name'] = $menu_info['menu_name'];//菜单名
 
             $diff = $this->_dataDiff($field_info, $data, $diff_key);//差异
             $this->_model->addLog($msg . L($module_key)  . "{$field_info[$this->_name_column]}({$pk_value})." . $diff. L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
-            $this->_setCache()->_ajaxReturn(true, $msg . L('SUCCESS'));
+            $this->cache(null, null, null)->_ajaxReturn(true, $msg . L('SUCCESS'));
 
         }
         else {
@@ -407,7 +407,7 @@ class FieldController extends CommonController {
             }
 
             $this->_model->addLog($msg . L($module_key) . $data . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
-            $this->_setCache()->_ajaxReturn(true, $msg . L('SUCCESS'));
+            $this->cache(null, null, null)->_ajaxReturn(true, $msg . L('SUCCESS'));
         }
     }//end addAction
 
@@ -482,8 +482,8 @@ class FieldController extends CommonController {
             $this->_ajaxReturn(true, '', $this->_getTreeData($field_id, false));
         }
 
-        $data = $this->_getCache(0, CONTROLLER_NAME . '_tree');
-        $this->_ajaxReturn(true, '', $data, count($this->_getCache()));
+        $data = $this->cache(0, CONTROLLER_NAME . '_tree');
+        $this->_ajaxReturn(true, '', $data, count($this->cache()));
     }//end listAction
 
     /**
@@ -611,7 +611,7 @@ class FieldController extends CommonController {
     public function publicSaveValueAction() {
         $error   = L('SAVE,FAILURE');//保存失败错误
         $menu_id = Filter::int('_menu_id');//菜单id
-        $menu    = $this->_getCache(0, 'Menu');//菜单数据
+        $menu    = $this->cache(0, 'Menu');//菜单数据
 
         if (!isset($menu[$menu_id])) {//菜单不存在
             $this->_model->addLog(L("SAVE,CONTROLLER_NAME_FIELD,VALUE,FAILURE,%:(,MENU,%menu_id={$menu_id}}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
@@ -638,7 +638,7 @@ class FieldController extends CommonController {
         ->where("m.menu_id={$menu_id} AND f.is_enable=1")
         ->key_column($this->_pk_field)->select();*/
         //走缓存 by mrmsl on 2012-09-05 14:05:14
-        $field_arr  = array_filter($this->_getCache(), create_function('$v', 'return $v["menu_id"] == ' . $menu_id . ' && $v["is_enable"];'));
+        $field_arr  = array_filter($this->cache(), create_function('$v', 'return $v["menu_id"] == ' . $menu_id . ' && $v["is_enable"];'));
 
         if (empty($field_arr)) {//查询出错或表单域为空
 
@@ -677,7 +677,7 @@ class FieldController extends CommonController {
             }
         }
 
-        $this->_setCache();//重新生成缓存
+        $this->cache(null, null, null);//重新生成缓存
         //回调 by mrmsl on 2012-09-22 15:34:53
         method_exists($this, ($callback = '_saveValueCallback' . ucfirst($controller))) && $this->$callback($menu_info);
 

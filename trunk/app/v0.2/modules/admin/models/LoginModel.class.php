@@ -100,7 +100,7 @@ class LoginModel extends CommonModel {/**
             return false;
         }
 
-        $admin_arr       = $this->_getCache(0, 'Admin');//管理员缓存
+        $admin_arr       = $this->_module->cache(0, 'Admin');//管理员缓存
         $username        = strtolower($data['username']);//用户名
         $_password       = $password;
         $password        = md5($this->_encryptPassword($password));//密码，缓存密码，三重加密 by mrmsl on 2012-07-02 10:45:11

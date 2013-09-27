@@ -41,7 +41,7 @@ class HtmlController extends CommonController {
      * @return void 无返回值
      */
     protected function _afterDelete($pk_id) {
-        $caches = $this->_getCache();
+        $caches = $this->cache();
 
         foreach($pk_id as $id) {
             is_file($filename = WWWROOT . $caches[$id]['html_name'] . C('HTML_SUFFIX')) && unlink($filename);
@@ -91,7 +91,7 @@ class HtmlController extends CommonController {
         static $cate_arr = null;
 
         if (null === $cate_arr) {
-            $cate_arr = $this->_getCache(0, 'Category');
+            $cate_arr = $this->cache(0, 'Category');
         }
 
         $html      = '';
@@ -314,7 +314,7 @@ class HtmlController extends CommonController {
         }
 
         $this->_model->addLog(L('BUILD,STATIC_PAGE') . ',' . ACTION_NAME . C('T_LOG'), LOG_TYPE_ADMIN_OPERATE);
-        $this->_setCache()->_ajaxReturn(true, L('BUILD,STATIC_PAGE,SUCCESS'));
+        $this->cache(null, null, null)->_ajaxReturn(true, L('BUILD,STATIC_PAGE,SUCCESS'));
     }
 
     /**
@@ -341,7 +341,7 @@ class HtmlController extends CommonController {
 
         if ($pk_value) {//编辑
 
-            if (!$info = $this->_getCache($pk_value)) {//ssi不存在
+            if (!$info = $this->cache($pk_value)) {//ssi不存在
                 $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,CONTROLLER_NAME,%{$pk_field}({$pk_value}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
                 $this->_ajaxReturn(false, $error_msg);
             }
@@ -352,7 +352,7 @@ class HtmlController extends CommonController {
 
             $diff = $this->_dataDiff($info, $data, $diff_key);//差异
             $this->_model->addLog($msg . L('CONTROLLER_NAME')  . "{$info['tpl_name']}({$pk_value})." . $diff. L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
-            $this->_setCache()->_ajaxReturn(true, $msg . L('SUCCESS'));
+            $this->cache(null, null, null)->_ajaxReturn(true, $msg . L('SUCCESS'));
 
         }
         else {
@@ -363,7 +363,7 @@ class HtmlController extends CommonController {
             }
 
             $this->_model->addLog($msg . L('CONTROLLER_NAME') . $data . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
-            $this->_setCache()->_ajaxReturn(true, $msg . L('SUCCESS'));
+            $this->cache(null, null, null)->_ajaxReturn(true, $msg . L('SUCCESS'));
         }
     }
 
@@ -377,7 +377,7 @@ class HtmlController extends CommonController {
      */
     public function allAction() {
 
-        if ($data = $this->_getCache()) {
+        if ($data = $this->cache()) {
             $error  = '';
 
             foreach($data as $item) {
@@ -406,7 +406,7 @@ class HtmlController extends CommonController {
             $this->_ajaxReturn(false, L('BUILD,STATIC_PAGE,FAILURE'));
         }
 
-        $caches = $this->_getCache();
+        $caches = $this->cache();
         $error  = '';
         $log    = '';
 

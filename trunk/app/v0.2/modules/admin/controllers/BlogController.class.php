@@ -78,7 +78,7 @@ class BlogController extends CommonController {
      */
     protected function _infoCallback(&$cate_info) {
         $cate_info['add_time'] = new_date(sys_config('sys_timezone_datetime_format'), $cate_info['add_time']);
-        $cate_info['cate_name'] = $this->_getCache($cate_info['cate_id'] . '.cate_name', 'Category');
+        $cate_info['cate_name'] = $this->cache($cate_info['cate_id'] . '.cate_name', 'Category');
     }
 
     /**
@@ -103,7 +103,7 @@ class BlogController extends CommonController {
         $msg       = L($pk_value ? 'EDIT' : 'ADD');//添加或编辑
         $log_msg   = $msg . L('CONTROLLER_NAME_BLOG,FAILURE');//错误日志
         $error_msg = $msg . L('FAILURE');//错误提示信息
-        $cate_info = $this->_getCache($cate_id = $this->_model->cate_id, 'Category');//所属分类
+        $cate_info = $this->cache($cate_id = $this->_model->cate_id, 'Category');//所属分类
 
         $data['cate_name'] = $cate_info['cate_name'];//所属分类名称
 
@@ -120,7 +120,7 @@ class BlogController extends CommonController {
                 $this->_sqlErrorExit($msg . L('CONTROLLER_NAME_BLOG') . "{$blog['title']}({$pk_value})" . L('FAILURE'), $error_msg);
             }
 
-            $cate_info = $this->_getCache($blog_info['cate_id'], 'Category');
+            $cate_info = $this->cache($blog_info['cate_id'], 'Category');
             $blog_info['cate_name'] = $cate_info['cate_name'];//所属分类名
 
             $diff = $this->_dataDiff($blog_info, $data, $diff_key);//差异
@@ -241,7 +241,7 @@ class BlogController extends CommonController {
         }
 
         if ($cate_id) {
-            $cate_arr = $this->_getCache($cate_id, 'Category');
+            $cate_arr = $this->cache($cate_id, 'Category');
 
             if (!$cate_arr) {
                 $this->_model->addLog(L("INVALID_PARAM,%:,BELONG_TO_CATEGORY,%cate_id({$cate_id}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
@@ -268,7 +268,7 @@ class BlogController extends CommonController {
 
         $data === false && $this->_sqlErrorExit(L('QUERY,CONTROLLER_NAME_BLOG') . L('LIST,ERROR'));//出错
 
-        $cate_arr = $this->_getCache(false, 'Category');
+        $cate_arr = $this->cache(false, 'Category');
 
         foreach($data as &$v) {
             $v['cate_name'] = $cate_arr[$v['cate_id']]['cate_name'];
@@ -293,7 +293,7 @@ class BlogController extends CommonController {
         $error_msg   = $msg . L('FAILURE');//错误提示信息
 
         if ($cate_id) {//分类id
-            $cate_info = $this->_getCache($cate_id, 'Category');
+            $cate_info = $this->cache($cate_id, 'Category');
 
             if (!$cate_info) {//分类不存在
                 $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,BELONG_TO_CATEGORY,%{$field}({$cate_id}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);

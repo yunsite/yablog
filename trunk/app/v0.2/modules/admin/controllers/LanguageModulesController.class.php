@@ -123,7 +123,7 @@ class LanguageModulesController extends CommonController {
     private function _combo() {
         $module_id  = Filter::int('module_id', 'get');
         $parent_id  = Filter::int('parent_id', 'get');
-        $cache      = $this->_getCache();
+        $cache      = $this->cache();
 
         if ($module_id) {
 
@@ -180,7 +180,7 @@ class LanguageModulesController extends CommonController {
     private function _deleteLanguageFile($pk_id) {
         $path_arr   = array_flip($this->_exclude_delete_id);
         $lang_arr   = C('LANGUAGE_ARR');
-        $modules    = $this->_getCache();
+        $modules    = $this->cache();
 
         foreach($modules as $k => $v) {
 
@@ -205,13 +205,13 @@ class LanguageModulesController extends CommonController {
      * @return array 语言项数据,array('php_data' => $php_data, 'js_data' => $js_data)
      */
     private function _getBuildData($module_id = array()) {
-        $modules    = $this->_getCache();
+        $modules    = $this->cache();
         $path_arr   = array_flip($this->_exclude_delete_id);
         $lang_arr   = C('LANGUAGE_ARR');
         $js_data    = array();//生成语言项js文件
         $php_data   = array();//生成语言项php文件
 
-        foreach ($this->_getCache(0, 'LanguageItems') as $v) {
+        foreach ($this->cache(0, 'LanguageItems') as $v) {
             $_module_id = $v['module_id'];
             $node_arr   = explode(',', $modules[$_module_id]['node']);
             $first_node = $node_arr[0];
@@ -298,7 +298,7 @@ class LanguageModulesController extends CommonController {
         }
 
         $module_id  = array_unique($module_id);
-        $modules    = $this->_getCache();
+        $modules    = $this->cache();
         $error      = '';
         $log        = '';
 
@@ -355,7 +355,7 @@ class LanguageModulesController extends CommonController {
 
         $tree_data = Tree::array2tree($data, $this->_pk_field);//树形式
 
-        return $this->_setCache($data)->_setCache($tree_data, CONTROLLER_NAME . '_tree');
+        return $this->cache(null, null, $data)->_setCache($tree_data, CONTROLLER_NAME . '_tree');
     }
 
     /**
@@ -381,12 +381,12 @@ class LanguageModulesController extends CommonController {
      * @return void 无返回值
      */
     public function listAction() {
-        $data = $this->_getCache(0, CONTROLLER_NAME . '_tree');
+        $data = $this->cache(0, CONTROLLER_NAME . '_tree');
 
         if (isset($_GET['combo'])) {
             $this->_combo();
         }
 
-        $this->_ajaxReturn(true, '', $data, count($this->_getCache()));
+        $this->_ajaxReturn(true, '', $data, count($this->cache()));
     }//end listAction
 }

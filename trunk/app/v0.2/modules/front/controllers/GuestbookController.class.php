@@ -27,7 +27,7 @@ class GuestbookController extends CommonController {
      */
     protected function init() {
 
-        if ($languages = $this->_getCache(0, MODULE_NAME . DS . LANG . DS . 'comments', false, LANG_PATH)) {
+        if ($languages = $this->cache(0, MODULE_NAME . DS . LANG . DS . 'comments', '', LANG_PATH)) {
             L($languages);
         }
 

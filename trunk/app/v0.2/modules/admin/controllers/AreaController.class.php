@@ -74,7 +74,7 @@ class AreaController extends CommonController {
 
         $area_data = Tree::array2tree($area_data, $this->_pk_field);//树形式
 
-        return $this->_setCache($data)->_setCache($area_data, $this->_getControllerName() . '_tree');
+        return $this->cache(null, null, $data)->cache(null, $this->_getControllerName() . '_tree', $area_data);
     }
 
     /**
@@ -99,8 +99,8 @@ class AreaController extends CommonController {
             $this->_ajaxReturn(true, '', $this->_getTreeData($area_id, false));
         }
 
-        $data = $this->_getCache(0, CONTROLLER_NAME . '_tree');
-        $this->_ajaxReturn(true, '', $data, count($this->_getCache()));
+        $data = $this->cache(0, CONTROLLER_NAME . '_tree');
+        $this->_ajaxReturn(true, '', $data, count($this->cache()));
     }
 
     /**
@@ -122,7 +122,7 @@ class AreaController extends CommonController {
             $parent_id = Filter::int('parent_id', 'get');
 
             //添加指定地区子级地区，获取指定地区信息by mashanlng on 2012-08-21 13:51:25
-            if ($parent_id && ($parent_info = $this->_getCache($parent_id))) {
+            if ($parent_id && ($parent_info = $this->cache($parent_id))) {
                 $parent_info = array(
                 	'area_id'   => $parent_id,
                 	'area_name' => $parent_info['area_name'],

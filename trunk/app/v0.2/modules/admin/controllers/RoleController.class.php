@@ -82,7 +82,7 @@ class RoleController extends CommonController {
      * @return void 无返回值
      */
     protected function _afterDelete($pk_id) {
-        $admin = $this->_getCache(0, 'Admin');
+        $admin = $this->cache(0, 'Admin');
 
         foreach($admin as $key => $item) {
 
@@ -135,7 +135,7 @@ class RoleController extends CommonController {
         $priv_id   = $this->_model->_priv_id;
         $data      = $this->_model->getProperty('_data');//数据，$model->data 在save()或add()后被重置为array()
         $diff_key  = $this->_name_column . ',memo,sort_order';//比较差异字段
-        $cache_data= $this->_getCache();
+        $cache_data= $this->cache();
 
         if ($pk_value) {//编辑
 
@@ -164,7 +164,7 @@ class RoleController extends CommonController {
             //管理员操作日志
             $this->_model->addLog(L('EDIT,CONTROLLER_NAME_ROLE')  . "{$role_info[$this->_name_column]}({$pk_value})." . $diff. L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
 
-            $this->_setCache()->_ajaxReturn(true, L('EDIT,SUCCESS'));
+            $this->cache(null, null, null)->_ajaxReturn(true, L('EDIT,SUCCESS'));
         }
         else {
             $priv        = $this->_getRolePriv($priv_id);
@@ -178,7 +178,7 @@ class RoleController extends CommonController {
             $priv_id && $this->_model->setRolePriv($insert_id, $priv_id);
 
             $this->_model->addLog(L('ADD,CONTROLLER_NAME_ROLE') . $insert_data . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
-            $this->_setCache()->_ajaxReturn(true, L('ADD,SUCCESS'), $priv_id? APP_FORWARD : null);
+            $this->cache(null, null, null)->_ajaxReturn(true, L('ADD,SUCCESS'), $priv_id? APP_FORWARD : null);
         }
     }//end add
 
@@ -194,7 +194,7 @@ class RoleController extends CommonController {
      * @return array 权限信息数组
      */
     public function diffRolePriv($old_menu_id, $new_menu_id) {
-        $cache_data  = $this->_getCache(0, 'Menu');//菜单缓存
+        $cache_data  = $this->cache(0, 'Menu');//菜单缓存
         $old_menu_id = is_array($old_menu_id) ? $old_menu_id : explode(',', $old_menu_id);//
         $new_menu_id = is_array($new_menu_id) ? $new_menu_id : explode(',', $new_menu_id);
         $diff_old    = array_diff($old_menu_id, $new_menu_id);//删除的
@@ -243,7 +243,7 @@ class RoleController extends CommonController {
      * @return void 无返回值
      */
     public function listAction() {
-        $data = array_values($this->_getCache());
+        $data = array_values($this->cache());
         $this->_unshift && array_unshift($data, array($this->_pk_field => 0, $this->_name_column => L('PLEASE_SELECT')));
         $this->_ajaxReturn(true, '', $data);
     }
@@ -255,7 +255,7 @@ class RoleController extends CommonController {
 
         if ($info['priv']) {
             $info['_priv_id'] = join(',', array_keys($info['priv']));
-            $menu_arr  = $this->_getCache(0, 'Menu');
+            $menu_arr  = $this->cache(0, 'Menu');
             $priv_menu = '';
 
             foreach($info['priv'] as $menu_id => $item) {
@@ -280,9 +280,9 @@ class RoleController extends CommonController {
      * @return void 无返回值
      */
     public function publicPrivAction() {
-        $data        = $this->_getCache();
+        $data        = $this->cache();
         $menu_id     = Filter::int('menu_id', 'get');
-        $menu_info   = $this->_getCache($menu_id, 'Menu');
+        $menu_info   = $this->cache($menu_id, 'Menu');
         $menu_priv   = $menu_id && $menu_info && $menu_info['priv'] ? array_keys($menu_info['priv']) : false;
         $tree        = array();
 

@@ -56,7 +56,7 @@ class MenuController extends CommonController {
      * @return array 菜单树数据
      */
     private function _getTree($data = array()) {
-        $data = $data ? $data : $this->_getCache(0, CONTROLLER_NAME . '_tree');
+        $data = $data ? $data : $this->cache(0, CONTROLLER_NAME . '_tree');
         $tree = array();
         $k    = 0;
 
@@ -189,7 +189,7 @@ class MenuController extends CommonController {
         array_walk($data, array($this, '_explodePriv'));
         $tree_data = Tree::array2tree($data, $this->_pk_field);//树形式
 
-        return $this->_setCache($data)->_setCache($tree_data, $this->_getControllerName() . '_tree');
+        return $this->cache(null, null, $data)->_setCache($tree_data, $this->_getControllerName() . '_tree');
     }
 
     /**
@@ -204,7 +204,7 @@ class MenuController extends CommonController {
      * @return array 权限信息数组
      */
     public function diffMenuPriv($old_role_id, $new_role_id) {
-        $cache_data  = $this->_getCache(0, 'Role');//角色缓存
+        $cache_data  = $this->cache(0, 'Role');//角色缓存
         $old_role_id = is_array($old_role_id) ? $old_role_id : explode(',', $old_role_id);//
         $new_role_id = is_array($new_role_id) ? $new_role_id : explode(',', $new_role_id);
         $diff_old    = array_diff($old_role_id, $new_role_id);//删除的
@@ -277,9 +277,9 @@ class MenuController extends CommonController {
             $this->_ajaxReturn(true, '', $this->_getTreeData($menu_id, false));
         }
 
-        $data = $this->_getCache(0, CONTROLLER_NAME . '_tree');
+        $data = $this->cache(0, CONTROLLER_NAME . '_tree');
 
-        $this->_ajaxReturn(true, '', $data, count($this->_getCache()));
+        $this->_ajaxReturn(true, '', $data, count($this->cache()));
     }//end listAction
 
     /**
@@ -291,9 +291,9 @@ class MenuController extends CommonController {
      * @return void 无返回值
      */
     public function publicPrivAction() {
-        $data        = $this->_getCache(0, CONTROLLER_NAME . '_tree');
+        $data        = $this->cache(0, CONTROLLER_NAME . '_tree');
         $role_id     = Filter::int('role_id', 'get');
-        $role_info   = $this->_getCache($role_id, 'Role');
+        $role_info   = $this->cache($role_id, 'Role');
         $role_priv   = $role_id && $role_info && $role_info['priv'] ? $role_info['priv'] : false;
 
         $this->_ajaxReturn(true, '', $this->_priv($data, $role_id, $role_priv));
@@ -316,7 +316,7 @@ class MenuController extends CommonController {
         $parent_id = Filter::int('parent_id', 'get');
 
         //添加指定菜单子菜单，获取指定菜单信息by mashanlng on 2012-08-21 13:53:35
-        if ($parent_id && ($parent_info = $this->_getCache($parent_id))) {
+        if ($parent_id && ($parent_info = $this->cache($parent_id))) {
             $parent_info = array(
                  'menu_id'     => $parent_id,
                  'controller'  => $parent_info['controller'],

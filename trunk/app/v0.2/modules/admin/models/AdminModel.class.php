@@ -118,7 +118,7 @@ class AdminModel extends CommonModel {
         }
 
         $username = strtolower($username);
-        $users    = $this->_getCache();
+        $users    = $this->_module->cache();
         $admin_id = isset($data[$v = $this->getPk()]) ? $data[$v] : 0;
 
         foreach ($users as $user_id => $user) {

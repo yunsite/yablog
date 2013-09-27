@@ -131,7 +131,7 @@ class CategoryController extends CommonController {
             return;
         }
 
-        $cate_arr  = $this->_getCache();
+        $cate_arr  = $this->cache();
 
         if (!$cate_arr) {
             $this->_showMessage('no arr', null, 404);

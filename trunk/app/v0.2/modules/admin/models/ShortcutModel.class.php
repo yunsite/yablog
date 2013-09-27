@@ -78,7 +78,7 @@ class ShortcutModel extends CommonModel {
             return false;
         }
 
-        if (!$this->_getCache($menu_id, 'Menu')) {
+        if (!$this->_module->cache($menu_id, 'Menu')) {
             return L('BELONG_TO_MENU,NOT_EXIST');
         }
 

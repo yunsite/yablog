@@ -41,7 +41,7 @@ class LanguageItemsController extends CommonController {
      * @return void 无返回值
      */
     protected function _afterDelete($pk_id) {
-        $items      = $this->_getCache();
+        $items      = $this->cache();
         $module_id  = array();
 
         foreach($items as $k => $v) {
@@ -68,7 +68,7 @@ class LanguageItemsController extends CommonController {
      */
     protected function _infoCallback(&$info) {
 
-        if ($menu_info = $this->_getCache($info['module_id'], 'LanguageModules')) {
+        if ($menu_info = $this->cache($info['module_id'], 'LanguageModules')) {
             $info['module_name'] = $menu_info['module_name'];
         }
     }
@@ -95,7 +95,7 @@ class LanguageItemsController extends CommonController {
         $log_msg   = $msg . L('LANGUAGE_ITEM,FAILURE');//错误日志
         $error_msg = $msg . L('FAILURE');//错误提示信息
 
-        if (!$module_info = $this->_getCache($module_id = $this->_model->module_id, 'LanguageModules')) {//语言包模块不存在
+        if (!$module_info = $this->cache($module_id = $this->_model->module_id, 'LanguageModules')) {//语言包模块不存在
             $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,LANGUAGE_MODULE,%module_id({$module_id}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
             $this->_ajaxReturn(false, $error_msg);
         }
@@ -104,7 +104,7 @@ class LanguageItemsController extends CommonController {
 
         if ($pk_value) {//编辑
 
-            if (!$item_info = $this->_getCache($pk_value)) {//语言项不存在
+            if (!$item_info = $this->cache($pk_value)) {//语言项不存在
                 $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,CONTROLLER_NAME,%{$pk_field}({$pk_value}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
                 $this->_ajaxReturn(false, $error_msg);
             }
@@ -113,7 +113,7 @@ class LanguageItemsController extends CommonController {
                 $this->_sqlErrorExit($msg . L('CONTROLLER_NAME') . "{$item_info[$this->_name_column]}({$pk_value})" . L('FAILURE'), $error_msg);
             }
 
-            $module_info = $this->_getCache($item_info['module_id'], 'LanguageModules');
+            $module_info = $this->cache($item_info['module_id'], 'LanguageModules');
             $item_info['module_name'] = $module_info['module_name'];//语言包模块名
 
             $diff = $this->_dataDiff($item_info, $data, $diff_key);//差异
@@ -158,7 +158,7 @@ class LanguageItemsController extends CommonController {
         }
 
 
-        return $this->_setCache($data);
+        return $this->cache(null, null, $data);
     }
 
     /**
@@ -185,7 +185,7 @@ class LanguageItemsController extends CommonController {
 
         if ($module_id) {
 
-            !$this->_getCache($module_id, 'LanguageModules') && $this->_ajaxReturn(true, '', array(), 0);
+            !$this->cache($module_id, 'LanguageModules') && $this->_ajaxReturn(true, '', array(), 0);
 
             $where['a.module_id'] = $module_id;
         }

@@ -43,7 +43,7 @@ class ShortcutController extends CommonController {
         $msg       = L($pk_value ? 'EDIT' : 'ADD');//添加或编辑
         $log_msg   = $msg . L('SHORTCUT,FAILURE');//错误日志
         $error_msg = $msg . L('FAILURE');//错误提示信息
-        $menu_arr   = $this->_getCache(0, 'Menu');
+        $menu_arr   = $this->cache(0, 'Menu');
 
         $data['menu_name'] = $menu_arr[$this->_model->menu_id]['menu_name'];//所属菜单
 
