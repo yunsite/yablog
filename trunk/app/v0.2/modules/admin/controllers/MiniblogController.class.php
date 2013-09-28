@@ -44,7 +44,7 @@ class MiniblogController extends CommonController {
 
         $data       = $this->_model
         ->where(array($this->_pk_field => array('IN', $pk_id)))
-        ->key_column($this->_pk_field)
+        ->index($this->_pk_field)
         ->field($this->_pk_field . ',link_url')
         ->select();
 

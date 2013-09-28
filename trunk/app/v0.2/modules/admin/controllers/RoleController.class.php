@@ -109,7 +109,7 @@ class RoleController extends CommonController {
         ->field("a.*,GROUP_CONCAT(b.menu_id) AS priv,GROUP_CONCAT(c.controller,c.action) AS priv_letter")
         ->group('a.role_id')
         ->order('a.sort_order ASC, a.role_id ASC')
-        ->key_column($this->_pk_field)->select();
+        ->index($this->_pk_field)->select();
 
         $data && array_walk($data, array($this, '_explodePriv'));
 

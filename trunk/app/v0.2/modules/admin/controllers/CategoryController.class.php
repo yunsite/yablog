@@ -209,7 +209,7 @@ class CategoryController extends CommonController {
     public function createAction() {
         $data      = $this->_model
         ->order('parent_id ASC,is_show DESC,sort_order ASC, cate_id ASC')
-        ->key_column($this->_pk_field)->select();
+        ->index($this->_pk_field)->select();
 
         if ($data === false) {
             $this->_ajaxReturn(false, L('CREATE_CATEGORY_CACHE,FAILURE'), 'EXIT');

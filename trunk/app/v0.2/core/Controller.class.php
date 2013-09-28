@@ -262,7 +262,7 @@ class Controller {
         $data           = $this->_model
         ->where(array($field_arr[0] => array('IN', $column_1_arr), $field_arr[1] => array('IN', $column_2_arr)))
         ->field($field)
-        ->key_column($pk_field)
+        ->index($pk_field)
         ->select();
 
         $un_match       = count($data) == count($return_arr) ? '' : 'data count not match.';
@@ -393,7 +393,7 @@ class Controller {
                     $value = $this->_setCacheData();
                 }
                 else {
-                    $value = $this->_model->key_column($this->_model->getPk())->select();
+                    $value = $this->_model->index($this->_model->getPk())->select();
                 }
             }
 

@@ -169,7 +169,7 @@ class CommentsController extends CommonController {
         $pk_field   = $this->_pk_field;
         $data       = $this->_model->where(array($pk_field => array('IN', $pk_id)))
         ->field($pk_field . ',type,status,parent_id,blog_id,node')
-        ->key_column($pk_field)
+        ->index($pk_field)
         ->select();
         $log        = '';
         $info       = array();//记录操作博客信息，如删除静态文件，删除对应类静态文件等

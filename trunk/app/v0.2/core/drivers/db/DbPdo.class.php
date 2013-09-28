@@ -21,14 +21,14 @@ class DbPdo extends Db {
     /**
      * {@inheritDoc}
      */
-    private function _getAll($key_column = false) {
+    private function _getAll($index = false) {
 
-        if ($key_column) {//返回数组键值
+        if ($index) {//返回数组键值
             $result = array();
             $num    = 0;
 
             while ($row = $this->_PDOStatement->fetch(PDO::FETCH_ASSOC)) {
-                $result[$row[$key_column]] = $row;
+                $result[$row[$index]] = $row;
                 $num++;
             }
 
@@ -278,7 +278,7 @@ class DbPdo extends Db {
     /**
      * {@inheritDoc}
      */
-    public function query($str, $key_column = '') {
+    public function query($str, $index = '') {
         $this->_initConnect(false);
 
         if (!$this->_current_link_id) {
@@ -306,7 +306,7 @@ class DbPdo extends Db {
             $this->error();
         }
         else {
-            $result = $this->_getAll($key_column);
+            $result = $this->_getAll($index);
         }
 
         $this->_debug();

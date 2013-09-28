@@ -65,7 +65,7 @@ class MailController extends CommonController {
      * @return mixed 查询成功，返回数组，否则false
      */
     protected function _setCacheData() {
-        $data   = $this->_model->key_column($this->_pk_field)->order('sort_order ASC,' . $this->_pk_field . ' ASC')->select();
+        $data   = $this->_model->index($this->_pk_field)->order('sort_order ASC,' . $this->_pk_field . ' ASC')->select();
         $path   = FRONT_THEME_PATH . 'mail/';
         $suffix = C('TEMPLATE_SUFFIX');
 

@@ -60,7 +60,7 @@ class AdminController extends CommonController {
      * @return mixed 查询成功，返回数组，否则false
      */
     protected function _setCacheData() {
-        return $this->_model->field('*,MD5(`password`) AS `password`')->key_column($this->_pk_field)->select();
+        return $this->_model->field('*,MD5(`password`) AS `password`')->index($this->_pk_field)->select();
     }
 
     /**

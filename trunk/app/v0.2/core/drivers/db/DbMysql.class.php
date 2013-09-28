@@ -17,14 +17,14 @@ final class DbMysql extends Db {
     /**
      * {@inheritDoc}
      */
-    private function _getAll ($key_column = false) {
+    private function _getAll ($index = false) {
         $result = array();//返回数据集
 
         if ($this->_num_rows > 0) {
 
-            if ($key_column) {//返回数组键值，用空间换时间 by mrmsl on 2012-12-20 17:59:46
+            if ($index) {//返回数组键值，用空间换时间 by mrmsl on 2012-12-20 17:59:46
                 while ($row = mysql_fetch_assoc($this->_query_id)) {
-                    $result[$row[$key_column]] = $row;
+                    $result[$row[$index]] = $row;
                 }
             }
             else {
@@ -250,7 +250,7 @@ final class DbMysql extends Db {
     /**
      * {@inheritDoc}
      */
-    public function query($str, $key_column = '') {
+    public function query($str, $index = '') {
 
         if (0 === stripos($str, 'call')) { // 存储过程查询支持
             $this->close();
@@ -278,7 +278,7 @@ final class DbMysql extends Db {
         }
         else {
             $this->_num_rows = mysql_num_rows($this->_query_id);
-            $result = $this->_getAll($key_column);
+            $result = $this->_getAll($index);
         }
 
         $this->_debug();

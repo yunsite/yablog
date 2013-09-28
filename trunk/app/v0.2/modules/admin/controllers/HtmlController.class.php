@@ -280,7 +280,7 @@ class HtmlController extends CommonController {
      * @return mixed 查询成功，返回数组，否则false
      */
     protected function _setCacheData() {
-        $data = $this->_model->key_column($this->_pk_field)->order('sort_order ASC,' . $this->_pk_field . ' ASC')->select();
+        $data = $this->_model->index($this->_pk_field)->order('sort_order ASC,' . $this->_pk_field . ' ASC')->select();
 
         if ($data) {
 

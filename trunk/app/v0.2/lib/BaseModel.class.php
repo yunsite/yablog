@@ -575,7 +575,7 @@ class BaseModel extends Model {
     public function checkIsLeaf($pk_value, $where) {
         static $data = null;
 
-        $data = $data === null ? $this->field('parent_id')->group('parent_id')->where($where)->key_column('parent_id')->select() : $data;
+        $data = $data === null ? $this->field('parent_id')->group('parent_id')->where($where)->index('parent_id')->select() : $data;
 
         if (!$data) {
             return true;
