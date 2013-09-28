@@ -12,7 +12,7 @@
  * @lastmodify      $Date$ $Author$
  */
 
-class Image_Verifycode extends Image_Image {
+class Verifycode extends Image {
 
     /**
      * 产生随机字符串

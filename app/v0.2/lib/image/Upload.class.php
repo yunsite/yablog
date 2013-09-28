@@ -12,7 +12,7 @@
  * @lastmodify      $Date$ $Author$
  */
 
-class Image_Upload extends Image_Image {
+class Upload extends Image {
     //上传文件设置
     /**
      * @var string $_upload_dir 上传路径。默认./upload/
