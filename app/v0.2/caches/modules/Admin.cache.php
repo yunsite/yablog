@@ -3,12 +3,12 @@
 //最后更新时间:2013-09-03 18:03:52
 
 return array (
-  1 => 
+  1 =>
   array (
     'admin_id' => '1',
     'role_id' => '1',
     'username' => 'mrmsl',
-    'password' => 'ec34008b60d971aee9cbb12b198e7aa9',
+    'password' => 'f24e51f404c022c3992c86b2045faa09',
     'realname' => 'mrmsl',
     'add_time' => '1312884140',
     'last_login_time' => 1378202631,
@@ -22,7 +22,7 @@ return array (
     'verify_code_order' => 'mrmsl',
     'is_lock' => 0,
   ),
-  7 => 
+  7 =>
   array (
     'admin_id' => '7',
     'role_id' => '1',
@@ -40,7 +40,7 @@ return array (
     'lock_memo' => '00',
     'verify_code_order' => '4312',
   ),
-  14 => 
+  14 =>
   array (
     'admin_id' => '14',
     'role_id' => '8',
@@ -58,7 +58,7 @@ return array (
     'lock_memo' => '00',
     'verify_code_order' => '4312',
   ),
-  17 => 
+  17 =>
   array (
     'admin_id' => '17',
     'role_id' => '5',
@@ -76,7 +76,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  18 => 
+  18 =>
   array (
     'admin_id' => '18',
     'role_id' => '6',
@@ -94,7 +94,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  27 => 
+  27 =>
   array (
     'admin_id' => '27',
     'role_id' => '15',
@@ -112,7 +112,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  29 => 
+  29 =>
   array (
     'admin_id' => '29',
     'role_id' => '15',
@@ -130,7 +130,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  30 => 
+  30 =>
   array (
     'admin_id' => '30',
     'role_id' => '15',
@@ -148,7 +148,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  33 => 
+  33 =>
   array (
     'admin_id' => '33',
     'role_id' => '15',
@@ -166,7 +166,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  35 => 
+  35 =>
   array (
     'admin_id' => '35',
     'role_id' => '15',
@@ -184,7 +184,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  36 => 
+  36 =>
   array (
     'admin_id' => '36',
     'role_id' => '15',
@@ -202,7 +202,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  37 => 
+  37 =>
   array (
     'admin_id' => '37',
     'role_id' => '15',
@@ -220,7 +220,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  40 => 
+  40 =>
   array (
     'admin_id' => '40',
     'role_id' => '15',
@@ -238,7 +238,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  41 => 
+  41 =>
   array (
     'admin_id' => '41',
     'role_id' => '15',
@@ -256,7 +256,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  42 => 
+  42 =>
   array (
     'admin_id' => '42',
     'role_id' => '15',
@@ -274,7 +274,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  43 => 
+  43 =>
   array (
     'admin_id' => '43',
     'role_id' => '15',
@@ -292,7 +292,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  44 => 
+  44 =>
   array (
     'admin_id' => '44',
     'role_id' => '15',
@@ -310,7 +310,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  45 => 
+  45 =>
   array (
     'admin_id' => '45',
     'role_id' => '15',
@@ -328,7 +328,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  49 => 
+  49 =>
   array (
     'admin_id' => '49',
     'role_id' => '15',
@@ -346,7 +346,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  50 => 
+  50 =>
   array (
     'admin_id' => '50',
     'role_id' => '15',
@@ -364,7 +364,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  51 => 
+  51 =>
   array (
     'admin_id' => '51',
     'role_id' => '15',
@@ -382,7 +382,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  52 => 
+  52 =>
   array (
     'admin_id' => '52',
     'role_id' => '15',
@@ -400,7 +400,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  53 => 
+  53 =>
   array (
     'admin_id' => '53',
     'role_id' => '15',
@@ -418,7 +418,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  57 => 
+  57 =>
   array (
     'admin_id' => '57',
     'role_id' => '15',
@@ -436,7 +436,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  58 => 
+  58 =>
   array (
     'admin_id' => '58',
     'role_id' => '7',
@@ -454,7 +454,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  59 => 
+  59 =>
   array (
     'admin_id' => '59',
     'role_id' => '1',
@@ -472,7 +472,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  60 => 
+  60 =>
   array (
     'admin_id' => '60',
     'role_id' => '1',
@@ -490,7 +490,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  61 => 
+  61 =>
   array (
     'admin_id' => '61',
     'role_id' => '1',
@@ -508,7 +508,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  62 => 
+  62 =>
   array (
     'admin_id' => '62',
     'role_id' => '1',
@@ -526,7 +526,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  63 => 
+  63 =>
   array (
     'admin_id' => '63',
     'role_id' => '1',
@@ -544,7 +544,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  64 => 
+  64 =>
   array (
     'admin_id' => '64',
     'role_id' => '1',
@@ -562,7 +562,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  66 => 
+  66 =>
   array (
     'admin_id' => '66',
     'role_id' => '1',
@@ -580,7 +580,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  67 => 
+  67 =>
   array (
     'admin_id' => '67',
     'role_id' => '1',
@@ -598,7 +598,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  68 => 
+  68 =>
   array (
     'admin_id' => '68',
     'role_id' => '1',
@@ -616,7 +616,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  69 => 
+  69 =>
   array (
     'admin_id' => '69',
     'role_id' => '3',
@@ -634,7 +634,7 @@ return array (
     'lock_memo' => '',
     'verify_code_order' => '4312',
   ),
-  70 => 
+  70 =>
   array (
     'admin_id' => '70',
     'role_id' => '5',
