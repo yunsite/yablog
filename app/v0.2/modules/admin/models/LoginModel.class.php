@@ -12,7 +12,8 @@
  * @lastmodify      $Date$ $Author$
  */
 
-class LoginModel extends CommonModel {/**
+class LoginModel extends CommonModel {
+    /**
      * @var bool $_patch_validate true批处理验证。默认false
      */
     protected $_patch_validate = false;
