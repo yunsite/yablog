@@ -151,7 +151,8 @@ class CategoryController extends CommonController {
         }
 
         if (!isset($cate_info)) {
-            $this->triggerError(__METHOD__ . ': ' . __LINE__ . ',' . $cate_name . ' ' . L('NOT_EXIST'));
+            $log = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . $cate_name . ' ' . L('NOT_EXIST');
+            trigger_error($log);
             $this->_showMessage($cate_name . ' ' . L('NOT_EXIST'), null, 404);
         }
 

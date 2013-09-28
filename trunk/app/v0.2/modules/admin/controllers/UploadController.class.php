@@ -63,7 +63,8 @@ class UploadController extends CommonController {
         $result = $upload->execute('upfile', UPLOAD_PATH . $date);
 
         if (isset($result['errstr'])) {//出错
-            $this->triggerError(var_export($result, true));
+            $log = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . var_export($result, true);
+            trigger_error($log);
             $result = array('state' => $result['errstr']);
         }
         /**

@@ -547,21 +547,4 @@ class Controller {
     public function R($url, $vars = array()) {
         R($url, $vars);
     }
-
-    /**
-     * trigger_error
-     *
-     * @author          mrmsl <msl-138@163.com>
-     * @date            2013-05-29 09:32:59
-     *
-     * @param string    $error      错误日志
-     * @param int       $errno      错误号,默认null=E_USER_ERROR
-     * @param string    $filename   记录文件名,默认null=CONTROLLER_NAME
-     *
-     * @return void 无返回值
-     */
-    public function triggerError($error, $errno = null, $filename = null) {
-        C('LOG_FILENAME', $filename ? $filename : CONTROLLER_NAME);
-        trigger_error($error, null === $errno ? E_USER_ERROR : $errno);
-    }
 }

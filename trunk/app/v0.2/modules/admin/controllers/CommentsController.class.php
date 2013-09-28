@@ -316,7 +316,10 @@ class CommentsController extends CommonController {
             $this->_ajaxReturn(false, L('INVALID_PARAM,%data。') . $msg . L('FAILURE'));
         }
 
-        $error && $this->triggerError(substr($error, 1) . L('FORMAT,NOT_CORRECT'));
+        if ($error) {
+            $log_error = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . substr($error, 1) . L('FORMAT,NOT_CORRECT');
+            trigger_error($log_error);
+        }
 
         $this->_model->addLog($msg . join(',',$id_arr) . L('SUCCESS'));
         $this->_ajaxReturn(true, $msg . L('SUCCESS'));
@@ -343,9 +346,10 @@ class CommentsController extends CommonController {
         );
 
         if (!isset($status_arr[$value])) {
-            $log = L('INVALID,AUDITING,STATUS');
-            $this->triggerError(__METHOD__ . ': ' . __LINE__ . ',' . $log . ': ' . $value);
-            $this->_ajaxReturn(false, $log);
+            $msg = L('INVALID,AUDITING,STATUS');
+            $log = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . $msg . ': ' . $value;
+            trigger_error($log);
+            $this->_ajaxReturn(false, $msg);
         }
 
         C('T_STATUS_ARR', array($field => $status_arr));

@@ -328,7 +328,10 @@ class LanguageModulesController extends CommonController {
 
         $this->_buildScriptItems($data['js_data']);
 
-        $error && $this->triggerError(__METHOD__ . ': ' . __LINE__ . ',' . $error . L('NOT_EXIST'));
+        if ($error) {
+            $log = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . $error . L('NOT_EXIST');
+            trigger_error($log);
+        }
 
         if (null === $t_module_id) {
             $this->_model->addLog(L('BUILD,LANGUAGE_ITEM,CACHE') . $log . L('SUCCESS'));

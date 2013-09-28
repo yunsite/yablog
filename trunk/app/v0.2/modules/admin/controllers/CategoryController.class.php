@@ -175,7 +175,10 @@ class CategoryController extends CommonController {
                 }
             }
 
-            $error && $this->triggerError(__METHOD__ . ': ' . __LINE__ . ',' . L('CONTROLLER_NAME') . $error . L('NOT_EXIST'), E_USER_WARNING);
+            if ($error) {
+                $log_error = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . L('CONTROLLER_NAME') . $error . L('NOT_EXIST');
+                trigger_error($log_error);
+            }
 
             if ($log) {
                 $this->_model->addLog(L('CLEAR,CONTROLLER_NAME_CATEGORY,CACHE') . substr($log, 1) . L('SUCCESS'));
