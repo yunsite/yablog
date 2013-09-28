@@ -12,7 +12,7 @@
  * @lastmodify      $Date$ $Author$
  */
 
-class Image_Image {
+class Image {
 
     /**
      * @var string $_position 水印位置，如果不为下面九种，则为随机。默认br
