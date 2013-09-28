@@ -11,7 +11,7 @@
  * @date            2012-06-15 14:38:28
  * @lastmodify      $Date$ $Author$
  */
-var_dump(get_included_files());
+
 class IndexController extends CommonController {
     /**
      * @var bool $_auto_check_priv true自动检测权限。默认false

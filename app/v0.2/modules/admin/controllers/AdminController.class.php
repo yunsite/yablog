@@ -191,7 +191,7 @@ class AdminController extends CommonController {
      *
      * @return void 无返回值
      */
-    public function listAction() {var_dump(get_included_files());exit;
+    public function listAction() {
         $db_fields      = $this->_getDbFields();//表字段
         $db_fields      = array_filter($db_fields, create_function('$v', 'return strpos($v, "_") !== 0;'));//过滤_开头
         $sort           = Filter::string('sort', 'get', $this->_pk_field);//排序字段
