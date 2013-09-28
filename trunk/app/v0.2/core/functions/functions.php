@@ -519,7 +519,7 @@ function R($url, $vars = array()) {
     $info       =   pathinfo($url);
     $action     =   $info['basename'];
     $controller =   $info['dirname'];
-    $class      =   A($module);
+    $class      =   A($controller);
 
     if($class){
 
