@@ -134,7 +134,7 @@ class Logger {
             $extra = $extra ? $extra : C('LOG_EXTRA');
         }
 
-        if (APP_DEBUG && strpos($log, '] PHP ')) {//调试模式，输出php错误
+        if (APP_DEBUG && strpos($log, 'PHP ')) {//调试模式，输出php错误
             send_http_status(HTTP_STATUS_SERVER_ERROR);
 
             if (!IS_AJAX) {
