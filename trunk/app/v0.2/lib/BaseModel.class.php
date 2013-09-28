@@ -138,7 +138,7 @@ class BaseModel extends Model {
         }
 
         $error  = L('VERIFY_CODE,NOT_CORRECT');
-        $log    = get_method_line(__METHOD__, __LINE__, LOG_TYPE_VERIFYCODE_ERROR) . $error . ': ';
+        $log    = get_method_line(__METHOD__, __LINE__, LOG_VERIFYCODE_ERROR) . $error . ': ';
         $log   .= session(SESSION_VERIFY_CODE) . '(' . $verifycode_setting['order'] . ') => ' . $code;
         trigger_error($log);
 
