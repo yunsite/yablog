@@ -538,8 +538,8 @@ class BaseModel extends Model {
     public function checkCreate($method = 'create') {
 
         if ('POST' != REQUEST_METHOD && !__GET) {
-            $error  = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM);
-            $error .= L(empty($this->data[$this->getPk()]) ? 'ADD' : 'EDIT') . L('CONTROLLER_NAME,FAILURE,%: ,DATA_TYPE_INVALID');
+            $log  = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM);
+            $log .= L(empty($this->data[$this->getPk()]) ? 'ADD' : 'EDIT') . L('CONTROLLER_NAME,FAILURE,%: ,DATA_TYPE_INVALID');
             trigger_error($log, E_USER_ERROR);
 
             return L('DATA_TYPE_INVALID');
