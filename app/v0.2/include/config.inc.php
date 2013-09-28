@@ -31,7 +31,7 @@ return array(
     'DB_PORT'               => DB_PORT,      //端口
     'DB_PREFIX'             => DB_PREFIX,    //表前缀
     'DB_DSN'                => DB_DSN,       //DSN
-    'LOG_SQL'               => false,        //是否记录sql语句
+    'LOG_SQL'               => true,        //是否记录sql语句
 
     //日志配置
     'LOG_TYPE'              => 3,       //文件
