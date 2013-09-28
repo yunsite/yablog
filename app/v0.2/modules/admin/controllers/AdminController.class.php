@@ -103,7 +103,7 @@ class AdminController extends CommonController {
             }
 
             if (!$admin_info = $this->cache($pk_value)) {//管理员不存在
-                $log    = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . $log_msg . PHP_EOL . L("INVALID_PARAM,%:,CONTROLLER_NAME_ADMIN,%{$pk_field}({$pk_value}),NOT_EXIST";
+                $log    = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . $log_msg . PHP_EOL . L("INVALID_PARAM,%:,CONTROLLER_NAME_ADMIN,%{$pk_field}({$pk_value}),NOT_EXIST");
                 trigger_error($log, E_USER_ERROR);
                 $this->_ajaxReturn(false, $error_msg);
             }
