@@ -107,7 +107,7 @@ class CommonController extends Controller {
             trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, L('CONTROLLER_NAME') . L('NOT_EXIST'));
         }
-        
+
         $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . $msg . ': ' . L("INVALID_PARAM,%:,CONTROLLER_NAME,%{$this->_pk_field},IS_EMPTY");
         trigger_error($log, E_USER_ERROR);
         $this->_ajaxReturn(false, $msg);
@@ -335,7 +335,7 @@ class CommonController extends Controller {
                 unset($menu_arr, $menu_info);
             }
         }
-        
+
         if (!$checked) {
             $log = get_method_line(__METHOD__ , __LINE__, LOG_NO_PRIV) . L('NOT_HAS,PERMISSION');
             trigger_error($log, E_USER_ERROR);
@@ -1045,7 +1045,7 @@ class CommonController extends Controller {
         $total_time      = $load_css_time + $load_ext_time + $load_js_time + $app_launch_time;
         $app_launch_time = $app_launch_time ? ', app_launch_time => ' . $app_launch_time : '';//管理中心才会有
 
-        $log = get_method_line(__METHOD__ , __LINE__, LOG_TYPE_SCRIPT_TIME) . "total_time => {$total_time}{$app_launch_time}, load_ext_time => {$load_ext_time}, load_css_time => {$load_css_time}, load_js_time => {$load_js_time}";
+        $log = get_method_line(__METHOD__ , __LINE__, LOG_LOAD_SCRIPT_TIME) . "total_time => {$total_time}{$app_launch_time}, load_ext_time => {$load_ext_time}, load_css_time => {$load_css_time}, load_js_time => {$load_js_time}";
         trigger_error($log, E_USER_ERROR);
 
         return $this;
