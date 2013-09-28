@@ -45,4 +45,8 @@ return array(
         '_caching'          => !IS_LOCAL,
         '_force_compile'    => APP_DEBUG,
     ),
+
+    //安全设置
+    'CSRF_TOKEN'            => true,        //开启防csrf攻击
+    'CSRF_TOKEN_ON'         => '_csrf',     //参数名称
 );
