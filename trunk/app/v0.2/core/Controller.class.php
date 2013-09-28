@@ -365,7 +365,7 @@ class Controller {
      *
      * @return mixed 如果不指定id，返回全部缓存，如果指定id并指定id缓存存在，返回指定id缓存，否则返回false
      */
-    public function cache($id = 0, $value = '', $name = null, $path = null) {
+    public function cache($id = 0, $name = null, $value = '', $path = null) {
         $name = $name ? $name : $this->_getControllerName();
         $path = $path ? $path : MODULE_CACHE_PATH;
 
