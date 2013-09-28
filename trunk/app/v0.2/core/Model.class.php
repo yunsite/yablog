@@ -660,7 +660,7 @@ class Model {
             return $this->where($where)->getField($args[1]);
         }
 
-        throw new Exception(__CLASS__ . ':' . $method . L('_METHOD_NOT_EXIST_'));
+        throw new Exception(__CLASS__ . ':' . $method . L('ACTION,NOT_EXIST'));
     }
 
     /**
