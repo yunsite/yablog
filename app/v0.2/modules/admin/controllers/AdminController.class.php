@@ -87,7 +87,8 @@ class AdminController extends CommonController {
         $error_msg = $msg . L('FAILURE');//错误提示信息
 
         if (!$role_info = $this->cache($role_id = $this->_model->role_id, 'Role')) {//角色不存在
-            $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,ROLE,%role_id({$role_id}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+            $log    = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . $log_msg . ':' . L("INVALID_PARAM,%:,ROLE,%role_id({$role_id}),NOT_EXIST");
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, $error_msg);
         }
 
@@ -96,12 +97,14 @@ class AdminController extends CommonController {
         if ($pk_value) {//编辑
 
             if ($pk_value == ADMIN_ID && $this->_admin_info[$pk_field] != ADMIN_ID) {//不可编辑指定管理员。增加当前管理员id判断 by mrmsl on 2012-07-05 08:52:14
-                $this->_model->addLog(L('TRY,EDIT,CONTROLLER_NAME_ADMIN') . "{$pk_field}: {$pk_value}", LOG_TYPE_INVALID_PARAM);
+                $log    = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . L('TRY,EDIT,CONTROLLER_NAME_ADMIN') . "{$pk_field}: {$pk_value}";
+                trigger_error($log, E_USER_ERROR);
                 $this->_ajaxReturn(false, L('EDIT,FAILURE'));
             }
 
             if (!$admin_info = $this->cache($pk_value)) {//管理员不存在
-                $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,CONTROLLER_NAME_ADMIN,%{$pk_field}({$pk_value}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+                $log    = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . $log_msg . PHP_EOL . L("INVALID_PARAM,%:,CONTROLLER_NAME_ADMIN,%{$pk_field}({$pk_value}),NOT_EXIST";
+                trigger_error($log, E_USER_ERROR);
                 $this->_ajaxReturn(false, $error_msg);
             }
 
@@ -116,8 +119,8 @@ class AdminController extends CommonController {
                 $data['password'] = md5($data['password']);
             }
 
-            $diff = $this->_dataDiff($admin_info, $data, $diff_key);//差异
-            $this->_model->addLog($msg . L('CONTROLLER_NAME_ADMIN')  . "{$admin_info['username']}({$pk_value})." . $diff. L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $diff   = $this->_dataDiff($admin_info, $data, $diff_key);//差异
+            $this->_model->addLog($msg . L('CONTROLLER_NAME_ADMIN')  . "{$admin_info['username']}({$pk_value})." . $diff. L('SUCCESS'));
             $this->cache(null, null, null)->_ajaxReturn(true, $msg . L('SUCCESS'));
 
         }
@@ -128,7 +131,7 @@ class AdminController extends CommonController {
                 $this->_sqlErrorExit($msg . L('CONTROLLER_NAME_ADMIN') . $data . L('FAILURE'), $error_msg);
             }
 
-            $this->_model->addLog($msg . L('CONTROLLER_NAME_ADMIN') . $data . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_model->addLog($msg . L('CONTROLLER_NAME_ADMIN') . $data . L('SUCCESS'));
             $this->cache(null, null, null)->_ajaxReturn(true, $msg . L('SUCCESS'));
         }
     }//end addAction
@@ -165,7 +168,6 @@ class AdminController extends CommonController {
         $data = $this->_model->getProperty('_data');
 
         if ($this->_model->save() === false) {
-            $this->_model->addLog();
             $this->_ajaxReturn(false, L('CN_XIUGAI,FAILURE'));
         }
 
@@ -178,7 +180,7 @@ class AdminController extends CommonController {
         }
 
         $this->setAdminSession($admin_arr[$this->_admin_info[$pk_field]]);//重设session
-        $this->_model->addLog(L('CN_XIUGAI,PASSWORD,SUCCESS'), LOG_TYPE_ADMIN_OPERATE);//操作日志
+        $this->_model->addLog(L('CN_XIUGAI,PASSWORD,SUCCESS'));//操作日志
         $this->cache(null, null, $admin_arr)->_ajaxReturn(true, L('CN_XIUGAI,SUCCESS'));
     }//end changePassword
 
@@ -310,7 +312,8 @@ class AdminController extends CommonController {
             $role_info = $this->cache($role_id, 'Role');
 
             if (!$role_info) {//角色不存在
-                $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,ROLE,%{$field}({$role_id}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+                $log    = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . $log_msg . ': ' . L("INVALID_PARAM,%:,ROLE,%{$field}({$role_id}),NOT_EXIST");
+                trigger_error($log, E_USER_ERROR);
                 $this->_ajaxReturn(false, $error_msg);
             }
 
@@ -318,7 +321,8 @@ class AdminController extends CommonController {
         }
         else {
             //非法参数
-            $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%: {$field},IS_EMPTY"), LOG_TYPE_INVALID_PARAM);
+            $log    = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . $log_msg . ': ' . L("INVALID_PARAM,%: {$field},IS_EMPTY");
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, $error_msg);
         }
 

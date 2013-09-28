@@ -374,7 +374,8 @@ class FieldController extends CommonController {
         $error_msg = $msg . L('FAILURE');//错误提示信息
 
         if (!$menu_info = $this->cache($menu_id = $this->_model->menu_id, 'Menu')) {//菜单不存在
-            $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,PARENT_FIELD,%menu_id({$menu_id}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) .$log_msg . ': ' . L("INVALID_PARAM,%:,PARENT_FIELD,%menu_id({$menu_id}),NOT_EXIST");
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, $error_msg);
         }
 
@@ -383,7 +384,8 @@ class FieldController extends CommonController {
         if ($pk_value) {//编辑
 
             if (!$field_info = $this->cache($pk_value)) {//表单域不存在
-                $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,CONTROLLER_NAME_ADMIN,%{$pk_field}({$pk_value}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+                $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) .$log_msg . ': ' . L("INVALID_PARAM,%:,CONTROLLER_NAME_ADMIN,%{$pk_field}({$pk_value}),NOT_EXIST");
+                trigger_error($log, E_USER_ERROR);
                 $this->_ajaxReturn(false, $error_msg);
             }
 
@@ -395,7 +397,7 @@ class FieldController extends CommonController {
             $field_info['menu_name'] = $menu_info['menu_name'];//菜单名
 
             $diff = $this->_dataDiff($field_info, $data, $diff_key);//差异
-            $this->_model->addLog($msg . L($module_key)  . "{$field_info[$this->_name_column]}({$pk_value})." . $diff. L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_model->addLog($msg . L($module_key)  . "{$field_info[$this->_name_column]}({$pk_value})." . $diff. L('SUCCESS'));
             $this->cache(null, null, null)->_ajaxReturn(true, $msg . L('SUCCESS'));
 
         }
@@ -406,7 +408,7 @@ class FieldController extends CommonController {
                 $this->_sqlErrorExit($msg . L($module_key) . $data . L('FAILURE'), $error_msg);
             }
 
-            $this->_model->addLog($msg . L($module_key) . $data . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_model->addLog($msg . L($module_key) . $data . L('SUCCESS'));
             $this->cache(null, null, null)->_ajaxReturn(true, $msg . L('SUCCESS'));
         }
     }//end addAction
@@ -593,7 +595,8 @@ class FieldController extends CommonController {
             exit($field);
         }
         else {
-            $this->_model->addLog($error_msg, LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) .$log_msg;
+            trigger_error($log, E_USER_ERROR);
             send_http_status(HTTP_STATUS_SERVER_ERROR);
             $this->_ajaxReturn(false);
         }
@@ -614,7 +617,8 @@ class FieldController extends CommonController {
         $menu    = $this->cache(0, 'Menu');//菜单数据
 
         if (!isset($menu[$menu_id])) {//菜单不存在
-            $this->_model->addLog(L("SAVE,CONTROLLER_NAME_FIELD,VALUE,FAILURE,%:(,MENU,%menu_id={$menu_id}}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L("SAVE,CONTROLLER_NAME_FIELD,VALUE,FAILURE,%:(,MENU,%menu_id={$menu_id}}),NOT_EXIST");
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, $error);
         }
 
@@ -628,7 +632,8 @@ class FieldController extends CommonController {
         $info = L('CONTROLLER_NAME_FIELD,VALUE') . "({$menu})";//信息
 
         if (empty($_POST)) {//非法数据
-            $this->_model->addLog(L('SAVE') . $info . L('FAILURE,%:,INVALID,DATA'), LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('SAVE') . $info . L('FAILURE,%:,INVALID,DATA');
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, $error);
         }
 
@@ -646,7 +651,8 @@ class FieldController extends CommonController {
                 $this->_sqlErrorExit(L('GET') . $menu . L('CONTROLLER_NAME_FIELD,FAILURE'), $error);
             }
             else {
-                $this->_model->addLog(L('SAVE') . $info . L('FAILURE,%:,CONTROLLER_NAME_FIELD,IS_EMPTY'), LOG_TYPE_INVALID_PARAM);
+                $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('SAVE') . $info . L('FAILURE,%:,CONTROLLER_NAME_FIELD,IS_EMPTY');
+                trigger_error($log, E_USER_ERROR);
             }
 
             $this->_ajaxReturn(false, $error);
@@ -681,7 +687,7 @@ class FieldController extends CommonController {
         //回调 by mrmsl on 2012-09-22 15:34:53
         method_exists($this, ($callback = '_saveValueCallback' . ucfirst($controller))) && $this->$callback($menu_info);
 
-        $this->_model->addLog(L('SAVE') . $info . L('SUCCESS') . ($log ? $log : ''), LOG_TYPE_ADMIN_OPERATE);
+        $this->_model->addLog(L('SAVE') . $info . L('SUCCESS') . ($log ? $log : ''));
         $this->_ajaxReturn(true, L('SAVE,SUCCESS'));
     }//end publicSaveValueAction
 }

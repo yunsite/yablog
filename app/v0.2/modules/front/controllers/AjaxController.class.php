@@ -40,8 +40,8 @@ class AjaxController extends CommonController {
             }
 
             if (!$valid) {
-                $this->triggerError($log = __METHOD__ . ': ' . __LINE__ . ',' . L('INVALID_PARAM') . var_export($hits_arr, true));
-                $this->_model->addLog($log, LOG_TYPE_INVALID_PARAM);
+                $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('INVALID_PARAM') . var_export($hits_arr, true);
+                trigger_error($log, E_USER_ERROR);
             }
         }
     }
@@ -69,8 +69,8 @@ class AjaxController extends CommonController {
 
             $valid && $this->_ajaxReturn('.' . $diggs_arr[0] . '-diggs-' . $id);
 
-            $this->triggerError($log = __METHOD__ . ': ' . __LINE__ . L('INVALID_PARAM') . var_export($diggs_arr, true));
-            $this->_model->addLog($log, LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('INVALID_PARAM') . var_export($diggs_arr, true);
+            trigger_error($log, E_USER_ERROR);
         }
 
         $this->_ajaxReturn(false);
@@ -101,8 +101,8 @@ class AjaxController extends CommonController {
         $miniblog   = Filter::string('miniblog');
 
         if (!$blog && !$miniblog) {//空数据
-            $this->triggerError($log = __METHOD__ . ': ' . __LINE__ . ',' . L('INVALID_PARAM'));
-            $this->_model->addLog($log, LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('INVALID_PARAM');
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false);
         }
         $blog           = 0 === strpos($blog, ',') ? substr($blog, 1) : $blog;

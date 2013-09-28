@@ -95,7 +95,8 @@ class LanguageItemsController extends CommonController {
         $error_msg = $msg . L('FAILURE');//错误提示信息
 
         if (!$module_info = $this->cache($module_id = $this->_model->module_id, 'LanguageModules')) {//语言包模块不存在
-            $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,LANGUAGE_MODULE,%module_id({$module_id}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . $log_msg . ': ' . L("INVALID_PARAM,%:,LANGUAGE_MODULE,%module_id({$module_id}),NOT_EXIST");
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, $error_msg);
         }
 
@@ -104,7 +105,8 @@ class LanguageItemsController extends CommonController {
         if ($pk_value) {//编辑
 
             if (!$item_info = $this->cache($pk_value)) {//语言项不存在
-                $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,CONTROLLER_NAME,%{$pk_field}({$pk_value}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+                $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . $log_msg . ': ' . L("INVALID_PARAM,%:,CONTROLLER_NAME,%{$pk_field}({$pk_value}),NOT_EXIST");
+                trigger_error($log, E_USER_ERROR);
                 $this->_ajaxReturn(false, $error_msg);
             }
 
@@ -116,7 +118,7 @@ class LanguageItemsController extends CommonController {
             $item_info['module_name'] = $module_info['module_name'];//语言包模块名
 
             $diff = $this->_dataDiff($item_info, $data, $diff_key);//差异
-            $this->_model->addLog($msg . L('CONTROLLER_NAME')  . "{$item_info[$this->_name_column]}({$pk_value})." . $diff. L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_model->addLog($msg . L('CONTROLLER_NAME')  . "{$item_info[$this->_name_column]}({$pk_value})." . $diff. L('SUCCESS'));
             $this->createAction();
             C(array('T_MODULE_ID' => array($data['module_id'], $item_info['module_id'])));
             $this->R('LanguageModules/buildAction', array('all'));
@@ -130,7 +132,7 @@ class LanguageItemsController extends CommonController {
                 $this->_sqlErrorExit($msg . L('CONTROLLER_NAME') . $diff . L('FAILURE'), $error_msg);
             }
 
-            $this->_model->addLog($msg . L('CONTROLLER_NAME') . $diff . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_model->addLog($msg . L('CONTROLLER_NAME') . $diff . L('SUCCESS'));
             $this->createAction();
             C(array('T_MODULE_ID' => array($data['module_id'])));
             $this->R('LanguageModules/buildAction', array('all'));
@@ -152,7 +154,6 @@ class LanguageItemsController extends CommonController {
         ->key_column($this->_pk_field)->select();
 
         if ($data === false) {
-            $this->_model->addLog();
             $this->_ajaxReturn(false, L('BUILD,LANGUAGE_ITEM,CACHE,FAILURE'));
         }
 

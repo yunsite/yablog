@@ -329,7 +329,9 @@ class Model {
 
                     //是否为允许的回调函数 by mrmsl on 2012-09-07 14:47:27
                     if (!ALLOW_AUTO_VALIDATE_FUNCTION || false === strpos(ALLOW_AUTO_VALIDATE_FUNCTION, ',' . $val[1] . ',')) {
-                        $this->addLog(L('TRY,USE,AUTO,VALIDATE,FUNCTION') . $val[1], LOG_TYPE_INVALID_PARAM);
+                        $log  = get_method_line(__METHOD__, __LINE__, LOG_NORMAL_ERROR);
+                        $log .= L('TRY,USE,AUTO,VALIDATE,FUNCTION') . ': ' . $val[1];
+                        trigger_error($log, E_USER_ERROR);
 
                         return false;
                     }
@@ -885,7 +887,9 @@ class Model {
 
                                 //是否为允许的回调函数 by mrmsl on 2012-09-07 14:47:27
                                 if (false === strpos(ALLOW_AUTO_OPERATION_FUNCTION, ',' . $auto[1] . ',')) {
-                                    $this->addLog(L('TRY,USE,AUTO_OPERATION,FUNCTION') . $auto[1], LOG_TYPE_INVALID_PARAM);
+                                    $log  = get_method_line(__METHOD__, __LINE__, LOG_NORMAL_ERROR);
+                                    $log .= L('TRY,USE,AUTO_OPERATION,FUNCTION') . ': ' . $auto[1];
+                                    trigger_error($log, E_USER_ERROR);
                                 }
                                 else {
                                     $data[$auto[0]] = call_user_func_array($auto[1], $args);

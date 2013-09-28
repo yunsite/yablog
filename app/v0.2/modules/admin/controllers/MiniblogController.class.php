@@ -84,8 +84,9 @@ class MiniblogController extends CommonController {
 
         if ($pk_value) {//编辑
 
-            if (!$blog_info = $this->_model->find($pk_value)) {//编辑微博不存在
-                $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,CONTROLLER_NAME_MINIBLOG,%{$pk_field}({$pk_value}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+            if (!$blog_info = $this->_model->find($pk_value)) {//编辑微博不存在            
+                $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . $log_msg . ': ' . L("INVALID_PARAM,%:,CONTROLLER_NAME_MINIBLOG,%{$pk_field}({$pk_value}),NOT_EXIST");
+                trigger_error($log, E_USER_ERROR);
                 $this->_ajaxReturn(false, $error_msg);
             }
 
@@ -96,7 +97,7 @@ class MiniblogController extends CommonController {
             $diff = $this->_dataDiff($blog_info, $data, $diff_key);//差异
             C('HTML_BUILD_INFO', array(array('link_url' => $blog_info['link_url'])));
             $this->_deleteBlogHtml(null);
-            $this->_model->addLog($msg . L('CONTROLLER_NAME_MINIBLOG')  . "{$blog_info['content']}({$pk_value})." . $diff. L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_model->addLog($msg . L('CONTROLLER_NAME_MINIBLOG')  . "{$blog_info['content']}({$pk_value})." . $diff. L('SUCCESS'));
             $this->_ajaxReturn(true, $msg . L('SUCCESS'));
         }
         else {
@@ -106,7 +107,7 @@ class MiniblogController extends CommonController {
                 $this->_sqlErrorExit($msg . L('CONTROLLER_NAME_MINIBLOG') . $data . L('FAILURE'), $error_msg);
             }
 
-            $this->_model->addLog($msg . L('CONTROLLER_NAME_MINIBLOG') . $data . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_model->addLog($msg . L('CONTROLLER_NAME_MINIBLOG') . $data . L('SUCCESS'));
             $this->_ajaxReturn(true, $msg . L('SUCCESS'));
         }
     }//end addAction

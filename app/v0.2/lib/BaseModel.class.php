@@ -137,9 +137,12 @@ class BaseModel extends Model {
             return true;
         }
 
-        $this->addLog(session(SESSION_VERIFY_CODE) . '(' . $verifycode_setting['order'] . ') => ' . $code, LOG_TYPE_VERIFYCODE_ERROR);
+        $error  = L('VERIFY_CODE,NOT_CORRECT');
+        $log    = get_method_line(__METHOD__, __LINE__, LOG_TYPE_VERIFYCODE_ERROR) . $error . ': ';
+        $log   .= session(SESSION_VERIFY_CODE) . '(' . $verifycode_setting['order'] . ') => ' . $code;
+        trigger_error($log);
 
-        return L('VERIFY_CODE,NOT_CORRECT');
+        return $error;
     }
 
     /**
@@ -506,13 +509,13 @@ class BaseModel extends Model {
      * @lastmodify      2013-01-22 11:23:55 by mrmsl
      *
      * @param string $content   日志内容。默认''，取db最后执行sql
-     * @param int    $log_type  日志类型。默认LOG_TYPE_SQL_ERROR，sql错误
+     * @param int    $log_type  日志类型。默认LOG_TYPE_ADMIN_OPERATE，管理员操作日志
      *
      * @return void 无返回值
      */
-    public function addLog($content = '', $log_type = LOG_TYPE_SQL_ERROR) {
+    public function addLog($content = '', $log_type = LOG_TYPE_ADMIN_OPERATE) {
         $data = array(
-            'content'  => LOG_TYPE_SQL_ERROR == $log_type && !$content ? $this->getLastSql() . '<br />' . $this->getDbError() : $content,
+            'content'  => $content,
             'log_type' => $log_type,
         );
 
@@ -520,11 +523,6 @@ class BaseModel extends Model {
         $log_model->autoOperation($data, Model::MODEL_INSERT);
         $log_model->add($data);
         $log_model->commit();
-
-        if ($trigger_error = C($key = 'TRIGGER_ERROR')) {//同时写文本记录
-            call_user_func_array(array($this->_module, 'triggerError'), $trigger_error);
-            C($key, false);
-        }
     }
 
     /**
@@ -540,16 +538,23 @@ class BaseModel extends Model {
     public function checkCreate($method = 'create') {
 
         if ('POST' != REQUEST_METHOD && !__GET) {
-            $this->addLog(L(empty($this->data[$this->getPk()]) ? 'ADD' : 'EDIT') . L('CONTROLLER_NAME,FAILURE,%.,_DATA_TYPE_INVALID_'), LOG_TYPE_INVALID_PARAM);
-            return L('_DATA_TYPE_INVALID_');
+            $error  = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM);
+            $error .= L(empty($this->data[$this->getPk()]) ? 'ADD' : 'EDIT') . L('CONTROLLER_NAME,FAILURE,%: ,DATA_TYPE_INVALID');
+            trigger_error($log, E_USER_ERROR);
+
+            return L('DATA_TYPE_INVALID');
         }
 
         $result = true;
 
         if (!$this->$method()) {
-            $error = $this->getError();
-            $result = is_array($error) ? join('<br />', $error) : $error;
-            $this->addLog(__function__ . '<br />' . $result, LOG_TYPE_VALIDATE_FORM_ERROR);
+            $error  = $this->getError();
+            $error  = is_array($error) ? join(PHP_EOL, $error) : $error;
+            $log    = get_method_line(__METHOD__, __LINE__, LOG_VALIDATE_FORM_ERROR);
+            $log   .= L('VALIDATE') . L(empty($this->data[$this->getPk()]) ? 'ADD' : 'EDIT') . L('CONTROLLER_NAME,FAILURE') . ': ' . $error;
+            trigger_error($log);
+
+            $result = nl2br($error);
         }
 
         return $result;

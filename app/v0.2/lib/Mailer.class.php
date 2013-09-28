@@ -111,9 +111,8 @@ class Mailer extends PHPMailer {
         }
         else {
             $error  = L('CN_YOUJIAN,INFO') . "({$history_id})" . L('NOT_EXIST');
-            $log    = __METHOD__ . ': ' . __LINE__ . ',' . $error;
-            C('TRIGGER_ERROR', array($log, E_USER_ERROR, 'mail.error'));
-            $this->_model->addLog($log, LOG_TYPE_INVALID_PARAM);
+            $log    = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . $error;
+            trigger_error($log, E_USER_ERROR);
 
             return $error;
         }
@@ -184,7 +183,8 @@ class Mailer extends PHPMailer {
         }
         else {
             $result = $this->ErrorInfo;
-            $this->_model->addLog(L('SEND,CN_YOUJIAN') . $info['email'] . "({$info['subject']})" . L('FAILURE') . ': ' . $result, LOG_TYPE_EMAIL);
+            $log    = get_method_line(__METHOD__, __LINE__, LOG_EMAIL) . L('SEND,CN_YOUJIAN') . $info['email'] . "({$info['subject']})" . L('FAILURE') . ': ' . $result;
+            trigger_error($log);
             //$result = false;
         }
 
@@ -242,9 +242,7 @@ class Mailer extends PHPMailer {
 
                 if (!$info) {
                     $error  = L('MAIL_TEMPLATE,INFO') . "({$mail_info})" . L('NOT_EXIST');
-                    $log    = __METHOD__ . ': ' . __LINE__ . ',' . $error;
-                    C('TRIGGER_ERROR', array($log, E_USER_ERROR, 'mail.error'));
-                    $this->_model->addLog($log, LOG_TYPE_INVALID_PARAM);
+                    $log    = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . $error;
                     $mail_template_info[$mail_info] = false;
 
                     return $error;
@@ -260,9 +258,8 @@ class Mailer extends PHPMailer {
                 }
                 else {
                     $error  = L('MAIL_TEMPLATE,METHOD') . $method . L('NOT_EXIST');
-                    $log    = __METHOD__ . ': ' . __LINE__ . ',' . $error;
-                    C('TRIGGER_ERROR', array($log, E_USER_ERROR, 'mail.error'));
-                    $this->_model->addLog($log, LOG_TYPE_INVALID_PARAM);
+                    $log    = get_method_line(__METHOD__, __LINE__, LOG_EMAIL) . $error;
+                    trigger_error($log,);
 
                     return $error;
                 }

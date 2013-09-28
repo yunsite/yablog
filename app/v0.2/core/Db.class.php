@@ -205,7 +205,8 @@ class Db {
 
         //记录慢查询 by mrmsl on 2012-09-12 15:08:30
         if (($log_sloqeury = sys_config('sys_log_slowquery')) && $query_time > $log_sloqeury && false === strpos($this->_query_str, ' ' . $this->_parseTable(TB_LOG) . ' ')) {
-            D('Log')->addLog($log, LOG_TYPE_SLOWQUERY);
+            $log    = get_method_line(__METHOD__, __LINE__, LOG_SLOW_QUERY) . $log;
+            trigger_error($log);
         }
     }
 
@@ -880,11 +881,8 @@ class Db {
     protected function _writeErrorSql() {
 
         if (sys_config('sys_log_sqlerror') && !defined('DB_CONNECT_ERROR') && false === strpos($this->_query_str, ' ' . $this->_parseTable(TB_LOG) . ' ')) {
-            $last_sql = $this->_query_str;
-            C(array('LOG_LEVEL' => E_APP_SQL, 'LOG_FILENAME' => 'errorsql'));
-            trigger_error($error = $this->_query_str . '<br />' . $this->_error);
-            D('Log')->addLog($error);
-            $this->_query_str = $last_sql;
+            $log = get_method_line(__METHOD__, __LINE__, LOG_SQL_ERROR) . $this->_query_str . PHP_EOL . $this->_error;
+            trigger_error($log);
         }
     }
 
@@ -898,15 +896,8 @@ class Db {
      * @return void 无返回值
      */
     protected function _writeRollbackSql() {
-
-        C(array('LOG_LEVEL' => E_APP_ROLLBACK_SQL, 'LOG_FILENAME' => 'rollbacksql'));
-        trigger_error($rollback_sql = join(PHP_EOL . '<br />', $this->_sql_arr));
-
-        if (sys_config('sys_log_rollback_sql') && false === strpos($this->_query_str, ' ' . $this->_parseTable(TB_LOG) . ' ')) {
-            $last_sql = $this->_query_str;
-            D('Log')->addLog($rollback_sql, LOG_TYPE_ROLLBACK_SQL);
-            $this->_setLastSql($last_sql);
-        }
+        $log = get_method_line(__METHOD__, __LINE__, LOG_ROLLBACK_SQL) . join(PHP_EOL, $this->_sql_arr);
+        trigger_error($log);
     }
 
     /**

@@ -246,9 +246,8 @@ class Controller {
         }
 
         if (!$return_arr) {
-            $log = __METHOD__ . ': ' . __LINE__ . ',' . L('INVALID_PARAM') . var_export($data, true);
-            C('TRIGGER_ERROR', array($log));
-            $this->_model->addLog($log, LOG_TYPE_INVALID_PARAM);
+            $error = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . L('INVALID_PARAM') . var_export($data, true);
+            trigger_error($error, E_USER_ERROR);
 
             return $return_arr;
         }
@@ -277,9 +276,8 @@ class Controller {
         }
 
         if ($un_match) {
-            $log = __METHOD__ . ': ' . __LINE__ . ',' . $un_match;
-            C('TRIGGER_ERROR', array($log, E_USER_WARNING));
-            $this->_model->addLog($log, LOG_TYPE_INVALID_PARAM);
+            $error = get_method_line(__METHOD__, __LINE__, LOG_NORMAL_ERROR) . L('PAIRS_DATA_UN_MATCH') . $un_match;
+            trigger_error($error, E_USER_ERROR);
         }
 
         return $data;

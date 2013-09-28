@@ -136,7 +136,10 @@ class Logger {
 
         if (APP_DEBUG && strpos($log, '] PHP ')) {//调试模式，输出php错误
             send_http_status(HTTP_STATUS_SERVER_ERROR);
-            echo nl2br($log);
+
+            if (!IS_AJAX) {
+                echo nl2br($log);
+            }
         }
 
         error_log($log, $type, $destination, $extra);

@@ -3,6 +3,9 @@
 //最后更新时间:2013-06-29 18:23:06
 
 return array (
+    'CONTROLLER_NAME_LOGIN' => '管理员登陆',
+    'DATA_TYPE_INVALID' => '非法数据对象',
+    'PAIRS_DATA_UN_MATCH' => '组合获取数据不匹配',
   'ACTION' => '操作方法',
   'BETWEEN_BYTE' => '{0}-{1}个字符',
   'BLOG' => '博客',

@@ -71,7 +71,8 @@ class BaseVerifycodeController extends CommonController {
         }
 
         if ($error) {//有错误
-            $this->_model->addLog(L('VERIFY_CODE') . "({$module})" . $error, LOG_TYPE_VERIFYCODE_ERROR);
+            $log    = get_method_line(__METHOD__, __LINE__, LOG_VERIFYCODE_ERROR) . L('VERIFY_CODE') . "({$module})" . $error;
+            trigger_error($log);
             $exit = true;
         }
         elseif (!check_verifycode_limit($module, 'refresh')) {//刷新次数限制

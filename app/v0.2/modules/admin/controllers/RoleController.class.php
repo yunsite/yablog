@@ -140,12 +140,14 @@ class RoleController extends CommonController {
         if ($pk_value) {//编辑
 
             if ($pk_value == ADMIN_ROLE_ID && $this->_admin_info[$pk_field] != ADMIN_ROLE_ID) {//不可编辑指定角色。增加当前角色id判断 by mrmsl on 2012-07-05 08:50:27
-                $this->_model->addLog(L('TRY,EDIT,CONTROLLER_NAME_ROLE') . "{$pk_field}: {$pk_value}", LOG_TYPE_INVALID_PARAM);
+                $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('TRY,EDIT,CONTROLLER_NAME_ROLE') . "{$pk_field}: {$pk_value}";
+                trigger_error($log, E_USER_ERROR);
                 $this->_ajaxReturn(false, L('EDIT,FAILURE'));
             }
 
             if (!isset($cache_data[$pk_value])) {//角色不存在
-                $this->_model->addLog(L("EDIT,CONTROLLER_NAME_ROLE,FAILURE,%<br />,INVALID_PARAM,%:,CONTROLLER_NAME_ROLE,%{$pk_field}({$pk_value}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+                $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L("EDIT,CONTROLLER_NAME_ROLE,FAILURE,%: ,INVALID_PARAM,%:,CONTROLLER_NAME_ROLE,%{$pk_field}({$pk_value}),NOT_EXIST");
+                trigger_error($log, E_USER_ERROR);
                 $this->_ajaxReturn(false, L('EDIT,FAILURE'));
             }
 
@@ -162,7 +164,7 @@ class RoleController extends CommonController {
             $diff_priv['msg'] && $this->_model->setRolePriv($pk_value, $priv_id);
 
             //管理员操作日志
-            $this->_model->addLog(L('EDIT,CONTROLLER_NAME_ROLE')  . "{$role_info[$this->_name_column]}({$pk_value})." . $diff. L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_model->addLog(L('EDIT,CONTROLLER_NAME_ROLE')  . "{$role_info[$this->_name_column]}({$pk_value})." . $diff. L('SUCCESS'));
 
             $this->cache(null, null, null)->_ajaxReturn(true, L('EDIT,SUCCESS'));
         }
@@ -177,7 +179,7 @@ class RoleController extends CommonController {
             //权限
             $priv_id && $this->_model->setRolePriv($insert_id, $priv_id);
 
-            $this->_model->addLog(L('ADD,CONTROLLER_NAME_ROLE') . $insert_data . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_model->addLog(L('ADD,CONTROLLER_NAME_ROLE') . $insert_data . L('SUCCESS'));
             $this->cache(null, null, null)->_ajaxReturn(true, L('ADD,SUCCESS'));
         }
     }//end add

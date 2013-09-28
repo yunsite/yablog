@@ -283,7 +283,8 @@ class LanguageModulesController extends CommonController {
         }
 
         if (!$module_id && null === $t_module_id) {
-            $this->_model->addLog(L('PRIMARY_KEY,DATA,IS_EMPTY'), LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('PRIMARY_KEY,DATA,IS_EMPTY');
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, L('BUILD,LANGUAGE_ITEM,CACHE,FAILURE'));
         }
 
@@ -314,7 +315,8 @@ class LanguageModulesController extends CommonController {
         }
 
         if (!$module_id && null === $t_module_id) {
-            $this->_model->addLog(L('PRIMARY_KEY,DATA,IS_EMPTY'), LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('PRIMARY_KEY,DATA,IS_EMPTY');
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, L('BUILD,LANGUAGE_ITEM,CACHE,FAILURE'));
         }
 
@@ -329,7 +331,7 @@ class LanguageModulesController extends CommonController {
         $error && $this->triggerError(__METHOD__ . ': ' . __LINE__ . ',' . $error . L('NOT_EXIST'));
 
         if (null === $t_module_id) {
-            $this->_model->addLog(L('BUILD,LANGUAGE_ITEM,CACHE') . $log . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_model->addLog(L('BUILD,LANGUAGE_ITEM,CACHE') . $log . L('SUCCESS'));
             $this->_ajaxReturn(true, L('BUILD,SUCCESS'));
         }
     }//end buildAction
@@ -348,7 +350,6 @@ class LanguageModulesController extends CommonController {
         ->key_column($this->_pk_field)->select();
 
         if ($data === false) {
-            $this->_model->addLog();
             $this->_ajaxReturn(false, L('CREATE_LANGUAGEMODULES_CACHE,FAILURE'));
         }
 

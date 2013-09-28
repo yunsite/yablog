@@ -16,7 +16,7 @@ class LoginModel extends CommonModel {
     /**
      * @var bool $_patch_validate true批处理验证。默认false
      */
-    protected $_patch_validate = false;
+    //protected $_patch_validate = false;
     /**
      * @var array $_db_fields
      * 数据表字段信息

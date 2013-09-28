@@ -1039,8 +1039,9 @@ function check_verifycode_limit($module, $type = 'error') {
                     session($key . $temp, $new_num);
 
                     if ($new_num - $num < 11) {
-                        $log = D('Log');
-                        $log && $log->addLog(L('VERIFY_CODE') . "({$module})" . L(($type == 'error' ? 'ERROR' : 'REFRESH') . ",CN_CISHU,%({$new_num}),EXCEED,LIMIT") . $num, LOG_TYPE_VERIFYCODE_ERROR);
+                        $log  = get_method_line(__METHOD__, __LINE__, LOG_VERIFYCODE_ERROR);
+                        $log .= L('VERIFY_CODE') . "({$module})" . L(($type == 'error' ? 'ERROR' : 'REFRESH') . ",CN_CISHU,%({$new_num}),EXCEED,LIMIT") . $num;
+                        trigger_error($log);
                     }
 
                     return false;
@@ -1407,6 +1408,14 @@ function error_handler($errno, $errstr, $errfile, $errline, $vars = '') {
     $error      .= defined('REQUEST_METHOD') ? REQUEST_METHOD : $_SERVER['REQUEST_METHOD'];
     $error      .= ' ';
     $error      .= defined('REQUEST_URI') ? REQUEST_URI : (empty($_SERVER['REQUEST_URI']) ? '': urldecode($_SERVER['REQUEST_URI']));
+
+    if (isset($quit_arr[$errno]) || E_USER_ERROR == $errno) {//错误,记录来源
+
+        if ($referer = defined('REFERER_PAGER') ? REFERER_PAGER : (empty($_SERVER['HTTP_REFERER']) ? '': HTTP_REFERER)) {
+            $error .= '(' . $referer . ')';
+        }
+    }
+
     $error      .= PHP_EOL;
     $error      .= "in {$errfile} on line {$errline}" . PHP_EOL;
     $error      .= "{$error_arr[$errno]}[$errno]: ";
@@ -1439,12 +1448,6 @@ function error_handler($errno, $errstr, $errfile, $errline, $vars = '') {
 function exception_handler($e) {
     $message = $e->__toString();
 
-    //入库
-    if (sys_config('sys_log_systemerror')) {
-        $log = D('Log');
-        $log && $log->addLog(nl2br($message), LOG_TYPE_SYSTEM_ERROR);
-
-    }
     error_handler(E_APP_EXCEPTION, $e->getMessage(), $e->getFile(), $e->getLine(), '__' . $e->getTraceAsString());
 }
 
@@ -1660,6 +1663,24 @@ function get_ip_info($ip = null) {
 
     return array($data['region'], $data['city']);
 }//end get_ip_info
+
+/**
+ * 获取方法名及行数
+ *
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-09-28 10:30:59
+ *
+ * @param string $method 方法名
+ * @param string $line   行数
+ * @param string $log_filename 日志文件名,默认null
+ *
+ * @return string 方法名及行数
+ */
+function get_method_line($method, $line, $log_filename = null) {
+    $log_filename && C('LOG_FILENAME', $log_filename);
+
+    return "{$method}: {$line},";
+}
 
 /**
  * 获取用户id
@@ -2052,10 +2073,11 @@ function validate_dir($path, $name = '', $relative_path = 'WWWROOT', $must_end_w
     }
 
     if (!$allow_dot && false !== strpos($path, '.' . DS)) {
-        //写错误日志 by mrmsl on 2012-09-06 14:56:03
-        defined('TB_LOG') && D(CONTROLLER_NAME)->addLog(L('TRY,USE,RELATIVE,PATH') . $path, LOG_TYPE_INVALID_PARAM);
+        $error  = $name . L('CAN_NOT,USE,RELATIVE,PATH');
+        $log    = get_method_line(__METHOD__, __LINE__, LOG_NORMAL_ERROR) . $error;
+        trigger_error($log, E_USER_ERROR);
 
-        return $name . L('CAN_NOT,USE,RELATIVE,PATH');
+        return $error;
     }
 
     return null === $relative_path || is_dir($relative_path . $path) ? true :  $name . $path . L('NOT_EXIST');
