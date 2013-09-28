@@ -343,7 +343,7 @@ class Controller {
                 !empty($this->_true_table_name) && $this->_model->setProperty('_true_table_name', $this->_true_table_name);
             }
 
-            //$this->_model->setProperty('_module', $this);
+            $this->_model->setProperty('_module', $this);
             $this->_pk_field = $this->_model->getPk();//主键字段
         }
 
