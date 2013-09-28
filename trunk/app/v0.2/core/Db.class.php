@@ -103,9 +103,9 @@ class Db {
      */
     protected $_select_sql = 'SELECT%DISTINCT% %FIELD% FROM %TABLE%%JOIN%%WHERE%%GROUP%%HAVING%%ORDER%%LIMIT% %UNION%';
     /**
-     * @var bool $debug true调试模式，记录sql(如果开启)、记录慢查询(如果开启)。默认false
+     * @var bool $debug true调试模式，记录sql(如果开启)。默认false
      */
-    public  $debug  = false;
+    protected  $_debug  = false;
 
     /**
      * 获取数据库驱动类实例
@@ -198,7 +198,7 @@ class Db {
         $query_time = G('queryStartTime', 'queryEndTime', 6);//记录操作结束时间
         $log        = $this->_query_str . ' [ RunTime:' . $query_time . 's ]';
 
-        if ($this->debug) {
+        if ($this->_debug) {
             C(array('LOG_LEVEL' => E_APP_SQL, 'LOG_FILENAME' => 'sql'));
             trigger_error($log);
         }
@@ -911,6 +911,7 @@ class Db {
      * @return object 数据库实例
      */
     public function __construct($config = '') {
+        $this->_debug = APP_DEBUG && C('LOG_SQL');
         return $this->factory($config);
     }
 
@@ -1098,7 +1099,7 @@ class Db {
            $db->_db_type = $this->_getDsnType($db_config['dsn']);
        }
 
-       $db->debug = APP_DEBUG && C('LOG_SQL') ? true : false;
+       $db->setProperty('_debug', APP_DEBUG && C('LOG_SQL'));
 
         return $db;
     }//end factory
@@ -1415,6 +1416,23 @@ class Db {
      */
     public function setModel($model) {
         $this->_model = $model;
+    }
+
+    /**
+     * 设置模型的属性值
+     *
+     * @author          mrmsl <msl-138@163.com>
+     * @date            2013-09-28 17:15:05
+     *
+     * @param string $name  名称
+     * @param mixed  $value 值
+     *
+     * @return object this
+     */
+    public function setProperty($name, $value) {
+        $this->$name = $value;
+
+        return $this;
     }
 
     /**
