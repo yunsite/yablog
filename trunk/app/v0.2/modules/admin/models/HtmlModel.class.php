@@ -80,7 +80,8 @@ class HtmlModel extends CommonModel {
             return false;
         }
         elseif (false !== strpos($tpl_name, '..')) {
-            $this->addLog(L('TRY,USE,RELATIVE,PATH') . $tpl_name, LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('TRY,USE,RELATIVE,PATH') . $tpl_name;
+            trigger_error($log, E_USER_ERROR);
             return L('TPL_NAME,CAN_NOT,USE,RELATIVE,PATH');
         }
         elseif (!is_file(FRONT_THEME_PATH . $tpl_name . C('TEMPLATE_SUFFIX'))) {

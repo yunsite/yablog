@@ -111,7 +111,8 @@ class BlogController extends CommonController {
         if ($pk_value) {//编辑
 
             if (!$blog_info = $this->_model->find($pk_value)) {//编辑博客不存在
-                $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,CONTROLLER_NAME_BLOG,%{$pk_field}({$pk_value}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+                $log    = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . $log_msg . ': ' . L("INVALID_PARAM,%:,CONTROLLER_NAME_BLOG,%{$pk_field}({$pk_value}),NOT_EXIST");
+                trigger_error($log, E_USER_ERROR);
                 $this->_ajaxReturn(false, $error_msg);
             }
 
@@ -126,7 +127,7 @@ class BlogController extends CommonController {
 
             strpos($diff, 'seo_keyword') && $this->_model->addTags($pk_value, $data['seo_keyword']);
 
-            $this->_model->addLog($msg . L('CONTROLLER_NAME_BLOG')  . "{$blog_info['title']}({$pk_value})." . $diff. L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_model->addLog($msg . L('CONTROLLER_NAME_BLOG')  . "{$blog_info['title']}({$pk_value})." . $diff. L('SUCCESS'));
 
             if (!$to_build) {
                 C('HTML_BUILD_INFO', array($pk_value => array('cate_id' => $blog_info['cate_id'] . ',' . $data['cate_id'], 'link_url' => $blog_info['link_url'])));
@@ -142,7 +143,7 @@ class BlogController extends CommonController {
                 $this->_sqlErrorExit($msg . L('CONTROLLER_NAME_BLOG') . $data . L('FAILURE'), $error_msg);
             }
 
-            $this->_model->addLog($msg . L('CONTROLLER_NAME_BLOG') . $data . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_model->addLog($msg . L('CONTROLLER_NAME_BLOG') . $data . L('SUCCESS'));
             $this->_ajaxReturn(true, $msg . L('SUCCESS'));
         }
     }//end addAction
@@ -243,7 +244,8 @@ class BlogController extends CommonController {
             $cate_arr = $this->cache($cate_id, 'Category');
 
             if (!$cate_arr) {
-                $this->_model->addLog(L("INVALID_PARAM,%:,BELONG_TO_CATEGORY,%cate_id({$cate_id}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+                $log    = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . L("INVALID_PARAM,%:,BELONG_TO_CATEGORY,%cate_id({$cate_id}),NOT_EXIST");
+                trigger_error($log, E_USER_ERROR);
                 $this->_ajaxReturn(true);
             }
 
@@ -295,7 +297,8 @@ class BlogController extends CommonController {
             $cate_info = $this->cache($cate_id, 'Category');
 
             if (!$cate_info) {//分类不存在
-                $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,BELONG_TO_CATEGORY,%{$field}({$cate_id}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+                $log    = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . $log_msg . ': ' . L("INVALID_PARAM,%:,BELONG_TO_CATEGORY,%{$field}({$cate_id}),NOT_EXIST");
+                trigger_error($log, E_USER_ERROR);
                 $this->_ajaxReturn(false, $error_msg);
             }
 
@@ -303,7 +306,8 @@ class BlogController extends CommonController {
         }
         else {
             //非法参数
-            $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%: {$field},IS_EMPTY"), LOG_TYPE_INVALID_PARAM);
+            $log    = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . $log_msg . ': ' . L("INVALID_PARAM,%: {$field},IS_EMPTY");
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, $error_msg);
         }
 

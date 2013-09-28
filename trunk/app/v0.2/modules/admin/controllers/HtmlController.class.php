@@ -313,7 +313,7 @@ class HtmlController extends CommonController {
             C('T_HTML_ID') && $this->_model->save(array($this->_pk_field => array('IN', C('T_HTML_ID')), 'last_build_time' => time()));
         }
 
-        $this->_model->addLog(L('BUILD,STATIC_PAGE') . ',' . ACTION_NAME . C('T_LOG'), LOG_TYPE_ADMIN_OPERATE);
+        $this->_model->addLog(L('BUILD,STATIC_PAGE') . ',' . ACTION_NAME . C('T_LOG'));
         $this->cache(null, null, null)->_ajaxReturn(true, L('BUILD,STATIC_PAGE,SUCCESS'));
     }
 
@@ -342,7 +342,8 @@ class HtmlController extends CommonController {
         if ($pk_value) {//编辑
 
             if (!$info = $this->cache($pk_value)) {//ssi不存在
-                $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,CONTROLLER_NAME,%{$pk_field}({$pk_value}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+                $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . $log_msg . ': ' . L("INVALID_PARAM,%:,CONTROLLER_NAME,%{$pk_field}({$pk_value}),NOT_EXIST");
+                trigger_error($log, E_USER_ERROR);
                 $this->_ajaxReturn(false, $error_msg);
             }
 
@@ -351,7 +352,7 @@ class HtmlController extends CommonController {
             }
 
             $diff = $this->_dataDiff($info, $data, $diff_key);//差异
-            $this->_model->addLog($msg . L('CONTROLLER_NAME')  . "{$info['tpl_name']}({$pk_value})." . $diff. L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_model->addLog($msg . L('CONTROLLER_NAME')  . "{$info['tpl_name']}({$pk_value})." . $diff. L('SUCCESS'));
             $this->cache(null, null, null)->_ajaxReturn(true, $msg . L('SUCCESS'));
 
         }
@@ -362,7 +363,7 @@ class HtmlController extends CommonController {
                 $this->_sqlErrorExit($msg . L('CONTROLLER_NAME') . $data . L('FAILURE'), $error_msg);
             }
 
-            $this->_model->addLog($msg . L('CONTROLLER_NAME') . $data . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_model->addLog($msg . L('CONTROLLER_NAME') . $data . L('SUCCESS'));
             $this->cache(null, null, null)->_ajaxReturn(true, $msg . L('SUCCESS'));
         }
     }
@@ -402,7 +403,8 @@ class HtmlController extends CommonController {
         $html_id   = map_int(Filter::string($this->_pk_field), true);
 
         if (!$html_id) {
-            $this->_model->addLog(L('PRIMARY_KEY,DATA,IS_EMPTY'), LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('PRIMARY_KEY,DATA,IS_EMPTY');
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, L('BUILD,STATIC_PAGE,FAILURE'));
         }
 

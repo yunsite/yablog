@@ -182,7 +182,6 @@ class MenuController extends CommonController {
         ->key_column($this->_pk_field)->select();
 
         if ($data === false) {
-            $this->_model->addLog();
             $this->_ajaxReturn(false, L('CREATE_MENU_CACHE,FAILURE'), 'EXIT');
         }
 

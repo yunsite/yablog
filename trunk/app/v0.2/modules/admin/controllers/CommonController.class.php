@@ -72,7 +72,8 @@ class CommonController extends Controller {
 
         if (!$this->_admin_info) {
             send_http_status(HTTP_STATUS_UNLOGIN);//401 验证用户登陆
-            $this->_model && $this->_model->addLog(L('NOT_HAS,LOGIN') . '.' . get_class($this) . '->' . __FUNCTION__ . '().' . $this->_getControllerName() . ':' . ACTION_NAME, LOG_TYPE_NO_PERMISSION);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_NO_PRIV) . L('NOT_HAS,LOGIN');
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false);
         }
     }
@@ -102,12 +103,13 @@ class CommonController extends Controller {
                 $this->_ajaxReturn(true, '', $info);
             }
 
-
-            $this->_model->addLog($msg . '<br />' . L("INVALID_PARAM,%:,CONTROLLER_NAME,%id({$id}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . $msg . ': ' . L("INVALID_PARAM,%:,CONTROLLER_NAME,%id({$id}),NOT_EXIST");
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, L('CONTROLLER_NAME') . L('NOT_EXIST'));
         }
-
-        $this->_model->addLog($msg . '<br />' . L("INVALID_PARAM,%:,CONTROLLER_NAME,%{$this->_pk_field},IS_EMPTY"), LOG_TYPE_INVALID_PARAM);
+        
+        $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . $msg . ': ' . L("INVALID_PARAM,%:,CONTROLLER_NAME,%{$this->_pk_field},IS_EMPTY");
+        trigger_error($log, E_USER_ERROR);
         $this->_ajaxReturn(false, $msg);
     }
 
@@ -333,8 +335,11 @@ class CommonController extends Controller {
                 unset($menu_arr, $menu_info);
             }
         }
-
-        !$checked && $this->_model && $this->_model->addLog(L('NOT_HAS,PERMISSION') . '.' . get_class($this) . '->' . __FUNCTION__ . ".{$_module}:" . $_action, LOG_TYPE_NO_PERMISSION);
+        
+        if (!$checked) {
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_NO_PRIV) . L('NOT_HAS,PERMISSION');
+            trigger_error($log, E_USER_ERROR);
+        }
 
         if ($just_return) {//仅仅返回是否有权限
             return $checked;
@@ -415,11 +420,13 @@ class CommonController extends Controller {
 
         //父类不存在
         if ($parent_id && !$parent_info) {
-            $this->_model->addLog($log_msg . '<br />' . L('INVALID_PARAM,%:,PARENT_' . CONTROLLER_NAME . ",%{$pk_field}({$parent_id}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . $log_msg . ': ' . L('INVALID_PARAM,%:,PARENT_' . CONTROLLER_NAME . ",%{$pk_field}({$parent_id}),NOT_EXIST");
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, $error_msg);
         }
         elseif ($parent_info && 5 == $parent_info['level']) {//最多5级,因为node字段有限制char(20) by mrmsl on 2013-06-19 18:01:19
-            $this->_model->addLog($log_msg . '<br />column: level=5', LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . $log_msg . ': column: level=5';
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, $error_msg);
         }
 
@@ -428,7 +435,8 @@ class CommonController extends Controller {
         if ($pk_value) {//编辑
 
             if (!isset($cache_data[$pk_value]) || (!$info = $cache_data[$pk_value])) {//编辑信息不存在
-                $this->_model->addLog($log_msg . '<br />' . L('INVALID_PARAM,%:,' . $module_key . ",%{$pk_field}({$pk_value}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+                $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . $log_msg . ': ' . L('INVALID_PARAM,%:,' . $module_key . ",%{$pk_field}({$pk_value}),NOT_EXIST");
+                trigger_error($log, E_USER_ERROR);
                 $this->_ajaxReturn(false, $error_msg);
             }
 
@@ -485,7 +493,7 @@ class CommonController extends Controller {
         $this->_model->setProperty('_data', array('parent_id' => $parent_id, $pk_field => $pk_value, 'insert_id' => $insert_id));
         //unset($data);
         $this->_setLevelAndNode();
-        $this->_model->commit()->addLog($log_msg, LOG_TYPE_ADMIN_OPERATE);//日志信息
+        $this->_model->commit()->addLog($log_msg);//日志信息
         $this->createAction();
 
         if (method_exists($this, '_afterCommonAddTreeData')) {
@@ -659,7 +667,10 @@ class CommonController extends Controller {
                 }
             }
 
-            $contain_exclude_setField_id && $this->_model->addLog(L('TRY') . $msg . L('CONTROLLER_NAME') . trim($contain_exclude_setField_id, ', ') . ":{$field}={$value}", LOG_TYPE_INVALID_PARAM);
+            if ($contain_exclude_setField_id) {
+                $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('TRY') . $msg . L('CONTROLLER_NAME') . trim($contain_exclude_setField_id, ', ') . ":{$field}={$value}";
+                trigger_error($log, E_USER_ERROR);
+            }
         }
 
         $error_msg   = $msg . L('FAILURE');//错误提示信息
@@ -670,7 +681,8 @@ class CommonController extends Controller {
             $log  = $msg . L('CONTROLLER_NAME') . $log . $extra_log;
 
             if (!$pk_id) {
-                $this->_model->addLog($log . L('FAILURE') . '<br />' . L("INVALID_PARAM,%: {$this->_pk_field},IS_EMPTY"), LOG_TYPE_INVALID_PARAM);
+                $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . $log . L('FAILURE') . ': ' . L("INVALID_PARAM,%: {$this->_pk_field},IS_EMPTY");
+                trigger_error($log, E_USER_ERROR);
                 $this->_ajaxReturn(false, $error_msg);
             }
             //更新出错
@@ -685,13 +697,17 @@ class CommonController extends Controller {
 
                 method_exists($this, '_afterSetField') && $this->_afterSetField($field, $value, $pk_id);
 
-                $this->_model->addLog($log . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);//管理员操作日志
+                $this->_model->addLog($log . L('SUCCESS'));//管理员操作日志
 
                 $this->_ajaxReturn(true, $msg . L('SUCCESS'));
             }
         }
         else {//非法参数
-            empty($contain_exclude_setField_id) && $this->_model->addLog($msg . L('CONTROLLER_NAME,FAILURE') . '<br />' . L("INVALID_PARAM,%: {$this->_pk_field},IS_EMPTY"), LOG_TYPE_INVALID_PARAM);
+            if (empty($contain_exclude_setField_id)) {
+                $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . $msg . L('CONTROLLER_NAME,FAILURE') . ': ' . L("INVALID_PARAM,%: {$this->_pk_field},IS_EMPTY");
+                trigger_error($log, E_USER_ERROR);
+            }
+
             $this->_ajaxReturn(false, $error_msg);
         }
     }//end _setField
@@ -900,7 +916,10 @@ class CommonController extends Controller {
                 }
             }
 
-            $contain_exclude_delete_id && $this->_model->addLog(L("TRY,DELETE,CONTROLLER_NAME,%{$this->_pk_field}: ") . trim($contain_exclude_delete_id, ', '), LOG_TYPE_INVALID_PARAM);
+            if ($contain_exclude_delete_id) {
+                $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L("TRY,DELETE,CONTROLLER_NAME,%{$this->_pk_field}: ") . trim($contain_exclude_delete_id, ', ');
+                trigger_error($log, E_USER_ERROR);
+            }
         }
 
         $this->_model->startTrans();
@@ -916,7 +935,8 @@ class CommonController extends Controller {
             }
 
             if (!$pk_id) {
-                $this->_model->addLog(L('DELETE,CONTROLLER_NAME,FAILURE') . '<br />' . L("INVALID_PARAM,%: {$this->_pk_field},IS_EMPTY"), LOG_TYPE_INVALID_PARAM);
+                $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('DELETE,CONTROLLER_NAME,FAILURE') . ': ' . L("INVALID_PARAM,%: {$this->_pk_field},IS_EMPTY");
+                trigger_error($log, E_USER_ERROR);
                 $this->_ajaxReturn(false, L('DELETE,FAILURE'));
             }
             //删除出错
@@ -931,14 +951,18 @@ class CommonController extends Controller {
                     $this->cache(null, null, $data);//生成缓存
                 }
 
-                $this->_model->addLog($log . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);//管理员操作日志
+                $this->_model->addLog($log . L('SUCCESS'));//管理员操作日志
 
                 $this->_ajaxReturn(true, L('DELETE,SUCCESS'));
             }
         }
         else {
             //非法参数
-            empty($contain_exclude_delete_id) && $this->_model->addLog(L('DELETE,CONTROLLER_NAME,FAILURE') . '<br />' . L("INVALID_PARAM,%: {$this->_pk_field},IS_EMPTY"), LOG_TYPE_INVALID_PARAM);
+            if (empty($contain_exclude_delete_id)) {
+                $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('DELETE,CONTROLLER_NAME,FAILURE') . ': ' . L("INVALID_PARAM,%: {$this->_pk_field},IS_EMPTY");
+                trigger_error($log, E_USER_ERROR);
+            }
+
             $this->_ajaxReturn(false, L('DELETE,FAILURE'));
         }
     }//end deleteAction
@@ -974,19 +998,26 @@ class CommonController extends Controller {
                 }
             }
 
-            $error && $this->triggerError(__METHOD__ . ': ' . __LINE__ . ',' . L('CONTROLLER_NAME') . $error . L('NOT_EXIST'), E_USER_WARNING);
+            if ($error) {
+                $log_content = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('CONTROLLER_NAME') . $error . L('NOT_EXIST');
+                trigger_error($log_content, E_USER_ERROR);
+            }
 
             if ($log) {
                 $this->_deleteBlogHtml($delete);
-                $this->_model->addLog(L('DELETE,CONTROLLER_NAME,STATIC_PAGE') . substr($log, 1) . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+                $this->_model->addLog(L('DELETE,CONTROLLER_NAME,STATIC_PAGE') . substr($log, 1) . L('SUCCESS'));
                 $this->_ajaxReturn(true, L('DELETE,SUCCESS'));
             }
             else {
-                $this->_model->addLog(L('DELETE,CONTROLLER_NAME,STATIC_PAGE,FAILURE,%<br />,INVALID_PARAM,%:,CONTROLLER_NAME') . $error . L('NOT_EXIST'), LOG_TYPE_INVALID_PARAM);
+                $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('DELETE,CONTROLLER_NAME,STATIC_PAGE,FAILURE,%: ,INVALID_PARAM,%:,CONTROLLER_NAME') . $error . L('NOT_EXIST');
+                trigger_error($log, E_USER_ERROR);
             }
         }
 
-        empty($error) && $this->_model->addLog(L("DELETE,CONTROLLER_NAME,STATIC_PAGE,FAILURE,%<br />,INVALID_PARAM,%:,CONTROLLER_NAME,%{$this->_pk_field},IS_EMPTY"), LOG_TYPE_INVALID_PARAM);
+        if (empty($error)) {
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L("DELETE,CONTROLLER_NAME,STATIC_PAGE,FAILURE,%: ,INVALID_PARAM,%:,CONTROLLER_NAME,%{$this->_pk_field},IS_EMPTY");
+            trigger_error($log, E_USER_ERROR);
+        }
         $this->_ajaxReturn(false, L('DELETE,FAILURE'));
     }//end deleteBlogHtmlAction
 
@@ -1002,7 +1033,8 @@ class CommonController extends Controller {
     public function logLoadTimeAction() {
 
         if (!$this->_admin_info) {
-            $this->_model->addLog(get_class($this) . '->' . __FUNCTION__ . '. admin_info is empty', LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('CONTROLLER_NAME_ADMIN,IS_EMPTY');
+            trigger_error($log, E_USER_ERROR);
             return $this;
         }
 
@@ -1013,7 +1045,8 @@ class CommonController extends Controller {
         $total_time      = $load_css_time + $load_ext_time + $load_js_time + $app_launch_time;
         $app_launch_time = $app_launch_time ? ', app_launch_time => ' . $app_launch_time : '';//管理中心才会有
 
-        $this->_model->addLog("total_time => {$total_time}{$app_launch_time}, load_ext_time => {$load_ext_time}, load_css_time => {$load_css_time}, load_js_time => {$load_js_time}", LOG_TYPE_LOAD_SCRIPT_TIME);
+        $log = get_method_line(__METHOD__ , __LINE__, LOG_TYPE_SCRIPT_TIME) . "total_time => {$total_time}{$app_launch_time}, load_ext_time => {$load_ext_time}, load_css_time => {$load_css_time}, load_js_time => {$load_js_time}";
+        trigger_error($log, E_USER_ERROR);
 
         return $this;
     }

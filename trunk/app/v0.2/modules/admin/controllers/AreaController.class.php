@@ -57,7 +57,6 @@ class AreaController extends CommonController {
         ->key_column($this->_pk_field)->select();
 
         if ($data === false) {
-            $this->_model->addLog();
             $this->_ajaxReturn(false, L('CREATE_AREA_CACHE,FAILURE'), 'EXIT');
         }
 

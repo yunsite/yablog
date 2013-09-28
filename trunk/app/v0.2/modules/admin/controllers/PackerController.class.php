@@ -37,7 +37,8 @@ class PackerController extends CommonController {
     private function _denyDirectory($path) {
 
         if (false !== strpos($path, '..')) {
-            $this->_model->addLog(L('LIST_DIRECTORY_FORBIDDEN') . PACKER_JS_PATH . $path, LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('LIST_DIRECTORY_FORBIDDEN') . PACKER_JS_PATH . $path;
+            trigger_error($log, E_USER_ERROR);
             send_http_status(HTTP_STATUS_SERVER_ERROR);
             $this->_ajaxReturn(L('LIST_DIRECTORY_FORBIDDEN') . PACKER_JS_PATH . $path);
         }
@@ -213,7 +214,7 @@ class PackerController extends CommonController {
             $merge && $this->_merge();
         }
 
-        $this->_model->addLog(L('COMPRESS,%js,FILENAME,%:') . join(',', $file), LOG_TYPE_ADMIN_OPERATE);
+        $this->_model->addLog(L('COMPRESS,%js,FILENAME,%:') . join(',', $file));
         $this->_ajaxReturn(true, L('COMPRESS,SUCCESS'));
     }//end packAction
 }

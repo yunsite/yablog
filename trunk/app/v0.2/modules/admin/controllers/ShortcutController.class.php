@@ -57,7 +57,7 @@ class ShortcutController extends CommonController {
             }
 
             $diff = $this->_dataDiff($short_info, $data, $diff_key);//差异
-            $this->_model->addLog($msg . L('SHORTCUT')  . "{$short_info['menu_name']}({$pk_value})." . $diff. L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_model->addLog($msg . L('SHORTCUT')  . "{$short_info['menu_name']}({$pk_value})." . $diff. L('SUCCESS'));
             $this->_ajaxReturn(true, $msg . L('SUCCESS'));
 
         }
@@ -68,7 +68,7 @@ class ShortcutController extends CommonController {
                 $this->_sqlErrorExit($msg . L('SHORTCUT') . $diff . L('FAILURE'), $error_msg);
             }
 
-            $this->_model->addLog($msg . L('SHORTCUT') . $diff . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_model->addLog($msg . L('SHORTCUT') . $diff . L('SUCCESS'));
             $this->_ajaxReturn(true, $msg . L('SUCCESS'));
         }
 

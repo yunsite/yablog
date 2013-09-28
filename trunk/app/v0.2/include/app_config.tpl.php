@@ -71,20 +71,34 @@ define('E_APP_SQL'            , 'E_APP_SQL');           //SQL
 define('E_APP_ROLLBACK_SQL'   , 'E_APP_ROLLBACK_SQL');  //事务回滚SQL
 
 //日志类型
-define('LOG_TYPE_ALL'                 , -1);//全部日志
-define('LOG_TYPE_SQL_ERROR'           , 0); //sql错误
-define('LOG_TYPE_SYSTEM_ERROR'        , 1); //系统错误
-define('LOG_TYPE_ADMIN_OPERATE'       , 2); //管理员操作日志
-define('LOG_TYPE_NO_PERMISSION'       , 3); //无权限操作
-define('LOG_TYPE_ADMIN_LOGIN_INFO'    , 4); //后台登陆日志
-define('LOG_TYPE_INVALID_PARAM'       , 5); //非法参数
-define('LOG_TYPE_CRONTAB'             , 6); //定时任务
-define('LOG_TYPE_VALIDATE_FORM_ERROR' , 7); //验证表单错误
-define('LOG_TYPE_VERIFYCODE_ERROR'    , 8); //验证码错误
-define('LOG_TYPE_LOAD_SCRIPT_TIME'    , 9); //css及js加载时间
-define('LOG_TYPE_SLOWQUERY'           , 10);//慢查询
-define('LOG_TYPE_ROLLBACK_SQL'        , 11);//事务回滚sql
-define('LOG_TYPE_EMAIL_FAILURE'       , 12);//邮件发送错误
+define('LOG_TYPE_ALL'                   , -1);//全部日志
+define('LOG_TYPE_SQL_ERROR'             , 0); //sql错误
+define('LOG_TYPE_SYSTEM_ERROR'          , 1); //系统错误
+define('LOG_TYPE_ADMIN_OPERATE'         , 2); //管理员操作日志
+define('LOG_TYPE_NO_PERMISSION'         , 3); //无权限操作
+define('LOG_TYPE_ADMIN_LOGIN_INFO'      , 4); //后台登陆日志
+define('LOG_TYPE_INVALID_PARAM'         , 5); //非法参数
+define('LOG_TYPE_CRONTAB'               , 6); //定时任务
+define('LOG_TYPE_VALIDATE_FORM_ERROR'   , 7); //验证表单错误
+define('LOG_TYPE_VERIFYCODE_ERROR'      , 8); //验证码错误
+define('LOG_TYPE_LOAD_SCRIPT_TIME'      , 9); //css及js加载时间
+define('LOG_TYPE_SLOWQUERY'             , 10);//慢查询
+define('LOG_TYPE_ROLLBACK_SQL'          , 11);//事务回滚sql
+define('LOG_TYPE_EMAIL_FAILURE'         , 12);//邮件发送错误
+
+//日志文件
+define('LOG_NORMAL_ERROR'               , 'normal_error');      //一般性错误
+define('LOG_SQL_ERROR'                  , 'sql_error');         //sql错误
+define('LOG_SYSTEM_ERROR'               , 'system_error');      //系统错误
+define('LOG_NO_PERMISSION'              , 'no_priv');           //无权限操作
+define('LOG_INVALID_PARAM'              , 'invalid_param');     //非法参数
+define('LOG_CRONTAB'                    , 'crontab');           //定时任务
+define('LOG_VALIDATE_FORM_ERROR'        , 'form_error');        //验证表单错误
+define('LOG_VERIFYCODE_ERROR'           , 'verifycode_error');  //验证码错误
+define('LOG_LOAD_SCRIPT_TIME'           , 'load_script_time');  //css及js加载时间
+define('LOG_SLOWQUERY'                  , 'slow_query');        //慢查询
+define('LOG_ROLLBACK_SQL'               , 'rollback_sql');      //事务回滚sql
+define('LOG_EMAIL_FAILURE'              , 'email_error');       //邮件发送错误
 
 //发送邮件类型
 define('MAIL_TYPE_MISC'                 , 0);   //其它类型

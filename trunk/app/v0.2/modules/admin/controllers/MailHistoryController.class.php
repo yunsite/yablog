@@ -51,7 +51,7 @@ class MailHistoryController extends CommonController {
             $mailer->doMail($item);
         }
 
-        $this->_model->addLog($msg . join(',', array_keys($data)) . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+        $this->_model->addLog($msg . join(',', array_keys($data)) . L('SUCCESS'));
         $this->_ajaxReturn(true, $msg . L('SUCCESS'));
 
     }//end afreshIpActi
@@ -68,9 +68,8 @@ class MailHistoryController extends CommonController {
         $sort           = Filter::string('sort', 'get', $this->_pk_field);//排序字段
 
         if (!in_array($sort, $this->_getDbFields())) {
-            $log = __METHOD__ . ': ' . __LINE__ . ',' . L('QUERY,CONTROLLER_NAME,%。,ORDER,COLUMN') . $sort . L('NOT_EXIST');
-            C('TRIGGER_ERROR', array($log));
-            $this->_model->addLog($log, LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('QUERY,CONTROLLER_NAME,%。,ORDER,COLUMN') . $sort . L('NOT_EXIST');
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, L('SERVER_ERROR'));
         }
 

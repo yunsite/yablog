@@ -246,7 +246,8 @@ class CommentsController extends CommonController {
         $error_msg = $msg . L('FAILURE');//错误提示信息
 
         if (!$commetn_info = $this->_model->find($pk_value)) {//编辑留言评论不存在
-            $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,CONTROLLER_NAME,%{$pk_field}({$pk_value}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+            $log    = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . $log_msg . ': ' . L("INVALID_PARAM,%:,CONTROLLER_NAME,%{$pk_field}({$pk_value}),NOT_EXIST");
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, $error_msg);
         }
 
@@ -256,7 +257,7 @@ class CommentsController extends CommonController {
 
         $diff = $this->_dataDiff($commetn_info, $data, $diff_key);//差异
 
-        $this->_model->addLog($msg . L('CONTROLLER_NAME')  . "({$pk_value})." . $diff. L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+        $this->_model->addLog($msg . L('CONTROLLER_NAME')  . "({$pk_value})." . $diff. L('SUCCESS'));
 
         $this->_ajaxReturn(true, $msg . L('SUCCESS'));
     }//end addAction
@@ -275,9 +276,8 @@ class CommentsController extends CommonController {
         //,1641|1032096356,1642|976345078,1643|3391871307,1644|2043434434,1645|3395489940,
         //1646|3549731567,1647|3399838587,1648|3549731521,1649|3708103387,1650|3708103373
         if (!$data = Filter::string('data')) {
-            $log = __METHOD__ . ': ' . __LINE__ . ',' . L('AFRESH,GET,%ip,AREA,FAILURE') . '.data' . L('PARAM,IS_EMPTY');
-            C('TRIGGER_ERROR', array($log));
-            $this->_model->addLog($log, LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('AFRESH,GET,%ip,AREA,FAILURE') . '.data' . L('PARAM,IS_EMPTY');
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, L('INVALID_PARAM,%data。') . $msg . L('FAILURE'));
         }
 
@@ -311,15 +311,14 @@ class CommentsController extends CommonController {
         }
 
         if (!$id_arr) {
-            $log = __METHOD__ . ': ' . __LINE__ . ',' . L('AFRESH,GET,%ip,AREA,FAILURE,%。,INVALID,%data=') . $data;
-            C('TRIGGER_ERROR', array($log));
-            $this->_model->addLog($log, LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('AFRESH,GET,%ip,AREA,FAILURE,%。,INVALID,%data=') . $data;
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, L('INVALID_PARAM,%data。') . $msg . L('FAILURE'));
         }
 
         $error && $this->triggerError(substr($error, 1) . L('FORMAT,NOT_CORRECT'));
 
-        $this->_model->addLog($msg . join(',',$id_arr) . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+        $this->_model->addLog($msg . join(',',$id_arr) . L('SUCCESS'));
         $this->_ajaxReturn(true, $msg . L('SUCCESS'));
 
     }//end afreshIpAction
@@ -505,19 +504,19 @@ class CommentsController extends CommonController {
         $add_time   = Filter::int('add_time');
 
         if (!$comment_id && !$add_time) {//非法参数
-            $log = __METHOD__ . ': ' . __LINE__ . ',' . L('REPLY,CONTROLLER_NAME,%.,INVALID_PARAM') . "{$this->_pk_field}({$comment_id}),add_time({$add_time})";
+            $log = L('REPLY,CONTROLLER_NAME,%.,INVALID_PARAM') . "{$this->_pk_field}({$comment_id}),add_time({$add_time})";
             $msg = L('INVALID_PARAM');
         }
         elseif (!$comment_info = $this->_model->where(array($this->_pk_field => $comment_id, 'add_time' => $add_time))->find()) {//不存在
-            $log = __METHOD__ . ': ' . __LINE__ . ',' . L('REPLY,CONTROLLER_NAME') . ".{$this->_pk_field}({$comment_id}),add_time({$add_time})" . L('NOT_EXIST');
+            $log = L('REPLY,CONTROLLER_NAME') . ".{$this->_pk_field}({$comment_id}),add_time({$add_time})" . L('NOT_EXIST');
             $msg = L('CONTROLLER_NAME,NOT_EXIST');
         }
         elseif (COMMENT_REPLY_TYPE_ADMIN == $comment_info['admin_reply_type']) {//
             $msg = L('CONTROLLER_NAME_ADMIN,REPLY,%。,CAN_NOT,REPLY');
-            $log = __METHOD__ . ': ' . __LINE__ . ',' . L('REPLY,CONTROLLER_NAME') . '.admin_reply_type=' . COMMENT_REPLY_TYPE_ADMIN . ',' . $msg;
+            $log = L('REPLY,CONTROLLER_NAME') . '.admin_reply_type=' . COMMENT_REPLY_TYPE_ADMIN . ',' . $msg;
         }
         elseif (!$content = Filter::raw('content')) {
-            $log = __METHOD__ . ': ' . __LINE__ . ',' . L('REPLY,CONTROLLER_NAME') . ".{$this->_pk_field}" . L('REPLY,CONTENT,IS_EMPTY');
+            $log = L('REPLY,CONTROLLER_NAME') . ".{$this->_pk_field}" . L('REPLY,CONTENT,IS_EMPTY');
             $msg = L('PLEASE_ENTER,REPLY,CONTENT');
         }
         elseif ('<p>' != substr($content, 0, 3)) {
@@ -525,8 +524,8 @@ class CommentsController extends CommonController {
         }
 
         if (!empty($msg)) {//错误
-            C('TRIGGER_ERROR', array($log));
-            $this->_model->addLog($log, LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . $log;
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, $msg);
         }
 
@@ -620,7 +619,7 @@ class CommentsController extends CommonController {
             $log = $content;
         }
 
-        $this->_model->addLog(L('REPLY,GUESTBOOK_COMMENTS') . $this->_pk_field . "({$comment_id})" . $log, LOG_TYPE_ADMIN_OPERATE);
+        $this->_model->addLog(L('REPLY,GUESTBOOK_COMMENTS') . $this->_pk_field . "({$comment_id})" . $log);
         $this->_ajaxReturn(true, L('REPLY,SUCCESS'));
     }//end replyAction
 
@@ -637,17 +636,17 @@ class CommentsController extends CommonController {
         $add_time   = Filter::int('add_time', 'get');
         $field      = '*,INET_NTOA(user_ip) AS user_ip';
         if (!$comment_id && !$add_time) {//非法参数
-            $log = __METHOD__ . ': ' . __LINE__ . ',' . L('CN_CHAKAN,CONTROLLER_NAME,%.,INVALID_PARAM') . "{$this->_pk_field}({$comment_id}),add_time({$add_time})";
+            $log = L('CN_CHAKAN,CONTROLLER_NAME,%.,INVALID_PARAM') . "{$this->_pk_field}({$comment_id}),add_time({$add_time})";
             $msg = L('INVALID_PARAM');
         }
         elseif (!$comment_info = $this->_model->field($field)->where(array($this->_pk_field => $comment_id, 'add_time' => $add_time))->select()) {//不存在
-            $log = __METHOD__ . ': ' . __LINE__ . ',' . L('CN_CHAKAN,CONTROLLER_NAME') . ".{$this->_pk_field}({$comment_id}),add_time({$add_time})" . L('NOT_EXIST');
+            $log = L('CN_CHAKAN,CONTROLLER_NAME') . ".{$this->_pk_field}({$comment_id}),add_time({$add_time})" . L('NOT_EXIST');
             $msg = L('CONTROLLER_NAME,NOT_EXIST');
         }
 
         if (!empty($msg)) {//错误
-            C('TRIGGER_ERROR', array($log));
-            $this->_model->addLog($log, LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . $log;
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, $msg);
         }
 

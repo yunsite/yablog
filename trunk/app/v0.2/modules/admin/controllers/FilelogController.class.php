@@ -63,7 +63,8 @@ class FilelogController extends CommonController {
     private function _denyDirectory($path) {
 
         if (false !== strpos($path, '..')) {
-            $this->_model->addLog(L('LIST_DIRECTORY_FORBIDDEN') . LOG_PATH . $path, LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('LIST_DIRECTORY_FORBIDDEN') . LOG_PATH . $path;
+            trigger_error($log, E_USER_ERROR);
             send_http_status(HTTP_STATUS_SERVER_ERROR);
             $this->_ajaxReturn(L('LIST_DIRECTORY_FORBIDDEN') . $path);
         }
@@ -152,7 +153,8 @@ class FilelogController extends CommonController {
         $file   = Filter::string('filename');
 
         if (!$file) {
-            $this->_model->addLog(L('DELETE,LOG,FILE,FAILURE') . '<br />' . L("INVALID_PARAM,%: file,IS_EMPTY"), LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('DELETE,LOG,FILE,FAILURE') . ': ' . L("INVALID_PARAM,%: file,IS_EMPTY");
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, L('DELETE,FAILURE'));
         }
 
@@ -178,10 +180,12 @@ class FilelogController extends CommonController {
             }
         }
 
-        $error && $this->_model->addLog(L('DELETE,INVALID,LOG,FILE') . $error, LOG_TYPE_INVALID_PARAM);//删除非法文件
+        if ($error) {
+            $log_error = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('DELETE,INVALID,LOG,FILE') . $error;
+            trigger_error($log_error, E_USER_ERROR);
 
         if ($log) {
-            $this->_model->addLog(L('DELETE,LOG,FILE') . $log . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);//管理员操作日志
+            $this->_model->addLog(L('DELETE,LOG,FILE') . $log . L('SUCCESS'));//管理员操作日志
             $this->_ajaxReturn(true, L('DELETE,SUCCESS'));
         }
         else {
@@ -214,7 +218,8 @@ class FilelogController extends CommonController {
 
         if (!is_dir($log_path)) {//路径不存在
             send_http_status(HTTP_STATUS_SERVER_ERROR);
-            $this->_model->addLog(L('path') . LOG_PATH . $path . L('NOT_EXIST'), LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('path') . LOG_PATH . $path . L('NOT_EXIST');
+            trigger_error($log, E_USER_ERROR);
             $this->_ajaxReturn(false, L('path') . $path . L('NOT_EXIST'));
         }
 
@@ -266,7 +271,8 @@ class FilelogController extends CommonController {
         $data     = array('filename' => $filename);
 
         if (!is_file($path)) {//文件不存在
-            $this->_model->addLog(L('LOG,FILE') . $path . L('NOT_EXIST'), LOG_TYPE_INVALID_PARAM);
+            $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('LOG,FILE') . $path . L('NOT_EXIST');
+            trigger_error($log, E_USER_ERROR);
             $data['content'] = L('LOG,FILE') . $filename . L('NOT_EXIST');
         }
         else {

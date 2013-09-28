@@ -103,7 +103,8 @@ class MailController extends CommonController {
         if ($pk_value) {//编辑
 
             if (!$info = $this->cache($pk_value)) {//不存在
-                $this->_model->addLog($log_msg . '<br />' . L("INVALID_PARAM,%:,CONTROLLER_NAME,%{$pk_field}({$pk_value}),NOT_EXIST"), LOG_TYPE_INVALID_PARAM);
+                $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . $log_msg . ': ' . L("INVALID_PARAM,%:,CONTROLLER_NAME,%{$pk_field}({$pk_value}),NOT_EXIST");
+                trigger_error($log, E_USER_ERROR);
                 $this->_ajaxReturn(false, $error_msg);
             }
 
@@ -112,7 +113,7 @@ class MailController extends CommonController {
             }
 
             $diff = $this->_dataDiff($info, $data, $diff_key);//差异
-            $this->_model->addLog($msg . L('CONTROLLER_NAME')  . "{$info['template_name']}({$pk_value})." . $diff. L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_model->addLog($msg . L('CONTROLLER_NAME')  . "{$info['template_name']}({$pk_value})." . $diff. L('SUCCESS'));
             $this->cache(null, null, null)->_ajaxReturn(true, $msg . L('SUCCESS'));
 
         }
@@ -123,7 +124,7 @@ class MailController extends CommonController {
                 $this->_sqlErrorExit($msg . L('CONTROLLER_NAME') . $data . L('FAILURE'), $error_msg);
             }
 
-            $this->_model->addLog($msg . L('CONTROLLER_NAME') . $data . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+            $this->_model->addLog($msg . L('CONTROLLER_NAME') . $data . L('SUCCESS'));
             $this->cache(null, null, null)->_ajaxReturn(true, $msg . L('SUCCESS'));
         }
     }//end addAction

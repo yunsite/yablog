@@ -178,15 +178,20 @@ class CategoryController extends CommonController {
             $error && $this->triggerError(__METHOD__ . ': ' . __LINE__ . ',' . L('CONTROLLER_NAME') . $error . L('NOT_EXIST'), E_USER_WARNING);
 
             if ($log) {
-                $this->_model->addLog(L('CLEAR,CONTROLLER_NAME_CATEGORY,CACHE') . substr($log, 1) . L('SUCCESS'), LOG_TYPE_ADMIN_OPERATE);
+                $this->_model->addLog(L('CLEAR,CONTROLLER_NAME_CATEGORY,CACHE') . substr($log, 1) . L('SUCCESS'));
                 $this->_ajaxReturn(true, L('CLEAR,SUCCESS'));
             }
             else {
-                $this->_model->addLog(L('CLEAR,CONTROLLER_NAME_CATEGORY,CACHE,FAILURE,%<br />,INVALID_PARAM,%:,CONTROLLER_NAME') . $error . L('NOT_EXIST'), LOG_TYPE_INVALID_PARAM);
+                $log    = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . L('CLEAR,CONTROLLER_NAME_CATEGORY,CACHE,FAILURE,%: ,INVALID_PARAM,%:,CONTROLLER_NAME') . $error . L('NOT_EXIST');
+                trigger_error($log, E_USER_ERROR);
             }
         }
+        
+        if (empty($error)) {
+            $log    = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . L("CLEAR,CONTROLLER_NAME_CATEGORY,CACHE,FAILURE,%<br />,INVALID_PARAM,%:,CONTROLLER_NAME,%{$this->_pk_field},IS_EMPTY");
+            trigger_error($log, E_USER_ERROR);
+        }
 
-        empty($error) && $this->_model->addLog(L("CLEAR,CONTROLLER_NAME_CATEGORY,CACHE,FAILURE,%<br />,INVALID_PARAM,%:,CONTROLLER_NAME,%{$this->_pk_field},IS_EMPTY"), LOG_TYPE_INVALID_PARAM);
         $this->_ajaxReturn(false, L('CLEAR,FAILURE'));
     }//end clearCacheAction
 
@@ -204,7 +209,6 @@ class CategoryController extends CommonController {
         ->key_column($this->_pk_field)->select();
 
         if ($data === false) {
-            $this->_model->addLog();
             $this->_ajaxReturn(false, L('CREATE_CATEGORY_CACHE,FAILURE'), 'EXIT');
         }
 
