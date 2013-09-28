@@ -879,7 +879,7 @@ class CommonController extends Controller {
 
 
         $this->_unshift    = isset($_GET['unshift']);
-        $this->_admin_info = Yaf_Registry::get(SESSION_ADMIN_KEY);//管理员信息
+        $this->_admin_info = C(SESSION_ADMIN_KEY);//管理员信息
 
         if ($this->_admin_info) {
             //角色信息
@@ -1069,7 +1069,7 @@ class CommonController extends Controller {
         }
 
         session(SESSION_ADMIN_KEY, $admin_info);
-        Yaf_Registry::set(SESSION_ADMIN_KEY, $admin_info);
+        C(SESSION_ADMIN_KEY, $admin_info);
 
         return true;
     }
