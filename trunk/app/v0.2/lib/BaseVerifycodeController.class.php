@@ -89,7 +89,7 @@ class BaseVerifycodeController extends CommonController {
         $height = $verifycode_setting['height'];//高
         $length = $verifycode_setting['length'];//字母长
         $type   = $verifycode_setting['type'];//类型
-        $img    = new Image_Verifycode();
+        $img    = new Verifycode();
 
         $img->buildVerifyImage($verifycode_setting['length'], $verifycode_setting['type'], $verifycode_setting['width'], $verifycode_setting['height']);
     }//end indexAction

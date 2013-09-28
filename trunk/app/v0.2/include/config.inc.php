@@ -16,6 +16,11 @@ return array(
     //项目设置
     'DEFAULT_AJAX_RETURN'   => 'JSON',  // 默认AJAX 数据返回格式,可选JSON XML ...
     'LANGUAGE_ARR'          => array('zh_cn', 'en'),//语言
+    'AUTOLOAD'              => array(//自动加载
+        'Image'             => LIB_PATH . 'image/Image' . PHP_EXT,//图像处理类
+        'Verifycode'        => LIB_PATH . 'image/Verifycode' . PHP_EXT,//验证码
+        'Upload'            => LIB_PATH . 'image/Upload' . PHP_EXT,//上传
+    ),
 
     //数据库配置
     'DB_TYPE'               => DB_TYPE,      //数据库类型
