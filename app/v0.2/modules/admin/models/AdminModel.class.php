@@ -163,7 +163,7 @@ class AdminModel extends CommonModel {
             return false;
         }
 
-        $admin_info = Yaf_Registry::get(SESSION_ADMIN_KEY);
+        $admin_info = C(SESSION_ADMIN_KEY);
 
         return md5($this->_encryptPassword($password)) == $admin_info['password'] ? true : L('CN_YUAN,PASSWORD,NOT_CORRECT');
     }
