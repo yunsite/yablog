@@ -128,11 +128,11 @@ class Db {
      * @date            2013-01-16 16:02:26
      * @lastmodify      2013-01-16 16:02:26 by mrmsl
      *
-     * @param string $key_column 返回数组作为key值字段名。默认''，数字索引，从0开始
+     * @param string $index 返回数组作为key值字段名。默认''，数字索引，从0开始
      *
      * @return array 数据集
      */
-    private function _getAll($key_column = false) {
+    private function _getAll($index = false) {
     }
 
     /**
@@ -1327,11 +1327,11 @@ class Db {
      * @lastmodify      2013-01-16 16:50:47 by mrmsl
      *
      * @param string $str sql指令
-     * @param string $key_column 返回数组作为key值字段名。默认''，数字索引，从0开始
+     * @param string $index 返回数组作为key值字段名。默认''，数字索引，从0开始
      *
      * @return mixed 查询出错，返回false，否则返回$this->_getAll()结果
      */
-    public function query($str, $key_column = '') {
+    public function query($str, $index = '') {
     }
 
     /**
@@ -1360,7 +1360,7 @@ class Db {
         $this->_model = isset($options['model']) ? $options['model'] : '_think_';
         $sql        = $this->buildSelectSql($options);
         $cache      = isset($options['cache']) ? $options['cache'] : false;
-        $key_column = isset($options['key_column']) ? $options['key_column'] : false;//返回结果数e键值
+        $index = isset($options['index']) ? $options['index'] : false;//返回结果数e键值
 
         if ($cache) {//查询缓存检测
             $key   = is_string($cache['key']) ? $cache['key'] : md5($sql);
@@ -1371,7 +1371,7 @@ class Db {
             }
         }
 
-        $result = $this->query($sql, $key_column);
+        $result = $this->query($sql, $index);
 
         if ($cache && false !== $result) { //查询缓存写入
             S($key, $result, $cache['expire'], $cache['type']);

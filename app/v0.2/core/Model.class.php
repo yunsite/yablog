@@ -633,8 +633,8 @@ class Model {
      */
     public function __call($method, $args) {
 
-        //连贯操作的实现 'table', 'where', 'order', 'limit', 'page', 'alias', 'having', 'group', 'lock', 'distinct', 'key_column'
-        if (in_array($method = strtolower($method), array('table', 'where', 'order', 'limit', 'page', 'alias', 'having', 'group', 'lock', 'distinct', 'key_column'), true)) {
+        //连贯操作的实现 'table', 'where', 'order', 'limit', 'page', 'alias', 'having', 'group', 'lock', 'distinct', 'index'
+        if (in_array($method = strtolower($method), array('table', 'where', 'order', 'limit', 'page', 'alias', 'having', 'group', 'lock', 'distinct', 'index'), true)) {
             $this->_options[$method] = $args[0];
 
             return $this;

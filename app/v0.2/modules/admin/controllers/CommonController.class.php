@@ -632,7 +632,7 @@ class CommonController extends Controller {
         $where = $where ? array($column => $where) : $where;
         $where = !empty($this->_queryTreeWhere) ? array_merge($where, $this->_queryTreeWhere) : $where;//额外条件
         $where && $this->_model->where($where);
-        $data  = $this->_model->field($this->_pk_field)->key_column($this->_pk_field)->select();
+        $data  = $this->_model->field($this->_pk_field)->index($this->_pk_field)->select();
 
         method_exists($this, '_queryTreeCallback') && $this->_queryTreeCallback($data);//回调
 
@@ -984,7 +984,7 @@ class CommonController extends Controller {
             $log            = '';
             $name_column    = empty($this->_name_column) ? '' : $this->_name_column;
             $field          = $pk_field . ',link_url' . ($name_column ? ',' . $name_column : '');
-            $data           = $this->_model->field($field)->key_column($pk_field)->where(array($pk_field => array('IN', $pk_value)))->select();
+            $data           = $this->_model->field($field)->index($pk_field)->where(array($pk_field => array('IN', $pk_value)))->select();
             $delete         = array();
 
             foreach($pk_value as $v) {

@@ -151,7 +151,7 @@ class LanguageItemsController extends CommonController {
     public function createAction() {
         $data      = $this->_model
         ->order('sort_order ASC, item_id ASC')
-        ->key_column($this->_pk_field)->select();
+        ->index($this->_pk_field)->select();
 
         if ($data === false) {
             $this->_ajaxReturn(false, L('BUILD,LANGUAGE_ITEM,CACHE,FAILURE'));

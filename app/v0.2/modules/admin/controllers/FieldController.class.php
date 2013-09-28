@@ -278,7 +278,7 @@ class FieldController extends CommonController {
      * @return mixed 查询成功，返回数组，否则返回false
      */
     protected function _setCacheData() {
-        return $this->_model->order('is_enable DESC,sort_order ASC, field_id ASC')->key_column($this->_pk_field)->select();
+        return $this->_model->order('is_enable DESC,sort_order ASC, field_id ASC')->index($this->_pk_field)->select();
     }
 
     /**
@@ -641,7 +641,7 @@ class FieldController extends CommonController {
         ->field('f.input_name,f.field_id,f.field_name,input_value,f.validate_rule,f.auto_operation')
         ->join(TB_MENU . ' AS m ON f.menu_id=m.menu_id')
         ->where("m.menu_id={$menu_id} AND f.is_enable=1")
-        ->key_column($this->_pk_field)->select();*/
+        ->index($this->_pk_field)->select();*/
         //走缓存 by mrmsl on 2012-09-05 14:05:14
         $field_arr  = array_filter($this->cache(), create_function('$v', 'return $v["menu_id"] == ' . $menu_id . ' && $v["is_enable"];'));
 

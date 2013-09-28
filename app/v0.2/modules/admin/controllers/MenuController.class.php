@@ -179,7 +179,7 @@ class MenuController extends CommonController {
         ->field(array('a.*', "CONCAT('#controller=', a.controller, '&action=', a.action)" => 'href', 'GROUP_CONCAT(c.role_id)' => 'priv', 'GROUP_CONCAT(c.role_name)' => 'priv_letter'))
         ->group('a.menu_id')
         ->order('a.parent_id ASC,a.is_show DESC,a.sort_order ASC, a.menu_id ASC')
-        ->key_column($this->_pk_field)->select();
+        ->index($this->_pk_field)->select();
 
         if ($data === false) {
             $this->_ajaxReturn(false, L('CREATE_MENU_CACHE,FAILURE'), 'EXIT');

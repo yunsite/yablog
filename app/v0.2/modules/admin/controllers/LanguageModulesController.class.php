@@ -350,7 +350,7 @@ class LanguageModulesController extends CommonController {
     public function createAction() {
         $data      = $this->_model
         ->order('parent_id ASC, sort_order ASC, module_id ASC')
-        ->key_column($this->_pk_field)->select();
+        ->index($this->_pk_field)->select();
 
         if ($data === false) {
             $this->_ajaxReturn(false, L('CREATE_LANGUAGEMODULES_CACHE,FAILURE'));
