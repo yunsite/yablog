@@ -95,14 +95,16 @@ class MiniblogController extends CommonController {
         $date    = Filter::int('date', 'get');
 
         if (!$blog_id || !$date) {//非法参数
-            $this->triggerError(__METHOD__ . ': ' . __LINE__ . ',' . "date=({$date}),id=({$blog_id})");
+            $log = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . "date=({$date}),id=({$blog_id})";
+            trigger_error($log);
             $this->_showMessage('error' . $blog_id . $date, null, 404);
         }
 
         if ($blog_info = $this->_model->find($blog_id)) {
 
             if (date('Ymd', $blog_info['add_time']) != $date) {//日期与id不匹配
-                $this->triggerError(__METHOD__  . ': ' . __LINE__ . ',' . "date=({$date}),id=({$blog_id})");
+                $log = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . "date=({$date}),id=({$blog_id})";
+                trigger_error($log);
                 $this->_showMessage('error' . $blog_id . ',' . $date, null, 404);
             }
 

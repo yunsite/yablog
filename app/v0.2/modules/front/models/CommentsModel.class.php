@@ -88,7 +88,8 @@ class CommentsModel extends CommonModel {
             return true;
         }
 
-        $this->_module->triggerError(__METHOD__ . ': ' . __LINE__ . ',' . $log);
+        $log = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . $log;
+        trigger_error($log);
         C('T_REDIRECT', true);
 
         return $error;
@@ -117,7 +118,8 @@ class CommentsModel extends CommonModel {
             $max_reply_level    = $this->_module->getGuestbookCommentsSetting(C('T_VERIFYCODE_MODULE'), 'max_reply_level');
 
             if ($max_reply_level == $parent_info['level']) {//最多5层回复
-                $this->_module->triggerError(__METHOD__ . ': ' . __LINE__ . ',level>' . $max_reply_level . var_export($parent_info, true), E_USER_NOTICE);
+                $log = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . ',level>' . $max_reply_level . var_export($parent_info, true);
+                trigger_error($log);
 
                 $parent_info['level']--;
                 $parent_info['node'] = substr($parent_info['node'], 0, strrpos($parent_info['node'], ','));
@@ -194,7 +196,8 @@ class CommentsModel extends CommonModel {
         $data['email'] = empty($data['email']) ? '' : strtolower($data['email']);
 
         if (!empty($data['at_email']) && empty($data['email'])) {//勾选 有人回复我时通知我，邮箱却为空
-            $this->_module->triggerError(__METHOD__ . ': ' . __LINE__ . ',' . L(C('T_MODULE')) . ',' . L('AT_ME_NOTICE_ME') . ',' . L('EMAIL,IS_EMPTY'), E_USER_WARNING);
+            $log = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . L(C('T_MODULE')) . ',' . L('AT_ME_NOTICE_ME') . ',' . L('EMAIL,IS_EMPTY');
+            trigger_error($log);
             unset($data['at_email']);
         }
     }
@@ -271,8 +274,9 @@ class CommentsModel extends CommonModel {
 
                 return true;
             }
-
-            $this->_module->triggerError(__METHOD__ . ': ' . __LINE__ . ',status=0' . var_export($parent_info, true));
+            
+            $log = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . ',status=0' . var_export($parent_info, true);
+            trigger_error($log);
 
             $error = L('INVALID,REPLY');
         }
@@ -335,7 +339,8 @@ class CommentsModel extends CommonModel {
 
             if (in_array(strtolower($username), explode($separator, strtolower($disabled_username)))) {
                 $error = L('DISABLED,' . C('T_MODULE') . ',USERNAME') . $username;
-                $this->_module->triggerError(__METHOD__ . ': ' . __LINE__ . ',' . $module . $error);
+                $log = get_method_line(__METHOD__, __LINE__, LOG_INVALID_PARAM) . $module . $error;
+                trigger_error($log);
                 C('T_REDIRECT', true);
 
                 return $error;
