@@ -1,33 +1,13 @@
 /**
- * 通用js
+ * 通用库
  *
- * @file            global.js
- * @version         0.1
+ * @file            common.js
  * @author          mrmsl <msl-138@163.com>
- * @date            2013-04-30 21:34:20
+ * @date            2013-09-21 11:37:15
  * @lastmodify      $Date$ $Author$
  */
 
-//提示文字信息
-var TEXT = {
-    common: function(color, text, extra) {
-        return '<span style="color: {0};{1}">{2}</span>'.format(color, extra || '', text);
-    },
-    red: function(text) {//红
-        return this.common('red', text || '*');
-    },
-    green: function(text) {//绿
-        return this.common('green', text);
-    },
-    gray: function(text, extra) {//灰
-        return this.common('gray', text, extra === undefined ? 'padding-left: 4px;' : '');
-    },
-    strong: function(text, extra) {//strong by mrmsl on 2012-08-28 11:19:36
-        return '<span style="font-weight: bold;{0}">{1}</span>'.format(extra ? extra : '', text);
-    }
-};
-
-//字符串格式化输出
+ //字符串格式化输出
 String.prototype.format = function() {
 
     if (typeof arguments[0] == 'object') {//json形，如'a{a}b{b}'.format({a: 'a', b: 'b'}) => aabb
@@ -60,16 +40,17 @@ String.prototype.trim = function(charlist, mode) {
 /**
  * 获取参数，类似php $_GET。不支持获取数组
  *
- * @member window
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-08-02 21:18:30
  *
- * @param {String} name 参数名称
- * @param {String} [str=location\.href]  匹配字符串
+ * @param {string} name 参数名称
+ * @param {string} [str=location.href]  匹配字符串
  *
- * @return {String} 参数值或空字符串
+ * @return {string} 参数值或空字符串
  */
 function _GET(name, str) {
-    var pattern = new RegExp('[\?&]' + name + '=([^&]+)', 'g');
-    str = str || location.href;
+    var pattern = new RegExp('(?:^#|[\?&])' + name + '=([^&]+)', 'g');
+    str = str || location.hash;
     var arr, match = '';
 
     while ((arr = pattern.exec(str)) !== null) {
@@ -77,17 +58,82 @@ function _GET(name, str) {
     }
 
     return match;
-}
+}/**
+ * 友好提示
+ *
+ * @param {string} msg      提示内容
+ * @param {bool}   [success=true]  true成功提示
+ * @param {bool}   [cancel=false]  true清除提示
+ * @param {int}    [timeout=2000]  提示停留时间,单位毫秒
+ *
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-09-11 22:29:57
+ *
+ * @param {void} 无返回值
+ */
+function Alert(msg, success, cancel, timeout) {
+    'undefined' != typeof(AlertTimeout) && clearTimeout(AlertTimeout);
+
+    var div = $('#div-alert');
+
+    if (!cancel) {
+
+        if ('loading' === success) {
+            timeout = false;
+
+            var background  = '#666',//'#ff8',
+                color       = '#fff';//'#333';
+        }
+        else {
+            var background  = false === success ? '#d90000' : '#16960e',
+                color       = '#fff';
+        }
+
+        if (0 == div.length) {
+            div = $('<div/>').html(msg).attr('id', 'div-alert').css({
+                'background-color': background,
+                color: color,
+                left: '50%',
+                'z-index': 10000,
+                position: 'absolute',
+                padding: '4px 8px',
+                'font-size': '13px'
+            }).appendTo($('#layout')).hide();
+        }
+        else {
+            div.html(msg).width('auto').css({
+                'background-color': background,
+                color: color
+            });
+        }
+
+        var width = div.width();
+        width = width < 100 ? 100 : (width > 600 ? 600 : width);
+        div.show().css({
+            height: 'auto',
+            width: width <= 100 ? 100 : width,
+            'margin-left': -width / 2,
+            'text-align': width >= 600 ? 'left' : 'center'
+        });
+
+        hideAlert(timeout);
+    }
+
+    else {
+        div.hide();
+    }
+}//end Alert
 
 /**
  * 格式化时间，类似php date函数
  *
- * @member window
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-08-04 22:11:02
  *
- * @param {String} format      格式
- * @param {Mixed} [constructor] 日期初始化参数
+ * @param {string} [format=Y-m-d H:i:s] 格式
+ * @param {mixed} [constructor] new Date()初始化参数
  *
- * @return {String} 格式化后的时间
+ * @return {string} 格式化后的时间
  */
 function date(format, constructor) {
 
@@ -98,7 +144,7 @@ function date(format, constructor) {
         var datetime = constructor ? new Date(constructor) : new Date();
     }
 
-    format = format || System.sys_timezone_datetime_format;
+    format = format || 'Y-m-d H:i:s';
 
     var o = {
         'Y': datetime.getFullYear(),
@@ -115,65 +161,57 @@ function date(format, constructor) {
     }
 
     return format;
-}
+}//end date
 
 /**
- * 计算执行时间，类似thinkphp G函数
- *
- * @member window
- * @method
+ * 设置或获取全局变量，如果只传一个参数，则取该参数值;否则设置变量，第一个参数为变量名，第二个参数为变量值
  *
  * @author          mrmsl <msl-138@163.com>
- * @date            2012-12-02 09:08:28
- * @lastmodify      2013-01-12 16:02:22 by mrmsl
+ * @date            2013-07-21 22:05:24
  *
- * @param {String} start 开始标识符
- * @param {Mixed}  [end] 结束标识符或时间
- * @param {Number} [precision=4] 小数点位数
-
- * @return {Mixed} 执行时间
+ * @return {Mixed} 如果只传一个参数，则返回参数值;否则返回true
  */
-function G(start, end, precision) {
+function global() {
 
-    if (!end) {//计时，时间戳
-        window[start] = new Date().getTime();
+    if (1 == arguments.length) {//取值
+        return window[arguments[0]];
     }
-    else if (typeof(end) == 'number') {//计时，指定时间
-        window[start] = end;
-    }
-    else {//计算
 
-        if (!window[end]) {
-            window[end] = new Date().getTime();
-        }
+    window[arguments[0]] = arguments[1];
 
-        return toFixed((window[end] - window[start]) / 1000, precision || 4);
-    }
+    return true;
 }
 
 /**
- * 转义html
+ * 隐藏友好提示
  *
- * @member window
+ * @param {int} [timeout=2000]  提示停留时间,单位毫秒
  *
- * @param {String} str 待转义字符串
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-09-11 22:28:12
  *
- * @return {String} 转义后的字符串
+ * @param {void} 无返回值
  */
-function htmlspecialchars(str) {
-    return str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;').replace(/\'/g, '&#39;');
+function hideAlert(timeout) {
+
+    if (false !== timeout) {
+        AlertTimeout = setTimeout(function() {
+            Alert(false, false, true);
+        }, timeout || 2000);
+    }
 }
 
 /**
  * 转化为整数，类似php intval函数
  *
- * @member window
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-08-04 09:12:13
  *
- * @param {Mixed} str   需要转换的字符串
- * @param {Number} [def=0] 转换失败默认值
- * @param {Number} [radix=10] 进制
+ * @param {mixed} str   需要转换的字符串
+ * @param {int} [def=0] 转换失败默认值
+ * @param {int} [radix=10] 进制
  *
- * @return {Number} 转化后的整数
+ * @return {int} 转化后的整数
  */
 function intval(str, def, radix) {
     radix = radix || 10;
@@ -183,101 +221,35 @@ function intval(str, def, radix) {
 }
 
 /**
- * 设置或获取语言，支持批量
- *
- * @member window
- *
- * @author          mrmsl <msl-138@163.com>
- * @date            2012-07-04 11:17:12
- * @lastmodify      2013-01-12 16:19:06 by mrmsl
- *
- * @param {Mixed} name  名
- * @param {Mixed} value 值
- *
- * @return {Mixed} 如果不传参数name，将返回整个语言包；如果name为object或传value，将设置语言；否则返回指定语言
- */
-function lang(name, value) {
-
-    if (!name) {//返回整个语言包
-        return L;
-    }
-    else if (typeof(name) == 'object') {//批量设置
-        return Ext.apply(L, name);
-    }
-    else if (value !== undefined) {//单个
-        L[name.toUpperCase()] = value;
-        return L;
-    }
-    else {//取值
-        var _lang = '';
-
-        Ext.each(name.split(','), function(item) {
-
-            if (item.indexOf('%') == 0) {//支持原形返回
-                _lang += item.substr(1);
-            }
-            else {//如果设置值，返回值，否则只返回键名
-            item = item.toUpperCase();
-                _lang += L[item] === undefined ? item : L[item]
-            }
-
-        });
-
-        return _lang;
-    }
-}//end lang
-
-/**
  * console.log
  *
- * @member window
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-05-07 21:38:55
  *
  * @return {void} 无返回值
  */
 function log() {
-    var len = arguments.length;
 
-    if (typeof(console) != 'undefined') {
-        var i = 0;
+    if ('undefined' != typeof(console)) {
 
-        for (i = 0; i < len; i++) {
+        for (var i = 0, len = arguments.length; i < len; i++) {
             console.log(arguments[i]);
         }
     }
 }
 
 /**
- * 输入框获、失焦点处理
+ * 使用另一个字符串填充字符串为指定长度。类似php str_pad
  *
- * @member window
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-08-04 22:10:09
  *
- * @param {Object} obj  html元素
- * @param {String} [def=元素初始值] 默认内容
+ * @param {string} string 待填充字符串
+ * @param {int} [lendgh=10] 总长度
+ * @param {string} [pad=' '] 填充字符
+ * @param {string} [padType=undefined] 填充类型，right为右填充
  *
- * @return {Object} html元素
- */
-function setFocus(obj, def) {
-    def = def || obj.defaultValue;
-    obj.value.trim() == def ? obj.value = '' : '';
-
-    obj.onblur = function() {
-        obj.value.trim() == '' ? obj.value = def : '';
-    };
-
-    return obj;
-}
-
-/**
- * 使用另一个字符串填充字符串为指定长度
- *
- * @member window
- *
- * @param {String} string 待填充字符串
- * @param {Number} [lendgh=10] 总长度，默认10
- * @param {String} [pad=' '] 填充字符
- * @param {String} [padType=undefined] 填充类型，right为右填充
- *
- * @return {String} 填充后的字符串
+ * @return {string} 填充后的字符串
  */
 function str_pad(str, length, pad, padType) {
     str = String(str);
@@ -285,76 +257,26 @@ function str_pad(str, length, pad, padType) {
     pad = pad == undefined ? ' ' : pad;
 
     while (str.length < length) {
-        str = padType == 'right' ? str + pad : pad + str;
+        str = 'right' == padType ? str + pad : pad + str;
     }
 
     return str;
-
 }
 
 /**
  * 去掉html标签
  *
- * @member window
+ * @author              mrmsl <msl-138@163.com>
+ * @date                2013-08-04 22:04:50
  *
- * @param {String} str 字符串
- * @param {Boolean} [img=false] true保留img标签，false不保留
+ * @param {string} str 字符串
+ * @param {bool} [img=false] true保留img标签，false不保留
  *
- * @return {String} 去掉html标签后的字符串
+ * @return {string} 去掉html标签后的字符串
  */
 function strip_tags(str, img) {
     str = String(str);
     var pattern = img ? /<(?!img)[^>]*>/ig : /<[^>]*>/gi;
 
     return str.replace(pattern, '');
-}
-
-/**
- * 数字精确度
- *
- * @member window
- *
- * @param {Number} value 数字
- * @param {Number} [precision=2] 小数点位数
- *
- * @return {Number} 精确小数点后的数值
- */
-function toFixed(value, precision) {
-    precision = precision === undefined ? 2 : precision;
-
-    if ((0.9).toFixed() !== '1') {//IE下等于0
-        var pow = Math.pow(10, precision);
-        return (Math.round(value * pow) / pow).toFixed(precision);
-    }
-
-    return value.toFixed(precision);
-}
-
-/**
- * 转化为浮点数
- *
- * @member window
- *
- * @param {Mixed} str 需要转换的字符串
- * @param {Number} [def=0.00] 转换失败默认值
- *
- * @return {Number} 转化后的浮点数
- */
-function toFloat(str, def) {
-    var str = parseFloat(str);
-
-    return isNaN(str) ? parseFloat(def == undefined ? 0.00 : def) : str;
-}
-
-/**
- * 反转义html
- *
- * @member window
- *
- * @param {String} str 待转义字符串
- *
- * @return {String} 转义后的字符串
- */
-function unhtmlspecialchars(str) {
-    return str.replace(/\&lt;/g, '<').replace(/\&gt;/g, '>').replace(/\&quot;/g, '"').replace(/\&#39;/g, "'");
 }

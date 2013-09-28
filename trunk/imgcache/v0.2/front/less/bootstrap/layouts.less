@@ -1,0 +1,196 @@
+//
+// Layouts
+// --------------------------------------------------
+
+
+// Container (centered, fixed-width layouts)
+.container {
+  .container-fixed();
+}
+
+// Fluid layouts (left aligned, with sidebar, min- & max-width content)
+.container-fluid {
+  padding-right: 20px;//@gridGutterWidth;
+  padding-left: 20px;//@gridGutterWidth;
+  .clearfix();
+}
+
+#wrap { min-height: 100%; height: auto !important; height: 100%; margin: 0 auto -40px; }
+#wrap > .container-fluid { padding-top: 40px; }
+#footer { height: 40px; clear: both; }
+.panel {
+    margin-bottom: 8px;
+    .Border();
+    .border-radius(4px);
+    //.box-shadow(inset 0 1px 1px rgba(0,0,0,.05));
+
+    .panel-header {
+        .lineHeight();
+        padding: 0 8px;
+        border-bottom: @baseBorder;
+        background: @basePanelHeaderBackground;
+        h3 { font-size: 12px; .lineHeight(); }
+    }
+
+    .panel-body {
+        padding: 8px;
+
+        ul {
+            margin-bottom: 0;
+            /*li a {
+                color: @textColor;
+                text-decoration: none;
+                &:hover,
+                &:focus {
+                    color: @linkColor;
+                    text-decoration: underline;
+                }
+            }*/
+        }
+
+        .panel-list {
+            border-bottom: 1px dotted @baseBorderColor;
+            h3 { margin: 0; }
+        }
+        .panel-miniblog, .panel-comment {//Î¢²©,ÆÀÂÛ
+            border-bottom: 1px dotted @baseBorderColor;
+            padding: 8px 0;
+            margin: 0 0 10px;
+            .popover { position: relative; display: block; }
+            .right > .arrow { top: 15px; margin-top: 0; }
+        }
+        .panel-comment-reply {//»Ø¸´ÆÀÂÛ
+            border-top: 1px dotted @baseBorderColor; 
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+    }
+}
+
+.avatar,
+.avatar img,
+.avatar-level-1 { height:60px; width:60px; }
+.avatar-level-2 { height:50px; width:50px }
+.avatar-level-3 { height:40px; width:40px }
+.avatar-level-4 { height:30px; width:30px }
+.avatar-level-5 { height:20px; width:20px }
+
+.form-comment {
+    .control-label { width: 80px !important; }
+    .controls { margin-left: 90px !important; }
+}
+
+.actions {
+    a {
+        margin-left: 10px;
+        &:hover {
+            .icon-gray {
+                background-image: url(@iconSpritePath);
+            }
+            color: @textColor;
+        }
+    }
+}
+
+.separation,
+.separation-comment,
+.separation-add-comment {
+    font-weight: bold;
+    margin: 10px 0;
+    padding-left: 20px;
+    .lineHeight();
+    border-bottom: 1px dotted @baseBorderColor;
+}
+.separation-comment {
+    background: #fff url(images/user-comment.png) left center no-repeat;
+}
+.separation-add-comment {
+    background: #fff url(images/add-comment.gif) left center no-repeat;
+}
+.separation-guest-like,
+.separation-also-read {
+    .pl-0;
+}
+
+.blog-detail {
+    h1 {
+        text-align: center;
+        font-size: 18px;
+        height: 40px;
+        line-height: 40px;
+        border-bottom: 1px dotted @baseBorderColor;
+    }
+    .blog-meta {
+        color: @grayLight;
+        text-align: center;
+        span {
+            margin-left: 10px;
+        }
+    }
+    .blog-content {
+        .mb-10;
+        border-bottom: 1px dotted @baseBorderColor;
+        .well {
+            padding: 8px;
+        }
+    }
+    a.label:hover { background-color: @infoText; }
+}
+
+ul.hot-blogs {
+    background: url(../images/rank_number.png) 0 5px no-repeat;
+}
+ul.hot-blogs li {
+    height: 21px;
+    line-height: 21px;
+    padding-left: 20px;
+    overflow: hidden;
+}
+
+#tag-cloud {
+    width: 100%;
+    height: 300px;
+    position: relative;
+}
+#tag-cloud li{
+    position: absolute;
+}
+
+.new_comments {
+    .media { margin-top: 5px; }
+    p { margin-bottom: 0; height: 22px; line-height: 22px; overflow: hidden; }
+    a { color: #333; }
+    .comments-detail { margin-bottom: 0; }
+    .comments-detail:last-child {
+        border-bottom: none;
+    }
+}
+
+.page-not-found,
+.system-information {
+    padding: 20px 350px;
+    line-height: 150%;
+    h4 {
+        color: red;
+        font-size: 18px;
+    }
+}
+
+.system-information {
+    h4 {
+        color: #080;
+    }
+}
+
+#gototop {
+    position: fixed;
+    background: url(../../../common/images/gototop.png) no-repeat;
+    display: none;
+    width: 46px;
+    height: 46px;
+    right: 5px;
+    bottom: 5px;
+}
+
+#gototop:hover { background-position: 0 -47px; }
