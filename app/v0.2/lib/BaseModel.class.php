@@ -350,7 +350,7 @@ class BaseModel extends Model {
                     break;
             }//end switch
         }//end if
-        else {
+        elseif ($this->__auto_validate_need_to_map) {
             $validate = join('#', $validate);
 
             foreach ($this->_auto_validate_map as $k => $v) {//MUST_VALIDATE => self::MUST_VALIDATE
