@@ -255,13 +255,14 @@ define('admin', ['fields'], function(require, exports, module) {
             html.push(' <div class="l-panel-topbar">');
             html.push('     <div class="l-panel-bbar-inner">');
             html.push('         <div class="l-bar-group  l-bar-message"><span class="l-bar-text"></span></div>');
-            html.push('         <div class="l-bar-group operate"></div>');
+            html.push('         <div class="l-bar-group operate toolbar"></div>');
             html.push('         <div class="l-bar-separator"></div>');
             html.push('         <div class="l-bar-group">添加时间从</div>');
             html.push('         <div class="l-bar-group"><input type="text" data-type="datetime" size="8" /></div>');
             html.push('         <div class="l-bar-group">到</div>');
             html.push('         <div class="l-bar-group"><input type="text" data-type="datetime" size="8" /></div>');
             html.push('         <div class="l-bar-separator"></div>');
+            html.push('         <div class="l-bar-group combotree"><input type="text" name="menu_id" /></div>');
             html.push('         <div class="l-bar-group role"><input type="text" name="role_id" /></div>');
             html.push('         <div class="l-bar-group keyword"><input type="text" name="keyword" /></div>');
             html.push('     </div>');
@@ -269,6 +270,17 @@ define('admin', ['fields'], function(require, exports, module) {
                     this.grid.children('.l-grid-loading').after(html.join(''));
             this.grid.topbar = this.grid.children('.l-panel-topbar').children('.l-panel-bbar-inner');
             this.grid.topbar.find('input[data-type=datetime]').ligerDateEditor();
+            this.grid.topbar.children('.combotree').children('input').ligerComboBox({
+                tree: {
+                    isExpand: false,
+                    url: '../get_tree.php',
+                    textFieldName: 'menu_name',
+                    idFieldName: 'menu_id',
+                    parentIDFieldName: 'parent_id'
+                },
+                selectBoxWidth: 250,
+                selectBoxHeight: 400
+            });
             this.grid.topbar.children('.role').children('input').ligerComboBox({
                 initValue: 0,
                 data: [{
