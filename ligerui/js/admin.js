@@ -264,7 +264,7 @@ define('admin', ['fields'], function(require, exports, module) {
             html.push('         <div class="l-bar-separator"></div>');
             html.push('         <div class="l-bar-group combotree"><input type="text" name="menu_id" /></div>');
             html.push('         <div class="l-bar-group role"><input type="text" name="role_id" /></div>');
-            html.push('         <div class="l-bar-group keyword"><input type="text" name="keyword" /></div>');
+            html.push('         <div class="l-bar-group keyword"><input type="text" name="keyword" nullText="关键字" /></div>');
             html.push('     </div>');
             html.push(' </div>');
                     this.grid.children('.l-grid-loading').after(html.join(''));
@@ -294,9 +294,7 @@ define('admin', ['fields'], function(require, exports, module) {
                     id: 2
                 }]
             });
-            this.grid.topbar.children('.keyword').children('input').ligerTextBox({
-                value: '关键字'
-            });
+            this.grid.topbar.children('.keyword').children('input').ligerTextBox();
             this.grid.topbar.children('.operate').ligerMenuBar({
                 items: [{
                     text: '操作',
