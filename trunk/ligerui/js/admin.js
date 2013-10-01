@@ -213,6 +213,9 @@ define('admin', ['fields'], function(require, exports, module) {
                     { display: '绑定登录', name: 'is_restrict', minWidth: 50, type: 'yesno' }
                 ],
                 url: '../get_admin.php',
+                parms: {
+                    keyword: 'mrmsl'
+                },
                 pageSize: 30,
                 rownumbers: true,
                 checkbox: true,
@@ -272,14 +275,25 @@ define('admin', ['fields'], function(require, exports, module) {
             this.grid.topbar.find('input[data-type=datetime]').ligerDateEditor();
             this.grid.topbar.children('.combotree').children('input').ligerComboBox({
                 tree: {
+                    checkbox: false,
+                    needCancel: false,
                     isExpand: false,
                     url: '../get_tree.php',
                     textFieldName: 'menu_name',
                     idFieldName: 'menu_id',
                     parentIDFieldName: 'parent_id'
                 },
+                treeLeafOnly: false,
+                isMultiSelect: true,
+                isShowCheckBox: false,
+                //slide: true,
+                valueField: 'menu_id',
+                textField:'menu_name',
                 selectBoxWidth: 250,
-                selectBoxHeight: 400
+                selectBoxHeight: 400,
+                onSelected: function() {
+                    this._toggleSelectBox(true);
+                }
             });
             this.grid.topbar.children('.role').children('input').ligerComboBox({
                 initValue: 0,
@@ -294,7 +308,16 @@ define('admin', ['fields'], function(require, exports, module) {
                     id: 2
                 }]
             });
-            this.grid.topbar.children('.keyword').children('input').ligerTextBox();
+            this.grid.topbar
+            .children('.keyword')
+                .children('input')
+                .on('keypress', function(e) {
+
+                    if (10 == e.keyCode || 13 == e.keyCode) {
+                        log($(this).val());
+                    }
+                })
+                .ligerTextBox();
             this.grid.topbar.children('.operate').ligerMenuBar({
                 items: [{
                     text: '操作',
