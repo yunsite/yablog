@@ -43,7 +43,7 @@ IMAGES[0] = IMAGES.no;
 IMAGES[1] = IMAGES.yes;
 
 seajs.config({
-    base: 'http://localhost/ligerui/yablog/js/',
+    base: 'http://localhost/yablog/ligerui/js/',
     map: [
         [/\.js$/, '.js?' + Math.random()]
     ],
