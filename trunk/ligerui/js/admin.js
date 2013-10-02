@@ -188,6 +188,22 @@ define('admin', ['fields'], function(require, exports, module) {
         listAction: function() {
             var me = this;
 
+            var defaults = {
+                sort: Q2O.sort || 'admin_id',//排序字段
+                order: Q2O.order || 'DESC',//排序
+                start_date: Q2O.start_date || '',//添加时间,开始
+                end_date: Q2O.end_date || '',//添加时间,结束
+                keyword: Q2O.keyword || '',//关键字
+                role_id: Q2O.role_id || '',//角色id
+                column: Q2O.column || 'username',//搜索字段
+                match_mode: Q2O.match_mode || 'eq',//匹配模式
+                is_lock: undefined === Q2O.is_lock ? -1 : Q2O.is_lock,//锁定状态
+                is_restrict: undefined === Q2O.is_restrict ? -1 : Q2O.is_restrict,//绑定登陆状态
+                page: Q2O.page || 1//页
+            };
+
+            $.extend(require('tree').getData(C, A).queryParams, defaults);
+
             var o = require('tabs').get('_ligerTab').tab.content.children('#adminlist').ligerGrid({
                 switchPageSizeApplyComboBox: true,
                 selectRowButtonOnly: true,
@@ -213,9 +229,7 @@ define('admin', ['fields'], function(require, exports, module) {
                     { display: '绑定登录', name: 'is_restrict', minWidth: 50, type: 'yesno' }
                 ],
                 url: '../get_admin.php',
-                parms: {
-                    keyword: 'mrmsl'
-                },
+                parms: defaults,
                 pageSize: 30,
                 rownumbers: true,
                 checkbox: true,
@@ -261,13 +275,13 @@ define('admin', ['fields'], function(require, exports, module) {
             html.push('         <div class="l-bar-group operate toolbar"></div>');
             html.push('         <div class="l-bar-separator"></div>');
             html.push('         <div class="l-bar-group">添加时间从</div>');
-            html.push('         <div class="l-bar-group"><input type="text" data-type="datetime" size="8" /></div>');
+            html.push('         <div class="l-bar-group"><input type="text" data-type="datetime" name="start_date" data-ligerui="dateEditor" size="8" /></div>');
             html.push('         <div class="l-bar-group">到</div>');
-            html.push('         <div class="l-bar-group"><input type="text" data-type="datetime" size="8" /></div>');
+            html.push('         <div class="l-bar-group"><input type="text" data-type="datetime" name="end_date" data-ligerui="dateEditor" size="8" /></div>');
             html.push('         <div class="l-bar-separator"></div>');
-            html.push('         <div class="l-bar-group combotree"><input type="text" name="menu_id" /></div>');
-            html.push('         <div class="l-bar-group role"><input type="text" name="role_id" /></div>');
-            html.push('         <div class="l-bar-group keyword"><input type="text" name="keyword" nullText="关键字" /></div>');
+            html.push('         <div class="l-bar-group combotree"><input type="text" name="menu_id" data-ligerui="comboBox" /></div>');
+            html.push('         <div class="l-bar-group role"><input type="text" name="role_id" data-ligerui="comboBox" /></div>');
+            html.push('         <div class="l-bar-group keyword"><input type="text" name="keyword" nullText="关键字" data-ligerui="textBox" /></div>');
             html.push('     </div>');
             html.push(' </div>');
                     this.grid.children('.l-grid-loading').after(html.join(''));
@@ -317,7 +331,24 @@ define('admin', ['fields'], function(require, exports, module) {
                 .on('keypress', function(e) {
 
                     if (10 == e.keyCode || 13 == e.keyCode) {
-                        log($(this).val());
+                        var values = {};
+
+                        $.each(o.grid.topbar.find('input[data-ligerui]'), function() {
+                            var g           = $(this),
+                                plugin      = g.attr('data-ligerui').capitalize(),
+                                name        = g.attr('name');
+
+                            if ('DateEditor' == plugin) {
+                                values[name] = g.val();
+                            }
+                            else {
+                                values[name] = g['ligerGet' + plugin + 'Manager']().getValue()
+                            }
+                        });
+
+                        $.extend(require('tree').getData(C, A).queryParams, values);
+                        //this.grid.
+                        require('router').navigate(object2querystring(require('tree').getData(C, A).queryParams), true);
                     }
                 })
                 .ligerTextBox();
