@@ -41,7 +41,7 @@ define('router', [], function(require, exports, module) {
 
             tree.get('_el').find('div.l-body.l-selected').removeClass('l-selected');
             'index' != tab.getSelected().attr('tabid') && tab.selectTabItem('index');
-
+            C = A = 'index';
             this.setPageTitle('index', 'index');
             this.navigate('');
         },
