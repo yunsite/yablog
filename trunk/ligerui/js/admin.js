@@ -273,9 +273,8 @@ define('admin', ['fields'], function(require, exports, module) {
                     this.grid.children('.l-grid-loading').after(html.join(''));
             this.grid.topbar = this.grid.children('.l-panel-topbar').children('.l-panel-bbar-inner');
             this.grid.topbar.find('input[data-type=datetime]').ligerDateEditor({
-                format: 'yyyy-MM-dd hh:mm:ss',
-                showTime: true,
-                width: 140
+                format: 'yyyy-MM-dd hh:mm',
+                showTime: true
             });
             this.grid.topbar.children('.combotree').children('input').ligerComboBox({
                 tree: {
