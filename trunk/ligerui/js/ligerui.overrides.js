@@ -30,6 +30,31 @@ if ($.fn.ligerTab) {
             {
                 to.before(from);
             }
+        },
+        _addTabItemEvent: function (tabitem)
+        {
+            var g = this, p = this.options;
+            tabitem.click(function ()
+            {
+                var tabid = $(this).attr("tabid");
+                g.trigger('beforeItemClick', [tabid, tabitem]);//by mashanling on 2013-10-02 16:26:36
+                g.selectTabItem(tabid);
+                g.trigger('afterItemClick', [tabid, tabitem]);//by mashanling on 2013-10-02 16:26:36
+            });
+            //右键事件支持
+            g.tab.menu && g._addTabItemContextMenuEven(tabitem);
+            $(".l-tab-links-item-close", tabitem).hover(function ()
+            {
+                $(this).addClass("l-tab-links-item-close-over");
+            }, function ()
+            {
+                $(this).removeClass("l-tab-links-item-close-over");
+            }).click(function ()
+            {
+                var tabid = $(this).parent().attr("tabid");
+                g.removeTabItem(tabid);
+            });
+
         }
     });
 }
