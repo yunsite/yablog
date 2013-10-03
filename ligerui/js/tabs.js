@@ -239,7 +239,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                 onBeforeSelectTabItem: function() {
                     this._prevSelectedTabId = this.selectedTabId;
                 },
-                onAfterItemClick: function(selectedTabId) {//log(this._prevSelectedTabId , selectedTabId);
+                onAfterItemClick: function(selectedTabId) {log(this._prevSelectedTabId , selectedTabId);
 
                     var router = require('router');
 
@@ -259,7 +259,13 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                         router.index();
                     }
 
-                   this.tab.content.children('#' + C + A).show()
+                    this.tab.content.children('#' + C + A).show();
+                },
+                onAfterSelectTabItem: function() {
+
+                    if (!global('clickTabItem') && !global('clickTree')) {
+                        this.tab.content.children('#' + C + A).show();
+                    }
                 }
             });
             this._ligerTab = this._el.ligerGetTabManager();
