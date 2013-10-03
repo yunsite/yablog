@@ -229,10 +229,14 @@ define('admin', ['fields'], function(require, exports, module) {
                     { display: '绑定登录', name: 'is_restrict', minWidth: 50, type: 'yesno' }
                 ],
                 url: '../get_admin.php',
-                parms: defaults,
+                parms: require('tree').getData(C, A).queryParams,
                 pageSize: 30,
                 rownumbers: true,
                 checkbox: true,
+                onChangePage: function(page) {
+                    this.options.parms[this.options.pageParmName] = page;
+                   require('router').navigate(object2querystring(this.options.parms));
+                },
                 //title: 'admin list',
                 toolbar0: {
                     items: [{
