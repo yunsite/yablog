@@ -37,9 +37,11 @@ if ($.fn.ligerTab) {
             tabitem.click(function ()
             {
                 var tabid = $(this).attr("tabid");
+                global('clickTabItem', true);
                 g.trigger('beforeItemClick', [tabid, tabitem]);//by mashanling on 2013-10-02 16:26:36
                 g.selectTabItem(tabid);
                 g.trigger('afterItemClick', [tabid, tabitem]);//by mashanling on 2013-10-02 16:26:36
+                global('clickTabItem', false);
             });
             //右键事件支持
             g.tab.menu && g._addTabItemContextMenuEven(tabitem);
