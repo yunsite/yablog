@@ -57,7 +57,7 @@ define('core/tabs', ['core/base', 'core/tree'], function(require, exports, modul
          * @return {bool} true存在，否则false
          */
         _execScript: function(controller, action) {
-            var me          = this
+            var me          = this,
                 o           = this._controllerObj,
                 method      = action + 'Action',
                 contentItem = this._ligerTab.tab.content;//.children('.l-tab-content-item[tabid=' + selected.attr('tabid') + ']');
