@@ -1804,14 +1804,14 @@ function htmlquotes($string) {
  * @lastmodify      2013-01-22 17:23:39 by mrmsl
  *
  * @param mixed  $files         js文件
- * @param bool   $include_ext   true包含ext。默认true
+ * @param bool   $include_jquery   true包含ext。默认true
  * @param string $base_url      基路径，为script时返回javascript片段。默认''，取IMGCACHE_JS
  *
  * @return string js文件链接
  */
-function js($files, $include_ext = true, $base_url = '') {
+function js($files, $include_jquery = true, $base_url = '') {
 
-    if ('script' === $include_ext) {//js代码 by mrmsl on 2012-09-06 16:51:57
+    if ('script' === $include_jquery) {//js代码 by mrmsl on 2012-09-06 16:51:57
         return '<script>' . $files . '</script>' . PHP_EOL;
     }
 
@@ -1822,16 +1822,22 @@ function js($files, $include_ext = true, $base_url = '') {
         $base_url = IMGCACHE_JS;
     }
 
-    $str       = '';
-    $files     = is_array($files) ? $files : explode(',', $files);
-    $include_ext && array_unshift($files, 'ext-all' . (IS_LOCAL ? '-debug' : '.min') . '.js');
+    $str = '';
 
-    foreach ($files as $js) {
-        $str .= $js ? PHP_EOL . '<script src="' . $base_url . trim($js) . '"></script>' : '';
+    if ($include_jquery) {
+        $str .= '<script src="' . COMMON_IMGCACHE . 'js/jquery/jquery-1.10.2.min.js"></script>';
+    }
+
+    if ($files) {
+        $files = is_array($files) ? $files : explode(',', $files);
+
+        foreach ($files as $js) {
+            $str .= $js ? PHP_EOL . '<script src="' . $base_url . trim($js) . '"></script>' : '';
+        }
     }
 
     return $str . PHP_EOL;
-}
+}//end js
 
 /**
  * 返回整形数组或字符串，POST主键时，一般不会过滤，直接IN($id)或=$id，此时，人为的修改: 1) OR (1=1，
