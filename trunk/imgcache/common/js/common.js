@@ -36,6 +36,9 @@ String.prototype.trim = function(charlist, mode) {
     var patten = new RegExp('^' + charlist + '+|' + charlist + '+' + '$', mode || 'g');
     return this.replace(patten, '');
 };
+String.prototype.capitalize = function() {//首字母大写
+    return this.charAt(0).toUpperCase() + this.substr(1);
+};
 
 /**
  * 获取参数，类似php $_GET。不支持获取数组
@@ -111,7 +114,7 @@ function Alert(msg, success, cancel, timeout) {
         width = width < 100 ? 100 : (width > 600 ? 600 : width);
         div.show().css({
             height: 'auto',
-            width: width <= 100 ? 100 : width,
+            //width: width <= 100 ? 100 : width,
             'margin-left': -width / 2,
             'text-align': width >= 600 ? 'left' : 'center'
         });
