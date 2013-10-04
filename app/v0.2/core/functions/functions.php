@@ -1804,14 +1804,14 @@ function htmlquotes($string) {
  * @lastmodify      2013-01-22 17:23:39 by mrmsl
  *
  * @param mixed  $files         js文件
- * @param bool   $include_jquery   true包含ext。默认true
  * @param string $base_url      基路径，为script时返回javascript片段。默认''，取IMGCACHE_JS
+ * @param bool   $include_jquery   true包含ext。默认false
  *
  * @return string js文件链接
  */
-function js($files, $include_jquery = true, $base_url = '') {
+function js($files, $base_url = '', $include_jquery = false) {
 
-    if ('script' === $include_jquery) {//js代码 by mrmsl on 2012-09-06 16:51:57
+    if ('script' === $base_url) {//js代码 by mrmsl on 2012-09-06 16:51:57
         return '<script>' . $files . '</script>' . PHP_EOL;
     }
 
@@ -1831,8 +1831,11 @@ function js($files, $include_jquery = true, $base_url = '') {
     if ($files) {
         $files = is_array($files) ? $files : explode(',', $files);
 
-        foreach ($files as $js) {
-            $str .= $js ? PHP_EOL . '<script src="' . $base_url . trim($js) . '"></script>' : '';
+        foreach ($files as $k => $v) {
+            //base.js => IMGCACHE_JS = IMGCACHE_JS . 'base.js'
+            //1 => 'base.js' = $base_url . 'base.js'
+            $f = is_numeric($k) ? $base_url . $v : $v . $k;
+            $str .= PHP_EOL . '<script src="' . $f . '"></script>';
         }
     }
 
