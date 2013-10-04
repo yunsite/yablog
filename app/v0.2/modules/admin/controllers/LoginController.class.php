@@ -32,7 +32,7 @@ class LoginController extends CommonController {
         $js_file    = js('System.js,lang/' . MODULE_NAME . '.' . LANG . '.js', '/static/js/');//系统信息,语言包
         $js_file   .= js('System.sys_base_admin_entry = "' . WEB_ADMIN_ENTRY . '"', 'script');//后台入口
 
-        if (IS_LOCAL) {
+        if (APP_DEBUG) {
             $require_js = include(APP_PATH . 'include/required_js.php');
             $js_file .= js($require_js);
 
