@@ -15,7 +15,7 @@
 /**
  * 压缩js路径
  */
-define('PACKER_JS_PATH'     , IMGCACHE_PATH .  VERSION_PATH . 'admin/app/');
+define('PACKER_JS_PATH'     , IMGCACHE_PATH .  VERSION_PATH);
 
 class PackerController extends CommonController {
     /**
@@ -28,7 +28,6 @@ class PackerController extends CommonController {
      *
      * @author          mrmsl <msl-138@163.com>
      * @date            2012-07-10 15:40:01
-     * @lastmodify      2013-01-22 10:51:46 by mrmsl
      *
      * @param string $path 待检测路径
      *
@@ -40,7 +39,7 @@ class PackerController extends CommonController {
             $log = get_method_line(__METHOD__ , __LINE__, LOG_INVALID_PARAM) . L('LIST_DIRECTORY_FORBIDDEN') . PACKER_JS_PATH . $path;
             trigger_error($log, E_USER_ERROR);
             send_http_status(HTTP_STATUS_SERVER_ERROR);
-            $this->_ajaxReturn(L('LIST_DIRECTORY_FORBIDDEN') . PACKER_JS_PATH . $path);
+            $this->_ajaxReturn(true, L('LIST_DIRECTORY_FORBIDDEN') . PACKER_JS_PATH . $path);
         }
     }
 
@@ -49,7 +48,6 @@ class PackerController extends CommonController {
      *
      * @author          mrmsl <msl-138@163.com>
      * @date            2012-07-17 12:46:02
-     * @lastmodify      2013-01-22 10:52:24 by mrmsl
      *
      * @param string $node 节点路径
      *
@@ -90,7 +88,7 @@ class PackerController extends CommonController {
                     $desc = '';//js文件说明
                     $file = new SplFileObject($filename);
 
-                    if (!strpos($filename, '.pack.')) {
+                    if (!strpos($filename, '.min.')) {
                         $file->fgets();
                         $desc = trim(str_replace('*', '', $file->fgets()));//第二行为文件说明
                     }
@@ -119,18 +117,21 @@ class PackerController extends CommonController {
      *
      * @author          mrmsl <msl-138@163.com>
      * @date            2012-07-10 15:27:06
-     * @lastmodify      2013-01-22 10:52:40 by mrmsl
      *
      * @return void 无返回值
      */
     private function _merge() {
-        $content = '';
+        $path       = str_replace(COMMON_IMGCACHE, basename(COMMON_IMGCACHE), PACKER_JS_PATH);
+        $content    = '';
 
-        foreach ($this->_js_file as $filename) {
-            $content .= is_file($filename = PACKER_JS_PATH . 'pack/' . basename($filename, '.js') . '.pack.js') ? file_get_contents($filename) : '';
+        foreach ($this->_js_file as $filename => $path) {
+            $file       = str_replace('http://imgcache.yablog.cn/', IMGCACHE_PATH, $path) . substr_replace($filename, '.min.js', -3);
+            $content   .= '//' . $path . $filename . PHP_EOL;
+            $content   .= is_file($file) ? file_get_contents($file) : '';
+            $content   .= PHP_EOL . PHP_EOL;
         }
 
-        file_put_contents(PACKER_JS_PATH . 'pack/app.js', $content);
+        file_put_contents(PACKER_JS_PATH . 'admin/js/core/bootstrap.min.js', $content);
     }
 
     /**
@@ -145,9 +146,9 @@ class PackerController extends CommonController {
      * @return void 无返回值
      */
     private function _packFile($filename) {
-        $packer = new JavascriptPacker(file_get_contents($filename));
-        $packed = $packer->pack();
-        file_put_contents(PACKER_JS_PATH . 'pack/' . basename($filename, '.js') . '.pack.js', $packed);
+        $packer     = new JavascriptPacker(file_get_contents($filename));
+        $packed     = $packer->pack();
+        file_put_contents(substr_replace($filename, '.min.js', -3), $packed);
 
         unset($packer, $packed);
     }
@@ -188,7 +189,7 @@ class PackerController extends CommonController {
             $file = list_dir(PACKER_JS_PATH);
 
             foreach ($file as $v) {
-                is_file($v) && '.js' == substr($v, -3) && strpos($v, '.pack.js') === false && $this->_packFile($v);
+                is_file($v) && '.js' == substr($v, -3) && false === strpos($v, '.min.js') && $this->_packFile($v);
             }
 
             $this->_merge();
@@ -200,11 +201,13 @@ class PackerController extends CommonController {
 
             foreach ($file as $v) {
 
-                if (!is_file($filename = PACKER_JS_PATH . $v) || strpos($v, '.pack.') || substr($v, -3) != '.js') {
+                if (!is_file($filename = PACKER_JS_PATH . $v) || strpos($v, '.min.') || '.js' != substr($v, -3)) {
                     continue;
                 }
 
-                if (!$merge && in_array($v, $this->_js_file)) {
+                $basename = basename($v);
+
+                if (!$merge && (isset($this->_js_file[$basename]) || 'base.js' == $basename)) {
                     $merge = true;
                 }
 
