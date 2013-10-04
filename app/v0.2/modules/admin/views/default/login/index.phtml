@@ -4,14 +4,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title><?php echo L('LOGIN_TITLE') . TITLE_SEPARATOR . L('BACKEND,MANAGE_CENTER') . TITLE_SEPARATOR . sys_config('sys_base_web_title'); ?></title>
     <?php echo $css_file, $js_file; ?>
-    <script type="text/javascript" src="<?php echo ADMIN_IMGCACHE; ?>app/util/override.js"></script>
-    <script type="text/javascript">
-        var LOGIN;
+    <script>
+        var LOGIN,
+            LOGIN_PAGE = true;
+
         System.module_admin_verifycode_enable = '<?php echo get_verifycode_setting('module_admin', 'enable'); ?>';
 
-        Ext.onReady(function(){
-            LOGIN = Ext.create('Yab.controller.Login');
-            LOGIN.win();
+        $(function(){
+            log(liger);
         });
     </script>
 </head>

@@ -28,23 +28,18 @@ class LoginController extends CommonController {
      * @return void 无返回值
      */
     public function indexAction() {
-        $css_file  = $this->_loadTimeScript('START_TIME');
-        $css_file .= css('extjs/v4.1.1a//resources/css/ext-all-gray.css,extjs/v4.1.1a/resources/css/ext-patch.css', COMMON_IMGCACHE);
-        $css_file .= css('app.css', ADMIN_IMGCACHE . 'css/');
-        $js_file   = $this->_loadTimeScript('LOAD_CSS_TIME');
-        $js_file  .= js('', true, COMMON_IMGCACHE . 'extjs/v4.1.1a/');
-        $js_file  .= $this->_loadTimeScript('LOAD_EXT_TIME');
-        $js_file  .= js('System.js,lang/' . MODULE_NAME . '.' . LANG . '.js' . ('en' != LANG ? ',lang/ext-lang-' . LANG . '.js' : ''), false, '/static/js/');
-        $js_file  .= js('System.sys_base_admin_entry = "' . WEB_ADMIN_ENTRY . '"', 'script');//后台入口
+        $css_file   = css('Aqua/css/ligerui-all.css,Gray/css/all.css', COMMON_IMGCACHE . 'js/ligerui/skins/');//ligerui样式
+        $js_file    = js('System.js,lang/' . MODULE_NAME . '.' . LANG . '.js', '/static/js/');//系统信息,语言包
+        $js_file   .= js('System.sys_base_admin_entry = "' . WEB_ADMIN_ENTRY . '"', 'script');//后台入口
 
         if (IS_LOCAL) {
-            $js_file .= js('util/common.js,util/Yab.Field.js,ux/Yab.ux.Form.js,controller/Yab.controller.Base.js,controller/Yab.controller.Login.js', false, ADMIN_IMGCACHE . 'app/');
+            $require_js = include(APP_PATH . 'include/required_js.php');
+            $js_file .= js($require_js);
+
         }
         else {
-            $js_file .= js('common.pack.js,Yab.controller.Base.pack.js,Yab.controller.Login.pack.js', false, ADMIN_IMGCACHE . 'app/pack/');
+            $js_file .= js('bootstrap.min.js', ADMIN_IMGCACHE . 'js/');
         }
-
-        $js_file  .= $this->_loadTimeScript('LOAD_JS_TIME');
 
         require(TEMPLATE_FILE);
     }
