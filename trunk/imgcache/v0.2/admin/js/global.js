@@ -10,13 +10,13 @@
  * @lastmodify      $Date$ $Author$
  */
 
-var A,
-    C,
-    ID,
-    TREE_DATA,
-    Q2O,
-    UEDITOR_HOME_URL = 'http://localhost/ueditor/',
-    TEXT = {
+var A,//操作方法
+    C,//控制器
+    ID,//C + A
+    TREE_DATA,//当前树节点数据
+    Q2O,//location.hash对象
+    UEDITOR_HOME_URL = System.sys_base_site_url + 'static/js/ueditor/v1.2.6/',//百度ueditor路径
+    TEXT = {//文字
         common: function(color, text, extra) {
             return '<span style="color: {0};{1}">{2}</span>'.format(color, extra || '', text);
         },
@@ -29,21 +29,21 @@ var A,
         gray: function(text, extra) {//灰
             return this.common('gray', text, extra === undefined ? 'padding-left: 4px;' : '');
         },
-        strong: function(text, extra) {//strong by mrmsl on 2012-08-28 11:19:36
+        strong: function(text, extra) {//粗
             return '<span style="font-weight: bold;{0}">{1}</span>'.format(extra ? extra : '', text);
         }
     },
-    IMAGES = {
-        yes: 'http://localhost/ligerui/yablog/images/yes.gif',
-        no: 'http://localhost/ligerui/yablog/images/no.gif',
-        loading: 'http://localhost/ligerui/yablog/images/loading.gif'
+    IMAGES = {//图像
+        yes: 'http://localhost/ligerui/yablog/images/yes.gif',//勾
+        no: 'http://localhost/ligerui/yablog/images/no.gif',//叉
+        loading: 'http://localhost/ligerui/yablog/images/loading.gif'//加载中
     };
 
 IMAGES[0] = IMAGES.no;
 IMAGES[1] = IMAGES.yes;
 
 seajs.config({
-    base: 'http://localhost/ligerui/yablog/js/',
+    base: System.sys_base_admin_imgcache + 'js/',
     map: [
         [/\.js$/, '.js?' + Math.random()]
     ],
@@ -54,11 +54,16 @@ seajs.config({
 });
 
 $(function() {
-    bootstrap();
-
-    seajs.use(['tabs', 'tree', 'router'], function(a, b, c) {
-        //log(a, b, c);
-    });
+    if ('undefined' != typeof LOGIN_PAGE) {//登录
+        seajs.use('login', function(login) {
+            login.win();
+        });
+    }
+    else {
+        bootstrap();
+        seajs.use(['tabs', 'tree', 'router'], function(a, b, c) {
+        });
+    }
 });
 
 /**
@@ -116,6 +121,44 @@ function getHash() {
 
     return match ? match[1] : '';
 }
+/**
+ * 设置或获取语言，支持批量
+ *
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-10-04 14:21:53
+ *
+ * @param {string} name 名
+ * @param {mixed} [value] 值
+ *
+ * @return {mixed} 如果不传参数name，将返回整个语言包；否则返回指定语言
+ */
+function lang(name, value) {
+
+    if (!name) {//返回整个语言包
+        return L;
+    }
+    else if (undefined !== value) {//单个
+        L[name.toUpperCase()] = value;
+        return L;
+    }
+    else {//取值
+        var _lang = '';
+
+        $.each(name.split(','), function(index, item) {
+
+            if (0 == item.indexOf('%')) {//支持原形返回
+                _lang += item.substr(1);
+            }
+            else {//如果设置值，返回值，否则只返回键名
+                item = item.toUpperCase();
+                _lang += undefined === L[item] ? item : L[item];
+            }
+
+        });
+
+        return _lang;
+    }
+}//end lang
 
 /**
  * 将object转化为url格式字符串
