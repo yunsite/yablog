@@ -105,7 +105,7 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
         _loadScript: function(controller, action) {
             controller  = controller || C;
             action      = action || A;
-            Q2O         = querystring2object(getHash()),
+            Q2O         = q2o(getHash()),
             selected    = this._ligerTab.getSelected();
 
 
@@ -250,9 +250,9 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                         .children('.l-expandable-close')
                         .click();
 
-                        if (getHash() != object2querystring(TREE_DATA.queryParams)) {
-                            log(getHash(), object2querystring(TREE_DATA.queryParams));
-                            router.navigate(object2querystring(TREE_DATA.queryParams), true);
+                        if (getHash() != o2q(TREE_DATA.queryParams)) {
+                            log(getHash(), o2q(TREE_DATA.queryParams));
+                            router.navigate(o2q(TREE_DATA.queryParams), true);
                         }
                     }
                     else if(this._prevSelectedTabId != selectedTabId) {

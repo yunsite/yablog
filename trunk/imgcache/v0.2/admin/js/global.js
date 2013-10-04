@@ -127,7 +127,7 @@ function getHash() {
  *
  * @return {string} 转化后的url格式字符串
  */
-function object2querystring(object) {
+function o2q(object) {
     var querystring = [];
 
     $.each(object, function(key, value) {
@@ -147,7 +147,7 @@ function object2querystring(object) {
  *
  * @return {string} 转化后的字符串
  */
-function object2string(object) {
+function o2s(object) {
     return JSON.stringify(object);
 }
 
@@ -161,7 +161,7 @@ function object2string(object) {
  *
  * @return {object} 转化后的object
  */
-function querystring2object(querystring) {
+function q2o(querystring) {
     var object = {};
 
     $.each(querystring.split('&'), function(index, item) {

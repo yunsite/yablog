@@ -247,7 +247,7 @@ define('admin', ['fields'], function(require, exports, module) {
                 checkbox: true,
                 onChangePage: function(page) {
                     this.options.parms[this.options.pageParmName] = page;
-                   require('router').navigate(object2querystring(this.options.parms));
+                   require('router').navigate(o2q(this.options.parms));
                 },
                 //title: 'admin list',
                 toolbar0: {
@@ -364,7 +364,7 @@ define('admin', ['fields'], function(require, exports, module) {
 
                         $.extend(require('tree').getData(C, A).queryParams, values);
                         //this.grid.
-                        require('router').navigate(object2querystring(require('tree').getData(C, A).queryParams), true);
+                        require('router').navigate(o2q(require('tree').getData(C, A).queryParams), true);
                     }
                 })
                 .ligerTextBox();
