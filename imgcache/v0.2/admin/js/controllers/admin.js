@@ -10,8 +10,8 @@
  * @lastmodify      $Date$ $Author$
  */
 
-define('admin', ['fields'], function(require, exports, module) {
-    var Base    = require('base');
+define('admin', [], function(require, exports, module) {
+    var Base    = require('core/base');
     var Admin   = Base.extend({
         _datagridOptions: {
             queryParams: {},//查询参数

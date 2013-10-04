@@ -10,7 +10,7 @@
  * @lastmodify      $Date$ $Author$
  */
 
-define('router', [], function(require, exports, module) {
+define('core/router', [], function(require, exports, module) {
     var Router = Backbone.Router.extend({
         /**
          * var {object} _routerRegexp 导航正则

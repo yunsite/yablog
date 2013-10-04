@@ -43,10 +43,13 @@ IMAGES[0] = IMAGES.no;
 IMAGES[1] = IMAGES.yes;
 
 seajs.config({
-    base: System.sys_base_admin_imgcache + 'js/',
+    base: System.sys_base_admin_imgcache + 'js/controllers/',
     map: [
         [/\.js$/, '.js?' + Math.random()]
     ],
+    paths: {
+        core: System.sys_base_admin_imgcache + 'js/core'
+    },
     alias: {
         ueditor: 'common/ueditor/ueditor',
         ueconfig: 'common/ueditor/ueconfig'
@@ -61,7 +64,7 @@ $(function() {
     }
     else {
         bootstrap();
-        seajs.use(['tabs', 'tree', 'router'], function(a, b, c) {
+        seajs.use(['core/tabs', 'core/tree', 'core/router'], function(a, b, c) {
         });
     }
 });

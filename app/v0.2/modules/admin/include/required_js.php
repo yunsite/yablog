@@ -22,12 +22,13 @@ return array(
     'sea.js'                => COMMON_IMGCACHE . 'js/seajs/',           //seajs
 
     //通用js
-    'common.js'             => COMMON_IMGCACHE . 'js/',                  //通用js
+    'common.js'             => COMMON_IMGCACHE . 'js/',                 //通用js
 
     //yablog
-    'global.js'             => ADMIN_IMGCACHE . 'js/',                  //整站全局js
-    'base.js'               => ADMIN_IMGCACHE . 'js/',                  //基础库
-    'router.js'             => ADMIN_IMGCACHE . 'js/',                  //路由
-    'tree.js'               => ADMIN_IMGCACHE . 'js/',                  //导航菜单
-    'tabs.js'               => ADMIN_IMGCACHE . 'js/',                  //导航菜单
+    'global.js'             => ADMIN_IMGCACHE . 'js/core/',             //整站全局js
+    'ligerui.overrides.js'  => ADMIN_IMGCACHE . 'js/core/',             //ligerui重写
+    'base.js'               => ADMIN_IMGCACHE . 'js/core/',             //基础库
+    'router.js'             => ADMIN_IMGCACHE . 'js/core/',             //路由
+    'tree.js'               => ADMIN_IMGCACHE . 'js/core/',             //导航菜单
+    'tabs.js'               => ADMIN_IMGCACHE . 'js/core/',             //标签卡
 );
