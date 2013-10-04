@@ -10,7 +10,7 @@
  * @lastmodify      $Date$ $Author$
  */
 
-define('base', ['router'], function(require, exports, module) {
+define('core/base', ['core/router'], function(require, exports, module) {
     var BASE = Base.extend({
 
         /**

@@ -10,8 +10,8 @@
  * @lastmodify      $Date$ $Author$
  */
 
-define('login', [], function(require, exports, module) {
-    var Base    = require('base');
+define('login', ['core/base'], function(require, exports, module) {
+    var Base    = require('core/base');
     var Login   = Base.extend({
         /**
          * @cfg {string} _imgCodeId 验证码id

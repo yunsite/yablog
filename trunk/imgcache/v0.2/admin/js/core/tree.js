@@ -10,8 +10,8 @@
  * @lastmodify      $Date$ $Author$
  */
 
-define('tree', ['base'], function(require, exports, module) {
-    var Base    = require('base');
+define('core/tree', ['core/base'], function(require, exports, module) {
+    var Base    = require('core/base');
     var Tree    = Base.extend({
         /**
          * var {object} [_el=null] 标签栏jquery对象
