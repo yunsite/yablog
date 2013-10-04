@@ -44,7 +44,7 @@ define('tree', ['base'], function(require, exports, module) {
             if (data.children) {
             }
             else {
-                require('router').navigate(object2querystring(data.queryParams), true);
+                require('router').navigate(o2q(data.queryParams), true);
             }
         },
 

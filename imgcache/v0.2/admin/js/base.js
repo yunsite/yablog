@@ -26,7 +26,7 @@ define('base', ['router'], function(require, exports, module) {
          * @return {string} 高亮搜索关键字的字段值
          */
         _renderKeywordColumn: function(v, column, stripTags) {
-            var data = querystring2object(getHash());
+            var data = q2o(getHash());
 
             if (data.keyword && [data.column == column || !column]) {
                 return (stripTags ? strip_tags(v) : v).replace(new RegExp('(' + data.keyword + ')', 'gi'), '<span style="color: red">$1</span>');
