@@ -238,26 +238,33 @@ define('tabs', ['base', 'tree'], function(require, exports, module) {
                 contextmenu: false,
                 onBeforeSelectTabItem: function() {
                     this._prevSelectedTabId = this.selectedTabId;
-                    log('onBeforeSelectTabItem' + this.selectedTabId);
                 },
-                onAfterSelectTabItem: function(selectedTabId) {
-                    log('onAfterSelectTabItem');
+                onAfterItemClick: function(selectedTabId) {log(this._prevSelectedTabId , selectedTabId);
+
                     var router = require('router');
 
-                    if (!global('clickTree') && TREE_DATA) {
+                    if ('index' != selectedTabId) {
+                        require('tree').get('_ligerTree').tree.find('li[menu_id=' + TREE_DATA.menu_id + ']')
+                        .parents('ul.l-children:not(:visible)')
+                        .prev('div.l-body')
+                        .children('.l-expandable-close')
+                        .click();
 
-                        if ('index' != selectedTabId) {
-                            require('tree').get('_ligerTree').tree.find('li[menu_id=' + TREE_DATA.menu_id + ']')
-                            .parents('ul.l-children:not(:visible)')
-                            .prev('div.l-body')
-                            .children('.l-expandable-close')
-                            .click();
+                        if (getHash() != object2querystring(TREE_DATA.queryParams)) {
+                            log(getHash(), object2querystring(TREE_DATA.queryParams));
+                            router.navigate(object2querystring(TREE_DATA.queryParams), true);
+                        }
+                    }
+                    else if(this._prevSelectedTabId != selectedTabId) {
+                        router.index();
+                    }
 
-                            getHash() != object2querystring(TREE_DATA.queryParams) && router.navigate(object2querystring(TREE_DATA.queryParams), true);
-                        }
-                        else if(this._prevSelectedTabId != selectedTabId) {
-                            router.index();
-                        }
+                    this.tab.content.children('#' + C + A).show();
+                },
+                onAfterSelectTabItem: function() {
+
+                    if (!global('clickTabItem') && !global('clickTree')) {
+                        this.tab.content.children('#' + C + A).show();
                     }
                 }
             });

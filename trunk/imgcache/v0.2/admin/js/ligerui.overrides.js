@@ -30,6 +30,33 @@ if ($.fn.ligerTab) {
             {
                 to.before(from);
             }
+        },
+        _addTabItemEvent: function (tabitem)
+        {
+            var g = this, p = this.options;
+            tabitem.click(function ()
+            {
+                var tabid = $(this).attr("tabid");
+                global('clickTabItem', true);
+                g.trigger('beforeItemClick', [tabid, tabitem]);//by mashanling on 2013-10-02 16:26:36
+                g.selectTabItem(tabid);
+                g.trigger('afterItemClick', [tabid, tabitem]);//by mashanling on 2013-10-02 16:26:36
+                global('clickTabItem', false);
+            });
+            //右键事件支持
+            g.tab.menu && g._addTabItemContextMenuEven(tabitem);
+            $(".l-tab-links-item-close", tabitem).hover(function ()
+            {
+                $(this).addClass("l-tab-links-item-close-over");
+            }, function ()
+            {
+                $(this).removeClass("l-tab-links-item-close-over");
+            }).click(function ()
+            {
+                var tabid = $(this).parent().attr("tabid");
+                g.removeTabItem(tabid);
+            });
+
         }
     });
 }
@@ -46,72 +73,6 @@ if ($.fn.ligerGrid) {
         },
         yesno: function (value, column) {
             return '<img alt="" src="' + IMAGES[value] + '" class="img-yesno" />';
-        }
-    });
-}
-
-if ($.fn.ligerToolBar) {
-     $.extend($.ligerMethos.ToolBar, {
-addItem: function (item)
-        {
-            var g = this, p = this.options;
-            if (item.line)
-            {
-                g.toolBar.append('<div class="l-bar-separator"></div>');
-                return;
-            }
-            var ditem = $('<div class="l-toolbar-item l-panel-btn"><span></span><div class="l-panel-btn-l"></div><div class="l-panel-btn-r"></div></div>');
-            g.toolBar.append(ditem);
-            if(!item.id) item.id = 'item-'+(++g.toolbarItemCount);
-			ditem.attr("toolbarid", item.id);
-            if (item.img)
-            {
-                ditem.append("<img src='" + item.img + "' />");
-                ditem.addClass("l-toolbar-item-hasicon");
-            }
-            else if (item.icon)
-            {
-                ditem.append("<div class='l-icon l-icon-" + item.icon + "'></div>");
-                ditem.addClass("l-toolbar-item-hasicon");
-            }
-			else if (item.color)
-			{
-				ditem.append("<div class='l-toolbar-item-color' style='background:"+item.color+"'></div>");
-                ditem.addClass("l-toolbar-item-hasicon");
-			}
-            item.text && $("span:first", ditem).html(item.text);
-            item.disable && ditem.addClass("l-toolbar-item-disable");
-            item.click && ditem.click(function () { if ($(this).hasClass("l-toolbar-item-disable")) return;item.click(item); });
-			if (item.menu)
-            {ditem.append('<div class="l-menubar-item-down"></div>');
-                item.menu = $.ligerMenu(item.menu);
-                ditem.hover(function ()
-                {
-					if ($(this).hasClass("l-toolbar-item-disable")) return;
-                    g.actionMenu && g.actionMenu.hide();
-                    var left = $(this).offset().left;
-                    var top = $(this).offset().top + $(this).height();
-                    item.menu.show({ top: top, left: left });
-                    g.actionMenu = item.menu;
-                    $(this).addClass("l-panel-btn-over");
-                }, function ()
-                {
-					if ($(this).hasClass("l-toolbar-item-disable")) return;
-                    $(this).removeClass("l-panel-btn-over");
-                });
-            }
-            else
-            {
-                ditem.hover(function ()
-				{
-					if ($(this).hasClass("l-toolbar-item-disable")) return;
-					$(this).addClass("l-panel-btn-over");
-				}, function ()
-				{
-					if ($(this).hasClass("l-toolbar-item-disable")) return;
-					$(this).removeClass("l-panel-btn-over");
-				});
-            }
         }
     });
 }
