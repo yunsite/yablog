@@ -56,9 +56,8 @@ class MenuController extends CommonController {
      * @return array 菜单树数据
      */
     private function _getTree($data = array()) {
-        $data = $data ? $data : $this->cache(0, CONTROLLER_NAME . '_tree');
+        $data = $data ? $data : $this->cache();
         $tree = array();
-        $k    = 0;
 
         static $menu_id      = null;
         static $include_self = null;
@@ -73,20 +72,16 @@ class MenuController extends CommonController {
             $has_priv   = ADMIN_ROLE_ID == $role_id || isset($menu['priv'][$role_id]);
 
             if ($has_priv && ($this->_unshift && !$include_self ? $menu_id != $menu[$this->_pk_field] : $menu['is_show'])) {
-                $tree[$k] = array(
-                    'menu_id' => $menu['menu_id'],
-                    'parent_id' => $menu['parent_id'],
-                    'menu_name' => $menu['menu_name'],
-                    'action'    => $menu['action'],//增加action Yab.controller.Tree itemclick调到 by mrmsl on 2012-08-20 12:42:42
-                    'href'      => $menu['href'],
-                    'leaf'      => $menu['leaf'],
+                $tree[] = array(
+                    'menu_id'       => $menu['menu_id'],
+                    'parent_id'     => $menu['parent_id'],
+                    'menu_name'     => $menu['menu_name'],
+                    'controller'    => $menu['controller'],
+                    'action'        => $menu['action'],
+                    'href'          => $menu['href'],
+                    'node'          => $menu['node'],
+                    //'leaf'      => $menu['leaf'],
                 );
-
-                if (!empty($menu['data'])) {
-                    $tree[$k]['data'] = $this->_getTree($menu['data']);
-                }
-
-                $k++;
             }
         }
 
@@ -302,7 +297,7 @@ class MenuController extends CommonController {
      * 导航功能菜单
      *
      * @author          mrmsl <msl-138@163.com>
-     * @lastmodify      2013-01-22 10:48:51 by mrmsl
+     * @date            2013-10-05 17:50:55
      *
      * @return void 无返回值
      */
@@ -326,7 +321,7 @@ class MenuController extends CommonController {
             $this->_ajaxReturn(array('data' => $data, 'parent_data' => $parent_info));
         }
 
-        $this->_ajaxReturn(true, '', $data);
+        $this->_ajaxReturn($data);
     }
 
     /**
