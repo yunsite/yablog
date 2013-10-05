@@ -240,7 +240,7 @@ define('admin', [], function(require, exports, module) {
                     { display: '添加时间', name: 'add_time', type: 'date' },
                     { display: '绑定登录', name: 'is_restrict', minWidth: 50, type: 'yesno' }
                 ],
-                url: '../get_admin.php',
+                url: this._getActionUrl(),
                 parms: require('core/tree').getData(C, A).queryParams,
                 pageSize: 30,
                 rownumbers: true,
