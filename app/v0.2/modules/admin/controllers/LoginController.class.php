@@ -38,7 +38,7 @@ class LoginController extends CommonController {
 
         }
         else {
-            $js_file .= js('bootstrap.min.js', ADMIN_IMGCACHE . 'js/');
+            $js_file .= js('all.min.js', ADMIN_IMGCACHE . 'js/core/');
         }
 
         require(TEMPLATE_FILE);
