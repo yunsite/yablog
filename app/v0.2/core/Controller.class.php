@@ -68,7 +68,9 @@ class Controller {
             }
         }
 
-        $result['time'] = round(microtime(true) - REQUEST_TIME_MICRO, 6);
+        if (!is_array($success) || 'time' === $msg) {
+            $result['time'] = round(microtime(true) - REQUEST_TIME_MICRO, 6);
+        }
 
         //扩展ajax返回数据, 在Action中定义function ajaxAssign(&$result){} 方法 扩展ajax返回数据。
         method_exists($this, 'ajaxAssign') && $this->_ajaxAssign($result);
