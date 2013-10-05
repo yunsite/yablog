@@ -5,14 +5,7 @@
     <title><?php echo L('LOGIN_TITLE') . TITLE_SEPARATOR . L('BACKEND,MANAGE_CENTER') . TITLE_SEPARATOR . sys_config('sys_base_web_title'); ?></title>
     <?php echo $css_file, $js_file; ?>
     <script>
-        var LOGIN,
-            LOGIN_PAGE = true;
-
-        System.module_admin_verifycode_enable = '<?php echo get_verifycode_setting('module_admin', 'enable'); ?>';
-
-        $(function(){
-            log(liger);
-        });
+        var LOGIN_PAGE = true;
     </script>
 </head>
 <body>

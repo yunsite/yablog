@@ -4,13 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title><?php echo L('BACKEND,MANAGE_CENTER') . TITLE_SEPARATOR . sys_config('sys_base_web_title'); ?></title>
     <?php echo $css_file, $js_file; ?>
-    <script src="<?php echo COMMON_IMGCACHE; ?>js/seajs/sea-2.0.1.js" id="seajsnode"></script>
-    <script type="text/javascript">
-
-        Ext.onReady(function(){
-            Ext.create('Yab.Application');
-        });
-        System.module_admin_verifycode_enable = '<?php echo get_verifycode_setting('module_admin', 'enable'); ?>';
+    <script>
         var ADMIN_ID = <?php echo ADMIN_ID; ?>;
         var ADMIN_ROLE_ID = <?php echo ADMIN_ROLE_ID; ?>;
         <?php
@@ -24,59 +18,24 @@
                 roleId: {$admin_info['role_id']},
                 priv: " . ($admin_priv ? $admin_priv : '[]') . "
             };";
-
-            if ($this->_checkAdminPriv('log', 'list')) {//系统日志权限
-                 echo "
-                 lang({'LOG_TYPE_ALL': " . LOG_TYPE_ALL . ",
-                'LOG_TYPE_SQL_ERROR': " . LOG_TYPE_SQL_ERROR . ",
-                'LOG_TYPE_SYSTEM_ERROR': " . LOG_TYPE_SYSTEM_ERROR . ",
-                'LOG_TYPE_ADMIN_OPERATE': " . LOG_TYPE_ADMIN_OPERATE . ",
-                'LOG_TYPE_NO_PERMISSION': " . LOG_TYPE_NO_PERMISSION . ",
-                'LOG_TYPE_ADMIN_LOGIN_INFO': " . LOG_TYPE_ADMIN_LOGIN_INFO . ",
-                'LOG_TYPE_INVALID_PARAM': " . LOG_TYPE_INVALID_PARAM . ",
-                'LOG_TYPE_CRONTAB': " . LOG_TYPE_CRONTAB . ",
-                'LOG_TYPE_VALIDATE_FORM_ERROR': " . LOG_TYPE_VALIDATE_FORM_ERROR . ",
-                'LOG_TYPE_VERIFYCODE_ERROR': " . LOG_TYPE_VERIFYCODE_ERROR . ",
-                'LOG_TYPE_LOAD_SCRIPT_TIME': " . LOG_TYPE_LOAD_SCRIPT_TIME . ",
-                'LOG_TYPE_SLOWQUERY': " . LOG_TYPE_SLOWQUERY . ",
-                'LOG_TYPE_ROLLBACK_SQL': " . LOG_TYPE_ROLLBACK_SQL . ",
-                'LOG_TYPE_EMAIL_FAILURE': " . LOG_TYPE_EMAIL_FAILURE . "});";
-            }
-
         ?>
-
-        var UEDITOR_HOME_URL = System.sys_base_website + 'v0.1/static/js/ueditor/v1.2.5/';//百度ueditor路径
-        var USE_UEDITOR = ['ueditor', 'ueditorConfig'];
-
-        seajs.config({//seajs配置
-            plugins: ['shim'],
-            base: '<?php echo sys_config("sys_base_admin_imgcache"); ?>',
-            map: [
-                ['.js', System.IS_LOCAL ? '.js?' + Math.random() : '.js']
-            ],
-            alias: {
-                jquery: {//jquery
-                    src: System.sys_base_common_imgcache + 'js/jquery/jquery-1.9.1.min.js'
-                },
-                ueditor: {//uditor
-                    src: UEDITOR_HOME_URL + 'ueditor.min.js',
-                    deps: ['ueditorConfig']
-                },
-                ueditorConfig: {//ueditor config
-                    src: UEDITOR_HOME_URL + 'editor_config.js'
-                },
-                'Yab.ux.Ueditor': {
-                    src: System.sys_base_admin_imgcache + 'app/ux/Yab.ux.Ueditor.js',
-                    deps: ['ueditor']
-                }
-            }
-        });
     </script>
 </head>
 <body>
-    <form id="history-form" class="x-hide-display" action="index.php">
-        <input type="hidden" id="x-history-field" />
-    </form>
+    <div id="layout" style="width: 99.2%; margin: 0 auto;">
+        <div id="left" position="left"  title="主要菜单">
+            <div>
+                <ul id="tree" style="margin-top:3px;">
+                    <li></li>
+                </ul>
+                </div>
+        </div>
+        <div position="center" id="tabs">
+            <div title="管理中心" tabid="index">
+                管理中心
+            </div>
+        </div>
+    </div>
     <div id="div-header-content" class="x-hide-display">
         <span><?php echo L('HELLO'), ',', $admin_info['realname'], ' [', $role_info['role_name'], ']'; ?> | <a href="<?php echo BASE_SITE_URL; ?>" target="_blank"><?php echo L('WEBSITE,HOME'); ?></a> | <a href="<?php echo WEB_ADMIN_ENTRY; ?>/login/logout">退出</a> </span>
         <strong><?php echo L('BACKEND,MANAGE_CENTER'); ?></strong>
