@@ -236,15 +236,7 @@ class PackerController extends CommonController {
 
         foreach($skin_arr as $skin => $css_file) {
             $skin_path  = $path . $skin . '/css/';
-
-            if ('Aqua' == $skin) {
-                $content = '';
-            }
-            else {//将Aqua/aqua-all.css合并至当前css中
-                $content  = '/*Aqua/css/aqua-all.css*/' . PHP_EOL;
-                $content .= file_get_contents($path . 'Aqua/css/aqua-all.css') . PHP_EOL . PHP_EOL;
-            }
-
+            $content = '';
             /*
             @import url("ligerui-common.css");
             @import url("ligerui-dialog.css");
