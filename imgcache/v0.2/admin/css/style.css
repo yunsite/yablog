@@ -1,0 +1,61 @@
+/**
+ * 后台样式
+ *
+ * @file            style.css
+ * @version         0.2
+ * @copyright       Copyright (c) 2013 {@link http://www.yablog.cn yablog} All rights reserved
+ * @license         http://www.apache.org/licenses/LICENSE-2.0.html Apache License 2.0
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-10-04 10:17:59
+ * @lastmodify      $Date$ $Author$
+ */
+body,
+html{ height: 100%; }
+body { background: #EAEEF5; padding: 0; margin: 0; overflow: hidden; }
+
+/*导航菜单Accordio隐藏标题*/
+#left .l-accordion-header { display: none; }
+
+/*是与否小图片大小*/
+.img-yesno { width: 14px; height: 14px; cursor: pointer; }
+
+/*工具栏菜单*/
+.operate.toolbar { border: none; }
+.operate.toolbar > div.l-panel-btn { margin-top: 4px; }
+
+/*通用*/
+
+/*字体大小*/
+.font-12 { font-size: 12px; }
+.font-14 { font-size: 14px; }
+
+/*字体颜色*/
+.font-red { color: red; }
+.font-grey,
+.font-gray { color: #999; }
+.font-green { color: green; }
+.font-666 { color: #666; }
+
+/*字体样式(精细,下划线...)*/
+.font-bold { font-weight: bold; }
+.text-underline { text-decoration: underline; }
+
+/*字体对齐*/
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+
+/*显示状态*/
+.display-block { display: block; }
+.display-none { display: none; }
+
+/*浮动*/
+.clear { clear: both; }
+.float-left{ float: left; }
+.float-right { float: right; }
+
+/*背景*/
+.bg-fff { background: #fff; }
+
+/*其它*/
+.cursor-pointer{ cursor: pointer; }/*鼠标样式*/
