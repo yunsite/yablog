@@ -44,7 +44,7 @@ define('core/tree', ['core/base'], function(require, exports, module) {
             if (data.children) {
             }
             else {
-                require('router').navigate(o2q(data.queryParams), true);
+                require('core/router').navigate(o2q(data.queryParams), true);
             }
         },
 
@@ -63,7 +63,7 @@ define('core/tree', ['core/base'], function(require, exports, module) {
 
             this._el.ligerTree({
                 isExpand: false,
-                url: '../get_tree.php',
+                url: this._getActionUrl('menu', 'publicTree'),
                 textFieldName: 'menu_name',
                 idFieldName: 'menu_id',
                 parentIDFieldName: 'parent_id',
@@ -87,7 +87,7 @@ define('core/tree', ['core/base'], function(require, exports, module) {
                         me._treeData[controller + action] = item['menu_id'];
                     });
 
-                    require('router').notifyTreeLoaded();
+                    require('core/router').notifyTreeLoaded();
                 },
                 onClick: function (node) {
                     global('clickTree', true);

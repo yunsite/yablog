@@ -76,7 +76,7 @@ define('core/tabs', ['core/base', 'core/tree'], function(require, exports, modul
                 return $.ligerDialog.error('控制器{0}方法{1}不存在'.format(TEXT.red(controller), TEXT.red(method)));
             }
 
-            require('router').setPageTitle();
+            require('core/router').setPageTitle();
             Alert(null, null, true);
         },
 
@@ -188,7 +188,7 @@ define('core/tabs', ['core/base', 'core/tree'], function(require, exports, modul
             C = controller;
             A = action;
             ID = C + A;
-            TREE_DATA = require('tree').getData(controller, action);
+            TREE_DATA = require('core/tree').getData(controller, action);
 
             Alert('加载中，请稍后...', 'loading', false, false);
             var controller  = TREE_DATA.controller,
@@ -241,10 +241,10 @@ define('core/tabs', ['core/base', 'core/tree'], function(require, exports, modul
                 },
                 onAfterItemClick: function(selectedTabId) {log(this._prevSelectedTabId , selectedTabId);
 
-                    var router = require('router');
+                    var router = require('core/router');
 
                     if ('index' != selectedTabId) {
-                        require('tree').get('_ligerTree').tree.find('li[menu_id=' + TREE_DATA.menu_id + ']')
+                        require('core/tree').get('_ligerTree').tree.find('li[menu_id=' + TREE_DATA.menu_id + ']')
                         .parents('ul.l-children:not(:visible)')
                         .prev('div.l-body')
                         .children('.l-expandable-close')
