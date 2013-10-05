@@ -220,4 +220,54 @@ class PackerController extends CommonController {
         $this->_model->addLog(L('COMPRESS,%js,FILENAME,%:') . join(',', $file));
         $this->_ajaxReturn(true, L('COMPRESS,SUCCESS'));
     }//end packAction
+
+    /**
+     * ligerui css 采用@import,节省http请求,合并ligerui css至一个文件加载
+     *
+     * @author          mrmsl <msl-138@163.com>
+     * @date            2013-10-05 10:15:23
+     *
+     * @return void 无返回值
+     */
+    public function mergeLigerCssAction() {
+        require(CORE_PATH . 'functions/dir.php');
+        $skin_arr   = array('Aqua' => 'ligerui-all.css', 'Gray' => 'all.css' ,'Silvery' => 'style.css');//css目录
+        $path       = IMGCACHE_PATH . 'common/js/ligerui/skins/';
+
+        foreach($skin_arr as $skin => $css_file) {
+            $skin_path  = $path . $skin . '/css/';
+
+            if ('Aqua' == $skin) {
+                $content = '';
+            }
+            else {//将Aqua/aqua-all.css合并至当前css中
+                $content  = '/*Aqua/css/aqua-all.css*/' . PHP_EOL;
+                $content .= file_get_contents($path . 'Aqua/css/aqua-all.css') . PHP_EOL . PHP_EOL;
+            }
+
+            /*
+            @import url("ligerui-common.css");
+            @import url("ligerui-dialog.css");
+            @import url("ligerui-form.css");
+            @import url("ligerui-grid.css");
+            @import url("ligerui-layout.css");
+            @import url("ligerui-menu.css");
+            @import url("ligerui-tab.css");
+            @import url("ligerui-tree.css");
+             */
+            $css = file_get_contents($skin_path . $css_file);
+            preg_match_all('/[a-z-]+\.css/', $css, $matches);
+
+            foreach ($matches[0] as $file) {
+                $content .= "/*{$skin}/{$file}*/" . PHP_EOL;
+                $content .= file_get_contents($skin_path . $file) . PHP_EOL . PHP_EOL;
+            }
+
+            file_put_contents($skin_path . strtolower($skin) . '-all.css', $content);
+
+        }
+
+        $this->_model->addLog(L('MERGE,CSS_STYLE'));
+        $this->_ajaxReturn(true, L('MERGE,SUCCESS'));
+    }//end mergeLigerCssAction
 }
