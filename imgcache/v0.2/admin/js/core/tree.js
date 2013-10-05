@@ -70,7 +70,6 @@ define('core/tree', ['core/base'], function(require, exports, module) {
                 btnClickToToggleOnly: false,
                 attribute: ['menu_id', 'controller', 'action', 'node'],
                 needCancel: false,
-                nodeWidth: 120,
                 single: true,
                 checkbox: false,
                 height: 120,
