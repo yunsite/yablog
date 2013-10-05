@@ -28,20 +28,7 @@ class LoginController extends CommonController {
      * @return void 无返回值
      */
     public function indexAction() {
-        $css_file   = css('gray-all.css', COMMON_IMGCACHE . 'js/ligerui/skins/Gray/css/');//ligerui样式
-        $js_file    = js('System.js,lang/' . MODULE_NAME . '.' . LANG . '.js', '/static/js/');//系统信息,语言包
-        $js_file   .= js('System.sys_base_admin_entry = "' . WEB_ADMIN_ENTRY . '"', 'script');//后台入口
-
-        if (APP_DEBUG) {
-            $require_js = include(APP_PATH . 'include/required_js.php');
-            $js_file .= js($require_js);
-
-        }
-        else {
-            $js_file .= js('all.min.js', ADMIN_IMGCACHE . 'js/core/');
-        }
-
-        require(TEMPLATE_FILE);
+        require(APP_PATH . 'include/include_template.php');
     }
 
     /**
