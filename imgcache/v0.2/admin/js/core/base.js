@@ -12,6 +12,37 @@
 
 define('core/base', ['core/router'], function(require, exports, module) {
     var BASE = Base.extend({
+        /**
+         * 获取请求url
+         *
+         * @author      mrmsl <msl-138@163.com>
+         * @date        2013-10-05 16:53:14
+         *
+         * @param {string} [controller=当前控制器名称] 控制器
+         * @param {string} [action=当前操作方法名称] 操作
+         * @param {string} [queryString] 查询字符串
+         *
+         * @return {string} 请求url
+         */
+        _getActionUrl: function(controller, action, queryString) {
+            controller = controller || this._getControllerName();
+            action = action || getCA('a');
+            var url = controller + '/' + action + (queryString ? '?' + queryString : '');
+
+            return getActionUrl(url);
+        },
+
+        /**
+         * 获取控制器名称
+         *
+         * @author      mrmsl <msl-138@163.com>
+         * @date        2013-08-01 15:37:53
+         *
+         * return {string} 控制器名称
+         */
+        _getControllerName: function () {
+            return this._controllerName || getCA();
+        },
 
         /**
          * 渲染并高亮搜索关键字
@@ -59,18 +90,6 @@ define('core/base', ['core/router'], function(require, exports, module) {
          */
         get: function(name) {
             return this[name];
-        },
-
-        /**
-         * 获取控制器名称
-         *
-         * @author      mrmsl <msl-138@163.com>
-         * @date        2013-08-01 15:37:53
-         *
-         * return {string} 控制器名称
-         */
-        getControllerName: function () {
-            return this._controllerName;
         },
 
         /**
