@@ -12,8 +12,6 @@
  * @lastmodify      $Date$ $Author$
  */
 
-require(LIB_PATH . 'BaseVerifycodeController.class.php');
-
 class VerifycodeController extends BaseVerifycodeController {
     /**
      * @var bool $_auto_check_priv true自动检测权限。默认false
