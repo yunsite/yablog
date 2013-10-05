@@ -98,6 +98,17 @@ function bootstrap() {
 }
 
 /**
+ * 获取请求url
+ *
+ * @param {string} url 请求url
+ *
+ * @return {String} 请求url
+ */
+function getActionUrl(url) {
+    return System.sys_base_admin_entry + '/' + url;
+}
+
+/**
  * 获取控制器controller或action名称
  *
  * @author          mrmsl <msl-138@163.com>
@@ -124,6 +135,7 @@ function getHash() {
 
     return match ? match[1] : '';
 }
+
 /**
  * 设置或获取语言，支持批量
  *
@@ -219,4 +231,18 @@ function q2o(querystring) {
     });
 
     return object;
+}
+
+/**
+ * 设置或取消加载中提示
+ *
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-10-05 16:44:32
+ *
+ * @param {mixed} [msg=PROCESSING语言项] 遮罩信息，false取消遮罩
+ *
+ * @return {void} 无返回值
+ */
+function setLoading(msg) {
+    false === msg ? Alert(false, false, true, false) : Alert(msg || lang('PROCESSING'), 'loading', false, false);
 }

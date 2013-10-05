@@ -167,6 +167,40 @@ function date(format, constructor) {
 }//end date
 
 /**
+ * 格式化字节大小
+ *
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-10-05 16:32:32
+ *
+ * @param {int} filesize  文件大小，单位：字节
+ * @param {int} [precision=2] 小数点数
+ *
+ * @return string 带单位的文件大小
+ */
+function formatSize(filesize, precision) {
+    var unit;
+
+    if (filesize >= 1073741824) {
+        filesize = Math.round(filesize / 1073741824 * 100) / 100;
+        unit     = 'GB';
+    }
+    else if (filesize >= 1048576) {
+        filesize = Math.round(filesize / 1048576 * 100) / 100 ;
+        unit     = 'MB';
+    }
+    else if(filesize >= 1024) {
+        filesize = Math.round(filesize / 1024 * 100) / 100;
+        unit     = 'KB';
+    }
+    else {
+        filesize = filesize;
+        unit     = 'Bytes';
+    }
+
+    return '' + toFixed(filesize) + ' ' + unit;;
+}
+
+/**
  * 设置或获取全局变量，如果只传一个参数，则取该参数值;否则设置变量，第一个参数为变量名，第二个参数为变量值
  *
  * @author          mrmsl <msl-138@163.com>
@@ -202,6 +236,20 @@ function hideAlert(timeout) {
             Alert(false, false, true);
         }, timeout || 2000);
     }
+}
+
+/**
+ * 转义html
+ *
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-10-05 16:39:05
+ *
+ * @param {String} str 待转义字符串
+ *
+ * @return {String} 转义后的字符串
+ */
+function htmlspecialchars(str) {
+    return str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;').replace(/\'/g, '&#39;');
 }
 
 /**
@@ -282,4 +330,57 @@ function strip_tags(str, img) {
     var pattern = img ? /<(?!img)[^>]*>/ig : /<[^>]*>/gi;
 
     return str.replace(pattern, '');
+}
+
+/**
+ * 数字精确度
+ *
+ * @author              mrmsl <msl-138@163.com>
+ * @date                2013-10-05 16:37:16
+ *
+ * @param {int} value 数字
+ * @param {int} [precision=2] 小数点位数
+ *
+ * @return {int} 精确小数点后的数值
+ */
+function toFixed(value, precision) {
+    precision = precision === undefined ? 2 : precision;
+
+    if ((0.9).toFixed() !== '1') {//IE下等于0
+        var pow = Math.pow(10, precision);
+        return (Math.round(value * pow) / pow).toFixed(precision);
+    }
+
+    return value.toFixed(precision);
+}
+
+/**
+ * 转化为浮点数
+ *
+ * @author              mrmsl <msl-138@163.com>
+ * @date                2013-10-05 16:37:35
+ *
+ * @param {mixed} str 需要转换的字符串
+ * @param {float} [def=0.00] 转换失败默认值
+ *
+ * @return {float} 转化后的浮点数
+ */
+function toFloat(str, def) {
+    var str = parseFloat(str);
+
+    return isNaN(str) ? parseFloat(def == undefined ? 0.00 : def) : str;
+}
+
+/**
+ * 反转义html
+ *
+ * @author              mrmsl <msl-138@163.com>
+ * @date                2013-10-05 16:37:35
+ *
+ * @param {string} str 待转义字符串
+ *
+ * @return {string} 转义后的字符串
+ */
+function unhtmlspecialchars(str) {
+    return str.replace(/\&lt;/g, '<').replace(/\&gt;/g, '>').replace(/\&quot;/g, '"').replace(/\&#39;/g, "'");
 }
