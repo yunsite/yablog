@@ -861,22 +861,18 @@ class CommonController extends Controller {
     }
 
     /**
-     * 启动方法，Yaf自动调用
+     * 构造函数
      *
      * @author          mrmsl <msl-138@163.com>
      * @date            2012-12-24 17:22:27
-     * @lastmodify      2013-01-21 16:08:12 by mrmsl
      *
      * @return void 无返回值
      */
-    protected function init() {
+    public function __construct() {
 
-        if (false === parent::init()) {
+        if (false === parent::__construct()) {
             return;
         }
-
-        $this->setViewpath(THEME_PATH);
-
 
         $this->_unshift    = isset($_GET['unshift']);
         $this->_admin_info = C(SESSION_ADMIN_KEY);//管理员信息
@@ -889,7 +885,7 @@ class CommonController extends Controller {
         if ($this->_auto_check_priv && (!APP_DEBUG || !__GET)) {//自动检测权限
             $this->_checkAdminPriv();//权限
         }
-    }//end init
+    }
 
     /**
      * 删除
