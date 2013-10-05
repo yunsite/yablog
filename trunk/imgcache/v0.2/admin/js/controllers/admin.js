@@ -87,11 +87,11 @@ define('admin', [], function(require, exports, module) {
                 }).searchbox()
             .end()
             .children('input[data-jeasyui=datebox]')
-                .data('data-options', require('fields').datetime)
+                .data('data-options', require('core/fields').datetime)
                 .datebox()
             .end()
             .children('input[data-name=match_mode]')
-                .data('data-options', require('fields').matchMode)
+                .data('data-options', require('core/fields').matchMode)
                 .combobox()
             .end()
             .children('input[data-name=cate_id]')
@@ -147,7 +147,7 @@ define('admin', [], function(require, exports, module) {
          * return {void} 无返回值
          */
         addAction: function() {
-            var tabs        = require('tabs'),
+            var tabs        = require('core/tabs'),
                 selectedTab = tabs.getSelected(),
                 form         = tabs.get('_el').find('#' + C + A);
 
@@ -177,7 +177,7 @@ define('admin', [], function(require, exports, module) {
          */
         changePasswordAction: function() {log(C + A);return;
             this._setActivePanel();
-            var tabs = require('tabs');
+            var tabs = require('core/tabs');
             var grid = tabs.get('_el').find('#adminchangePassword');
 
             if (!grid.length) {
@@ -214,9 +214,9 @@ define('admin', [], function(require, exports, module) {
                 page: Q2O.page || 1//页
             };
 
-            $.extend(require('tree').getData(C, A).queryParams, defaults);
+            $.extend(require('core/tree').getData(C, A).queryParams, defaults);
 
-            var o = require('tabs').get('_ligerTab').tab.content.children('#adminlist').ligerGrid({
+            var o = require('core/tabs').get('_ligerTab').tab.content.children('#adminlist').ligerGrid({
                 switchPageSizeApplyComboBox: true,
                 selectRowButtonOnly: true,
                 frozen: false,
@@ -241,13 +241,13 @@ define('admin', [], function(require, exports, module) {
                     { display: '绑定登录', name: 'is_restrict', minWidth: 50, type: 'yesno' }
                 ],
                 url: '../get_admin.php',
-                parms: require('tree').getData(C, A).queryParams,
+                parms: require('core/tree').getData(C, A).queryParams,
                 pageSize: 30,
                 rownumbers: true,
                 checkbox: true,
                 onChangePage: function(page) {
                     this.options.parms[this.options.pageParmName] = page;
-                   require('router').navigate(o2q(this.options.parms));
+                   require('core/router').navigate(o2q(this.options.parms));
                 },
                 //title: 'admin list',
                 toolbar0: {
@@ -362,9 +362,9 @@ define('admin', [], function(require, exports, module) {
                             }
                         });
 
-                        $.extend(require('tree').getData(C, A).queryParams, values);
+                        $.extend(require('core/tree').getData(C, A).queryParams, values);
                         //this.grid.
-                        require('router').navigate(o2q(require('tree').getData(C, A).queryParams), true);
+                        require('core/router').navigate(o2q(require('core/tree').getData(C, A).queryParams), true);
                     }
                 })
                 .ligerTextBox();

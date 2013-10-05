@@ -36,8 +36,8 @@ define('core/router', [], function(require, exports, module) {
          * return {void} 无返回值
          */
         index: function() {
-            var tree    = require('tree'),
-                tab     = require('tabs').get('_ligerTab');
+            var tree    = require('core/tree'),
+                tab     = require('core/tabs').get('_ligerTab');
 
             tree.get('_el').find('div.l-body.l-selected').removeClass('l-selected');
             'index' != tab.getSelected().attr('tabid') && tab.selectTabItem('index');
@@ -105,7 +105,7 @@ define('core/router', [], function(require, exports, module) {
             }
 
             if (!global('clickTree')) {
-                var tree    = require('tree'),
+                var tree    = require('core/tree'),
                     data    = tree.getData(controller, action);
 
                 if (!data) {
@@ -116,7 +116,7 @@ define('core/router', [], function(require, exports, module) {
                 tree.get('_ligerTree').selectNode(data.menu_id);
             }
 
-            require('tabs').addTab(controller, action);
+            require('core/tabs').addTab(controller, action);
         },//end router
 
         /**
@@ -144,7 +144,7 @@ define('core/router', [], function(require, exports, module) {
             else {
 
                 if ('index' != controller && !this._pageTitle[key]) {
-                    var treeData    = require('tree').getData();
+                    var treeData    = require('core/tree').getData();
                         title       = [];
 
                     $.each(TREE_DATA.node.split(','), function(index, item) {
@@ -165,7 +165,7 @@ define('core/router', [], function(require, exports, module) {
             title.pop();
             title = title.reverse().join(' &raquo; ');*/
 
-            //require('tabs').getSelected().find('.panel-title').html(title);
+            //require('core/tabs').getSelected().find('.panel-title').html(title);
 
             return this;
         }//end setPageTitle
