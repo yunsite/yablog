@@ -16,6 +16,10 @@ body { background: #EAEEF5; padding: 0; margin: 0; overflow: hidden; }
 /*导航菜单Accordio隐藏标题*/
 #left .l-accordion-header { display: none; }
 
+/*自定义tab内容div,修改默认样式*/
+#tabs .l-tab-content-item { position: absolute; width: 0; }
+#tabs .l-panel { border: none; }
+
 /*是与否小图片大小*/
 .img-yesno { width: 14px; height: 14px; cursor: pointer; }
 
