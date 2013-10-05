@@ -131,7 +131,7 @@ class PackerController extends CommonController {
             $content   .= PHP_EOL . PHP_EOL;
         }
 
-        file_put_contents(PACKER_JS_PATH . 'admin/js/core/bootstrap.min.js', $content);
+        file_put_contents(PACKER_JS_PATH . 'admin/js/core/all.min.js', $content);
     }
 
     /**
