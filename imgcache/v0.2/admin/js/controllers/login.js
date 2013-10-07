@@ -34,9 +34,11 @@ define('login', ['core/base'], function(require, exports, module) {
         _formFields: function () {
 
             return [{
-                display: lang('USERNAME'), name: 'username'
+                display: lang('USERNAME'), name: 'username', validate: { required: true }
             }, {
-                display: lang('PASSWORD'), name: 'password'
+                display: lang('PASSWORD'), name: 'password', validate: { required: true }
+            }, {
+                display: lang('VERIFY_CODE'), name: 'verifycode', width: 50, validate: { required: true }
             }];
         },
 
@@ -49,9 +51,17 @@ define('login', ['core/base'], function(require, exports, module) {
          * @return {void} 无返回值
          */
         _ligerForm: function() {
+            var me = this;
             this._win.dialog.content.ligerForm({
-                //inputWidth: 170, labelWidth: 90, space: 40,
-                fields: this._formFields()
+                validate : true,
+                labelAlign: 'right',
+                fields: this._formFields(),
+                buttons: [{ text: lang('LOGIN') }],
+                onRendered: function() {
+                    me._win.dialog.content.children('.l-form-buttons').css({
+                        'margin-left': '90px'
+                    }).append('<li style="color: gray">' + lang('SUBMIT_TIP') + '</li>');
+                }
             });
         },
 
@@ -69,7 +79,7 @@ define('login', ['core/base'], function(require, exports, module) {
 
                 this._win = $.ligerDialog.open({
                     title: lang('CONTROLLER_NAME_ADMIN,LOGIN'),
-                    width: 350,
+                    width: 400,
                     height: 200
                 });
 
