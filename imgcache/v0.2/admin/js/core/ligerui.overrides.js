@@ -76,3 +76,32 @@ if ($.fn.ligerGrid) {
         }
     });
 }
+
+//_buliderSpaceContainer重写,支持在输入框后增加提示文字 by mashanling on 2013-10-08 14:00:35
+//保留源代码格式,方便版本变更对比
+$.ligerui.controls.Form.prototype._buliderSpaceContainer = function (field)
+{
+    var g = this, p = this.options;
+    var spaceWidth = field.space || field.spaceWidth || p.space;
+    var out = [];
+    out.push('<li');
+    if (p.spaceCss)
+    {
+        out.push(' class="' + p.spaceCss + '"');
+    }
+    out.push(' style="');
+    if (spaceWidth && !field.tip)//增加 && !filed.tip by mashanling on 2013-10-08 13:57:24
+    {
+        out.push('width:' + spaceWidth + 'px;');
+    }
+    out.push('">');
+    if (field.validate && field.validate.required)
+    {
+        out.push("<span class='l-star'>*</span>");
+    }
+
+    field.tip && out.push('<span style="color: gray; margin-left: 4px;">' + field.tip + '<span>');//提示 by mashanling on 2013-10-08 13:58:06
+
+    out.push('</li>');
+    return out.join('');
+}
