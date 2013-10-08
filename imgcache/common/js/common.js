@@ -272,6 +272,27 @@ function intval(str, def, radix) {
 }
 
 /**
+ * ctrl + enter事件
+ *
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-10-08 14:14:14
+ *
+ * @param {object} target 目标元素
+ * @param {function} handler 处理函数
+ * @param {bool} [ctrlKey=undefined] true需要同时按下ctrl键
+ *
+ * @return {void} 无返回值
+ */
+function ctrlEnter(target, handler, ctrlKey) {
+    $(target).keypress(function(e) {
+
+        if (13 == e.which && (ctrlKey && e.ctrlKey || !ctrlKey)) {
+            handler(e);
+        }
+    });
+}
+
+/**
  * console.log
  *
  * @author          mrmsl <msl-138@163.com>
