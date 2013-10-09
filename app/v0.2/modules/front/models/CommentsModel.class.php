@@ -45,7 +45,7 @@ class CommentsModel extends CommonModel {
         'user_homepage'  => array('filter' => 'url', 'validate' => array(array('', '{%PLEASE_ENTER,CORRECT,CN_DE,HOMEPAGE,LINK}', Model::VALUE_VALIDATE, 'url'), '_checkLength#HOMEPAGE,LINK#value|0|50')),
         'user_pic'       => array('filter' => 'url', 'validate' => array('_checkLength#USER_PIC,DATA#value|0')),
         'status'         => array('filter' => 'int', 'validate' => array('_checkLength#STATUS,DATA#value|0')),
-        '_verify_code'   => array('validate' => '_checkVerifycode#PLEASE_ENTER,VERIFY_CODE#module_admin'),//验证码
+        SESSION_VERIFY_CODE   => array('validate' => '_checkVerifycode#PLEASE_ENTER,VERIFY_CODE#module_admin'),//验证码
         'province'       => array('validate' => array('_checkLength#PROVINCE,DATA#value|0')),
         'city'           => array('validate' => array('_checkLength#CITY,DATA#value|0')),
         'at_email'       => array('filter' => 'int'),//有人回复时通知我
