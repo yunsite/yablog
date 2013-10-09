@@ -105,3 +105,51 @@ $.ligerui.controls.Form.prototype._buliderSpaceContainer = function (field)
     out.push('</li>');
     return out.join('');
 }
+
+//ueditor继承
+$.fn.extend(liger.editors, {
+    //纯html
+    displayfield: {
+        body: $('<div style="color: gray"></div>'),
+        control: 'DisplayField'
+    }
+});
+
+//jquery方法继承
+$.extend($.fn,{
+
+    //纯html
+    ligerDisplayField: function(options) {
+        var me      = this,
+            html    = options.html;
+
+        if (!html) {
+            return;
+        }
+
+        switch($.type(html)) {
+
+            case 'string'://html代码
+                this.html(html);
+                break;
+
+            case 'function'://函数
+                html.call(this);
+                break;
+
+            case 'object':
+
+                if (html instanceof $) {//jquery对象
+                    this.append(html);
+                }
+
+                break;
+
+            case 'array'://jquery对象组成的数组
+                $.each(html, function(index, item) {
+                    me.append(item);
+                });
+                break;
+        }
+    }//end ligerDisplayField
+});
