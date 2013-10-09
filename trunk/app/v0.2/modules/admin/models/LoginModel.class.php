@@ -154,7 +154,7 @@ class LoginModel extends CommonModel {
     private function _checkPasswordIsCorrect(&$admin_arr, $admin_info, $password, $mac_address) {
 
         if ($admin_info['password'] == $password) {//密码正确
-            $verifycode = Filter::string('_verify_code');
+            $verifycode = Filter::string(SESSION_VERIFY_CODE);
 
             if ('' === $verifycode) {
                 return L('PLEASE_ENTER,VERIFY_CODE');
