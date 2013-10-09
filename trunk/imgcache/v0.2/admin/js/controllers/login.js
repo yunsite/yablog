@@ -32,20 +32,40 @@ define('login', ['core/base'], function(require, exports, module) {
          * @return {array} 表单域
          */
         _formFields: function () {
+            var me = this;
 
-            return [{
+            return [{//用户名
                 display: lang('USERNAME'),
                 name: 'username',
                 validate: {
                     required: true
+                },
+                validateMessage: {
+                    required: lang('PLEASE_ENTER,USERNAME')
                 }
-            }, {
+            }, {//密码
                 display: lang('PASSWORD'),
                 name: 'password',
                 validate: {
                     required: true
+                },
+                validateMessage: {
+                    required: lang('PLEASE_ENTER,PASSWORD')
                 }
-            }, this._ligers().verifyCode()];
+            },
+            this._ligers().verifyCode(),//验证码
+            {//提交按钮
+                type: 'displayfield',
+                id: 'login-btn',
+                width: 'auto',
+                options: {
+                    html: [
+                        //提交按钮
+                        $('<input type="submit" class="l-button" style="width: 50px;" value="' + lang('LOGIN') + '" />').click(function() { me._submit(); }),
+                        ' '// + lang('SUBMIT_TIP')//ctrl + enter提交提示
+                    ]
+                }
+            }];
         },
 
         /**
@@ -58,23 +78,31 @@ define('login', ['core/base'], function(require, exports, module) {
          */
         _ligerForm: function() {
             var me = this;
-            this._win.dialog.content.ligerForm({
+
+            this._ligerFormObj = this._win.dialog.content.children('form').ligerForm({
                 validate : true,
                 labelAlign: 'right',
                 labelWidth: 50,
                 inputWidth: 120,
                 fields: this._formFields(),
-                buttons: [{ text: lang('LOGIN') }],
                 onRendered: function() {
-                    me._win.dialog.content.children('.l-form-buttons').css({
-                        'margin-left': this.options.labelWidth
-                    });
-
-                    ctrlEnter(me._win.dialog.content, function() {
-                        log(this);
-                    });
+                    ctrlEnter(me._win.dialog.content, me._submit, me, true);
                 }
             });
+        },
+
+        /**
+         * 提交
+         *
+         * @author          mrmsl <msl-138@163.com>
+         * @date            2013-10-09 11:43:05
+         *
+         * @return {void} 无返回值
+         */
+        _submit: function() {
+            var me = this;
+
+            log(this._ligerFormObj.getData());
         },
 
         /**
@@ -90,6 +118,7 @@ define('login', ['core/base'], function(require, exports, module) {
             if (!this._win) {//未定义
 
                 this._win = $.ligerDialog.open({
+                    content: '<form method="post"></form>',
                     title: lang('CONTROLLER_NAME_ADMIN,LOGIN'),
                     width: 300,
                     height: 200
