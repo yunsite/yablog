@@ -13,6 +13,64 @@
 define('core/base', ['core/router'], function(require, exports, module) {
     var BASE = Base.extend({
         /**
+         * 各种ligerTextBox表单域
+         *
+         * @author              mrmsl <msl-138@163.com>
+         * @date                2013-10-09 08:34:01
+         *
+         * @return {object} 各种ligerTextBox
+         */
+        _ligers: function() {
+            var me = this;
+
+            return {
+                /**
+                 * 验证码输入框
+                 *
+                 * @author          mrmsl <msl-138@163.com>
+                 * @date            2013-10-09 08:34:54
+                 *
+                 * @param {string} [imgCodeId=this._imgCodeId] 验证码图片id
+                 * @param {string} [module=this._verifycodeModule] 验证码所属模块
+                 *
+                 * @return {object} 验证码输入框ligerTextBox配置
+                 */
+                verifyCode: function(imgCodeId, module) {
+                    imgCodeId = imgCodeId || me._imgCodeId;
+                    module = module || me._verifycodeModule;
+                    var enable = System[module + '_verifycode_enable'];//是否开启验证码
+
+                    if (!enable) {//未开启验证码
+
+                        return {
+                            type: 'hidden',
+                            name: VERIFY_CODE_KEY
+                        };
+                    }
+
+                    return {
+                        display: lang('VERIFY_CODE'),
+                        name: VERIFY_CODE_KEY,
+                        width: 50,
+                        tip: '<img id="' + imgCodeId + '" data-module="' + module + '" data-src="" style="display: none; valign: absmiddle; cursor: pointer;" title="' + lang('REFRESH_CODE_TIP') + '" onclick="refreshVerifyCode(this)" />',
+                        validate: {
+                            required: true
+                        },
+                        options: {
+                            onFocus: function() {
+                                this._img = this._img || this.inputText.parent().parent().next().find('img#' + imgCodeId);
+
+                                if (!this._img.is(':visible')) {
+                                    refreshVerifyCode(this._img);
+                                    this._img.show();
+                                }
+                            }
+                        }
+                    };
+                }//end verifyCode
+            };
+        },
+        /**
          * 获取请求url
          *
          * @author      mrmsl <msl-138@163.com>
