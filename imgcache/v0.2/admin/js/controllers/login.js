@@ -34,12 +34,18 @@ define('login', ['core/base'], function(require, exports, module) {
         _formFields: function () {
 
             return [{
-                display: lang('USERNAME'), name: 'username', validate: { required: true }
+                display: lang('USERNAME'),
+                name: 'username',
+                validate: {
+                    required: true
+                }
             }, {
-                display: lang('PASSWORD'), name: 'password', validate: { required: true }
-            }, {
-                display: lang('VERIFY_CODE'), name: 'verifycode', width: 50, validate: { required: true }
-            }];
+                display: lang('PASSWORD'),
+                name: 'password',
+                validate: {
+                    required: true
+                }
+            }, this._ligers().verifyCode()];
         },
 
         /**
@@ -55,12 +61,18 @@ define('login', ['core/base'], function(require, exports, module) {
             this._win.dialog.content.ligerForm({
                 validate : true,
                 labelAlign: 'right',
+                labelWidth: 50,
+                inputWidth: 120,
                 fields: this._formFields(),
                 buttons: [{ text: lang('LOGIN') }],
                 onRendered: function() {
                     me._win.dialog.content.children('.l-form-buttons').css({
-                        'margin-left': '90px'
-                    }).append('<li style="color: gray">' + lang('SUBMIT_TIP') + '</li>');
+                        'margin-left': this.options.labelWidth
+                    });
+
+                    ctrlEnter(me._win.dialog.content, function() {
+                        log(this);
+                    });
                 }
             });
         },
@@ -79,7 +91,7 @@ define('login', ['core/base'], function(require, exports, module) {
 
                 this._win = $.ligerDialog.open({
                     title: lang('CONTROLLER_NAME_ADMIN,LOGIN'),
-                    width: 400,
+                    width: 300,
                     height: 200
                 });
 
