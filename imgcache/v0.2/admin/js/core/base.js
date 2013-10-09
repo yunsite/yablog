@@ -56,6 +56,9 @@ define('core/base', ['core/router'], function(require, exports, module) {
                         validate: {
                             required: true
                         },
+                        validateMessage: {
+                            required: lang('PLEASE_ENTER,VERIFY_CODE')
+                        },
                         options: {
                             onFocus: function() {
                                 this._img = this._img || this.inputText.parent().parent().next().find('img#' + imgCodeId);
