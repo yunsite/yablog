@@ -102,7 +102,7 @@ define('login', ['core/base'], function(require, exports, module) {
         _submit: function() {
             var me = this;
 
-            log(this._ligerFormObj.getData());
+            this._ajax('login/login', this._ligerFormObj.form.serialize());
         },
 
         /**
@@ -118,7 +118,7 @@ define('login', ['core/base'], function(require, exports, module) {
             if (!this._win) {//未定义
 
                 this._win = $.ligerDialog.open({
-                    content: '<form method="post"></form>',
+                    content: '<form method="post" onsubmit="return false"></form>',
                     title: lang('CONTROLLER_NAME_ADMIN,LOGIN'),
                     width: 300,
                     height: 200
