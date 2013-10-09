@@ -234,6 +234,21 @@ function q2o(querystring) {
 }
 
 /**
+ * 刷新验证码
+ *
+ * @author          mrmsl <msl-138@163.com>
+ * @date            2013-10-09 08:51:10
+ *
+ * @param {object} img 验证码图片
+ *
+ * @return {void} 无返回值
+ */
+function refreshVerifyCode(img) {
+    img = $(img);
+    img.attr('src', getActionUrl('verifycode?module=' + img.attr('data-module') + '&_c=' + Math.random()));
+}
+
+/**
  * 设置或取消加载中提示
  *
  * @author          mrmsl <msl-138@163.com>
