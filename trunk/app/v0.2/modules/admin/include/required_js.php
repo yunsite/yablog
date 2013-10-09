@@ -15,6 +15,7 @@
 return array(
     //第三方核心
     'jquery-1.10.2.js'      => COMMON_IMGCACHE . 'js/jquery/',          //jquery
+    'jquery.validate.js'    => COMMON_IMGCACHE . 'js/jquery/plugins/validate/',  //jquery validate
     'underscore.js'         => COMMON_IMGCACHE . 'js/underscore/',      //underscore.js
     'backbone.js'           => COMMON_IMGCACHE . 'js/backbone/',        //backbone.js
     'ligerui.js'            => COMMON_IMGCACHE . 'js/ligerui/js/',      //ligerui框架
