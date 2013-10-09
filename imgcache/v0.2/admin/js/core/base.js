@@ -13,6 +13,57 @@
 define('core/base', ['core/router'], function(require, exports, module) {
     var BASE = Base.extend({
         /**
+         * 异步操作
+         *
+         * @author          mrmsl <msl-138@163.com>
+         * @date            2013-10-09 17:27:11
+         *
+         * @param {string} action 操作方法
+         * @param {string} data 请求数据
+         * @param {object} [options] 相关设置
+         *
+         * @return {void} 无返回值
+         */
+        _ajax: function(action, data, options) {
+            options = options || {};
+
+            var defaults = {
+                beforeSend: function () {
+                    setLoading();
+                },
+                _error: function (msg) {
+                    Alert(msg || lang('SERVER_ERROR'), false);
+                },
+                success: function (data) {
+                    var msg = data && data.msg ? data.msg : null;
+
+                    if (data.success) {
+                        Alert(msg || options.msg || L('OPERATE,SUCCESS'))
+                    }
+                    else {
+                        this._error(msg);
+                    }
+                },
+                error: function() {
+                    this._error();
+                }
+            };
+
+            defaults = $.extend(defaults, options);
+
+            $.ajax({
+                url: getActionUrl(action),
+                type: 'post',
+                dataType: 'json',
+                data: data,
+                beforeSend: defaults.beforeSend,
+                _error: defaults._error,
+                error: defaults.error,
+                success: defaults.success
+            });
+        },//end _ajax
+
+        /**
          * 各种ligerTextBox表单域
          *
          * @author              mrmsl <msl-138@163.com>
