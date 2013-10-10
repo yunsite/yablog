@@ -113,7 +113,7 @@ function Alert(msg, success, cancel, timeout) {
         var width = div.width();
         width = width < 100 ? 100 : (width > 600 ? 600 : width);
         div.show().css({
-            height: 'auto',
+            top: $(window).scrollTop(),
             width: width,
             'margin-left': -width / 2,
             'text-align': width >= 600 ? 'center' : 'left'
