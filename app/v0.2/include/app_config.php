@@ -121,7 +121,7 @@ define('VERIFY_CODE_TYPE_ALPHANUMERIC_EXTEND', 5);  //字母与数字(a-xA-Z0-9)
 
 //杂项定义
 define('REQUEST_TIME_MICRO'    , microtime(true));          //开始执行时间
-define('SESSION_VERIFY_CODE'   , 'verify_code');            //验证码session key值
+define('SESSION_VERIFY_CODE'   , '_verify_code');            //验证码session key值
 define('AUTO_CREATE_COMMENT'   , '//后台自动生成，请毋修改' . PHP_EOL . '//最后更新时间:%s' . PHP_EOL);  //后台生成缓存文件注释说明
 define('__GET'                 , isset($_GET['__get']) && APP_DEBUG);                       //调试模式下，通过$_GET获取_POST数据
 define('TAOBAO_IP_API'         , 'http://ip.taobao.com/service/getIpInfo.php?ip=');         //淘宝ip数据库接口地址
