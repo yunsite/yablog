@@ -28,13 +28,13 @@ define('core/base', ['core/router'], function(require, exports, module) {
             options = options || {};
 
             var defaults = {
-                beforeSend: function () {
+                beforeSend: function () {//请求开始
                     setLoading();
                 },
-                _error: function (msg) {
+                _error: function (msg) {//默认错误处理
                     Alert(msg || lang('SERVER_ERROR'), false);
                 },
-                success: function (data) {
+                success: function (data) {//请求成功
                     var msg = data && data.msg ? data.msg : null;
 
                     if (data.success) {
@@ -44,7 +44,7 @@ define('core/base', ['core/router'], function(require, exports, module) {
                         this._error(msg);
                     }
                 },
-                error: function() {
+                error: function() {//请求错误
                     this._error();
                 }
             };
