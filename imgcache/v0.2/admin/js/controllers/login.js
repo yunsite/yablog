@@ -81,7 +81,11 @@ define('login', ['core/base'], function(require, exports, module) {
             var me = this;
 
             this._ligerFormObj = this._win.dialog.content.children('form').ligerForm({
-                validate : true,
+                validate: {
+                    submitHandler: function() {
+                        me._submit();
+                    }
+                },
                 labelAlign: 'right',
                 labelWidth: 50,
                 inputWidth: 120,
@@ -129,7 +133,7 @@ define('login', ['core/base'], function(require, exports, module) {
             if (!this._win) {//未定义
 
                 this._win = $.ligerDialog.open({
-                    content: '<form method="post" onsubmit="return false"></form>',
+                    content: '<form></form>',
                     title: lang('CONTROLLER_NAME_ADMIN,LOGIN'),
                     width: 300,
                     height: 200
