@@ -100,7 +100,20 @@ define('login', ['core/base'], function(require, exports, module) {
         _submit: function() {
             var me = this;
 
-            this._ajax('login/login', this._ligerFormObj.form.serialize());
+            this._ajax('login/login', this._ligerFormObj.form.serialize(), {
+                _success: function() {//登录成功
+
+                    if ('undefined' != typeof LOGIN_PAGE) {//登录页
+                        location.href = System.sys_base_admin_entry;
+                        Alert(lang('LOGIN_SUCCES_TIP'), true, false, false);
+                    }
+                    else {
+                        me._win.close();
+                    }
+
+                    return false;
+                }
+            });
         },
 
         /**
