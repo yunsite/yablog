@@ -62,7 +62,7 @@ define('login', ['core/base'], function(require, exports, module) {
                 options: {
                     html: [
                         //提交按钮
-                        $('<input type="submit" class="l-button" style="width: 50px;" value="' + lang('LOGIN') + '" />').click(function() { me._submit(); }),
+                        $('<input type="submit" class="l-button" style="width: 50px;" value="' + lang('LOGIN') + '" />'),
                         ' '// + lang('SUBMIT_TIP')//ctrl + enter提交提示
                     ]
                 }
