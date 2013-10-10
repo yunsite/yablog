@@ -67,7 +67,7 @@ define('login', ['core/base'], function(require, exports, module) {
                     ]
                 }
             }];
-        },
+        },//end _formFields
 
         /**
          * 创建ligerForm登录表单
@@ -85,10 +85,7 @@ define('login', ['core/base'], function(require, exports, module) {
                 labelAlign: 'right',
                 labelWidth: 50,
                 inputWidth: 120,
-                fields: this._formFields(),
-                onRendered: function() {
-                    ctrlEnter(me._win.dialog.content, me._submit, me, true);
-                }
+                fields: this._formFields()
             });
         },
 
