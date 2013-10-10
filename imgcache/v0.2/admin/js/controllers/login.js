@@ -45,6 +45,7 @@ define('login', ['core/base'], function(require, exports, module) {
                 }
             }, {//密码
                 display: lang('PASSWORD'),
+                type: 'password',
                 name: 'password',
                 validate: {
                     required: true
