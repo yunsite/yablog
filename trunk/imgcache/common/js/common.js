@@ -115,8 +115,7 @@ function Alert(msg, success, cancel, timeout) {
         div.show().css({
             top: $(window).scrollTop(),
             width: width,
-            'margin-left': -width / 2,
-            'text-align': width >= 600 ? 'center' : 'left'
+            'margin-left': -width / 2
         });
 
         hideAlert(timeout);
