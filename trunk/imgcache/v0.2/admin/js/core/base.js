@@ -34,11 +34,15 @@ define('core/base', ['core/router'], function(require, exports, module) {
                 _error: function (msg) {//默认错误处理
                     Alert(msg || lang('SERVER_ERROR'), false);
                 },
+                _success: $.noop,
                 success: function (data) {//请求成功
                     var msg = data && data.msg ? data.msg : null;
 
                     if (data.success) {
-                        Alert(msg || options.msg || L('OPERATE,SUCCESS'))
+
+                        if (false !== this._success(data)) {
+                            Alert(msg || options.msg || lang('OPERATE,SUCCESS'))
+                        }
                     }
                     else {
                         this._error(msg);
@@ -58,6 +62,7 @@ define('core/base', ['core/router'], function(require, exports, module) {
                 data: data,
                 beforeSend: defaults.beforeSend,
                 _error: defaults._error,
+                _success: defaults._success,
                 error: defaults.error,
                 success: defaults.success
             });
