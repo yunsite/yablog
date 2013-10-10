@@ -100,7 +100,7 @@ $.ligerui.controls.Form.prototype._buliderSpaceContainer = function (field)
         out.push("<span class='l-star'>*</span>");
     }
 
-    field.tip && out.push('<span style="color: gray; margin-left: 4px;">' + field.tip + '<span>');//提示 by mashanling on 2013-10-08 13:58:06
+    field.tip && out.push('<span style="color: gray; margin-left: 4px;">' + field.tip + '</span>');//提示 by mashanling on 2013-10-08 13:58:06
 
     out.push('</li>');
     return out.join('');
