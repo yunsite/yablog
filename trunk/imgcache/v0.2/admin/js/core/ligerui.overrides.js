@@ -77,6 +77,31 @@ if ($.fn.ligerGrid) {
     });
 }
 
+if ($.fn.ligerForm) {
+    $.extend($.ligerDefaults.Form, {
+        validate: {
+            //源代码在输入框首次失去焦点后，未清除掉错误样式，原因见下
+            success: function (lable, element)
+            {
+                //if (!lable.attr("for")) return;
+                //var element = $("#" + lable.attr("for"));//原因在此，首次返回空，增加element参数，把这行及上一行干掉即可
+
+                var element = $(element);
+
+                if (element.hasClass("l-textarea"))
+                {
+                    element.removeClass("l-textarea-invalid");
+                }
+                else if (element.hasClass("l-text-field"))
+                {
+                    element.parent().removeClass("l-text-invalid");
+                }
+                $(element).removeAttr("title").ligerHideTip();
+            }
+        }
+    });
+}
+
 //_buliderSpaceContainer重写,支持在输入框后增加提示文字 by mashanling on 2013-10-08 14:00:35
 //保留源代码格式,方便版本变更对比
 $.ligerui.controls.Form.prototype._buliderSpaceContainer = function (field)
