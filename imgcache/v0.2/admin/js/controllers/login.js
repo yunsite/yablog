@@ -81,11 +81,11 @@ define('login', ['core/base'], function(require, exports, module) {
             var me = this;
 
             this._ligerFormObj = this._win.dialog.content.children('form').ligerForm({
-                validate: {
+                validate: $.extend({}, $.ligerDefaults.Form.validate, {
                     submitHandler: function() {
                         me._submit();
                     }
-                },
+                }),
                 labelAlign: 'right',
                 labelWidth: 50,
                 inputWidth: 120,
