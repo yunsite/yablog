@@ -104,18 +104,15 @@ function Alert(msg, success, cancel, timeout) {
             }).appendTo($('body')).hide();
         }
         else {
-            div.html(msg).width('auto').css({
+            div.html(msg).css({
                 'background-color': background,
                 color: color
             });
         }
 
-        var width = div.width();
-        width = width < 100 ? 100 : (width > 600 ? 600 : width);
         div.show().css({
             top: $(window).scrollTop(),
-            width: width,
-            'margin-left': -width / 2
+            'margin-left': -div.width() / 2
         });
 
         hideAlert(timeout);
