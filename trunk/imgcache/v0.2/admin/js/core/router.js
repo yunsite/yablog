@@ -39,9 +39,9 @@ define('core/router', [], function(require, exports, module) {
             var tree    = require('core/tree'),
                 tab     = require('core/tabs').get('_ligerTab');
 
+            C = A = 'index';
             tree.get('_el').find('div.l-body.l-selected').removeClass('l-selected');
             'index' != tab.getSelected().attr('tabid') && tab.selectTabItem('index');
-            C = A = 'index';
             this.setPageTitle('index', 'index');
             this.navigate('');
         },
