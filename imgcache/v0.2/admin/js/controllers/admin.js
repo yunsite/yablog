@@ -184,10 +184,7 @@ define('admin', [], function(require, exports, module) {
                     html.push(' </div>');
                             grid.children('.l-grid-loading').after(html.join(''));
                     grid.topbar = grid.children('.l-panel-topbar').children('.l-panel-bbar-inner');
-                    grid.topbar.find('input[data-type=datetime]').ligerDateEditor({
-                        format: 'yyyy-MM-dd hh:mm',
-                        showTime: true
-                    });
+                    grid.topbar.find('input[data-type=datetime]').ligerDateEditor();
                     grid.topbar.children('.combotree').children('input').ligerComboBox({
                         tree: {
                             checkbox: false,
@@ -231,7 +228,7 @@ define('admin', [], function(require, exports, module) {
                             if (10 == e.keyCode || 13 == e.keyCode) {
                                 var values = {};
 
-                                $.each(o.grid.topbar.find('input[data-ligerui]'), function() {
+                                $.each(grid.topbar.find('input[data-ligerui]'), function() {
                                     var g           = $(this),
                                         plugin      = g.attr('data-ligerui').capitalize(),
                                         name        = g.attr('name');
@@ -245,7 +242,8 @@ define('admin', [], function(require, exports, module) {
                                 });
 
                                 $.extend(queryParams, values);
-                                require('core/router').navigate(o2q(queryParams), true);
+                                me._listgrid.reload();
+                                require('core/router').navigate(o2q(queryParams));
                             }
                         })
                         .ligerTextBox();
