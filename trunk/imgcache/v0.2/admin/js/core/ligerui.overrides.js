@@ -217,3 +217,28 @@ $.extend($.fn,{
         }
     }//end ligerDisplayField
 });
+
+if ($.fn.ligerDateEditor) {
+    $.extend($.ligerMethos.DateEditor, {
+        showDate: function ()
+        {
+            var g = this, p = this.options;
+            if (!this.currentDate) return;
+            this.currentDate.hour = parseInt(g.toolbar.time.hour.html(), 10);
+            this.currentDate.minute = parseInt(g.toolbar.time.minute.html(), 10);
+            var dateStr = this.currentDate.year + '/' + this.currentDate.month + '/' + this.currentDate.date + ' ' + this.currentDate.hour + ':' + this.currentDate.minute;
+            //增加这句，支持到秒
+            dateStr += ':' + new Date().getSeconds();
+            var myDate = new Date(dateStr);
+            dateStr = g.getFormatDate(myDate);
+            this.inputText.val(dateStr);
+            this.onTextChange();
+        }
+    });
+    $.extend($.ligerDefaults.DateEditor, {
+        format: 'yyyy-MM-dd hh:mm:ss',
+        width: 140,
+        cancelable: false,
+        showTime: true
+    });
+}
