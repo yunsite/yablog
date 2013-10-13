@@ -239,7 +239,7 @@ define('core/tabs', ['core/base', 'core/tree'], function(require, exports, modul
                 onBeforeSelectTabItem: function() {
                     this._prevSelectedTabId = this.selectedTabId;
                 },
-                onAfterItemClick: function(selectedTabId) {log(this._prevSelectedTabId , selectedTabId);
+                onAfterItemClick: function(selectedTabId) {//log(this._prevSelectedTabId , selectedTabId);
 
                     var router = require('core/router');
 
@@ -251,7 +251,7 @@ define('core/tabs', ['core/base', 'core/tree'], function(require, exports, modul
                         .click();
 
                         if (getHash() != o2q(TREE_DATA.queryParams)) {
-                            log(getHash(), o2q(TREE_DATA.queryParams));
+                            //log(getHash(), o2q(TREE_DATA.queryParams));
                             router.navigate(o2q(TREE_DATA.queryParams), true);
                         }
                     }
@@ -263,7 +263,7 @@ define('core/tabs', ['core/base', 'core/tree'], function(require, exports, modul
                 },
                 onAfterSelectTabItem: function() {
 
-                    if (!global('clickTabItem') && !global('clickTree')) {
+                    if (!global('clickTabItem') && !global('clickTree')  || global('clickTree') && this.isTabItemExist(C)) {
                         this.tab.content.children('#' + C + A).show();
                     }
                 }
