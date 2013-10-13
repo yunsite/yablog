@@ -1,6 +1,6 @@
 <?php
 //后台自动生成，请毋修改
-//最后更新时间:2013-09-28 15:24:29
+//最后更新时间:2013-10-13 09:25:52
 
 return array (
   1 => 
@@ -11,9 +11,9 @@ return array (
     'password' => 'f24e51f404c022c3992c86b2045faa09',
     'realname' => 'mrmsl',
     'add_time' => '1312884140',
-    'last_login_time' => 1380353069,
+    'last_login_time' => 1381627552,
     'last_login_ip' => '127.0.0.1',
-    'login_num' => 696,
+    'login_num' => 699,
     'is_restrict' => '0',
     'mac_address' => '00:E0:66:21:F0:C9',
     'lock_start_time' => 0,
