@@ -212,14 +212,35 @@ class Filter {
      *
      * @param int   $count     总数
      * @param mixed $page      当前页或变量名。默认page
-     * @param mixed $page_size 每页大小或变量名。默认limit
+     * @param mixed $page_size 每页大小或变量名。默认page_size
      *
      * @return array 包含了当前页、总页数、偏移量数组
      */
-    static public function page($count, $page = 'page', $page_size = 'limit') {
-        $page_size      = is_int($page_size) ? $page_size : self::int($page_size, 'get', PAGE_SIZE);
+    static public function page($count, $page = 'page', $page_size = 'page_size') {
+
+        if (!is_int($page_size)) {
+
+            if ($page_size = self::int($page_size, 'post')) {//_POST优先
+            }
+            else {
+                $page_size = self::int($page_size, 'get', PAGE_SIZE);
+            }
+        }
+
         $total_page     = ceil($count / $page_size);
-        $origin_page    = is_numeric($page) ? $page : self::int($page, 'get', 1);//未处理过页数
+
+        if (is_int($page)) {
+            $origin_page = $page;
+        }
+        else {
+
+            if ($origin_page = self::int($page, 'post')) {//_POST优先
+            }
+            else {
+                $origin_page = self::int($page, 'get', 1);
+            }
+        }
+
         $page           = $origin_page < 1 ? 1 : $origin_page;
         $page           = $page > $total_page ? $total_page : $page;
         $page           = $page < 1 ? 1 : $page;
@@ -231,7 +252,7 @@ class Filter {
             'total_page'    => $total_page,
             'limit'         => $limit
         );
-    }
+    }//end page
 
     /**
      * 用$_GET或$_POST处理字符串请求变量
