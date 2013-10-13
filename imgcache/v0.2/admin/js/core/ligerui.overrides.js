@@ -218,6 +218,7 @@ $.extend($.fn,{
     }//end ligerDisplayField
 });
 
+//时间控件
 if ($.fn.ligerDateEditor) {
     $.extend($.ligerMethos.DateEditor, {
         showDate: function ()
@@ -240,5 +241,12 @@ if ($.fn.ligerDateEditor) {
         width: 140,
         cancelable: false,
         showTime: true
+    });
+}
+
+//combobox
+if ($.fn.ligerComboBox) {
+    $.extend($.ligerDefaults.ComboBox, {
+        cancelable: false
     });
 }
