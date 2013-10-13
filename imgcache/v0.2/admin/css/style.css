@@ -27,6 +27,9 @@ body { background: #EAEEF5; padding: 0; margin: 0; overflow: hidden; }
 .operate.toolbar { border: none; }
 .operate.toolbar > div.l-panel-btn { margin-top: 4px; }
 
+/*弹出对话框内容，强制换行，防止出现滚动条*/
+.dialog-break-word .l-dialog-content { word-wrap: break-word; overflow: hidden;}
+
 /*通用*/
 
 /*字体大小*/

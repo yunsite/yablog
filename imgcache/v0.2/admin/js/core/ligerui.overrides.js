@@ -102,6 +102,12 @@ if ($.fn.ligerForm) {
     });
 }
 
+if ($.ligerDialog) {
+    $.extend($.ligerDefaults.Dialog, {
+        cls: 'dialog-break-word'//弹出对话框内容，强制换行，防止出现滚动条
+    });
+}
+
 //_buliderSpaceContainer重写,支持在输入框后增加提示文字 by mashanling on 2013-10-08 14:00:35
 //保留源代码格式,方便版本变更对比
 $.ligerui.controls.Form.prototype._buliderSpaceContainer = function (field)
