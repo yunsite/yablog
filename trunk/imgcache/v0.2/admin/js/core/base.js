@@ -13,6 +13,10 @@
 define('core/base', ['core/router'], function(require, exports, module) {
     var BASE = Base.extend({
         /**
+         * @cfg {object} [_listgrid=null] 列表grid
+         */
+        _listgrid: null,
+        /**
          * 异步操作
          *
          * @author          mrmsl <msl-138@163.com>

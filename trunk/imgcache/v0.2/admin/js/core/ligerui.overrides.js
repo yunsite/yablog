@@ -62,6 +62,39 @@ if ($.fn.ligerTab) {
 }
 
 if ($.fn.ligerGrid) {
+    $.extend($.ligerMethos.Grid, {
+        /**
+         * 改变每页大小
+         *
+         * @author          mrmsl <msl-138@163.com>
+         * @date            2013-10-13 12:25:31
+         *
+         * @param {int} pageSize 大小
+         * @param {object} queryParams 列表查询参数
+         *
+         * return {void} 无返回值
+         */
+        changePageSize: function(pageSize, queryParams) {
+            var options = this.options;
+
+            if (this.isDataChanged && 'local' != options.dataAction && !confirm(options.isContinueByDataChanged)) {
+                return;
+            }
+
+            options.newPage = 1;
+            options.pageSize = pageSize;
+            this.loadData(options.where);
+
+            $.extend(queryParams, {
+                page_size: pageSize,
+                page: 1
+            });
+
+            seajs.require('core/router').navigate(o2q(queryParams));
+        }
+
+    });
+
     $.extend($.ligerDefaults.Grid, {
         root: 'data',
         record: 'total',
