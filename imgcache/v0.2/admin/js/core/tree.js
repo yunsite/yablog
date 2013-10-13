@@ -78,13 +78,20 @@ define('core/tree', ['core/base'], function(require, exports, module) {
                         var controller  = item.controller,
                             action      = item.action;
 
-                        item.queryParams = {
+                        item.queryParams = {//查询参数
                             controller: controller,
                             action: action
                         };
                         me._treeData[item['menu_id']] = item;
                         me._treeData[controller + action] = item['menu_id'];
                     });
+
+                    var hash = getHash();
+
+                    if (hash) {//url中含有查询参数，覆盖默认树节点数据queryParams
+                        hash = q2o(hash);
+                        me._treeData[me._treeData[hash.controller + hash.action]].queryParams = hash;
+                    }
 
                     require('core/router').notifyTreeLoaded();
                 },
