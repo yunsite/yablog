@@ -200,8 +200,8 @@ class AdminController extends CommonController {
         $order          = Filter::string('order');//排序
         $order          = toggle_order($order);
         $keyword        = Filter::string('keyword');//关键字
-        $date_start     = Filter::string('date_start');//注册开始时间
-        $date_end       = Filter::string('date_end');//注册结束时间
+        $start_date     = Filter::string('start_date');//注册开始时间
+        $end_date       = Filter::string('end_date');//注册结束时间
         $role_id        = Filter::int('role_id');//所属管理组
         $column         = Filter::string('column');//搜索字段
         $is_lock        = Filter::int('is_lock');//锁定
@@ -212,12 +212,12 @@ class AdminController extends CommonController {
             $where['a.' . $column] = $this->_buildMatchQuery('a.' . $column, $keyword, Filter::string('match_mode'));
         }
 
-        if ($date_start && ($date_start = strtotime($date_start))) {
-            $where['a.add_time'][] = array('EGT', $date_start);
+        if ($start_date && ($start_date = strtotime($start_date))) {
+            $where['a.add_time'][] = array('EGT', $start_date);
         }
 
-        if ($date_end && ($date_end = strtotime($date_end))) {
-            $where['a.add_time'][] = array('ELT', $date_end);
+        if ($end_date && ($end_date = strtotime($end_date))) {
+            $where['a.add_time'][] = array('ELT', $end_date);
         }
 
         if (isset($where['a.add_time']) && count($where['a.add_time']) == 1) {
