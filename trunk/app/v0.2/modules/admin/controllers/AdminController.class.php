@@ -189,28 +189,27 @@ class AdminController extends CommonController {
      *
      * @author          mrmsl <msl-138@163.com>
      * @date            2012-12-26 14:22:09
-     * @lastmodify      2013-01-21 15:46:28 by mrmsl
      *
      * @return void 无返回值
      */
     public function listAction() {
         $db_fields      = $this->_getDbFields();//表字段
         $db_fields      = array_filter($db_fields, create_function('$v', 'return strpos($v, "_") !== 0;'));//过滤_开头
-        $sort           = Filter::string('sort', 'get', $this->_pk_field);//排序字段
-        $sort           = in_array($sort, $db_fields) || $sort == 'is_lock' ? $sort : $this->_pk_field;
-        $order          = empty($_GET['dir']) ? Filter::string('order', 'get') : Filter::string('dir', 'get');//排序
+        $sort           = Filter::string('sort', 'post', $this->_pk_field);//排序字段
+        $sort           = in_array($sort, $db_fields) || 'is_lock' == $sort ? $sort : $this->_pk_field;
+        $order          = Filter::string('order');//排序
         $order          = toggle_order($order);
-        $keyword        = Filter::string('keyword', 'get');//关键字
-        $date_start     = Filter::string('date_start', 'get');//注册开始时间
-        $date_end       = Filter::string('date_end', 'get');//注册结束时间
-        $role_id        = Filter::int('role_id', 'get');//所属管理组
-        $column         = Filter::string('column', 'get');//搜索字段
-        $is_lock        = Filter::int('is_lock', 'get');//锁定
-        $is_restrict    = Filter::int('is_restrict', 'get');//绑定登陆 by mrmsl on 2012-09-15 11:53:58
+        $keyword        = Filter::string('keyword');//关键字
+        $date_start     = Filter::string('date_start');//注册开始时间
+        $date_end       = Filter::string('date_end');//注册结束时间
+        $role_id        = Filter::int('role_id');//所属管理组
+        $column         = Filter::string('column');//搜索字段
+        $is_lock        = Filter::int('is_lock');//锁定
+        $is_restrict    = Filter::int('is_restrict');//绑定登陆 by mrmsl on 2012-09-15 11:53:58
         $where          = array();
 
         if ($keyword !== '' && in_array($column, array('username', 'realname'))) {
-            $where['a.' . $column] = $this->_buildMatchQuery('a.' . $column, $keyword, Filter::string('match_mode', 'get'));
+            $where['a.' . $column] = $this->_buildMatchQuery('a.' . $column, $keyword, Filter::string('match_mode'));
         }
 
         if ($date_start && ($date_start = strtotime($date_start))) {
