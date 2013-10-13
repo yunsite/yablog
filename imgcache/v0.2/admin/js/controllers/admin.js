@@ -14,6 +14,53 @@ define('admin', [], function(require, exports, module) {
     var Base    = require('core/base');
     var Admin   = Base.extend({
         /**
+         * 顶部工具栏
+         *
+         * @author          mrmsl <msl-138@163.com>
+         * @date            2013-10-13 21:51:16
+         *
+         * return {array} 工具栏组件配置
+         */
+        _toolbar: function() {
+            var me = this;
+
+            return [{//操作
+                cls: 'operate toolbar',
+                text: ''
+            }, true, lang('ADD,TIME,CN_CONG'), {
+                name: 'start_date',//添加时间,开始
+                attrs: {
+                    'data-type': 'datetime',
+                    'data-ligerui': 'dateEditor'
+                }
+            }, lang('TO'), {
+                name: 'end_date',//添加时间,结束
+                attrs: {
+                    'data-type': 'datetime',
+                    'data-ligerui': 'dateEditor'
+                }
+            }, true, {
+                name: 'menu_id',
+                cls: 'combotree',
+                attrs: {
+                    'data-ligerui': 'comboBox'
+                }
+            }, {
+                cls: 'role',
+                name: 'role_id',//所属角色
+                attrs: {
+                    'data-ligerui': 'comboBox'
+                }
+            }, {
+                cls: 'keyword',
+                name: 'keyword',//关键字
+                attrs: {
+                    nullText: lang('KEYWORD'),
+                    'data-ligerui': 'textBox'
+                }
+            }];
+        },
+        /**
          * 构造函数
          *
          * @author          mrmsl <msl-138@163.com>
@@ -93,7 +140,7 @@ define('admin', [], function(require, exports, module) {
                 start_date: Q2O.start_date || '',//添加时间,开始
                 end_date: Q2O.end_date || '',//添加时间,结束
                 keyword: Q2O.keyword || '',//关键字
-                role_id: Q2O.role_id || '',//角色id
+                role_id: Q2O.role_id || 0,//角色id
                 column: Q2O.column || 'username',//搜索字段
                 match_mode: Q2O.match_mode || 'eq',//匹配模式
                 is_lock: undefined === Q2O.is_lock ? -1 : Q2O.is_lock,//锁定状态
@@ -106,7 +153,7 @@ define('admin', [], function(require, exports, module) {
 
             var prevQueryParams = _.clone(queryParams);
 
-            queryParams.sort && $.extend(queryParams, defaults);
+            $.extend(queryParams, defaults);
 
             var options = {
                 parms: queryParams,
@@ -136,12 +183,12 @@ define('admin', [], function(require, exports, module) {
                         this.toolbar.find('select').val(options.pageSize);
                         //log(this.toolbar.find('select'));
                     },
-                    onChangeSort: function(sort, order) {log(require('core/tree').getData(C, A).queryParams.sort);
+                    onChangeSort: function(sort, order) {
                         $.extend(queryParams, {
                             sort: sort,
                             order: order
                         });
-                        require('core/router').navigate(o2q(queryParams));log(require('core/tree').getData(C, A).queryParams.sort);
+                        require('core/router').navigate(o2q(queryParams));
                     },
                     heightDiff: -30,
                     fixedCellHeight: false,
@@ -162,28 +209,11 @@ define('admin', [], function(require, exports, module) {
                         this.options.parms[this.options.pageParmName] = page;
                         require('core/router').navigate(o2q(this.options.parms));
                     },
+                    topBar: this._toolbar(),
                     onRendered: function() {
                         var g       = this,
                             grid    = this.grid;
-                            html    = [];
 
-                    html.push(' <div class="l-panel-topbar">');
-                    html.push('     <div class="l-panel-bbar-inner">');
-                    html.push('         <div class="l-bar-group  l-bar-message"><span class="l-bar-text"></span></div>');
-                    html.push('         <div class="l-bar-group operate toolbar"></div>');
-                    html.push('         <div class="l-bar-separator"></div>');
-                    html.push('         <div class="l-bar-group">添加时间从</div>');
-                    html.push('         <div class="l-bar-group"><input type="text" data-type="datetime" name="start_date" data-ligerui="dateEditor" size="8" /></div>');
-                    html.push('         <div class="l-bar-group">到</div>');
-                    html.push('         <div class="l-bar-group"><input type="text" data-type="datetime" name="end_date" data-ligerui="dateEditor" size="8" /></div>');
-                    html.push('         <div class="l-bar-separator"></div>');
-                    html.push('         <div class="l-bar-group combotree"><input type="text" name="menu_id" data-ligerui="comboBox" /></div>');
-                    html.push('         <div class="l-bar-group role"><input type="text" name="role_id" data-ligerui="comboBox" /></div>');
-                    html.push('         <div class="l-bar-group keyword"><input type="text" name="keyword" nullText="关键字" data-ligerui="textBox" /></div>');
-                    html.push('     </div>');
-                    html.push(' </div>');
-                            grid.children('.l-grid-loading').after(html.join(''));
-                    grid.topbar = grid.children('.l-panel-topbar').children('.l-panel-bbar-inner');
                     grid.topbar.find('input[data-type=datetime]').ligerDateEditor();
                     grid.topbar.children('.combotree').children('input').ligerComboBox({
                         tree: {
@@ -208,7 +238,7 @@ define('admin', [], function(require, exports, module) {
                         }
                     });
                     grid.topbar.children('.role').children('input').ligerComboBox({
-                        initValue: 0,
+                        initValue: 1,
                         data: [{
                             id: 0,
                             text: '所属角色'
@@ -242,6 +272,7 @@ define('admin', [], function(require, exports, module) {
                                 });
 
                                 $.extend(queryParams, values);
+                                $.extend(me._listgrid.options.parms, queryParams);
                                 me._listgrid.reload();
                                 require('core/router').navigate(o2q(queryParams));
                             }
@@ -317,7 +348,7 @@ define('admin', [], function(require, exports, module) {
             else if(o2q(prevQueryParams) != o2q(queryParams)) {
                 $.extend(this._listgrid.options, options);
                 this._listgrid.reload();
-            }
+            }o2q(prevQueryParams) != o2q(queryParams);
         }
     });
 
