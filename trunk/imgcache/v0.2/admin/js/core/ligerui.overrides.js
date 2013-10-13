@@ -91,8 +91,72 @@ if ($.fn.ligerGrid) {
             });
 
             seajs.require('core/router').navigate(o2q(queryParams));
-        }
+        },
 
+        /**
+         * 顶部工具栏配置,转object为html
+         *
+         * @author          mrmsl <msl-138@163.com>
+         * @date            2013-10-13 22:26:01
+         *
+         * @param {array} items 工具栏配置
+         *
+         * return {void} 无返回值
+         */
+        _setTopBar: function (items) {
+            var g       = this,
+                grid    = this.grid;
+                html    = [];
+
+            html.push(' <div class="l-panel-topbar">');
+            html.push('     <div class="l-panel-bbar-inner">');
+            html.push('         <div class="l-bar-group  l-bar-message"><span class="l-bar-text"></span></div>');
+
+            $.each(items, function(index, item) {
+
+                switch (typeof(item)) {
+                    case 'boolean'://分割
+                        html.push('<div class="l-bar-separator"></div>');
+                        break;
+
+                    case 'string'://文本
+                        html.push('<div class="l-bar-group">' + item + '</div>');
+                        break;
+
+                    case 'object'://object
+                        html.push('<div class="l-bar-group' + (item.cls ? ' ' + item.cls : '') + '">');
+
+                        if ('string' == typeof(item.text)) {
+                            html.push(item.text);
+                        }
+                        else {
+                            html.push('<input type="text" name="' + item.name + '"');
+
+                            if (item.attrs) {//属性
+
+                                if ('string' == typeof(item.attrs)) {
+                                    html.push(item.attrs);
+                                }
+                                else {
+                                    $.each(item.attrs, function(k, v) {
+                                        html.push(k, '="', v, '"');
+                                    });
+                                }
+                            }
+
+                            html.push(' />');
+                        }
+
+                        html.push('</div>');
+                        break;
+                }//end switch
+            });
+
+            html.push('     </div>');
+            html.push(' </div>');
+            grid.children('.l-grid-loading').after(html.join(''));
+            grid.topbar = grid.children('.l-panel-topbar').children('.l-panel-bbar-inner');
+        }//end _setTopBar
     });
 
     $.extend($.ligerDefaults.Grid, {
