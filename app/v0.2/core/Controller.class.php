@@ -333,7 +333,7 @@ class Controller {
 
         if ($this->_init_model) {//实例对应模型
 
-            if (is_file(APP_PATH . 'models/' . $this->_getControllerName() . 'Model' . PHP_EXT)) {
+            if (is_file(APP_PATH . 'models/' . $this->_getControllerName() . 'Model' . PHP_EXT) || is_file(LIB_PATH . $this->_getControllerName() . 'Model' . PHP_EXT)) {
                 $this->_model = D($this->_getControllerName());//模型
             }
             else {

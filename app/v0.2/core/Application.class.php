@@ -55,16 +55,15 @@ class Application {
             CORE_PATH . 'Filter' . PHP_EXT,         //参数验证及过滤类
             CORE_PATH . 'Db' . PHP_EXT,             //Db类
             CORE_PATH  . 'drivers/db/Db' . ucfirst(DB_TYPE) . PHP_EXT,//数据库驱动类
-            LIB_PATH . 'SVNDiff' . PHP_EXT,        //仿svn比较字符内容差异类
+
+            LIB_PATH . 'BaseModel' . PHP_EXT,       //底层基础模型类
+            LIB_PATH . 'SVNDiff' . PHP_EXT,         //仿svn比较字符内容差异类
+
+            APP_PATH . '/controllers/CommonController' . PHP_EXT,   //当前模块通用控制器
+            APP_PATH . '/models/CommonModel' . PHP_EXT,             //当前模块通用模型
+
+            LIB_PATH . 'LogModel' . PHP_EXT,        //日志模型,extends CommonModel
         );
-
-        if (is_file($filename = LIB_PATH . 'BaseController' . PHP_EXT)) {//项目底层控制器类
-            $require_files[] = $filename;
-        }
-
-        if (is_file($filename = LIB_PATH . 'BaseModel' . PHP_EXT)) {//项目底层模型类
-            $require_files[] = $filename;
-        }
 
         //加载核心文件，用空间换时间
         if (APP_DEBUG) {//调试
