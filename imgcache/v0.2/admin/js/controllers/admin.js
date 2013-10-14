@@ -231,86 +231,97 @@ define('admin', [], function(require, exports, module) {
                         var g       = this,
                             grid    = this.grid;
 
-                    grid.topbar.find('input[data-type=datetime]').ligerDateEditor();
-                    grid.topbar.children('.combotree').children('input').ligerComboBox({
-                        tree: {
-                            checkbox: false,
-                            needCancel: false,
-                            isExpand: false,
-                            url: '../get_tree.php',
-                            textFieldName: 'menu_name',
-                            idFieldName: 'menu_id',
-                            parentIDFieldName: 'parent_id'
-                        },
-                        treeLeafOnly: false,
-                        isMultiSelect: true,
-                        isShowCheckBox: false,
-                        //slide: true,
-                        valueField: 'menu_id',
-                        textField:'menu_name',
-                        selectBoxWidth: 250,
-                        selectBoxHeight: 400,
-                        onSelected: function() {
-                            this._toggleSelectBox(true);
-                        }
-                    });
-                    grid.topbar.children('.role').children('input').ligerComboBox({
-                        initValue: 1,
-                        data: [{
-                            id: 0,
-                            text: '所属角色'
-                        }, {
-                            text: '站长',
-                            id: 1
-                        }, {
-                            text: '超级管理员',
-                            id: 2
-                        }]
-                    });
-                    grid.topbar
-                    .children('.keyword')
-                        .children('input')
-                        .on('keypress', function(e) {
-
-                            if (10 == e.keyCode || 13 == e.keyCode) {
-                                var values = {};
-
-                                $.each(grid.topbar.find('input[data-ligerui]'), function() {
-                                    var g           = $(this),
-                                        plugin      = g.attr('data-ligerui').capitalize(),
-                                        name        = g.attr('name');
-
-                                    if ('DateEditor' == plugin) {
-                                        values[name] = g.val();
-                                    }
-                                    else {
-                                        values[name] = g['ligerGet' + plugin + 'Manager']().getValue()
-                                    }
-                                });
-
-                                $.extend(queryParams, values);
-                                $.extend(me._listgrid.options.parms, queryParams);
-                                me._listgrid.reload();
-                                require('core/router').navigate(o2q(queryParams));
+                        grid.topbar.find('input[data-type=datetime]').ligerDateEditor();
+                        grid.topbar.children('.combotree').children('input').ligerComboBox({
+                            tree: {
+                                checkbox: false,
+                                needCancel: false,
+                                isExpand: false,
+                                url: '../get_tree.php',
+                                textFieldName: 'menu_name',
+                                idFieldName: 'menu_id',
+                                parentIDFieldName: 'parent_id'
+                            },
+                            treeLeafOnly: false,
+                            isMultiSelect: true,
+                            isShowCheckBox: false,
+                            //slide: true,
+                            valueField: 'menu_id',
+                            textField:'menu_name',
+                            selectBoxWidth: 250,
+                            selectBoxHeight: 400,
+                            onSelected: function() {
+                                this._toggleSelectBox(true);
                             }
-                        })
-                        .ligerTextBox();
-                    grid.topbar.children('.operate').ligerMenuBar({
-                        items: [{
-                            text: '操作',
-                            menu: {
-                                items: [{
-                                    text: '删除选中',
-                                    title: '删除',
-                                    click: function() {
-                                        log('click', arguments);
-                                    },
-                                    children: [{
+                        });
+                        grid.topbar.children('.role').children('input').ligerComboBox({
+                            initValue: 1,
+                            data: [{
+                                id: 0,
+                                text: '所属角色'
+                            }, {
+                                text: '站长',
+                                id: 1
+                            }, {
+                                text: '超级管理员',
+                                id: 2
+                            }]
+                        });
+                        grid.topbar
+                        .children('.keyword')
+                            .children('input')
+                            .on('keypress', function(e) {
+
+                                if (10 == e.keyCode || 13 == e.keyCode) {
+                                    var values = {};
+
+                                    $.each(grid.topbar.find('input[data-ligerui]'), function() {
+                                        var g           = $(this),
+                                            plugin      = g.attr('data-ligerui').capitalize(),
+                                            name        = g.attr('name');
+
+                                        if ('DateEditor' == plugin) {
+                                            values[name] = g.val();
+                                        }
+                                        else {
+                                            values[name] = g['ligerGet' + plugin + 'Manager']().getValue()
+                                        }
+                                    });
+
+                                    $.extend(queryParams, values);
+                                    $.extend(me._listgrid.options.parms, queryParams);
+                                    me._listgrid.reload();
+                                    require('core/router').navigate(o2q(queryParams));
+                                }
+                            })
+                            .ligerTextBox();
+                        grid.topbar.children('.operate').ligerMenuBar({
+                            items: [{
+                                text: '操作',
+                                menu: {
+                                    items: [{
                                         text: '删除选中',
                                         title: '删除',
                                         click: function() {
                                             log('click', arguments);
-                                        }
+                                        },
+                                        children: [{
+                                            text: '删除选中',
+                                            title: '删除',
+                                            click: function() {
+                                                log('click', arguments);
+                                            }
+                                        }, {
+                                            text: '绑定登陆',
+                                            click: function() {
+                                                //log('click', arguments);
+                                            }
+                                        }, {
+                                            text: '解除绑定登陆',
+                                            click: function() {
+                                                //log('click', arguments);
+                                            }
+                                        }]
                                     }, {
                                         text: '绑定登陆',
                                         click: function() {
@@ -322,28 +333,17 @@ define('admin', [], function(require, exports, module) {
                                             //log('click', arguments);
                                         }
                                     }]
-                                }, {
-                                    text: '绑定登陆',
-                                    click: function() {
-                                        //log('click', arguments);
-                                    }
-                                }, {
-                                    text: '解除绑定登陆',
-                                    click: function() {
-                                        //log('click', arguments);
-                                    }
-                                }]
-                            }
-                        }]
-                    });
+                                }
+                            }]
+                        });
 
-                    this._reBindCangePageSize();//改变每页大小
+                        this._reBindCangePageSize();//改变每页大小
 
-                            this.gridbody.on('click', 'div.l-grid-row-cell-inner', function(e) {
-                                g.trigger('rowclick', [e]);
-                            });
-                        }
-                    }));
+                        this.gridbody.on('click', 'div.l-grid-row-cell-inner', function(e) {
+                            g.trigger('rowclick', [e]);
+                        });
+                    }//end onRendered
+                }));
             }
             else if(o2q(prevQueryParams) != o2q(queryParams)) {
                 $.extend(this._listgrid.options, options);
