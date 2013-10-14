@@ -52,7 +52,7 @@ define('admin', [], function(require, exports, module) {
                 minWidth: 50,
                 type: 'yesno'
             }];
-        },//end _columns
+        },//end _gridcolumns
 
         /**
          * 顶部工具栏
@@ -210,12 +210,11 @@ define('admin', [], function(require, exports, module) {
             if (!this._listgrid) {
                 this._listgrid = element.ligerGrid($.extend(options, {
                     onChangeSort: function(sort, order) {//完成排序回调
-                        this.options._onChangeSort(sort, order, queryParams);
+                        this.options._afterChangeSort(sort, order, queryParams);
                     },
-
                     columns: this._gridcolumns(),//列
                     url: this._getActionUrl(),
-                    topBar: this._toolbar(),
+                    topBar: this._toolbar(),//顶部工具栏
                     onRendered: function() {
                         var g       = this,
                             grid    = this.grid;
