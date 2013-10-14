@@ -3,12 +3,12 @@
  * 系统日志模型
  *
  * @file            LogModel.class.php
- * @package         Yab\Module\Admin\Model
+ * @package         Yab\Model
  * @version         0.2
  * @copyright       Copyright (c) 2013 {@link http://www.yablog.cn yablog} All rights reserved
  * @license         http://www.apache.org/licenses/LICENSE-2.0.html Apache License 2.0
  * @author          mrmsl <msl-138@163.com>
- * @date            2012-12-26 15:01:44
+ * @date            2013-10-14 09:15:54
  * @lastmodify      $Date$ $Author$
  */
 
@@ -17,10 +17,10 @@ class LogModel extends CommonModel {
      * @var array $_auto 自动填充
      */
     protected $_auto = array(
-        'log_time'     => 'time',
+        'add_time'     => 'time',
         'user_ip'      => 'get_client_ip#1',
-        'admin_id'     => '_getAdminId',
-        'admin_name'   => '_getAdminName',
+        'user_id'      => '_getUserId',
+        'username'     => '_getUsername',
         'page_url'     => '_getPageUrl',
         'referer_url'  => '_getRefererUrl',
     );
@@ -28,15 +28,9 @@ class LogModel extends CommonModel {
      * @var array $_db_fields 表字段
      */
     protected $_db_fields = array (
-        'log_id'         => null,//自增id
-        'content'        => null,//日志内容
-        'log_type'       => null,//日志类型
-        'log_time'       => null,//日志时间
-        'page_url'       => null,//日志页面
-        'referer_url'    => null,//来路页面
-        'user_ip'        => null,//管理员ip
-        'admin_id'       => null,//管理员id
-        'admin_name'     => null,//管理员姓名
+        'log_id'            => null,//自增id
+        'content'           => null,//日志内容
+        'type'              => null,//日志类型
     );
     /**
      * @var string $_pk_field 数据表主键字段名称。默认log_id
@@ -48,17 +42,14 @@ class LogModel extends CommonModel {
     protected $_true_table_name = TB_LOG;//表
 
     /**
-     * 获取管理员姓名
+     * 获取用户名
      *
      * @author          mrmsl <msl-138@163.com>
-     * @date            2012-07-09 11:11:54
-     * @lastmodify      2013-01-22 11:46:27 by mrmsl
+     * @date            2013-10-14 09:18:24
      *
-     * @return string 管理员姓名
+     * @return string 后台返回管理员真实姓名,前台返回空字符串
      */
-    protected function _getAdminName() {
-        $admin_info = C(SESSION_ADMIN_KEY);
-
-        return $admin_info ? $admin_info['realname'] : '';
+    protected function _getUsername() {
+        return 'admin' == MODULE_NAME ? C(SESSION_ADMIN_KEY . '.realname', null, '') : '';
     }
 }

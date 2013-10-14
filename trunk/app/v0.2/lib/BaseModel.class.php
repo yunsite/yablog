@@ -502,14 +502,13 @@ class BaseModel extends Model {
     }//end __construct
 
 	   /**
-     * 添加系统操作日志
+     * 添加系统日志
      *
      * @author          mrmsl <msl-138@163.com>
      * @date            2012-12-26 12:47:11
-     * @lastmodify      2013-01-22 11:23:55 by mrmsl
      *
-     * @param string $content   日志内容。默认''，取db最后执行sql
-     * @param int    $log_type  日志类型。默认LOG_TYPE_ADMIN_OPERATE，管理员操作日志
+     * @param string $content   日志内容,默认''
+     * @param int    $type      日志类型,默认LOG_TYPE_ADMIN_OPERATE，管理员操作日志
      *
      * @return void 无返回值
      */
@@ -520,6 +519,12 @@ class BaseModel extends Model {
         );
 
         $log_model = D('Log');
+
+        if (!$log_model) {
+            //trigger_error();
+            return;
+        }
+
         $log_model->autoOperation($data, Model::MODEL_INSERT);
         $log_model->add($data);
         $log_model->commit();
