@@ -15,22 +15,6 @@ if ($.fn.ligerTab) {
         getSelected: function () {
             return this.tab.links.ul.children('li.l-selected');
         },
-        _activeTab: function() {
-            log('_activeTab');return;
-            var g = this;
-            var from = g.tab.links.ul.find(">li[tabid=" + fromTabItemID + "]");
-            var to = g.tab.links.ul.find(">li[tabid=" + toTabItemID + "]");
-            var index1 = g.tab.links.ul.find(">li").index(from);
-            var index2 = g.tab.links.ul.find(">li").index(to);
-            if (index1 < index2)
-            {
-                to.after(from);
-            }
-            else
-            {
-                to.before(from);
-            }
-        },
         _addTabItemEvent: function (tabitem)
         {
             var g = this, p = this.options;
