@@ -195,6 +195,10 @@ class Application {
             cookie('lang', null);
         }
 
+        if ($languages = F('system', '', LANG_PATH)) {//系统语言包,不区分语言包,用于写系统日志
+            L($languages);
+        }
+
         define('LANG', $lang);
 
         if ($languages = F(MODULE_NAME . DS . LANG . DS . 'common', '', LANG_PATH)) {//模块通用语言包
