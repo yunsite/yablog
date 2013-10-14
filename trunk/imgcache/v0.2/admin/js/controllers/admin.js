@@ -168,30 +168,7 @@ define('admin', [], function(require, exports, module) {
 
             if (!this._listgrid) {
                 this._listgrid = element.ligerGrid($.extend(options, {
-                    selectRowButtonOnly: true,
-                    frozen: false,
-                    height: '100%',
-                    pageParmName: 'page',
-                    pagesizeParmName: 'page_size',
-                    sortnameParmName: 'sort',
-                    sortorderParmName: 'order',
-                    width: 0,
-                    onSuccess: function() {
-                        var options = this.options;
-                        this.gridheader.find('.l-grid-hd-cell-sort').remove()
-                        .end().find('td[columnname=' + options.sortName + ']').children('div').append('<span class="l-grid-hd-cell-sort l-grid-hd-cell-sort-' + options.sortOrder.toLowerCase() + '">&nbsp;&nbsp;</span>');
-                        this.toolbar.find('select').val(options.pageSize);
-                        //log(this.toolbar.find('select'));
-                    },
-                    onChangeSort: function(sort, order) {
-                        $.extend(queryParams, {
-                            sort: sort,
-                            order: order
-                        });
-                        require('core/router').navigate(o2q(queryParams));
-                    },
-                    heightDiff: -30,
-                    fixedCellHeight: false,
+
                     columns: [
                         { display: '操作', minWidth: 100, render: function() {
                             return '<a href="javascript:void(0);">编辑</a> | <a href="javascript:void(0);">删除</a>';
@@ -203,8 +180,6 @@ define('admin', [], function(require, exports, module) {
                         { display: '绑定登录', name: 'is_restrict', minWidth: 50, type: 'yesno' }
                     ],
                     url: this._getActionUrl(),
-                    rownumbers: true,
-                    checkbox: true,
                     onChangePage: function(page) {
                         this.options.parms[this.options.pageParmName] = page;
                         require('core/router').navigate(o2q(this.options.parms));
