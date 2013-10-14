@@ -180,7 +180,8 @@ if ($.fn.ligerGrid) {
         onChangePage: function(page) {//改变页数
             this.options.parms[this.options.pageParmName] = page;
             seajs.require('core/router').navigate(o2q(this.options.parms));
-        }
+        },
+        onRowClick: null//点击行事件
     });
 
     $.extend($.ligerDefaults.Grid.formatters, {//渲染字段方法
