@@ -212,6 +212,18 @@ define('admin', [], function(require, exports, module) {
                     onChangeSort: function(sort, order) {//完成排序回调
                         this._afterChangeSort(sort, order, queryParams);
                     },
+                    onRowClick: function(e) {//点击行事件
+                        var target = $(e.target);
+
+                        if (target.is('img.img-yesno')) {
+                            var next = -1 == target.attr('src').indexOf('yes') ? 'yes' : 'no';
+                            target.attr('src', IMAGES['loading']);
+                            setTimeout(function() {
+                                target.attr('src', IMAGES[next]);
+                            }, 1000);
+                        }
+
+                    },
                     columns: this._gridcolumns(),//列
                     url: this._getActionUrl(),
                     topBar: this._toolbar(),//顶部工具栏,
@@ -327,16 +339,8 @@ define('admin', [], function(require, exports, module) {
 
                     this._reBindCangePageSize();//改变每页大小
 
-                            grid.find('#adminlistgrid').bind('click', function(e) {log(e);
-                                var target = $(e.target);
-
-                                if (target.is('img.img-yesno')) {
-                                    var next = -1 == target.attr('src').indexOf('yes') ? 'yes' : 'no';
-                                    target.attr('src', IMAGES['loading']);
-                                    setTimeout(function() {
-                                        target.attr('src', IMAGES[next]);
-                                    }, 1000);
-                                }
+                            this.gridbody.on('click', 'div.l-grid-row-cell-inner', function(e) {
+                                g.trigger('rowclick', [e]);
                             });
                         }
                     }));
