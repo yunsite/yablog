@@ -15,6 +15,7 @@ if ($.fn.ligerTab) {
         getSelected: function () {
             return this.tab.links.ul.children('li.l-selected');
         },
+        //重写标签事件，增加beforeItemClick及afterItemClick
         _addTabItemEvent: function (tabitem)
         {
             var g = this, p = this.options;
@@ -144,38 +145,40 @@ if ($.fn.ligerGrid) {
     });
 
     $.extend($.ligerDefaults.Grid, {
-        root: 'data',
-        record: 'total',
-        dateFormat: 'Y-m-d H:i:s',
-        selectRowButtonOnly: true,
-        rownumbers: true,
-        checkbox: true,
-        height: '100%',
-        pageParmName: 'page',
-        pagesizeParmName: 'page_size',
-        sortnameParmName: 'sort',
-        sortorderParmName: 'order',
-        onSuccess: function() {
+        root: 'data',//后台返回数据源json字段名
+        record: 'total',//总数字段名
+        dateFormat: 'Y-m-d H:i:s',//时间格式
+        selectRowButtonOnly: true,//点击复选框才选中行
+        rownumbers: true,//行序号
+        checkbox: true,//复选框
+        height: '100%',//高度
+        heightDiff: -30,//高度补齐
+        pageParmName: 'page',//页数参数名
+        pagesizeParmName: 'page_size',//每页大小参数名
+        sortnameParmName: 'sort',//排序字段参数名
+        sortorderParmName: 'order',//排序参数名,
+        fixedCellHeight: false,//不固定列高
+        onSuccess: function() {//加载数据成功回调
             var options = this.options;
             this.gridheader.find('.l-grid-hd-cell-sort').remove()
             .end().find('td[columnname=' + options.sortName + ']').children('div').append('<span class="l-grid-hd-cell-sort l-grid-hd-cell-sort-' + options.sortOrder.toLowerCase() + '">&nbsp;&nbsp;</span>');
             this.toolbar.find('select').val(options.pageSize);
-            //log(this.toolbar.find('select'));
         },
-        onChangeSort: function(sort, order) {
+        onChangeSort: function(sort, order) {//完成排序回调
             $.extend(queryParams, {
                 sort: sort,
                 order: order
             });
             require('core/router').navigate(o2q(queryParams));
-        },
-        heightDiff: -30,
-        fixedCellHeight: false
+        }
     });
-    $.extend($.ligerDefaults.Grid.formatters, {
+
+    $.extend($.ligerDefaults.Grid.formatters, {//渲染字段方法
+        //时间
         date: function(value, column) {
             return 0 == value ? '' : date(column.dateFormat || this.options.dateFormat, intval(value) * 1000);
         },
+        //勾叉小图标
         yesno: function (value, column) {
             return '<img alt="" src="' + IMAGES[value] + '" class="img-yesno" />';
         }
@@ -293,6 +296,7 @@ $.extend($.fn,{
 //时间控件
 if ($.fn.ligerDateEditor) {
     $.extend($.ligerMethos.DateEditor, {
+        //重写,支持选择秒
         showDate: function ()
         {
             var g = this, p = this.options;
@@ -309,16 +313,16 @@ if ($.fn.ligerDateEditor) {
         }
     });
     $.extend($.ligerDefaults.DateEditor, {
-        format: 'yyyy-MM-dd hh:mm:ss',
-        width: 140,
-        cancelable: false,
-        showTime: true
+        format: 'yyyy-MM-dd hh:mm:ss',//格式
+        width: 140,//宽
+        cancelable: false,//不可以取消选择,即鼠标移上输入框时,不显示.l-trigger-cancel
+        showTime: true//选择时间
     });
 }
 
 //combobox
 if ($.fn.ligerComboBox) {
     $.extend($.ligerDefaults.ComboBox, {
-        cancelable: false
+        cancelable: false//不可以取消选择,即鼠标移上输入框时,不显示.l-trigger-cancel
     });
 }
