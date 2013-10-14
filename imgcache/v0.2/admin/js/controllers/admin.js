@@ -337,11 +337,13 @@ define('admin', [], function(require, exports, module) {
                             }]
                         });
 
-                        this._reBindCangePageSize();//改变每页大小
+                        this._reBindCangePageSize(queryParams);//改变每页大小
 
-                        this.gridbody.on('click', 'div.l-grid-row-cell-inner', function(e) {
-                            g.trigger('rowclick', [e]);
-                        });
+                        if (this.options.onRowClick) {
+                            this.gridbody.on('click', 'div.l-grid-row-cell-inner', function(e) {
+                                g.trigger('rowclick', [e]);
+                            });
+                        }
                     }//end onRendered
                 }));
             }

@@ -144,9 +144,13 @@ if ($.fn.ligerGrid) {
         },//end _setTopBar,
 
         _reBindCangePageSize: function(queryParams) {//改变每页大小
-            this.toolbar.find('select').unbind('change').change(function() {
-                g.changePageSize(this.value, queryParams);
-            });
+
+            if (this.options.usePager) {
+                var me = this;
+                this.toolbar.find('select').unbind('change').change(function() {
+                    me.changePageSize(this.value, queryParams);
+                });
+            }
         },
         _afterChangeSort: function(sort, order, queryParams) {//完成排序回调
             $.extend(queryParams, {
