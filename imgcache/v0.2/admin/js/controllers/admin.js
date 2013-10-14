@@ -14,6 +14,47 @@ define('admin', [], function(require, exports, module) {
     var Base    = require('core/base');
     var Admin   = Base.extend({
         /**
+         * ligerGrid columns列
+         *
+         * @author          mrmsl <msl-138@163.com>
+         * @date            2013-10-14 21:52:34
+         *
+         * return {array} columns列
+         */
+        _gridcolumns: function() {
+            return [{
+                display: lang('OPERATE'),
+                minWidth: 100,
+                render: function() {
+                    return '<a href="javascript:void(0);">{0}</a> | <a href="javascript:void(0);">{1}</a>'.format(lang('EDIT'), lang('DELETE'));
+                }
+            }, {
+                display: lang('CONTROLLER_NAME_ADMIN') + 'id',
+                name: 'admin_id',
+                align: 'left',
+                width: 100,
+                minWidth: 60
+            }, {
+                display: lang('USERNAME'),
+                name: 'username',
+                minWidth: 120
+            }, {
+                display: lang('REALNAME'),
+                name: 'realname',
+                minWidth: 140
+            }, {
+                display: lang('ADD,TIME'),
+                name: 'add_time',
+                type: 'date'
+            }, {
+                display: '绑定登录',
+                name: 'is_restrict',
+                minWidth: 50,
+                type: 'yesno'
+            }];
+        },//end _columns
+
+        /**
          * 顶部工具栏
          *
          * @author          mrmsl <msl-138@163.com>
@@ -172,16 +213,7 @@ define('admin', [], function(require, exports, module) {
                         this.options._onChangeSort(sort, order, queryParams);
                     },
 
-                    columns: [
-                        { display: '操作', minWidth: 100, render: function() {
-                            return '<a href="javascript:void(0);">编辑</a> | <a href="javascript:void(0);">删除</a>';
-                        } },
-                        { display: '用户id', name: 'admin_id', align: 'left', width: 100, minWidth: 60 },
-                        { display: '用户名', name: 'username', minWidth: 120 },
-                        { display: '真实姓名', name: 'realname', minWidth: 140 },
-                        { display: '添加时间', name: 'add_time', type: 'date' },
-                        { display: '绑定登录', name: 'is_restrict', minWidth: 50, type: 'yesno' }
-                    ],
+                    columns: this._gridcolumns(),//列
                     url: this._getActionUrl(),
                     topBar: this._toolbar(),
                     onRendered: function() {
