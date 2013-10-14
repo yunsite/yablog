@@ -141,7 +141,20 @@ if ($.fn.ligerGrid) {
             html.push(' </div>');
             grid.children('.l-grid-loading').after(html.join(''));
             grid.topbar = grid.children('.l-panel-topbar').children('.l-panel-bbar-inner');
-        }//end _setTopBar
+        },//end _setTopBar,
+
+        _reBindCangePageSize: function(queryParams) {//改变每页大小
+            this.toolbar.find('select').unbind('change').change(function() {
+                g.changePageSize(this.value, queryParams);
+            });
+        },
+        _afterChangeSort: function(sort, order, queryParams) {//完成排序回调
+            $.extend(queryParams, {
+                sort: sort,
+                order: order
+            });
+            seajs.require('core/router').navigate(o2q(queryParams));
+        }
     });
 
     $.extend($.ligerDefaults.Grid, {
@@ -158,13 +171,6 @@ if ($.fn.ligerGrid) {
         sortnameParmName: 'sort',//排序字段参数名
         sortorderParmName: 'order',//排序参数名,
         fixedCellHeight: false,//不固定列高
-        _afterChangeSort: function(sort, order, queryParams) {//完成排序回调
-            $.extend(queryParams, {
-                sort: sort,
-                order: order
-            });
-            seajs.require('core/router').navigate(o2q(queryParams));
-        },
         onSuccess: function() {//加载数据成功回调
             var options = this.options;
             this.gridheader.find('.l-grid-hd-cell-sort').remove()
