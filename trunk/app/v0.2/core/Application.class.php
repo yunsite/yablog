@@ -53,9 +53,9 @@ class Application {
             CORE_PATH . 'Model' . PHP_EXT,          //模型类
             CORE_PATH . 'Logger' . PHP_EXT,         //日志类
             CORE_PATH . 'Filter' . PHP_EXT,         //参数验证及过滤类
-            CORE_PATH . 'SVNDiff' . PHP_EXT,        //仿svn比较字符内容差异类
             CORE_PATH . 'Db' . PHP_EXT,             //Db类
             CORE_PATH  . 'drivers/db/Db' . ucfirst(DB_TYPE) . PHP_EXT,//数据库驱动类
+            LIB_PATH . 'SVNDiff' . PHP_EXT,        //仿svn比较字符内容差异类
         );
 
         if (is_file($filename = LIB_PATH . 'BaseController' . PHP_EXT)) {//项目底层控制器类
