@@ -24,6 +24,24 @@ class IndexController extends CommonController {
     protected $_init_model      = false;
 
     /**
+     * 自动登陆,本地环境下有效
+     *
+     * @author          mrmsl <msl-138@163.com>
+     * @date            2013-10-14 09:29:18
+     *
+     * @return void 无返回值
+     */
+    function autoLoginAction() {
+
+        if (IS_LOCAL) {
+            $this->setAdminSession($this->cache(1, 'Admin'));
+        }
+        else {
+            throw new Exception(L('_TRY_AUTO_LOGIN'));
+        }
+    }//end indexAction
+
+    /**
      * 管理中心。如果未登陆，跳转至登陆页
      *
      * @author          mrmsl <msl-138@163.com>
