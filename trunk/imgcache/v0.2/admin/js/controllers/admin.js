@@ -180,10 +180,6 @@ define('admin', [], function(require, exports, module) {
                         { display: '绑定登录', name: 'is_restrict', minWidth: 50, type: 'yesno' }
                     ],
                     url: this._getActionUrl(),
-                    onChangePage: function(page) {
-                        this.options.parms[this.options.pageParmName] = page;
-                        require('core/router').navigate(o2q(this.options.parms));
-                    },
                     topBar: this._toolbar(),
                     onRendered: function() {
                         var g       = this,

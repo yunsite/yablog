@@ -169,7 +169,11 @@ if ($.fn.ligerGrid) {
                 sort: sort,
                 order: order
             });
-            require('core/router').navigate(o2q(queryParams));
+            seajs.require('core/router').navigate(o2q(queryParams));
+        },
+        onChangePage: function(page) {//改变页数
+            this.options.parms[this.options.pageParmName] = page;
+            seajs.require('core/router').navigate(o2q(this.options.parms));
         }
     });
 
