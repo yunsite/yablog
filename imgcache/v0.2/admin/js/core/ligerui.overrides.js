@@ -158,18 +158,18 @@ if ($.fn.ligerGrid) {
         sortnameParmName: 'sort',//排序字段参数名
         sortorderParmName: 'order',//排序参数名,
         fixedCellHeight: false,//不固定列高
-        onSuccess: function() {//加载数据成功回调
-            var options = this.options;
-            this.gridheader.find('.l-grid-hd-cell-sort').remove()
-            .end().find('td[columnname=' + options.sortName + ']').children('div').append('<span class="l-grid-hd-cell-sort l-grid-hd-cell-sort-' + options.sortOrder.toLowerCase() + '">&nbsp;&nbsp;</span>');
-            this.toolbar.find('select').val(options.pageSize);
-        },
-        onChangeSort: function(sort, order) {//完成排序回调
+        _onChangeSort: function(sort, order, queryParams) {//完成排序回调
             $.extend(queryParams, {
                 sort: sort,
                 order: order
             });
             seajs.require('core/router').navigate(o2q(queryParams));
+        },
+        onSuccess: function() {//加载数据成功回调
+            var options = this.options;
+            this.gridheader.find('.l-grid-hd-cell-sort').remove()
+            .end().find('td[columnname=' + options.sortName + ']').children('div').append('<span class="l-grid-hd-cell-sort l-grid-hd-cell-sort-' + options.sortOrder.toLowerCase() + '">&nbsp;&nbsp;</span>');
+            this.toolbar.find('select').val(options.pageSize);
         },
         onChangePage: function(page) {//改变页数
             this.options.parms[this.options.pageParmName] = page;

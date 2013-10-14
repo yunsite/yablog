@@ -168,6 +168,9 @@ define('admin', [], function(require, exports, module) {
 
             if (!this._listgrid) {
                 this._listgrid = element.ligerGrid($.extend(options, {
+                    onChangeSort: function(sort, order) {//完成排序回调
+                        this.options._onChangeSort(sort, order, queryParams);
+                    },
 
                     columns: [
                         { display: '操作', minWidth: 100, render: function() {
