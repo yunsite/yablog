@@ -162,7 +162,31 @@ if ($.fn.ligerGrid) {
     $.extend($.ligerDefaults.Grid, {
         root: 'data',
         record: 'total',
-        dateFormat: 'Y-m-d H:i:s'
+        dateFormat: 'Y-m-d H:i:s',
+        selectRowButtonOnly: true,
+        rownumbers: true,
+        checkbox: true,
+        height: '100%',
+        pageParmName: 'page',
+        pagesizeParmName: 'page_size',
+        sortnameParmName: 'sort',
+        sortorderParmName: 'order',
+        onSuccess: function() {
+            var options = this.options;
+            this.gridheader.find('.l-grid-hd-cell-sort').remove()
+            .end().find('td[columnname=' + options.sortName + ']').children('div').append('<span class="l-grid-hd-cell-sort l-grid-hd-cell-sort-' + options.sortOrder.toLowerCase() + '">&nbsp;&nbsp;</span>');
+            this.toolbar.find('select').val(options.pageSize);
+            //log(this.toolbar.find('select'));
+        },
+        onChangeSort: function(sort, order) {
+            $.extend(queryParams, {
+                sort: sort,
+                order: order
+            });
+            require('core/router').navigate(o2q(queryParams));
+        },
+        heightDiff: -30,
+        fixedCellHeight: false
     });
     $.extend($.ligerDefaults.Grid.formatters, {
         date: function(value, column) {
