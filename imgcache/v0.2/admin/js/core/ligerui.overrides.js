@@ -158,7 +158,7 @@ if ($.fn.ligerGrid) {
         sortnameParmName: 'sort',//排序字段参数名
         sortorderParmName: 'order',//排序参数名,
         fixedCellHeight: false,//不固定列高
-        _onChangeSort: function(sort, order, queryParams) {//完成排序回调
+        _afterChangeSort: function(sort, order, queryParams) {//完成排序回调
             $.extend(queryParams, {
                 sort: sort,
                 order: order
