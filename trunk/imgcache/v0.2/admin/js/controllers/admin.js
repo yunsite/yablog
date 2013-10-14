@@ -210,11 +210,11 @@ define('admin', [], function(require, exports, module) {
             if (!this._listgrid) {
                 this._listgrid = element.ligerGrid($.extend(options, {
                     onChangeSort: function(sort, order) {//完成排序回调
-                        this.options._afterChangeSort(sort, order, queryParams);
+                        this._afterChangeSort(sort, order, queryParams);
                     },
                     columns: this._gridcolumns(),//列
                     url: this._getActionUrl(),
-                    topBar: this._toolbar(),//顶部工具栏
+                    topBar: this._toolbar(),//顶部工具栏,
                     onRendered: function() {
                         var g       = this,
                             grid    = this.grid;
@@ -324,17 +324,8 @@ define('admin', [], function(require, exports, module) {
                             }
                         }]
                     });
-                    this.toolbar.find('select').unbind('change').change(function() {
-                        g.changePageSize(this.value, queryParams);
-                    });
 
-                            /*var toolbar = grid.children('.l-panel-topbar');
-                            toolbar.children('.menubar').ligerMenuBar({
-                                items: [{text: '文件'}]
-                            });
-        */
-                            //grid.find('.role').ligerComboBox({width: 50});
-                            //grid.children('.l-panel-topbar').children('input').ligerTextBox();
+                    this._reBindCangePageSize();//改变每页大小
 
                             grid.find('#adminlistgrid').bind('click', function(e) {log(e);
                                 var target = $(e.target);
