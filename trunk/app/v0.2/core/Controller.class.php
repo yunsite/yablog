@@ -337,7 +337,7 @@ class Controller {
                 $this->_model = D($this->_getControllerName());//模型
             }
             else {
-                $this->_model = D((empty($this->_model_name) ? 'Common' : $this->_model_name) . 'Model');//模型
+                $this->_model = D(empty($this->_model_name) ? 'Common' : $this->_model_name);//模型
 
                 //无对应模型类,指定模型表名
                 !empty($this->_true_table_name) && $this->_model->setProperty('_true_table_name', $this->_true_table_name);
