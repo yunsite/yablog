@@ -29,8 +29,39 @@ define('admin', [], function(require, exports, module) {
                 grid    = ligerGrid.grid
                 topbar  = grid.topbar;
 
-            topbar.find('input[data-type=datetime]').ligerDateEditor();
-            me._ligers().adminRoleComboBox(topbar.children('.role').children('input'), queryParams.role_id);
+            topbar.find('input[data-type=datetime]').ligerDateEditor();//时间
+            me._ligers().adminRoleComboBox(topbar.children('.role').children('input'), queryParams.role_id);//所属角色
+            topbar.children('.is_restrict').children('input').ligerComboBox({//绑定登陆状态
+                value: -1,
+                width: 80,
+                selectBoxHeight: 'auto',
+                data: [
+                    {id: -1, text: lang('CN_BANGDING,STATUS')},
+                    {id: 0, text: lang('CN_WEI,CN_BANGDING')},
+                    {id: 1, text: lang('CN_YI,CN_BANGDING')}
+                ]
+            });
+            topbar.children('.is_lock').children('input').ligerComboBox({//锁定登陆状态
+                value: -1,
+                width: 80,
+                selectBoxHeight: 'auto',
+                data: [
+                    {id: -1, text: lang('LOCK,STATUS')},
+                    {id: 0, text: lang('CN_WEI,LOCK')},
+                    {id: 1, text: lang('CN_YI,LOCK')}
+                ]
+            });
+            topbar.children('.column').children('input').ligerComboBox({//搜索字段
+                width: 80,
+                value: queryParams.column,
+                selectBoxHeight: 'auto',
+                data: [
+                    {id: 'username', text: lang('USERNAME')},
+                    {id: 'realname', text: lang('REALNAME')}
+                ]
+            });
+
+            me._ligers().matchModeComboBox(topbar.children('.match_mode').children('input'), queryParams.match_mode);//匹配模式
             topbar
             .children('.keyword')
                 .children('input')
@@ -169,9 +200,37 @@ define('admin', [], function(require, exports, module) {
                     'data-type': 'datetime',
                     'data-ligerui': 'dateEditor'
                 }
-            }, true, {
+            }, true, {//所属角色
                 cls: 'role',
-                name: 'role_id',//所属角色
+                name: 'role_id',
+                attrs: {
+                    'data-ligerui': 'comboBox'
+                }
+            }, true, {//绑定登陆状态
+                cls: 'is_restrict',
+                width: 80,
+                name: 'is_restrict',
+                attrs: {
+                    'data-ligerui': 'comboBox'
+                }
+            }, true, {//锁定状态
+                cls: 'is_lock',
+                width: 80,
+                name: 'is_lock',
+                attrs: {
+                    'data-ligerui': 'comboBox'
+                }
+            }, true, {//搜索字段
+                cls: 'column',
+                width: 80,
+                name: 'column',
+                attrs: {
+                    'data-ligerui': 'comboBox'
+                }
+            }, true, {//匹配模式
+                cls: 'match_mode',
+                width: 80,
+                name: 'match_mode',
                 attrs: {
                     'data-ligerui': 'comboBox'
                 }

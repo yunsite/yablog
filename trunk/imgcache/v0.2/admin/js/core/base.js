@@ -90,6 +90,9 @@ define('core/base', ['core/router'], function(require, exports, module) {
                  * @author          mrmsl <msl-138@163.com>
                  * @date            2013-10-15 21:30:38
                  *
+                 * @param {object} jq对象
+                 * @param {int} value 初始值
+                 *
                  * @return {object} 管理员角色combobox配置
                  */
                 adminRoleComboBox: function(jq, value) {
@@ -128,6 +131,38 @@ define('core/base', ['core/router'], function(require, exports, module) {
                         }
                     });
                 },//end adminRoleComboBox
+
+                /**
+                 * 匹配模式combobox
+                 *
+                 * @author          mrmsl <msl-138@163.com>
+                 * @date            2013-10-15 23:24:41
+                 *
+                 * @param {object} jq对象
+                 * @param {int} value 初始值
+                 *
+                 * @return {object} 匹配模式combobox配置
+                 */
+                matchModeComboBox: function(jq, value) {
+                    jq.ligerComboBox({
+                        value: value,
+                        width: 80,
+                        selectBoxHeight: 'auto',
+                        data: [{
+                            id: 'eq',
+                            text: lang('MATCH_MODE_EQ')
+                        }, {
+                            id: 'leq',
+                            text: lang('MATCH_MODE_LEQ')
+                        }, {
+                            id: 'req',
+                            text: lang('MATCH_MODE_REQ')
+                        }, {
+                            id: 'like',
+                            text: lang('MATCH_MODE_LIKE')
+                        }]
+                    });
+                },
 
                 /**
                  * 验证码输入框
