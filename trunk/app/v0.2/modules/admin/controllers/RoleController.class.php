@@ -246,7 +246,7 @@ class RoleController extends CommonController {
      */
     public function listAction() {
         $data = array_values($this->cache());
-        $this->_unshift && array_unshift($data, array($this->_pk_field => 0, $this->_name_column => L('PLEASE_SELECT')));
+        $this->_unshift && array_unshift($data, array($this->_pk_field => 0, $this->_name_column => isset($_POST['emptyText']) ? Filter::string('emptyText') : L('PLEASE_SELECT')));
         $this->_ajaxReturn(true, '', $data);
     }
 
