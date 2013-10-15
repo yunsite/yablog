@@ -85,6 +85,51 @@ define('core/base', ['core/router'], function(require, exports, module) {
 
             return {
                 /**
+                 * 管理员角色combobox
+                 *
+                 * @author          mrmsl <msl-138@163.com>
+                 * @date            2013-10-15 21:30:38
+                 *
+                 * @return {object} 管理员角色combobox配置
+                 */
+                adminRoleComboBox: function(jq, value) {
+                    var dataKey = 'adminRoleComboBoxData',
+                        params  = 'emptyText=' + lang('BELONG_TO_ROLE'),
+                        url     = null;
+
+                    if (0 != value) {
+                        url = getActionUrl('role/list?unshift');
+                    }
+
+                    jq.val(lang('BELONG_TO_ROLE')).ligerComboBox({
+                        url: url,
+                        valueField: 'role_id',
+                        textField: 'role_name',
+                        width: 120,
+                        selectBoxHeight: 200,
+                        onSuccess: function (data) {
+                            global(dataKey, data.data);
+                            this.setData(data.data);
+                            value && this.set({value: value});
+                        },
+                        onBeforeOpen: function() {
+                            var g = this;
+
+                            if (global(dataKey)) {
+                                g.setData(global(dataKey));
+                            }
+                            else {
+                                $.post(getActionUrl('role/list?unshift'), params);
+                            }
+
+                            g._toggleSelectBox(g.selectBox.is(':visible'));
+
+                            return false;
+                        }
+                    });
+                },//end adminRoleComboBox
+
+                /**
                  * 验证码输入框
                  *
                  * @author          mrmsl <msl-138@163.com>
